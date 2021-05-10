@@ -52,6 +52,7 @@ public class BankCommandConfiguration extends CommandConfiguration{
 	public static Command	BANK_EXP_DEPOSIT_ALL			= new Command("all", "bank.exp.deposit.all");
 	public static Command	BANK_EXP_WITHDRAW				= new Command("withdraw", "bank.exp.withdraw", new String[0], new String[]{ "<amount>" });
 	public static Command	BANK_EXP_WITHDRAW_ALL			= new Command("all", "bank.exp.withdraw.all");
+	public static Command	BANK_EXP_SEND					= new Command("send", "bank.exp.send");
 	
 	public static Command	BANK_MONEY						= new Command("money", "bank.money");
 	public static Command	BANK_MONEY_BALANCE				= new Command("balance", "bank.money.balance");

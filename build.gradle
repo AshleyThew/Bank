@@ -56,14 +56,14 @@ dependencies {
     compileOnly 'be.maximvdw:MVdWPlaceholderAPI:2.5.1-SNAPSHOT'
     compile 'me.dablakbandit:core-plugin-downloader:0.0.1'
 
-    // In the libs folder
+    // Download libs into the libs folder
     compileOnly 'me.arcaniax.hdb.Main:HeadDatabaseAPI:API-0.3'
     compileOnly 'net.citizensnpcs.Citizens:Citizens:2.0.22-SNAPSHOT'
     compileOnly 'ch.njol:skript:2.1.2'
 }
 
 group = 'me.dablakbandit'
-version = '4.4.4-RELEASE'
+version = '4.4.5-RELEASE'
 description = 'bank'
 sourceCompatibility = '1.8'
 import org.apache.tools.ant.filters.ReplaceTokens
