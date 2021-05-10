@@ -24,20 +24,18 @@ public class TaxCalculator{
 		double newAmount = this.current + this.deposit;
 		
 		// If overflow or over max
-		if(newAmount < 0.0 || newAmount > this.max){
+		if(newAmount < 0.0 || newAmount >= this.max){
 			double tempDeposit = Math.max(0, this.max - this.current);
 			double tempTax = tempDeposit * this.taxRate;
 			
-			double maxDeposit = tempDeposit + tempTax;
 			// Attempting to full bank
-			if(maxDeposit <= this.deposit){
+			if(tempDeposit <= this.deposit){
 				this.deposit = tempDeposit;
 				this.tax = tempTax;
 				return;
 			}else{
 				this.deposit = tempDeposit;
 			}
-			//
 		}
 		this.tax = this.deposit * this.taxRate;
 		this.deposit -= this.tax;
