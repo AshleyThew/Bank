@@ -28,8 +28,9 @@ public class TaxCalculator{
 			double tempDeposit = Math.max(0, this.max - this.current);
 			double tempTax = tempDeposit * this.taxRate;
 			
+			double maxDeposit = tempDeposit + tempTax;
 			// Attempting to full bank
-			if(tempDeposit <= this.deposit){
+			if(maxDeposit <= this.deposit){
 				this.deposit = tempDeposit;
 				this.tax = tempTax;
 				return;
