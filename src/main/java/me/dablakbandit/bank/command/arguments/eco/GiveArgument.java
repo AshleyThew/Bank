@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 
 import me.dablakbandit.bank.api.Economy_Bank;
 import me.dablakbandit.bank.command.base.BankEndArgument;
-import me.dablakbandit.bank.utils.Format;
+import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.command.config.CommandConfiguration;
 import net.milkbowl.vault.economy.EconomyResponse;
 

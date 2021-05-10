@@ -97,6 +97,8 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	@Comment("Premium version")
 	public static EmptyPath							BANK_EXP_INTEREST							= new EmptyPath();
 	
+	@Comment("Percentage to tax players when depositing, 0.01 = 1%")
+	public static final DoublePath					BANK_EXP_DEPOSIT_TAX_PERCENT				= new DoublePath(0);
 	@Comment("Enable bank exp interest")
 	public static final BooleanPath					BANK_EXP_INTEREST_ENABLED					= new BooleanPath(false);
 	@Comment("If running mysql set only 1 server as main")
@@ -128,6 +130,8 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final BooleanPath					BANK_MONEY_FULL_DOLLARS						= new BooleanPath(false);
 	@Comment("Only able to deposit full $ (no decimal)")
 	public static final BooleanPath					BANK_MONEY_DEPOSIT_FULL						= new BooleanPath(false);
+	@Comment("Percentage to tax players when depositing, 0.01 = 1%")
+	public static final DoublePath					BANK_MONEY_DEPOSIT_TAX_PERCENT				= new DoublePath(0);
 	@Comment("Set bank mode to money only")
 	public static final BooleanPath					BANK_MONEY_ONLY								= new BooleanPath(false);
 	@Comment("Set max money in bank")

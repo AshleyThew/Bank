@@ -11,7 +11,7 @@ import me.dablakbandit.bank.config.path.BankItemPath;
 import me.dablakbandit.bank.inventory.BankInventories;
 import me.dablakbandit.bank.inventory.BankInventoryHandler;
 import me.dablakbandit.bank.player.info.BankInfo;
-import me.dablakbandit.bank.utils.Format;
+import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.players.CorePlayers;
 
 public class BankMainMenuInventory extends BankInventoryHandler<BankInfo>{

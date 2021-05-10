@@ -5,7 +5,8 @@ import org.bukkit.Bukkit;
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.config.BankLanguageConfiguration;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
-import me.dablakbandit.bank.utils.Format;
+import me.dablakbandit.bank.utils.calculation.TaxCalculator;
+import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.players.info.JSONInfo;
 import me.dablakbandit.core.utils.EXPUtils;
@@ -83,24 +84,21 @@ public class BankExpInfo extends IBankInfo implements JSONInfo{
 	}
 	
 	public void depositExp(CorePlayers pl, double deposit){
+		
 		int total = EXPUtils.getTotalExperience(pl.getPlayer());
 		deposit = Math.min(total, deposit);
-		boolean full = false;
-		if(this.exp >= BankPluginConfiguration.BANK_EXP_MAX.get()){
-			deposit = 0;
-		}else{
-			double newExp = this.exp + deposit;
-			if(newExp < 0.0 || newExp > BankPluginConfiguration.BANK_EXP_MAX.get()){
-				full = true;
-				deposit = Math.max(0, Math.floor(BankPluginConfiguration.BANK_EXP_MAX.get() - this.exp));
-			}
-		}
+		
+		TaxCalculator taxCalculator = new TaxCalculator(deposit, this.exp, BankPluginConfiguration.BANK_EXP_MAX.get(), BankPluginConfiguration.BANK_EXP_DEPOSIT_TAX_PERCENT.get());
+		
+		deposit = taxCalculator.getCombined();
+		double tax = taxCalculator.getTax();
+		
 		depositExp(deposit);
 		EXPUtils.setTotalExperience(pl.getPlayer(), (int)Math.min(Integer.MAX_VALUE, total - deposit));
 		if(deposit != 0){
-			BankLanguageConfiguration.sendMessage(pl, BankLanguageConfiguration.MESSAGE_EXP_DEPOSIT.get().replaceAll("<exp>", Format.formatExp(deposit)));
+			BankLanguageConfiguration.sendMessage(pl, BankLanguageConfiguration.MESSAGE_EXP_DEPOSIT.get().replaceAll("<exp>", Format.formatExp(deposit)).replaceAll("<tax>", Format.formatExp(tax)));
 		}
-		if(full){
+		if(taxCalculator.isFull()){
 			// player.sendMessage(LanguageConfiguration.MESSAGE_EXP_IS_FULL.getMessage());
 		}
 	}

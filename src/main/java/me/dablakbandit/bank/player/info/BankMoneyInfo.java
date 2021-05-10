@@ -6,7 +6,8 @@ import org.bukkit.ChatColor;
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.config.BankLanguageConfiguration;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
-import me.dablakbandit.bank.utils.Format;
+import me.dablakbandit.bank.utils.calculation.TaxCalculator;
+import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.players.info.JSONInfo;
 import me.dablakbandit.core.vault.Eco;
@@ -87,39 +88,36 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo{
 		if(BankPluginConfiguration.BANK_MONEY_FULL_DOLLARS.get()){
 			amount = Math.floor(amount);
 		}
-		boolean full = false;
-		if(this.money > BankPluginConfiguration.BANK_MONEY_MAX.get()){
-			amount = 0.0;
-		}else{
-			double d1 = this.money + amount;
-			if(d1 < 0.0 || d1 > BankPluginConfiguration.BANK_MONEY_MAX.get()){
-				amount = Math.max(0, BankPluginConfiguration.BANK_MONEY_MAX.get() - this.money);
-				full = true;
-			}
-		}
-		amount = Math.max(0, amount);
+		
+		TaxCalculator taxCalculator = new TaxCalculator(amount, this.money, BankPluginConfiguration.BANK_MONEY_MAX.get(), BankPluginConfiguration.BANK_MONEY_DEPOSIT_TAX_PERCENT.get());
+		
+		amount = taxCalculator.getCombined();
+		double tax = taxCalculator.getTax();
+		
 		if(BankPluginConfiguration.BANK_MONEY_DEPOSIT_FULL.get()){
 			amount = Math.floor(amount);
+			tax = Math.floor(tax);
 		}
-		if(amount == 0.0 || depositMoney(pl.getPlayer().getName(), amount)){
+		
+		if(amount == 0.0 || depositMoney(pl.getPlayer().getName(), amount, tax)){
 			if(amount != 0.0){
-				BankLanguageConfiguration.sendMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_DEPOSIT.get().replaceAll("<money>", Format.formatMoney(amount)));
+				BankLanguageConfiguration.sendMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_DEPOSIT.get().replaceAll("<money>", Format.formatMoney(amount)).replaceAll("<tax>", Format.formatMoney(tax)));
 				// player.sendMessage(LanguageConfiguration.MESSAGE_MONEY_DEPOSIT.getMessage().replace("<a>", Format.formatMoney(d)));
 			}
-			if(full){
+			if(taxCalculator.isFull()){
 				// player.sendMessage(LanguageConfiguration.MESSAGE_MONEY_IS_FULL.getMessage());
 			}
 		}else{
-			pl.getPlayer().sendMessage(ChatColor.AQUA + "[Bank] " + ChatColor.RED + "There was a problem depositing all your money, please contact an administrator");
+			BankLanguageConfiguration.sendMessage(pl.getPlayer(), ChatColor.AQUA + "[Bank] " + ChatColor.RED + "There was a problem depositing all your money, please contact an administrator");
 		}
 	}
 	
 	@SuppressWarnings("deprecation")
-	private boolean depositMoney(String name, double d){
+	private boolean depositMoney(String name, double amount, double tax){
 		if(Eco.getInstance().getEconomy() == null){ return false; }
-		EconomyResponse er = Eco.getInstance().getEconomy().withdrawPlayer(name, d);
+		EconomyResponse er = Eco.getInstance().getEconomy().withdrawPlayer(name, amount);
 		if(!er.transactionSuccess()){ return false; }
-		money += d;
+		money += amount - tax;
 		// if(BankPluginConfiguration.LOGS_ENABLED.get() && BankPluginConfiguration.LOGS_MONEY.get()){
 		// log(name + " deposited: " + format(d) + ", new amount: " + format(money));
 		// }

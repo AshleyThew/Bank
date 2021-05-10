@@ -11,7 +11,7 @@ import me.dablakbandit.bank.inventory.BankInventories;
 import me.dablakbandit.bank.inventory.BankInventoriesManager;
 import me.dablakbandit.bank.inventory.BankInventoryHandler;
 import me.dablakbandit.bank.player.info.BankMoneyInfo;
-import me.dablakbandit.bank.utils.Format;
+import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.vault.Eco;
 
@@ -82,7 +82,7 @@ public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo>{
 		if(Eco.getInstance().getEconomy() != null){
 			balance = Eco.getInstance().getEconomy().getBalance(info.getPlayers().getPlayer());
 		}
-		pl.setOpenInventory(new AnvilInventory("" + balance){
+		pl.setOpenInventory(new AnvilInventory("" + Format.round(balance, 2)){
 			@Override
 			public void cancel(CorePlayers pl){
 				pl.setOpenInventory(BankMoneyInventory.this);

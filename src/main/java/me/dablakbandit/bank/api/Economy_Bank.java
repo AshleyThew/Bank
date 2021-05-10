@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.dablakbandit.bank.BankPlugin;
-import me.dablakbandit.bank.utils.Format;
+import me.dablakbandit.bank.utils.format.Format;
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 

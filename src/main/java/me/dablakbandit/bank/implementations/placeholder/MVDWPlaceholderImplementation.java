@@ -6,7 +6,7 @@ import me.dablakbandit.bank.implementations.BankImplementation;
 import me.dablakbandit.bank.player.info.BankExpInfo;
 import me.dablakbandit.bank.player.info.BankItemsInfo;
 import me.dablakbandit.bank.player.info.BankMoneyInfo;
-import me.dablakbandit.bank.utils.Format;
+import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.players.CorePlayerManager;
 import me.dablakbandit.core.players.CorePlayers;
 

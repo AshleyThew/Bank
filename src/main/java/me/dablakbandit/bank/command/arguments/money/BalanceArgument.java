@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import me.dablakbandit.bank.command.base.BankEndArgument;
 import me.dablakbandit.bank.config.BankLanguageConfiguration;
 import me.dablakbandit.bank.player.info.BankInfo;
-import me.dablakbandit.bank.utils.Format;
+import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.command.config.CommandConfiguration;
 import me.dablakbandit.core.players.CorePlayerManager;
 import me.dablakbandit.core.players.CorePlayers;
