@@ -39,6 +39,7 @@ public class WithdrawArgument extends BankEndArgument{
 	}
 	
 	private void withdraw(BankInfo bankInfo, double amount){
+		amount = Math.max(0, amount);
 		bankInfo.getExpInfo().withdrawExp(bankInfo.getPlayers(), amount);
 	}
 	

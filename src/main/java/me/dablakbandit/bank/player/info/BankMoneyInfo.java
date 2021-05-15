@@ -61,6 +61,7 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo{
 	}
 	
 	public boolean withdrawMoney(CorePlayers pl, double withdraw){
+		withdraw = Math.max(0, withdraw);
 		boolean complete = withdrawMoney(pl.getPlayer().getName(), withdraw);
 		if(complete){
 			BankLanguageConfiguration.sendMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_WITHDRAW.get().replaceAll("<money>", Format.formatMoney(withdraw)));
@@ -85,6 +86,7 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo{
 	}
 	
 	public void deposit(CorePlayers pl, double amount){
+		amount = Math.max(0, amount);
 		if(BankPluginConfiguration.BANK_MONEY_FULL_DOLLARS.get()){
 			amount = Math.floor(amount);
 		}

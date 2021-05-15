@@ -41,6 +41,7 @@ public class WithdrawArgument extends BankEndArgument{
 	
 	private void withdraw(BankInfo bankInfo, double amount){
 		if(Eco.getInstance().getEconomy() == null){ return; }
+		amount = Math.max(0, amount);
 		bankInfo.getMoneyInfo().withdrawMoney(bankInfo.getPlayers(), amount);
 	}
 	

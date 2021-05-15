@@ -41,6 +41,7 @@ public class DepositArgument extends BankEndArgument{
 	
 	private void deposit(BankInfo bankInfo, double amount){
 		if(Eco.getInstance().getEconomy() == null){ return; }
+		amount = Math.max(0, amount);
 		bankInfo.getMoneyInfo().deposit(bankInfo.getPlayers(), amount);
 	}
 	

@@ -56,6 +56,7 @@ public class BankExpInfo extends IBankInfo implements JSONInfo{
 	}
 	
 	public void withdrawExp(CorePlayers pl, double withdraw){
+		withdraw = Math.max(0, withdraw);
 		if(withdrawExp(withdraw)){
 			int total = EXPUtils.getTotalExperience(pl.getPlayer());
 			EXPUtils.setTotalExperience(pl.getPlayer(), (int)Math.min(Integer.MAX_VALUE, total + withdraw));
@@ -84,6 +85,8 @@ public class BankExpInfo extends IBankInfo implements JSONInfo{
 	}
 	
 	public void depositExp(CorePlayers pl, double deposit){
+		
+		deposit = Math.max(0, deposit);
 		
 		int total = EXPUtils.getTotalExperience(pl.getPlayer());
 		deposit = Math.min(total, deposit);
