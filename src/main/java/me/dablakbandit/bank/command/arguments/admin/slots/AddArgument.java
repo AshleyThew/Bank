@@ -37,7 +37,7 @@ public class AddArgument extends BankEndArgument{
 			e.printStackTrace();
 		}
 		pl.getInfo(BankItemsInfo.class).addCommandSlots(amount);
-		base.sendFormattedMessage(s, BankLanguageConfiguration.BANK_ADMIN_BLOCK_SET.get().replaceAll("<amount>", args[1]).replaceAll("<player>", args[0]).replaceAll("<new_amount>", "" + pl.getInfo(BankItemsInfo.class).getCommandSlots()));
+		base.sendFormattedMessage(s, BankLanguageConfiguration.BANK_ADMIN_SLOTS_ADD.get().replaceAll("<amount>", args[1]).replaceAll("<player>", args[0]).replaceAll("<new_amount>", "" + pl.getInfo(BankItemsInfo.class).getCommandSlots()));
 	}
 	
 }
