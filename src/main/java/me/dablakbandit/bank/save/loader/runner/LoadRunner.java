@@ -60,6 +60,7 @@ public class LoadRunner implements Runnable{
 		List<JSONInfo> infoList = pl.getAllInfo().stream().filter(info -> (info instanceof IBankInfo && info instanceof JSONInfo)).map(info -> (JSONInfo)info).collect(Collectors.toList());
 		infoList.forEach(info -> {
 			infoDatabase.getInfoTypeDatabase(info).loadPlayer(pl, info);
+			info.jsonInit();
 		});
 		bankInfo.setLocked(false);
 		if(lock){

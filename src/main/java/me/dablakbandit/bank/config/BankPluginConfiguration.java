@@ -61,7 +61,7 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final IntegerPath					BANK_ITEMS_TABS_DEFAULT						= new IntegerPath(9);
 	@Comment("Maximum amount of items able to be stored in a tab")
 	public static final IntegerPath					BANK_ITEMS_TABS_SIZE_MAX					= new IntegerPath(Integer.MAX_VALUE);
-	@Comment("Used by the scroll buttons to determine max scroll down")
+	@CommentArray({ "Used by the scroll buttons to determine max scroll down (1-6)", "Set this to the height of items in your bank inventory" })
 	public static final IntegerPath					BANK_ITEMS_TABS_ROWS						= new IntegerPath(4);
 	@Comment("Enable buying of tabs")
 	public static final BooleanPath					BANK_ITEMS_TABS_BUY_ENABLED					= new BooleanPath(false);
