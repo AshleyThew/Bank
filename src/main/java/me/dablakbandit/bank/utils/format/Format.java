@@ -13,11 +13,10 @@ public class Format{
 	public static String formatMoney(double amount){
 		String ret;
 		if(!BankPluginConfiguration.BANK_MONEY_FORMAT_ENABLED.get()){
-			ret = String.format("%,.2f", amount);
-		}else if(BankPluginConfiguration.BANK_MONEY_FULL_DOLLARS.get()){
-			ret = FormatEnum.formatNormal(amount, true);
-		}else
-			ret = FormatEnum.formatNormal(amount, false);
+			ret = String.format(BankPluginConfiguration.BANK_MONEY_FORMAT_NORMAL.get(), amount);
+		}else{
+			ret = FormatEnum.formatNormal(BankPluginConfiguration.BANK_MONEY_FORMAT_NORMAL.get(), BankPluginConfiguration.BANK_MONEY_FORMAT_ROUND.get(), amount, BankPluginConfiguration.BANK_MONEY_FULL_DOLLARS.get(), BankPluginConfiguration.BANK_MONEY_FORMAT_THOUSANDS.get());
+		}
 		if(ret.endsWith(".00")){
 			ret = ret.substring(0, ret.length() - 3);
 		}
@@ -27,9 +26,9 @@ public class Format{
 	public static String formatExp(double amount){
 		String ret;
 		if(!BankPluginConfiguration.BANK_EXP_FORMAT_ENABLED.get()){
-			ret = String.format("%,.2f", amount);
+			ret = String.format(BankPluginConfiguration.BANK_EXP_FORMAT_NORMAL.get(), amount);
 		}else{
-			ret = FormatEnum.formatNormal(amount, false);
+			ret = FormatEnum.formatNormal(BankPluginConfiguration.BANK_EXP_FORMAT_NORMAL.get(), BankPluginConfiguration.BANK_EXP_FORMAT_ROUND.get(), amount, false, BankPluginConfiguration.BANK_EXP_FORMAT_THOUSANDS.get());
 		}
 		if(ret.endsWith(".00")){
 			ret = ret.substring(0, ret.length() - 3);

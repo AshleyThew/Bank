@@ -32,7 +32,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	private int								boughtTabs;
 	private int								commandSlots, permissionSlots;
 	@Exclude
-	private int								buySlots, buyTabs;
+	private int								buySlots, buyTabs, totalTabCount;
 	
 	public BankItemsInfo(CorePlayers pl){
 		super(pl);
@@ -117,7 +117,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	}
 	
 	public void incrementBuyTabs(){
-		if(getBankAllowedTabs(pl.getPlayer()) + buyTabs < 9){
+		if(totalTabCount + buyTabs < 9){
 			this.buyTabs++;
 		}
 	}
@@ -128,6 +128,10 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	
 	public Map<Integer, Integer> getBoughtSlotsMap(){
 		return boughtSlotsMap;
+	}
+	
+	public int getTotalTabCount(){
+		return totalTabCount;
 	}
 	
 	@Override
@@ -187,8 +191,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 			// pl.getPlayer().sendMessage(LanguageConfiguration.MESSAGE_ITEM_IS_BLACKLISTED.getMessage());
 			return is;
 		}
-		int pass = getBankAllowedTabs(player);
-		if(tab > pass){ return is; }
+		if(tab > totalTabCount){ return is; }
 		
 		int itemSize = is.getAmount();
 		is = mergeBank(is, tab);
@@ -240,19 +243,6 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	
 	private boolean isEmpty(ItemStack is){
 		return is == null || is.getType() == Material.AIR;
-	}
-	
-	public int getBankAllowedTabs(Player player){
-		int pass = BankPluginConfiguration.BANK_ITEMS_TABS_DEFAULT.get() + boughtTabs;
-		pass = Math.min(pass, 9);
-		if(BankPluginConfiguration.BANK_ITEMS_TABS_PERMISSION_ENABLED.get() && player != null){
-			for(int i = 9; i > 1; i--){
-				if(player.hasPermission("bank.tabs." + i)){
-					if(i > pass){ return i; }
-				}
-			}
-		}
-		return pass;
 	}
 	
 	public int getBankSize(int page){
@@ -509,6 +499,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 			// player.sendMessage(LanguageConfiguration.MESSAGE_SLOTS_BOUGHT.getMessage().replace("<i>", "" + buy_slot_amount).replace("<p>", Format.formatMoney(d)));
 			boughtTabs += buyTabs;
 			buyTabs = 0;
+			checkPermissions();
 			return true;
 		}else{
 			// player.sendMessage(LanguageConfiguration.MESSAGE_SLOTS_FAILED.getMessage());
@@ -522,6 +513,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	
 	@Override
 	public void checkPermissions(){
+		if(pl.getPlayer() == null){ return; }
 		Collection<PermissionAttachmentInfo> permissions = pl.getPlayer().getEffectivePermissions();
 		
 		List<Integer> maxList = BankPermissionConfiguration.PERMISSION_SLOTS.getValue(pl, permissions);
@@ -534,5 +526,16 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 		}else{
 			permissionSlots = 0;
 		}
+		int tabCount = BankPluginConfiguration.BANK_ITEMS_TABS_DEFAULT.get() + boughtTabs;
+		tabCount = Math.min(tabCount, 9);
+		if(BankPluginConfiguration.BANK_ITEMS_TABS_PERMISSION_ENABLED.get()){
+			for(int tab = 9; tab > 1; tab--){
+				if(pl.getPlayer().hasPermission("bank.tabs." + tab)){
+					tabCount = Math.max(tabCount, tab);
+					break;
+				}
+			}
+		}
+		totalTabCount = tabCount;
 	}
 }

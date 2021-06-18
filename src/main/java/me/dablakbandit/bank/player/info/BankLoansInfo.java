@@ -6,10 +6,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.bukkit.Bukkit;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
-import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.config.BankPermissionConfiguration;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.player.loan.Loan;
@@ -114,6 +112,7 @@ public class BankLoansInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	}
 	
 	public void checkPermissions(){
+		if(pl.getPlayer() == null){ return; }
 		Collection<PermissionAttachmentInfo> permissions = pl.getPlayer().getEffectivePermissions();
 		
 		List<Double> maxList = BankPermissionConfiguration.PERMISSION_LOAN_AMOUNT.getValue(pl, permissions);
@@ -137,9 +136,7 @@ public class BankLoansInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	
 	@Override
 	public void jsonInit(){
-		if(pl.getPlayer() != null){
-			Bukkit.getScheduler().runTask(BankPlugin.getInstance(), this::checkPermissions);
-		}
+		
 	}
 	
 	@Override

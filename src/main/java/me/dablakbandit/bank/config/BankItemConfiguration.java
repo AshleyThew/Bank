@@ -60,6 +60,8 @@ public class BankItemConfiguration extends CommentAdvancedConfiguration{
 	
 	@Comment("Available: <tab>, <items>")
 	public static BankItemPath	BANK_ITEM_TAB_NUMBER				= new BankItemPath(light_blue_stained, ChatColor.AQUA + "Tab <tab>", ChatColor.BLUE + "<items> Items");
+	@Comment("Available: <tab>")
+	public static BankItemPath	BANK_ITEM_TAB_LOCKED				= new BankItemPath(red_stained, ChatColor.AQUA + "Tab <tab>", ChatColor.RED + "Locked");
 	@Comment("Available: <tab>, <items>")
 	public static BankItemPath	BANK_ITEM_TAB_CURRENT				= new BankItemPath(green_stained, ChatColor.GREEN + "Current <tab>", ChatColor.BLUE + "<items> Items");
 	public static BankItemPath	BANK_ITEM_BLANK						= new BankItemPath(black_stained, " ");

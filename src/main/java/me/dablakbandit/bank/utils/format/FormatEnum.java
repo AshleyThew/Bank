@@ -9,6 +9,7 @@ import me.dablakbandit.core.config.path.TranslatedStringPath;
 
 public enum FormatEnum{
 	//@formatter:off
+    THOUSAND(BankLanguageConfiguration.FORMAT_THOUSAND),
     MILLION(BankLanguageConfiguration.FORMAT_MILLION),
     BILLION(BankLanguageConfiguration.FORMAT_BILLION),
     TRILLION(BankLanguageConfiguration.FORMAT_TRILLION),
@@ -56,8 +57,8 @@ public enum FormatEnum{
 	
 	FormatEnum(TranslatedStringPath namePath){
 		this.namePath = namePath;
-		StringBuilder base = new StringBuilder("1000000");
-		for(int i = 0; i < this.ordinal(); i++){
+		StringBuilder base = new StringBuilder("1");
+		for(int i = 0; i <= this.ordinal(); i++){
 			base.append("000");
 		}
 		base.append(".0");
@@ -70,10 +71,13 @@ public enum FormatEnum{
 		Collections.reverse(reversed);
 	}
 	
-	public static String formatNormal(double amount, boolean round){
+	public static String formatNormal(String normalFormat, String roundFormat, double amount, boolean round, boolean thousand){
 		for(FormatEnum formatMoney : reversed){
-			if(amount > formatMoney.amount){ return String.format("%.2f " + formatMoney.namePath.get(), amount / formatMoney.amount); }
+			if(formatMoney == THOUSAND && !thousand){
+				continue;
+			}
+			if(amount >= formatMoney.amount){ return String.format(normalFormat + " " + formatMoney.namePath.get(), amount / formatMoney.amount); }
 		}
-		return String.format(round ? "%,.0f" : "%,.2f", round ? Math.floor(amount) : amount);
+		return String.format(round ? roundFormat : normalFormat, round ? Math.floor(amount) : amount);
 	}
 }

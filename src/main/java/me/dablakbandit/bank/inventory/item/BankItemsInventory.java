@@ -62,7 +62,6 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 		int used = itemsInfo.getBankSize(itemsInfo.getOpenTab());
 		int total = itemsInfo.getBankSlots(itemsInfo.getOpenTab());
 		int available = total - used;
-		// ChatColor.GREEN + "Used Slots: <used>", ChatColor.GREEN + "Available Slots: <available>", ChatColor.GREEN + "Total Slots: <total>",
 		return clone(path.get(), path.getName(), new StringListReplacer(path.getLore()).replace("<used>", "" + used).replace("<available>", "" + available).replace("<total>", "" + total));
 	}
 	
@@ -71,7 +70,7 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	}
 	
 	private ItemStack getTabs(BankItemPath path, BankInfo bankInfo){
-		return clone(path.get(), path.getName(), new StringListReplacer(path.getLore()).replace("<tabs>", "" + bankInfo.getItemsInfo().getBankAllowedTabs(bankInfo.getPlayers().getPlayer())));
+		return clone(path.get(), path.getName(), new StringListReplacer(path.getLore()).replace("<tabs>", "" + bankInfo.getItemsInfo().getTotalTabCount()));
 	}
 	
 	protected void addTrashcan(){
@@ -84,7 +83,6 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	}
 	
 	protected void addItemUtils(){
-		// This here achieves the same as the code above but in 1 line
 		setItem(BankItemConfiguration.BANK_ITEM_ADD, consumeSound(getItemsAdd(), BankSoundConfiguration.INVENTORY_ITEMS_OPEN_ADD));
 		setItem(BankItemConfiguration.BANK_ITEM_REMOVE, consumeSound(getItemsRemove(), BankSoundConfiguration.INVENTORY_ITEMS_OPEN_REMOVE));
 		setItem(BankItemConfiguration.BANK_ITEM_SORT.getSlot(), BankItemConfiguration.BANK_ITEM_BLANK);
@@ -160,15 +158,24 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	}
 	
 	public ItemStack createTab(BankInfo bankInfo, int tab){
-		BankItemPath path;
-		if(bankInfo.getItemsInfo().getOpenTab() == tab){
-			path = BankItemConfiguration.BANK_ITEM_TAB_CURRENT;
+		BankItemPath pathItem;
+		BankItemPath pathDescription = null;
+		BankItemsInfo itemsInfo = bankInfo.getItemsInfo();
+		
+		if(itemsInfo.getOpenTab() == tab){
+			pathItem = BankItemConfiguration.BANK_ITEM_TAB_CURRENT;
+		}else if(tab > itemsInfo.getTotalTabCount()){
+			pathItem = BankItemConfiguration.BANK_ITEM_TAB_LOCKED;
+			pathDescription = BankItemConfiguration.BANK_ITEM_TAB_LOCKED;
 		}else{
-			path = BankItemConfiguration.BANK_ITEM_TAB_NUMBER;
+			pathItem = BankItemConfiguration.BANK_ITEM_TAB_NUMBER;
 		}
-		ItemStack is = path.get();
+		if(pathDescription == null){
+			pathDescription = pathItem;
+		}
+		ItemStack is = pathItem.get();
 		is.setAmount(tab);
-		return clone(is, path.getName().replace("<tab>", "" + tab), replaceLore(path.getLore(), "<items>", "" + bankInfo.getItemsInfo().getItemMap().get(tab).size()));
+		return clone(is, pathDescription.getName().replace("<tab>", "" + tab), replaceLore(pathDescription.getLore(), "<items>", "" + itemsInfo.getItemMap().get(tab).size()));
 	}
 	
 	public void onClick(CorePlayers pl, BankInfo bi, Inventory inv, InventoryClickEvent event){
@@ -191,7 +198,6 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 		event.setCursor(i);
 		pl.refreshInventory();
 		BankSoundConfiguration.INVENTORY_ITEMS_ITEM_ADD.play(pl);
-		// bi.save(BankPluginConfiguration.SAVE_ITEM_DEPOSIT);
 	}
 	
 	private void handleItemTake(CorePlayers pl, BankItemsInfo bi, InventoryClickEvent event){
@@ -203,22 +209,23 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 			if(bi.takeBankItemAt(pl.getPlayer(), bi.getOpenTab(), clicked, false)){
 				BankSoundConfiguration.INVENTORY_ITEMS_ITEM_TAKE.play(pl);
 				pl.refreshInventory();
-				// bi.save(BankPluginConfiguration.SAVE_ITEM_WITHDRAW);
 			}
 		}else if(event.isRightClick()){
 			int clicked = bi.getScrolled() * 9 + itemSlot;
 			if(bi.takeBankItemAt(pl.getPlayer(), bi.getOpenTab(), clicked, true)){
 				BankSoundConfiguration.INVENTORY_ITEMS_ITEM_TAKE.play(pl);
 				pl.refreshInventory();
-				// bi.save(BankPluginConfiguration.SAVE_ITEM_WITHDRAW);
 			}
 		}
 	}
 	
 	protected void handleTab(CorePlayers pl, BankInfo bi, Inventory inv, InventoryClickEvent event){
 		int tab = event.getRawSlot() - descriptor.getSize() + 10;
-		// TODO RIGHT CLICK
 		if(bi.getItemsInfo().getOpenTab() == tab){ return; }
+		if(event.isRightClick()){
+			// TODO RIGHT CLICK
+			// This is reserved for custom tab items
+		}
 		bi.getItemsInfo().setOpenTab(tab);
 		bi.getItemsInfo().addScrolled(-bi.getItemsInfo().getScrolled());
 		pl.refreshInventory();

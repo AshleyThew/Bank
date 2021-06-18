@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 
+import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.config.BankLanguageConfiguration;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.database.BankDatabaseManager;
@@ -13,6 +14,7 @@ import me.dablakbandit.bank.log.BankLog;
 import me.dablakbandit.bank.player.event.BankPlayersLoadedEvent;
 import me.dablakbandit.bank.player.info.BankInfo;
 import me.dablakbandit.bank.player.info.IBankInfo;
+import me.dablakbandit.bank.player.info.PermissionsInfo;
 import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.players.info.JSONInfo;
 
@@ -61,6 +63,9 @@ public class LoadRunner implements Runnable{
 		infoList.forEach(info -> {
 			infoDatabase.getInfoTypeDatabase(info).loadPlayer(pl, info);
 			info.jsonInit();
+			if(info instanceof PermissionsInfo){
+				Bukkit.getScheduler().runTask(BankPlugin.getInstance(), ((PermissionsInfo)info)::checkPermissions);
+			}
 		});
 		bankInfo.setLocked(false);
 		if(lock){

@@ -91,6 +91,12 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final BooleanPath					BANK_EXP_ONLY								= new BooleanPath(false);
 	@Comment("Format exp in messages")
 	public static final BooleanPath					BANK_EXP_FORMAT_ENABLED						= new BooleanPath(true);
+	@Comment("Format exp in thousands eg 300K")
+	public static final BooleanPath					BANK_EXP_FORMAT_THOUSANDS					= new BooleanPath(false);
+	@Comment("Format exp in display")
+	public static final StringPath					BANK_EXP_FORMAT_NORMAL						= new StringPath("%,.2f");
+	@Comment("Format exp rounded in display")
+	public static final StringPath					BANK_EXP_FORMAT_ROUND						= new StringPath("%,.0f");
 	@Comment("Set max exp in bank")
 	public static final DoubleNicePath				BANK_EXP_MAX								= new DoubleNicePath(Double.MAX_VALUE);
 	
@@ -126,6 +132,12 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final BooleanPath					BANK_MONEY_ENABLED							= new BooleanPath(true);
 	@Comment("Format money in messages")
 	public static final BooleanPath					BANK_MONEY_FORMAT_ENABLED					= new BooleanPath(true);
+	@Comment("Format money in thousands eg 300K")
+	public static final BooleanPath					BANK_MONEY_FORMAT_THOUSANDS					= new BooleanPath(false);
+	@Comment("Format money in display")
+	public static final StringPath					BANK_MONEY_FORMAT_NORMAL					= new StringPath("%,.2f");
+	@Comment("Format money rounded in display")
+	public static final StringPath					BANK_MONEY_FORMAT_ROUND						= new StringPath("%,.0f");
 	@Comment("Show only full dollars")
 	public static final BooleanPath					BANK_MONEY_FULL_DOLLARS						= new BooleanPath(false);
 	@Comment("Only able to deposit full $ (no decimal)")

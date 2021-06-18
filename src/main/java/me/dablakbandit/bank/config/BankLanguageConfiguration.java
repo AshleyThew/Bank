@@ -112,6 +112,7 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	@Comment("Available: <number>, <name>, <amount>")
 	public static TranslatedStringPath		MESSAGE_TOP_EXP_INFO			= new TranslatedStringPath(ChatColor.GRAY + "<number>. " + ChatColor.GREEN + "<name>: " + ChatColor.GOLD + "$<amount>");
 	
+	public static TranslatedStringPath		FORMAT_THOUSAND					= new TranslatedStringPath("K");
 	public static TranslatedStringPath		FORMAT_MILLION					= new TranslatedStringPath("Million");
 	public static TranslatedStringPath		FORMAT_BILLION					= new TranslatedStringPath("Billion");
 	public static TranslatedStringPath		FORMAT_TRILLION					= new TranslatedStringPath("Trillion");
