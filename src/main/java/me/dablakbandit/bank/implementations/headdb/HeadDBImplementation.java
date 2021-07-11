@@ -24,6 +24,15 @@ public class HeadDBImplementation extends BankImplementation{
 	
 	@Override
 	public void enable(){
+		try{
+			Class.forName("me.arcaniax.hdb.api.DatabaseLoadEvent");
+		}catch(Exception e){
+			return;
+		}
+		registerListener();
+	}
+	
+	private void registerListener(){
 		Bukkit.getPluginManager().registerEvents(HeadDBListener.getInstance(), BankPlugin.getInstance());
 	}
 	

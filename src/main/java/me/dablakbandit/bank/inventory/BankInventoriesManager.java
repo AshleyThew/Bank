@@ -31,11 +31,11 @@ public class BankInventoriesManager{
 		Arrays.stream(BankInventories.values()).forEach((i) -> handlerMap.put(i, handlers.createInventory(i)));
 	}
 	
-	public boolean open(CorePlayers pl, BankInventories inventories){
-		inventories = checkOnlys(pl, inventories);
-		InventoryHandler handler = handlerMap.get(inventories);
+	public boolean open(CorePlayers pl, final BankInventories inventories){
+		BankInventories checkedInventories = checkOnlys(pl, inventories);
+		InventoryHandler handler = handlerMap.get(checkedInventories);
 		if(!handler.hasPermission(pl.getPlayer())){ return false; }
-		if(pl.getInfo(BankInfo.class).isLocked(true)){ return false; }
+		if(pl.getInfo(BankInfo.class).isLocked(true, () -> open(pl, inventories))){ return false; }
 		pl.setOpenInventory(handler);
 		return true;
 	}

@@ -24,6 +24,7 @@ public class LoadRunner implements Runnable{
 	
 	private CorePlayers					pl;
 	private boolean						force, lock = true, log = true;
+	private Runnable					runnable;
 	
 	public LoadRunner(CorePlayers pl){
 		this.pl = pl;
@@ -32,6 +33,12 @@ public class LoadRunner implements Runnable{
 	public LoadRunner(CorePlayers pl, boolean force){
 		this.pl = pl;
 		this.force = force;
+	}
+	
+	public LoadRunner(CorePlayers pl, boolean force, Runnable runnable){
+		this.pl = pl;
+		this.force = force;
+		this.runnable = runnable;
 	}
 	
 	public LoadRunner log(boolean log){
@@ -78,6 +85,10 @@ public class LoadRunner implements Runnable{
 		Bukkit.getPluginManager().callEvent(event);
 		if(log){
 			BankLog.info(BankPluginConfiguration.BANK_LOG_PLAYER_LEVEL, "Loaded " + pl.getUUIDString() + " after " + (System.currentTimeMillis() - start) + "ms");
+		}
+		BankLog.debug(runnable);
+		if(runnable != null){
+			Bukkit.getScheduler().runTask(BankPlugin.getInstance(), runnable);
 		}
 	}
 }

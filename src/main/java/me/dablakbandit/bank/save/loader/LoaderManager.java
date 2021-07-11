@@ -53,7 +53,11 @@ public class LoaderManager{
 	}
 	
 	public void load(CorePlayers pl, boolean force){
-		loaderThread.add(new LoadRunner(pl, force));
+		load(pl, force, null);
+	}
+	
+	public void load(CorePlayers pl, boolean force, Runnable runnable){
+		loaderThread.add(new LoadRunner(pl, force, runnable));
 	}
 	
 	public void runAsync(Runnable runnable){

@@ -20,6 +20,12 @@ public class BankItemBlacklistConfiguration extends CommentAdvancedConfiguration
 	}
 	
 	@CommentArray({ "Items that are blacklist are saved here", "Use '/bank admin item blacklist' in-game" })
-	public static StringListPath BLACKLIST = new StringListPath();
+	public static StringListPath	BLACKLIST			= new StringListPath();
+	
+	@CommentArray({ "Blacklist items that contain a name.", "Accepts regex, eg: '(?i)hello' will match (Hello, hello)", "I suggest using a website such as https://regex101.com/ to create regex's" })
+	public static StringListPath	BLACKLISTED_NAME	= new StringListPath("Example name of item");
+	
+	@CommentArray({ "Blacklist items that contain lore string.", "Accepts regex, eg: '(?i)hello' will match (Hello, hello)", "I suggest using a website such as https://regex101.com/ to create regex's" })
+	public static StringListPath	BLACKLISTED_LORE	= new StringListPath("Example lore of item");
 	
 }

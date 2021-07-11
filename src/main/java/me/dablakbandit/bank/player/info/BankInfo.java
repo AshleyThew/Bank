@@ -55,8 +55,13 @@ public class BankInfo extends CorePlayersInfo{
 	}
 	
 	public boolean isLocked(boolean check){
+		return isLocked(check, null);
+	}
+	
+	public boolean isLocked(boolean check, Runnable runnable){
 		if(locked && check){
-			LoaderManager.getInstance().load(pl, (System.currentTimeMillis() - joined) > 30000);
+			boolean unlock = (System.currentTimeMillis() - joined) > 30000;
+			LoaderManager.getInstance().load(pl, unlock, runnable);
 		}
 		return locked;
 	}
