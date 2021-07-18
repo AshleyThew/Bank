@@ -21,13 +21,13 @@ import me.dablakbandit.core.players.info.CorePlayersInfo;
 
 public class BankAPI{
 	
-	public static BankAPI api = new BankAPI();
+	public static final BankAPI api = new BankAPI();
 	
 	public static BankAPI getInstance(){
 		return api;
 	}
 	
-	private static BankDatabaseManager bankDatabaseManager = BankDatabaseManager.getInstance();
+	private static final BankDatabaseManager bankDatabaseManager = BankDatabaseManager.getInstance();
 	
 	private BankAPI(){
 	}

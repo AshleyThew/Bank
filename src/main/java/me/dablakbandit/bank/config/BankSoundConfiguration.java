@@ -13,7 +13,7 @@ import me.dablakbandit.core.players.CorePlayers;
 
 public class BankSoundConfiguration extends CommentAdvancedConfiguration{
 	
-	private static BankSoundConfiguration config = new BankSoundConfiguration(BankPlugin.getInstance(), "sounds.yml");
+	private static final BankSoundConfiguration config = new BankSoundConfiguration(BankPlugin.getInstance());
 	
 	public static BankSoundConfiguration getInstance(){
 		return config;
@@ -35,90 +35,90 @@ public class BankSoundConfiguration extends CommentAdvancedConfiguration{
 		}
 	}
 	
-	public static SoundsPath	GLOBAL_ERROR							= new SoundsPath(anvil);
+	public static final SoundsPath	GLOBAL_ERROR							= new SoundsPath(anvil);
 	
-	public static SoundsPath	BLOCK_OPEN								= new SoundsPath(levelup);
-	public static SoundsPath	CITIZENS_OPEN							= new SoundsPath(levelup);
-	public static SoundsPath	SIGN_OPEN								= new SoundsPath(levelup);
+	public static final SoundsPath	BLOCK_OPEN								= new SoundsPath(levelup);
+	public static final SoundsPath	CITIZENS_OPEN							= new SoundsPath(levelup);
+	public static final SoundsPath	SIGN_OPEN								= new SoundsPath(levelup);
 	
-	public static SoundsPath	INVENTORY_GLOBAL_BACK					= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_GLOBAL_BACK					= new SoundsPath(levelup);
 	
-	public static SoundsPath	INVENTORY_ITEMS_ADD_ALL					= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_ADD_HOTBAR				= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_ADD_INVENTORY			= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_ADD_ALL					= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_ADD_HOTBAR				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_ADD_INVENTORY			= new SoundsPath(levelup);
 	
-	public static SoundsPath	INVENTORY_MONEY_WITHDRAW				= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_MONEY_WITHDRAW_ALL			= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_MONEY_DEPOSIT					= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_MONEY_DEPOSIT_ALL				= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_MONEY_SEND_OTHER				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_MONEY_WITHDRAW				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_MONEY_WITHDRAW_ALL			= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_MONEY_DEPOSIT					= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_MONEY_DEPOSIT_ALL				= new SoundsPath(levelup);
+	public static SoundsPath		INVENTORY_MONEY_SEND_OTHER				= new SoundsPath(levelup);
 	
-	public static SoundsPath	INVENTORY_ITEMS_CHANGE_TAB				= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_OPEN_TAB_ITEM_PICKER	= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_OPEN_BUY_SLOTS			= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_OPEN_BUY_TABS			= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_OPEN_ADD				= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_OPEN_REMOVE				= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_OPEN_TRASHCAN			= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_OPEN_SORT				= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_SCROLL_DOWN				= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_SCROLL_UP				= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_ITEM_ADD				= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_ITEM_TAKE				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_CHANGE_TAB				= new SoundsPath(levelup);
+	public static SoundsPath		INVENTORY_ITEMS_OPEN_TAB_ITEM_PICKER	= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_OPEN_BUY_SLOTS			= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_OPEN_BUY_TABS			= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_OPEN_ADD				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_OPEN_REMOVE				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_OPEN_TRASHCAN			= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_OPEN_SORT				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_SCROLL_DOWN				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_SCROLL_UP				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_ITEM_ADD				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_ITEM_TAKE				= new SoundsPath(levelup);
 	
-	public static SoundsPath	INVENTORY_ITEMS_BUY_SLOTS_MINUS			= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_BUY_SLOTS_BUY			= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_BUY_SLOTS_ADD			= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_BUY_SLOTS_MINUS			= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_BUY_SLOTS_BUY			= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_BUY_SLOTS_ADD			= new SoundsPath(levelup);
 	
-	public static SoundsPath	INVENTORY_ITEMS_BUY_TABS_MINUS			= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_BUY_TABS_BUY			= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_BUY_TABS_ADD			= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_BUY_TABS_MINUS			= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_BUY_TABS_BUY			= new SoundsPath(levelup);
+	public static SoundsPath		INVENTORY_ITEMS_BUY_TABS_ADD			= new SoundsPath(levelup);
 	
-	public static SoundsPath	INVENTORY_MENU_OPEN_PIN					= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_MENU_OPEN_MONEY				= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_MENU_OPEN_ITEMS				= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_MENU_OPEN_EXP					= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_MENU_OPEN_LOANS				= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_MENU_OPEN_LOAN_VIEW			= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_MENU_OPEN_PIN					= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_MENU_OPEN_MONEY				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_MENU_OPEN_ITEMS				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_MENU_OPEN_EXP					= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_MENU_OPEN_LOANS				= new SoundsPath(levelup);
+	public static SoundsPath		INVENTORY_MENU_OPEN_LOAN_VIEW			= new SoundsPath(levelup);
 	
-	public static SoundsPath	INVENTORY_EXP_WITHDRAW					= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_EXP_WITHDRAW_ALL				= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_EXP_DEPOSIT					= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_EXP_DEPOSIT_ALL				= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_EXP_SEND_OTHER				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_EXP_WITHDRAW					= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_EXP_WITHDRAW_ALL				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_EXP_DEPOSIT					= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_EXP_DEPOSIT_ALL				= new SoundsPath(levelup);
+	public static SoundsPath		INVENTORY_EXP_SEND_OTHER				= new SoundsPath(levelup);
 	
-	public static SoundsPath	INVENTORY_LOANS_PAYBACK_ALL				= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_LOANS_PAYBACK					= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_LOANS_OPEN_TAKE_OUT			= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_LOANS_OPEN_VIEW				= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_LOANS_TAKE_OUT				= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_LOANS_VIEW_UP					= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_LOANS_VIEW_DOWN				= new SoundsPath(levelup);
+	public static SoundsPath		INVENTORY_LOANS_PAYBACK_ALL				= new SoundsPath(levelup);
+	public static SoundsPath		INVENTORY_LOANS_PAYBACK					= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_LOANS_OPEN_TAKE_OUT			= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_LOANS_OPEN_VIEW				= new SoundsPath(levelup);
+	public static SoundsPath		INVENTORY_LOANS_TAKE_OUT				= new SoundsPath(levelup);
+	public static SoundsPath		INVENTORY_LOANS_VIEW_UP					= new SoundsPath(levelup);
+	public static SoundsPath		INVENTORY_LOANS_VIEW_DOWN				= new SoundsPath(levelup);
 	
-	public static SoundsPath	INVENTORY_PIN_CLICK						= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_PIN_CLEAR						= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_PIN_SET						= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_PIN_REMOVE					= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_PIN_CLICK						= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_PIN_CLEAR						= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_PIN_SET						= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_PIN_REMOVE					= new SoundsPath(levelup);
 	
-	public static SoundsPath	INVENTORY_ITEMS_REMOVE_ALL				= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_REMOVE_INVENTORY		= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_REMOVE_HOTBAR			= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_REMOVE_ALL				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_REMOVE_INVENTORY		= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_REMOVE_HOTBAR			= new SoundsPath(levelup);
 	
-	public static SoundsPath	INVENTORY_ITEMS_SORT_MATERIAL			= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_SORT_NAME				= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_SORT_AMOUNT				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_SORT_MATERIAL			= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_SORT_NAME				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_SORT_AMOUNT				= new SoundsPath(levelup);
 	
-	public static SoundsPath	INVENTORY_ITEMS_TABITEMPICKER_RESET		= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_TABITEMPICKER_UP		= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_TABITEMPICKER_DOWN		= new SoundsPath(levelup);
-	public static SoundsPath	INVENTORY_ITEMS_TABITEMPICKER_SELECT	= new SoundsPath(levelup);
+	public static SoundsPath		INVENTORY_ITEMS_TABITEMPICKER_RESET		= new SoundsPath(levelup);
+	public static SoundsPath		INVENTORY_ITEMS_TABITEMPICKER_UP		= new SoundsPath(levelup);
+	public static SoundsPath		INVENTORY_ITEMS_TABITEMPICKER_DOWN		= new SoundsPath(levelup);
+	public static SoundsPath		INVENTORY_ITEMS_TABITEMPICKER_SELECT	= new SoundsPath(levelup);
 	
-	public static SoundsPath	MONEY_SEND_OTHER						= new SoundsPath(levelup);
+	public static final SoundsPath	MONEY_SEND_OTHER						= new SoundsPath(levelup);
 	
-	public static SoundsPath	EXP_SEND_OTHER							= new SoundsPath(levelup);
+	public static final SoundsPath	EXP_SEND_OTHER							= new SoundsPath(levelup);
 	
-	private BankSoundConfiguration(JavaPlugin plugin, String file){
-		super(plugin, file);
+	private BankSoundConfiguration(JavaPlugin plugin){
+		super(plugin, "sounds.yml");
 	}
 	
 	public static class SoundsPath extends Path<Sounds>{

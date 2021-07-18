@@ -11,7 +11,7 @@ import me.dablakbandit.core.config.path.EnumPath;
 
 public class BankLog{
 	
-	private static String prefix = ChatColor.GRAY + "[" + ChatColor.GREEN + "Bank" + ChatColor.GRAY + "] ";
+	private static final String prefix = ChatColor.GRAY + "[" + ChatColor.GREEN + "Bank" + ChatColor.GRAY + "] ";
 	
 	public static String getPrefix(){
 		return prefix;

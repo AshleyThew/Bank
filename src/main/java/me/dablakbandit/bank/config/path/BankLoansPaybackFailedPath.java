@@ -36,7 +36,7 @@ public class BankLoansPaybackFailedPath extends Path<BankLoansPaybackFailedPath.
 	
 	public static class LoansPaybackFailed{
 		
-		private Map<Integer, List<String>> map = new TreeMap<>();
+		private final Map<Integer, List<String>> map = new TreeMap<>();
 		
 		public LoansPaybackFailed(){
 		}

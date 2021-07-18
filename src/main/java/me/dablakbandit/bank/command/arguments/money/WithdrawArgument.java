@@ -31,7 +31,7 @@ public class WithdrawArgument extends BankEndArgument{
 			bankInfo.getPinInfo().checkPass(() -> {
 				try{
 					withdraw(bankInfo, Double.parseDouble(args[0]));
-				}catch(Exception e){
+				}catch(Exception ignored){
 				}
 			});
 		}catch(Exception e){

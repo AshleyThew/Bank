@@ -11,7 +11,7 @@ import me.dablakbandit.core.utils.NMSUtils;
 
 public class PlayerGetter{
 	
-	private static boolean huuid = hasUUID();
+	private static final boolean huuid = hasUUID();
 	
 	public static boolean hasUUID(){
 		try{

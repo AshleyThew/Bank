@@ -11,26 +11,26 @@ import me.dablakbandit.core.config.path.IntegerPath;
 
 public class BankUpgradeConfiguration extends CommentAdvancedConfiguration{
 	
-	private static BankUpgradeConfiguration config = new BankUpgradeConfiguration(BankPlugin.getInstance(), "upgrade.yml");
+	private static final BankUpgradeConfiguration config = new BankUpgradeConfiguration(BankPlugin.getInstance());
 	
 	public static BankUpgradeConfiguration getInstance(){
 		return config;
 	}
 	
 	@Comment("No upgrade needed at this time")
-	public static BooleanPath	UPGRADE_CONFIRM				= new BooleanPath(false);
+	public static final BooleanPath	UPGRADE_CONFIRM				= new BooleanPath(false);
 	
 	@Comment("DO NOT TOUCH, THIS WILL TRIGGER AN UPGRADE")
-	public static IntegerPath	UPGRADE_VERSION				= new IntegerPath(0);
+	public static final IntegerPath	UPGRADE_VERSION				= new IntegerPath(0);
 	
 	@CommentArray({ "SET THIS ONLY TO TRUE IF UPGRADING FROM BEFORE 4.1.0", "THIS WILL TRIGGER A CONVERSION, WHICH MAY TAKE SOME TIME", "MAKE SURE TO BACKUP OLD BANK DATA" })
-	public static BooleanPath	UPGRADE_CONVERSION_OLD		= new BooleanPath(false);
+	public static final BooleanPath	UPGRADE_CONVERSION_OLD		= new BooleanPath(false);
 	
 	@CommentArray({ "IF USING MYSQL ON THE OLD PLUGIN AND WISH TO KEEP USING MYSQL SET THIS TO TRUE" })
-	public static BooleanPath	UPGRADE_CONVERSION_MYSQL	= new BooleanPath(false);
+	public static final BooleanPath	UPGRADE_CONVERSION_MYSQL	= new BooleanPath(false);
 	
-	private BankUpgradeConfiguration(Plugin plugin, String filename){
-		super(plugin, filename);
+	private BankUpgradeConfiguration(Plugin plugin){
+		super(plugin, "upgrade.yml");
 	}
 	
 	//@formatter:off

@@ -18,7 +18,7 @@ import me.dablakbandit.core.players.CorePlayerManager;
 
 public class BankCommand extends ConfigurationCommand{
 	
-	private static BankCommand command = new BankCommand(BankPlugin.getInstance(), BankCommandConfiguration.getInstance(), BANK);
+	private static final BankCommand command = new BankCommand(BankPlugin.getInstance(), BankCommandConfiguration.getInstance(), BANK);
 	
 	public static BankCommand getInstance(){
 		return command;

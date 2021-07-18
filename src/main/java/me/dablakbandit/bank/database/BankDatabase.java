@@ -5,8 +5,8 @@ import me.dablakbandit.core.database.Database;
 
 public class BankDatabase{
 	
-	private Database		database;
-	private IInfoDatabase	infoDatabase;
+	private final Database		database;
+	private final IInfoDatabase	infoDatabase;
 	
 	public BankDatabase(Database database, IInfoDatabase infoDatabase){
 		this.database = database;

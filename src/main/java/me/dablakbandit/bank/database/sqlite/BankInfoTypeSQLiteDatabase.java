@@ -79,7 +79,8 @@ public class BankInfoTypeSQLiteDatabase<T extends JSONInfo>extends IInfoTypeData
 			synchronized(getPlayerInfo){
 				getPlayerInfo.setString(1, pl.getUUIDString());
 				ResultSet rs = getPlayerInfo.executeQuery();
-				if(has = rs.next()){
+				has = rs.next();
+				if(has){
 					JSONParser.loadAndCopy(t, rs.getString("value"));
 				}
 				rs.close();
@@ -108,7 +109,7 @@ public class BankInfoTypeSQLiteDatabase<T extends JSONInfo>extends IInfoTypeData
 		return map;
 	}
 	
-	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	@Override
 	public Map<String, Long> getOffline(){
@@ -120,7 +121,7 @@ public class BankInfoTypeSQLiteDatabase<T extends JSONInfo>extends IInfoTypeData
 					getPlayerInfo.setString(1, uuid);
 					ResultSet rs = getPlayerInfo.executeQuery();
 					if(rs.next()){
-						long time = 0;
+						long time;
 						try{
 							time = dateFormat.parse(rs.getString("last_modified")).getTime();
 						}catch(Exception e){

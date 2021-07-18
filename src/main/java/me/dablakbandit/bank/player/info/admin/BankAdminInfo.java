@@ -15,10 +15,6 @@ public class BankAdminInfo extends IBankInfo{
 	
 	public BankAdminInfo(CorePlayers pl){
 		super(pl);
-		init();
-	}
-	
-	private void init(){
 	}
 	
 	public BlacklistedItem getItem(){

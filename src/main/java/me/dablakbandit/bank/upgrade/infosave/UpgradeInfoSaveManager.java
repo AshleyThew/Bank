@@ -16,7 +16,7 @@ import me.dablakbandit.core.players.info.JSONInfo;
 
 public class UpgradeInfoSaveManager{
 	
-	private static UpgradeInfoSaveManager upgrade = new UpgradeInfoSaveManager();
+	private static final UpgradeInfoSaveManager upgrade = new UpgradeInfoSaveManager();
 	
 	public static UpgradeInfoSaveManager getInstance(){
 		return upgrade;

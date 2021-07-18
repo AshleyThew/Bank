@@ -49,7 +49,7 @@ public abstract class Loader extends SQLListener{
 					JSONObject jo1 = null;
 					try{
 						jo1 = ja.getJSONObject(ii);
-						ItemStack is = null;
+						ItemStack is;
 						is = convertJSONToItemStack(jo1);
 						items.get(tab).add(is);
 					}catch(Exception e){
@@ -108,7 +108,7 @@ public abstract class Loader extends SQLListener{
 			JSONArray jsonArray = new JSONArray();
 			try{
 				jsonArray = jo1.getJSONArray("ench").getJSONArray(1);
-			}catch(Exception e){
+			}catch(Exception ignored){
 			}
 			fixEnchantments(jsonArray);
 		}
@@ -117,7 +117,7 @@ public abstract class Loader extends SQLListener{
 		}
 	}
 	
-	private static boolean fourteen = isFourteen();
+	private static final boolean fourteen = isFourteen();
 	
 	private static boolean isFourteen(){
 		try{

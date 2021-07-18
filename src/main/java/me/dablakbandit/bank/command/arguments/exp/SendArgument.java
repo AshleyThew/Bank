@@ -38,7 +38,7 @@ public class SendArgument extends BankEndArgument{
 			base.sendFormattedMessage(s, BankLanguageConfiguration.COMMAND_UNKNOWN_PLAYER.get().replaceAll("<player>", args[0]));
 			return;
 		}
-		int amount = 0;
+		int amount;
 		try{
 			amount = Integer.parseInt(args[1]);
 		}catch(Exception e){

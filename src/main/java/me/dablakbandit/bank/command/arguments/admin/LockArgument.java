@@ -22,7 +22,7 @@ public class LockArgument extends BankEndArgument{
 		super(command);
 	}
 	
-	private List<String> confirmationList = new ArrayList();
+	private final List<String> confirmationList = new ArrayList();
 	
 	@Override
 	protected void onArgument(CommandSender s, Command cmd, String label, String[] args, String[] original){
@@ -43,7 +43,7 @@ public class LockArgument extends BankEndArgument{
 		
 		boolean locked;
 		try{
-			locked = Boolean.valueOf(args[1]);
+			locked = Boolean.parseBoolean(args[1]);
 		}catch(Exception e){
 			return;
 		}

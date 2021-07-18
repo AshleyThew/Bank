@@ -7,7 +7,7 @@ import me.dablakbandit.core.players.CorePlayers;
 
 public class OldSQLLiteLoader extends SQLBaseLoader{
 	
-	private static OldSQLLiteLoader loader = new OldSQLLiteLoader();
+	private static final OldSQLLiteLoader loader = new OldSQLLiteLoader();
 	
 	public static OldSQLLiteLoader getInstance(){
 		return loader;

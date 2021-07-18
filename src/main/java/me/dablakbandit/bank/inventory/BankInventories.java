@@ -40,9 +40,9 @@ public enum BankInventories implements Consumer<CorePlayers>{
     ;
     //@formatter:on
 	
-	private Supplier<InventoryHandler<?>>	supplier;
-	private InventoryDescriptionPath		descriptionPath;
-	private PlayerInventoryHandler			playerInventoryHandler;
+	private final Supplier<InventoryHandler<?>>	supplier;
+	private final InventoryDescriptionPath		descriptionPath;
+	private final PlayerInventoryHandler			playerInventoryHandler;
 	
 	BankInventories(Supplier<InventoryHandler<?>> supplier, InventoryDescriptionPath descriptionPath, Supplier<PlayerInventoryHandler> playerInventoryHandler){
 		this.supplier = supplier;

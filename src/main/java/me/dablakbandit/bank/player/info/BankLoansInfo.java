@@ -24,7 +24,7 @@ public class BankLoansInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	@Exclude
 	private Loan		tempLoan;
 	
-	private List<Loan>	loans	= Collections.synchronizedList(new ArrayList<>());
+	private final List<Loan>	loans	= Collections.synchronizedList(new ArrayList<>());
 	private double		loanMax, loanInterest;
 	
 	public BankLoansInfo(CorePlayers pl){

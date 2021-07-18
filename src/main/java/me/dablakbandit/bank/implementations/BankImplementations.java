@@ -33,10 +33,10 @@ public enum BankImplementations{
     //@formatter:on
 	;
 	
-	private BankImplementation					object;
-	private Class<? extends BankImplementation>	supplier;
-	private Supplier<Boolean>					booleanPath;
-	private boolean								loaded;
+	private BankImplementation							object;
+	private final Class<? extends BankImplementation>	supplier;
+	private final Supplier<Boolean>						booleanPath;
+	private boolean										loaded;
 	
 	BankImplementations(Class<? extends BankImplementation> supplier, BooleanPath booleanPath){
 		this.supplier = supplier;
@@ -47,9 +47,7 @@ public enum BankImplementations{
 		if(booleanPath != null && !booleanPath.get()){ return; }
 		try{
 			object = (BankImplementation)NMSUtils.getMethod(supplier, "getInstance").invoke(null);
-		}catch(IllegalAccessException e){
-			e.printStackTrace();
-		}catch(InvocationTargetException e){
+		}catch(IllegalAccessException | InvocationTargetException e){
 			e.printStackTrace();
 		}
 		object.load();

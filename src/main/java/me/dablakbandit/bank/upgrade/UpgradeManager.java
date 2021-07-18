@@ -21,7 +21,7 @@ import me.dablakbandit.core.configuration.CoreConfiguration;
 
 public class UpgradeManager{
 	
-	private static UpgradeManager manager = new UpgradeManager();
+	private static final UpgradeManager manager = new UpgradeManager();
 	
 	public static UpgradeManager getInstance(){
 		return manager;
@@ -29,7 +29,7 @@ public class UpgradeManager{
 	
 	private final int	latestUpgrade;
 	
-	private File		backupFolder;
+	private final File		backupFolder;
 	
 	private UpgradeManager(){
 		latestUpgrade = Integer.parseInt(BankPlugin.getInstance().getDescription().getVersion().replaceAll("[^0-9]", ""));

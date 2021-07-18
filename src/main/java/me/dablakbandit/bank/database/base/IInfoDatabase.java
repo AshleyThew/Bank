@@ -2,7 +2,7 @@ package me.dablakbandit.bank.database.base;
 
 import java.io.*;
 import java.net.URL;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.util.*;
 
@@ -16,8 +16,8 @@ import me.dablakbandit.core.players.info.JSONInfo;
 
 public abstract class IInfoDatabase extends SQLListener{
 	
-	protected Set<String>						infoTypeDatabaseSet		= new HashSet();
-	protected Map<Class<?>, IInfoTypeDatabase>	infoTypeDatabasesMap	= new HashMap();
+	protected final Set<String>							infoTypeDatabaseSet		= new HashSet();
+	protected final Map<Class<?>, IInfoTypeDatabase>	infoTypeDatabasesMap	= new HashMap();
 	
 	public abstract <T extends JSONInfo> IInfoTypeDatabase<T> getInfoTypeDatabase(T t);
 	
@@ -81,7 +81,7 @@ public abstract class IInfoDatabase extends SQLListener{
 	
 	public String readStringFromURL(String url) throws Exception{
 		InputStream is = new URL(url).openStream();
-		BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+		BufferedReader rd = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
 		String text = readAll(rd);
 		is.close();
 		return text;

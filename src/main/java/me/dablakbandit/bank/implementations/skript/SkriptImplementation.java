@@ -5,7 +5,7 @@ import me.dablakbandit.bank.implementations.BankImplementation;
 
 public class SkriptImplementation extends BankImplementation{
 	
-	private static SkriptImplementation vaultImplementation = new SkriptImplementation();
+	private static final SkriptImplementation vaultImplementation = new SkriptImplementation();
 	
 	public static SkriptImplementation getInstance(){
 		return vaultImplementation;

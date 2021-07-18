@@ -7,7 +7,7 @@ import me.dablakbandit.bank.implementations.BankImplementation;
 
 public class HeadDBImplementation extends BankImplementation{
 	
-	private static HeadDBImplementation implementation = new HeadDBImplementation();
+	private static final HeadDBImplementation implementation = new HeadDBImplementation();
 	
 	public static HeadDBImplementation getInstance(){
 		return implementation;

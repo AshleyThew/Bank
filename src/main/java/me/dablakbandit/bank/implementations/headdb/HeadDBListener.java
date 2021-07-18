@@ -8,7 +8,7 @@ import me.dablakbandit.bank.config.BankItemConfiguration;
 
 public class HeadDBListener implements Listener{
 	
-	private static HeadDBListener headDBListener = new HeadDBListener();
+	private static final HeadDBListener headDBListener = new HeadDBListener();
 	
 	public static HeadDBListener getInstance(){
 		return headDBListener;

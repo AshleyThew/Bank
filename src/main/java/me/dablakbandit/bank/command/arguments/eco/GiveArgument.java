@@ -26,7 +26,7 @@ public class GiveArgument extends BankEndArgument{
 			base.sendArguments(s, cmd, args, original, arguments.entrySet());
 			return;
 		}
-		double amount = 0.0;
+		double amount;
 		try{
 			amount = Double.parseDouble(args[1]);
 		}catch(Exception e){

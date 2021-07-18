@@ -26,7 +26,7 @@ import net.citizensnpcs.api.trait.TraitInfo;
 
 public class CitizensType extends BankImplementation implements Listener{
 	
-	private static CitizensType citizensType = new CitizensType();
+	private static final CitizensType citizensType = new CitizensType();
 	
 	public static CitizensType getInstance(){
 		return citizensType;

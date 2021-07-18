@@ -10,7 +10,7 @@ import me.dablakbandit.bank.log.BankLog;
 
 public class LoaderThread implements Runnable{
 	
-	private AtomicBoolean		stop	= new AtomicBoolean(false);
+	private final AtomicBoolean		stop	= new AtomicBoolean(false);
 	private volatile boolean	log		= false;
 	
 	public void terminate(){
@@ -21,7 +21,7 @@ public class LoaderThread implements Runnable{
 		log = true;
 	}
 	
-	private List<Runnable> runners = Collections.synchronizedList(new ArrayList<>());
+	private final List<Runnable> runners = Collections.synchronizedList(new ArrayList<>());
 	
 	public boolean finished(){
 		return stop.get() && runners.size() == 0;

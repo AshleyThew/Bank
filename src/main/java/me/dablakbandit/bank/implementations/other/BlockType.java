@@ -23,7 +23,7 @@ import me.dablakbandit.core.utils.location.LocationUtils;
 
 public class BlockType extends BankImplementation implements Listener{
 	
-	private static BlockType citizensType = new BlockType();
+	private static final BlockType citizensType = new BlockType();
 	
 	public static BlockType getInstance(){
 		return citizensType;

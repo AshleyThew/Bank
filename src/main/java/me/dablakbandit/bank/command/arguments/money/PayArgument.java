@@ -39,7 +39,7 @@ public class PayArgument extends BankEndArgument{
 			base.sendFormattedMessage(s, BankLanguageConfiguration.COMMAND_UNKNOWN_PLAYER.get().replaceAll("<player>", args[0]));
 			return;
 		}
-		double amount = 0.0;
+		double amount;
 		try{
 			amount = Double.parseDouble(args[1]);
 		}catch(Exception e){

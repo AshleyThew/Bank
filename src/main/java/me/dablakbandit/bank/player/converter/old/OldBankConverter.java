@@ -15,7 +15,7 @@ import me.dablakbandit.core.database.mysql.MySQLConfiguration;
 
 public class OldBankConverter{
 	
-	private static OldBankConverter instance = new OldBankConverter();
+	private static final OldBankConverter instance = new OldBankConverter();
 	
 	public static OldBankConverter getInstance(){
 		return instance;
@@ -27,14 +27,10 @@ public class OldBankConverter{
 	
 	public boolean convert(String from, SaveType to){
 		BankDatabaseManager.getInstance().load(to);
-		switch(from.toUpperCase()){
-		case "MYSQL":{
+		if ("MYSQL".equals(from.toUpperCase())) {
 			return convertMySQL();
 		}
-		default:{
-			return convertSQLite();
-		}
-		}
+		return convertSQLite();
 	}
 	
 	private boolean convertMySQL(){

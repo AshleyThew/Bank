@@ -191,7 +191,7 @@ public class BankItemPath extends ItemPath{
 	static{
 		try{
 			customExists = NMSUtils.getMethodSilent(ItemMeta.class, "getCustomModelData") != null;
-		}catch(Exception e){
+		}catch(Exception ignored){
 		}
 	}
 	

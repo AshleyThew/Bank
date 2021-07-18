@@ -8,14 +8,14 @@ import me.dablakbandit.core.command.config.annotation.CommandBase;
 
 public class BankCommandConfiguration extends CommandConfiguration{
 	
-	private static BankCommandConfiguration config = new BankCommandConfiguration(BankPlugin.getInstance(), "commands.yml");
+	private static final BankCommandConfiguration config = new BankCommandConfiguration(BankPlugin.getInstance());
 	
 	public static BankCommandConfiguration getInstance(){
 		return config;
 	}
 	
 	@CommandBase
-	public static Command	BANK							= new Command("bank", null);
+	public static final Command	BANK							= new Command("bank", null);
 	
 	public static Command	BANK_ADMIN						= new Command("admin", "bank.admin");
 	public static Command	BANK_ADMIN_RELOAD				= new Command("reload", "bank.admin.reload");
@@ -69,7 +69,7 @@ public class BankCommandConfiguration extends CommandConfiguration{
 	// public static Command BANK_MONEY = new Command("money", "bank.money");
 	// public static Command BANK_MONEY_PAY = new Command("pay", "bank.money.pay", new String[0], new String[]{ "<name> <amount>" });
 	
-	private BankCommandConfiguration(JavaPlugin plugin, String filename){
-		super(plugin, filename);
+	private BankCommandConfiguration(JavaPlugin plugin){
+		super(plugin, "commands.yml");
 	}
 }

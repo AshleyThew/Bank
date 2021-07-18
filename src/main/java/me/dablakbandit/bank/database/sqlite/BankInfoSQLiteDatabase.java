@@ -27,8 +27,8 @@ public class BankInfoSQLiteDatabase extends IInfoDatabase{
 		closeStatements();
 	}
 	
-	private static PlayerLockDatabase	playerLockDatabase	= new PlayerLockDatabase();
-	private static UUIDSQLiteDatabase	uuidsqLiteDatabase	= new UUIDSQLiteDatabase();
+	private static final PlayerLockDatabase	playerLockDatabase	= new PlayerLockDatabase();
+	private static final UUIDSQLiteDatabase	uuidsqLiteDatabase	= new UUIDSQLiteDatabase();
 	
 	@Override
 	public boolean columnExists(Connection connection, String db, String column){
@@ -52,7 +52,7 @@ public class BankInfoSQLiteDatabase extends IInfoDatabase{
 			ResultSet rs = connection.prepareStatement("PRAGMA table_info(`" + table + "`);").executeQuery();
 			exists = rs.next();
 			rs.close();
-		}catch(Exception e){
+		}catch(Exception ignored){
 		}
 		return exists;
 	}
@@ -111,7 +111,7 @@ public class BankInfoSQLiteDatabase extends IInfoDatabase{
 		return exists;
 	}
 	
-	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	@Override
 	public IUUIDDatabase getUUIDDatabase(){

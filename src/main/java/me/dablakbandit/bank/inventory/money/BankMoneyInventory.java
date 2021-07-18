@@ -56,7 +56,7 @@ public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo>{
 			
 			@Override
 			public void onClick(CorePlayers pl, String value){
-				double withdraw = 0;
+				double withdraw;
 				try{
 					withdraw = Double.parseDouble(value);
 				}catch(Exception e){
@@ -95,7 +95,7 @@ public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo>{
 			
 			@Override
 			public void onClick(CorePlayers pl, String value){
-				double deposit = 0;
+				double deposit;
 				try{
 					deposit = Double.parseDouble(value);
 				}catch(Exception e){

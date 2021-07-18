@@ -21,18 +21,18 @@ import me.dablakbandit.core.vault.Eco;
 
 public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInfo{
 	
-	private static IItemUtils				itemUtils		= ItemUtils.getInstance();
+	private static final IItemUtils				itemUtils		= ItemUtils.getInstance();
 	
-	private Map<Integer, List<ItemStack>>	itemMap			= Collections.synchronizedMap(new HashMap<>());
-	private Map<Integer, ItemStack>			tabItemMap		= Collections.synchronizedMap(new HashMap<>());
-	private Map<Integer, String>			tabNameMap		= Collections.synchronizedMap(new HashMap<>());
-	protected Map<Integer, Integer>			boughtSlotsMap	= Collections.synchronizedMap(new HashMap<>());
-	private int								openTab			= 1;
-	private int								scrolled		= 0;
-	private int								boughtTabs;
-	private int								commandSlots, permissionSlots;
+	private final Map<Integer, List<ItemStack>>	itemMap			= Collections.synchronizedMap(new HashMap<>());
+	private final Map<Integer, ItemStack>		tabItemMap		= Collections.synchronizedMap(new HashMap<>());
+	private final Map<Integer, String>			tabNameMap		= Collections.synchronizedMap(new HashMap<>());
+	protected final Map<Integer, Integer>		boughtSlotsMap	= Collections.synchronizedMap(new HashMap<>());
+	private int									openTab			= 1;
+	private int									scrolled		= 0;
+	private int									boughtTabs;
+	private int									commandSlots, permissionSlots;
 	@Exclude
-	private int								buySlots, buyTabs, totalTabCount;
+	private int									buySlots, buyTabs, totalTabCount;
 	
 	public BankItemsInfo(CorePlayers pl){
 		super(pl);

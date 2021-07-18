@@ -10,14 +10,10 @@ import me.dablakbandit.core.players.info.JSONInfo;
 
 public class SaveRunner implements Runnable{
 	
-	private static BankDatabaseManager bankDatabaseManager = BankDatabaseManager.getInstance();
+	private static final BankDatabaseManager	bankDatabaseManager	= BankDatabaseManager.getInstance();
 	
-	public static void init(){
-		
-	}
-	
-	private CorePlayers	pl;
-	private boolean		unlock;
+	private final CorePlayers					pl;
+	private final boolean						unlock;
 	
 	public SaveRunner(CorePlayers pl, boolean unlock){
 		this.pl = pl;

@@ -9,19 +9,18 @@ import me.dablakbandit.core.players.info.JSONInfo;
 
 public class LoaderManager{
 	
-	private static LoaderManager loaderManager = new LoaderManager();
+	private static final LoaderManager loaderManager = new LoaderManager();
 	
 	public static LoaderManager getInstance(){
 		return loaderManager;
 	}
 	
-	private LoaderThread	loaderThread;
-	private Thread			running;
+	private final LoaderThread	loaderThread;
+	private final Thread		running;
 	
 	private LoaderManager(){
 		running = new Thread(loaderThread = new LoaderThread());
 		running.setName("Bank - Loader Thread");
-		SaveRunner.init();
 	}
 	
 	public void start(){

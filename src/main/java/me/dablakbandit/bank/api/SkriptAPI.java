@@ -10,7 +10,7 @@ import ch.njol.skript.lang.ExpressionType;
 
 public class SkriptAPI{
 	
-	private static SkriptAPI api = new SkriptAPI();
+	private static final SkriptAPI api = new SkriptAPI();
 	
 	public static SkriptAPI getInstance(){
 		return api;

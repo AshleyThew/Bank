@@ -13,7 +13,7 @@ public class BankPermissionPath extends PermissionPath{
 	
 	@Override
 	public boolean has(Player player){
-		PermissionPath.Permission permission = (PermissionPath.Permission)this.get();
+		PermissionPath.Permission permission = this.get();
 		return !permission.isCheck() || CorePlayerManager.getInstance().getPlayer(player).getInfo(BankPermissionInfo.class).checkPermission(permission.getPermission(), true);
 	}
 }

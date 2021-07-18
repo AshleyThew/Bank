@@ -20,75 +20,51 @@ import me.dablakbandit.core.players.CorePlayers;
 public abstract class BankInventoryHandler<T>extends InventoryHandler<T>{
 	
 	public void setItem(BankItemPath path, BiFunction<BankItemPath, T, ItemStack> supplier, ItemInfoInventoryEventHandler<T> handler){
-		consumeSlots(path, (slot) -> {
-			setItem(slot, (t) -> supplier.apply(path, t), handler);
-		});
+		consumeSlots(path, (slot) -> setItem(slot, (t) -> supplier.apply(path, t), handler));
 	}
 	
 	public void setItem(BankItemPath path, BiFunction<BankItemPath, T, ItemStack> supplier, ItemInfoInventoryHandler<T> handler){
-		consumeSlots(path, (slot) -> {
-			setItem(slot, (t) -> supplier.apply(path, t), (a, b, c, d) -> handler.onClick(a, b, c));
-		});
+		consumeSlots(path, (slot) -> setItem(slot, (t) -> supplier.apply(path, t), (a, b, c, d) -> handler.onClick(a, b, c)));
 	}
 	
 	public void setItem(BankItemPath path, BiFunction<BankItemPath, T, ItemStack> supplier, ItemInfoHandler<T> handler){
-		consumeSlots(path, (slot) -> {
-			setItem(slot, (t) -> supplier.apply(path, t), (a, b, c, d) -> handler.onClick(a, b));
-		});
+		consumeSlots(path, (slot) -> setItem(slot, (t) -> supplier.apply(path, t), (a, b, c, d) -> handler.onClick(a, b)));
 	}
 	
 	public void setItem(BankItemPath path, BiFunction<BankItemPath, T, ItemStack> supplier, Consumer<CorePlayers> handler){
-		consumeSlots(path, (slot) -> {
-			setItem(slot, (t) -> supplier.apply(path, t), (a, b, c, d) -> handler.accept(a));
-		});
+		consumeSlots(path, (slot) -> setItem(slot, (t) -> supplier.apply(path, t), (a, b, c, d) -> handler.accept(a)));
 	}
 	
 	public void setItem(BankItemPath path, Function<BankItemPath, ItemStack> supplier, ItemInfoInventoryEventHandler<T> handler){
-		consumeSlots(path, (slot) -> {
-			setItem(slot, (t) -> supplier.apply(path), handler);
-		});
+		consumeSlots(path, (slot) -> setItem(slot, (t) -> supplier.apply(path), handler));
 	}
 	
 	public void setItem(BankItemPath path, Function<BankItemPath, ItemStack> supplier, ItemInfoInventoryHandler<T> handler){
-		consumeSlots(path, (slot) -> {
-			setItem(slot, (t) -> supplier.apply(path), (a, b, c, d) -> handler.onClick(a, b, c));
-		});
+		consumeSlots(path, (slot) -> setItem(slot, (t) -> supplier.apply(path), (a, b, c, d) -> handler.onClick(a, b, c)));
 	}
 	
 	public void setItem(BankItemPath path, Function<BankItemPath, ItemStack> supplier, ItemInfoHandler<T> handler){
-		consumeSlots(path, (slot) -> {
-			setItem(slot, (t) -> supplier.apply(path), (a, b, c, d) -> handler.onClick(a, b));
-		});
+		consumeSlots(path, (slot) -> setItem(slot, (t) -> supplier.apply(path), (a, b, c, d) -> handler.onClick(a, b)));
 	}
 	
 	public void setItem(BankItemPath path, Function<BankItemPath, ItemStack> supplier, Consumer<CorePlayers> handler){
-		consumeSlots(path, (slot) -> {
-			setItem(slot, (t) -> supplier.apply(path), (a, b, c, d) -> handler.accept(a));
-		});
+		consumeSlots(path, (slot) -> setItem(slot, (t) -> supplier.apply(path), (a, b, c, d) -> handler.accept(a)));
 	}
 	
 	public void setItem(BankItemPath path, BiFunction<BankItemPath, T, ItemStack> supplier){
-		consumeSlots(path, (slot) -> {
-			setItem(slot, (t) -> supplier.apply(path, t));
-		});
+		consumeSlots(path, (slot) -> setItem(slot, (t) -> supplier.apply(path, t)));
 	}
 	
 	public void setItem(BankItemPath path, ItemInfoInventoryHandler<T> handler){
-		consumeSlots(path, (slot) -> {
-			setItem(slot, path, (a, b, c, d) -> handler.onClick(a, b, c));
-		});
+		consumeSlots(path, (slot) -> setItem(slot, path, (a, b, c, d) -> handler.onClick(a, b, c)));
 	}
 	
 	public void setItem(BankItemPath path, ItemInfoHandler<T> handler){
-		consumeSlots(path, (slot) -> {
-			setItem(slot, path, (a, b, c, d) -> handler.onClick(a, b));
-		});
+		consumeSlots(path, (slot) -> setItem(slot, path, (a, b, c, d) -> handler.onClick(a, b)));
 	}
 	
 	public void setItem(BankItemPath path, Consumer<CorePlayers> handler){
-		consumeSlots(path, (slot) -> {
-			setItem(slot, path, handler);
-		});
+		consumeSlots(path, (slot) -> setItem(slot, path, handler));
 	}
 	
 	public void setItem(BankItemPath path, Runnable handler){

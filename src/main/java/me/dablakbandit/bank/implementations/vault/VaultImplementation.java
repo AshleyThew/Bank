@@ -12,7 +12,7 @@ import net.milkbowl.vault.economy.Economy;
 
 public class VaultImplementation extends BankImplementation{
 	
-	private static VaultImplementation vaultImplementation = new VaultImplementation();
+	private static final VaultImplementation vaultImplementation = new VaultImplementation();
 	
 	public static VaultImplementation getInstance(){
 		return vaultImplementation;
@@ -30,9 +30,7 @@ public class VaultImplementation extends BankImplementation{
 	@Override
 	public void enable(){
 		Bukkit.getServer().getServicesManager().register(Economy.class, Economy_Bank.getInstance(), BankPlugin.getInstance(), ServicePriority.Highest);
-		Bukkit.getScheduler().runTaskLater(BankPlugin.getInstance(), () -> {
-			BankLog.info(BankPluginConfiguration.BANK_LOG_PLUGIN_LEVEL, "Economy handler is " + Bukkit.getServer().getServicesManager().getRegistration(Economy.class).getProvider().getName());
-		}, 1);
+		Bukkit.getScheduler().runTaskLater(BankPlugin.getInstance(), () -> BankLog.info(BankPluginConfiguration.BANK_LOG_PLUGIN_LEVEL, "Economy handler is " + Bukkit.getServer().getServicesManager().getRegistration(Economy.class).getProvider().getName()), 1);
 	}
 	
 	@Override

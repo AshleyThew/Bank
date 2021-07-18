@@ -11,7 +11,7 @@ import me.dablakbandit.core.players.CorePlayerManager;
 
 public class LockType extends BankImplementation{
 	
-	private static LockType citizensType = new LockType();
+	private static final LockType citizensType = new LockType();
 	
 	public static LockType getInstance(){
 		return citizensType;

@@ -6,7 +6,7 @@ import me.dablakbandit.bank.player.converter.old.base.SQLBaseLoader;
 
 public class OldMySQLLoader extends SQLBaseLoader{
 	
-	private static OldMySQLLoader loader = new OldMySQLLoader();
+	private static final OldMySQLLoader loader = new OldMySQLLoader();
 	
 	public static OldMySQLLoader getInstance(){
 		return loader;

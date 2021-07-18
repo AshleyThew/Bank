@@ -38,7 +38,7 @@ public abstract class BankEndArgument extends EndArgument{
 		if(args.length == 0){ return false; }
 		AdvancedArgument argument = arguments.get(args[0]);
 		if(argument == null){ return false; }
-		argument.onCommand(s, cmd, label, (String[])Arrays.copyOfRange(args, 1, args.length), original);
+		argument.onCommand(s, cmd, label, Arrays.copyOfRange(args, 1, args.length), original);
 		return true;
 	}
 	

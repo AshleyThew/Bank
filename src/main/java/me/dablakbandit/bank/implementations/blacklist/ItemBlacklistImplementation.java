@@ -1,6 +1,5 @@
 package me.dablakbandit.bank.implementations.blacklist;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,14 +13,14 @@ import me.dablakbandit.core.utils.json.JSONParser;
 
 public class ItemBlacklistImplementation extends BankImplementation{
 	
-	private static ItemBlacklistImplementation implementation = new ItemBlacklistImplementation();
+	private static final ItemBlacklistImplementation implementation = new ItemBlacklistImplementation();
 	
 	public static ItemBlacklistImplementation getInstance(){
 		return implementation;
 	}
 	
-	private boolean					enabled		= false;
-	private List<BlacklistedItem>	blacklisted	= new ArrayList();
+	private boolean					enabled	= false;
+	private List<BlacklistedItem>	blacklisted;
 	
 	private ItemBlacklistImplementation(){
 		blacklisted = BankItemBlacklistConfiguration.BLACKLIST.get().stream().map(string -> JSONParser.fromJSON(string, BlacklistedItem.class)).collect(Collectors.toList());
@@ -41,9 +40,7 @@ public class ItemBlacklistImplementation extends BankImplementation{
 		if(itemMeta == null || !itemMeta.hasDisplayName()){ return false; }
 		String displayName = itemMeta.getDisplayName();
 		String strippedName = ChatColor.stripColor(displayName);
-		return BankItemBlacklistConfiguration.BLACKLISTED_NAME.get().stream().anyMatch(blacklistedName -> {
-			return strippedName.contains(blacklistedName) || strippedName.matches(blacklistedName);
-		});
+		return BankItemBlacklistConfiguration.BLACKLISTED_NAME.get().stream().anyMatch(blacklistedName -> strippedName.contains(blacklistedName) || strippedName.matches(blacklistedName));
 	}
 	
 	private boolean isLoreBlacklisted(ItemStack itemStack){
@@ -52,9 +49,7 @@ public class ItemBlacklistImplementation extends BankImplementation{
 		List<String> itemMetaLore = itemMeta.getLore();
 		return itemMetaLore.stream().anyMatch(lore -> {
 			String strippedLore = ChatColor.stripColor(lore);
-			return BankItemBlacklistConfiguration.BLACKLISTED_LORE.get().stream().anyMatch(blacklistedLore -> {
-				return strippedLore.contains(blacklistedLore) || strippedLore.matches(blacklistedLore);
-			});
+			return BankItemBlacklistConfiguration.BLACKLISTED_LORE.get().stream().anyMatch(blacklistedLore -> strippedLore.contains(blacklistedLore) || strippedLore.matches(blacklistedLore));
 		});
 	}
 	

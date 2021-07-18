@@ -7,14 +7,10 @@ import me.dablakbandit.core.players.info.JSONInfo;
 
 public class SaveSingleRunner implements Runnable{
 	
-	private static BankDatabaseManager bankDatabaseManager = BankDatabaseManager.getInstance();
+	private static final BankDatabaseManager	bankDatabaseManager	= BankDatabaseManager.getInstance();
 	
-	public static void init(){
-		
-	}
-	
-	private CorePlayers	pl;
-	private JSONInfo	info;
+	private final CorePlayers					pl;
+	private final JSONInfo						info;
 	
 	public SaveSingleRunner(CorePlayers pl, JSONInfo info){
 		this.pl = pl;

@@ -17,13 +17,13 @@ import me.dablakbandit.core.players.CorePlayers;
 @SuppressWarnings("deprecation")
 public class PlaceholderAPIImplementation extends BankImplementation{
 	
-	private static PlaceholderAPIImplementation manager = new PlaceholderAPIImplementation();
+	private static final PlaceholderAPIImplementation manager = new PlaceholderAPIImplementation();
 	
 	public static PlaceholderAPIImplementation getInstance(){
 		return manager;
 	}
 	
-	private BankPlaceHolderExpansion expansion = new BankPlaceHolderExpansion();
+	private final BankPlaceHolderExpansion expansion = new BankPlaceHolderExpansion();
 	
 	private PlaceholderAPIImplementation(){
 	}

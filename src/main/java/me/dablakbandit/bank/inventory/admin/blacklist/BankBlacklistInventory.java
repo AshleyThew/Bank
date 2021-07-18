@@ -14,7 +14,7 @@ import me.dablakbandit.core.players.CorePlayers;
 
 public class BankBlacklistInventory extends BankInventoryHandler<CorePlayers>{
 	
-	private ItemBlacklistImplementation	implementation	= ItemBlacklistImplementation.getInstance();
+	private final ItemBlacklistImplementation	implementation	= ItemBlacklistImplementation.getInstance();
 	private int							scrolled;
 	
 	@Override

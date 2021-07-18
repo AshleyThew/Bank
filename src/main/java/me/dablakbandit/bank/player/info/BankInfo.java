@@ -14,7 +14,7 @@ public class BankInfo extends CorePlayersInfo{
 	private BankPermissionInfo	permissionInfo;
 	private BankLoansInfo		loansInfo;
 	
-	private long				joined	= System.currentTimeMillis();
+	private final long				joined	= System.currentTimeMillis();
 	
 	public BankInfo(CorePlayers pl){
 		super(pl);
@@ -52,6 +52,10 @@ public class BankInfo extends CorePlayersInfo{
 	
 	public BankLoansInfo getLoansInfo(){
 		return loansInfo;
+	}
+	
+	public BankPermissionInfo getPermissionInfo(){
+		return permissionInfo;
 	}
 	
 	public boolean isLocked(boolean check){

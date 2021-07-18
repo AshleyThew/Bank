@@ -30,9 +30,7 @@ public class SaveArgument extends BankEndArgument{
 		if(opened != null){
 			LoaderManager.getInstance().runAsync(() -> {
 				new SaveRunner(opened, false).run();
-				Bukkit.getScheduler().runTask(BankPlugin.getInstance(), () -> {
-					base.sendFormattedMessage(s, BankLanguageConfiguration.BANK_ADMIN_SAVED.get());
-				});
+				Bukkit.getScheduler().runTask(BankPlugin.getInstance(), () -> base.sendFormattedMessage(s, BankLanguageConfiguration.BANK_ADMIN_SAVED.get()));
 			});
 			adminInfo.setOpened(null);
 		}

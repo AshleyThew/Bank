@@ -10,8 +10,8 @@ public enum Converters{
 	//@formatter:on
 	;
 	
-	private Converter	converter;
-	private BooleanPath	path;
+	private final Converter	converter;
+	private final BooleanPath	path;
 	
 	Converters(Converter converter, BooleanPath path){
 		this.converter = converter;

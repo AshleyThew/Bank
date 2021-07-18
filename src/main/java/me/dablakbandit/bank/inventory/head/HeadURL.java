@@ -18,7 +18,7 @@ import me.dablakbandit.core.utils.NMSUtils;
  */
 public class HeadURL{
 	
-	private static HeadURL heads = new HeadURL();
+	private static final HeadURL heads = new HeadURL();
 	
 	/**
 	 * Get instance head url.
@@ -40,7 +40,7 @@ public class HeadURL{
 		}
 	}
 	
-	private static Field profile = NMSUtils.getFirstFieldOfType(NMSUtils.getOBCClass("inventory.CraftMetaSkull"), GameProfile.class);
+	private static final Field profile = NMSUtils.getFirstFieldOfType(NMSUtils.getOBCClass("inventory.CraftMetaSkull"), GameProfile.class);
 	
 	public ItemStack getHead(String url){
 		ItemStack is = clone.clone();

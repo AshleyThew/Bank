@@ -29,7 +29,7 @@ import me.dablakbandit.core.updater.PluginUpdater;
  */
 public class BankCoreHandler extends CoreHandler implements Listener{
 	
-	private static BankCoreHandler main = new BankCoreHandler();
+	private static final BankCoreHandler main = new BankCoreHandler();
 	
 	/**
 	 * Get bank core handler instance.
@@ -41,7 +41,7 @@ public class BankCoreHandler extends CoreHandler implements Listener{
 	}
 	
 	private BankPlugin		plugin;
-	private UpgradeManager	upgradeManager	= UpgradeManager.getInstance();
+	private final UpgradeManager	upgradeManager	= UpgradeManager.getInstance();
 	private boolean			upgraded		= false;
 	private boolean			firstInstall	= false;
 	

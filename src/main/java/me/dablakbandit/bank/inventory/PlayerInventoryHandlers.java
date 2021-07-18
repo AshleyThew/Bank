@@ -16,7 +16,7 @@ public enum PlayerInventoryHandlers implements Supplier<PlayerInventoryHandler>{
 	;
 	//@formatter:on
 	
-	private PlayerInventoryHandler inventoryHandler;
+	private final PlayerInventoryHandler inventoryHandler;
 	
 	PlayerInventoryHandlers(PlayerInventoryHandler handler){
 		this.inventoryHandler = handler;

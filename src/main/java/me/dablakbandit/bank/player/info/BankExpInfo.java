@@ -40,7 +40,8 @@ public class BankExpInfo extends IBankInfo implements JSONInfo{
 	
 	@Override
 	public void jsonFinal(){
-		if(pl.getPlayer() == null){ return; }
+		if(pl.getPlayer() == null){
+		}
 		
 	}
 	

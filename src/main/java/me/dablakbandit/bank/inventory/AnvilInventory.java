@@ -22,10 +22,10 @@ import me.dablakbandit.core.utils.anvil.AnvilUtil;
 
 public abstract class AnvilInventory extends OpenInventory{
 	
-	private String	input;
-	private boolean	returned	= false, entered = false;
-	private int		exp;
-	private String	ret;
+	private final String	input;
+	private boolean			returned	= false, entered = false;
+	private int				exp;
+	private String			ret;
 	
 	public AnvilInventory(String input){
 		this.input = input;
@@ -102,7 +102,6 @@ public abstract class AnvilInventory extends OpenInventory{
 				entered = true;
 				ret = name;
 				Bukkit.getScheduler().scheduleSyncDelayedTask(BankPlugin.getInstance(), player::closeInventory);
-				return;
 			}
 			}
 		}

@@ -19,8 +19,8 @@ import me.dablakbandit.core.players.CorePlayers;
 
 public abstract class BankPinInventory extends BankInventoryHandler<BankInfo>{
 	
-	protected static int[]			pins;
-	protected static List<Integer>	pin_nums	= Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+	protected static int[]					pins;
+	protected static final List<Integer>	pin_nums	= Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
 	
 	@Override
 	public void init(){
@@ -41,9 +41,7 @@ public abstract class BankPinInventory extends BankInventoryHandler<BankInfo>{
 			ints.add(start + i * 9 + 2);
 		}
 		pins = ints.stream().mapToInt(Integer::intValue).toArray();
-		Arrays.stream(pins).forEach(pin -> {
-			setItem(pin, BankItemConfiguration.BANK_ITEM_BLANK, this::onClick);
-		});
+		Arrays.stream(pins).forEach(pin -> setItem(pin, BankItemConfiguration.BANK_ITEM_BLANK, this::onClick));
 		setItem(BankItemConfiguration.BANK_PIN_CLEAR, this::clear);
 		setItem(BankItemConfiguration.BANK_PIN_ZERO, this::getZero, this::onClick);
 		

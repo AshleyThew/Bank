@@ -13,10 +13,10 @@ import me.dablakbandit.core.utils.json.strategy.Exclude;
 
 public class BlacklistedItem implements JSONInit{
 	
-	private static IItemUtils	itemUtils	= ItemUtils.getInstance();
+	private static final IItemUtils	itemUtils	= ItemUtils.getInstance();
 	
 	private boolean				matchData, matchNBT;
-	private ItemStack			itemStack;
+	private final ItemStack			itemStack;
 	
 	@Exclude
 	private JsonObject			nbt;

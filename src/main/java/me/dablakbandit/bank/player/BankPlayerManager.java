@@ -16,7 +16,7 @@ import me.dablakbandit.core.players.listener.CorePlayersListener;
 
 public class BankPlayerManager extends CorePlayersListener implements Listener{
 	
-	private static BankPlayerManager playerManager = new BankPlayerManager();
+	private static final BankPlayerManager playerManager = new BankPlayerManager();
 	
 	public static BankPlayerManager getInstance(){
 		return playerManager;
@@ -31,9 +31,7 @@ public class BankPlayerManager extends CorePlayersListener implements Listener{
 	}
 	
 	public void disable(){
-		CorePlayerManager.getInstance().getPlayers().values().forEach(pl -> {
-			LoaderManager.getInstance().save(pl, true);
-		});
+		CorePlayerManager.getInstance().getPlayers().values().forEach(pl -> LoaderManager.getInstance().save(pl, true));
 	}
 	
 	@Override

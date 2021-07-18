@@ -20,9 +20,9 @@ import me.dablakbandit.core.players.info.JSONInfo;
 
 public class LoadRunner implements Runnable{
 	
-	private static BankDatabaseManager	bankDatabaseManager	= BankDatabaseManager.getInstance();
+	private static final BankDatabaseManager	bankDatabaseManager	= BankDatabaseManager.getInstance();
 	
-	private CorePlayers					pl;
+	private final CorePlayers					pl;
 	private boolean						force, lock = true, log = true;
 	private Runnable					runnable;
 	

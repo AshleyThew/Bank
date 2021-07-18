@@ -31,7 +31,7 @@ public class DepositArgument extends BankEndArgument{
 			bankInfo.getPinInfo().checkPass(() -> {
 				try{
 					deposit(bankInfo, Double.parseDouble(args[0]));
-				}catch(Exception e){
+				}catch(Exception ignored){
 				}
 			});
 		}catch(Exception e){

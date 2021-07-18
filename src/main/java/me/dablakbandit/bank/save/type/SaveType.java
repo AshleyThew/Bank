@@ -10,7 +10,7 @@ public enum SaveType{
 	SQLITE(BankInfoSQLiteDatabase::new);
 	//@formatter:on
 	
-	private Supplier<IInfoDatabase> infoDatabase;
+	private final Supplier<IInfoDatabase> infoDatabase;
 	
 	SaveType(Supplier<IInfoDatabase> infoDatabase){
 		this.infoDatabase = infoDatabase;

@@ -9,9 +9,9 @@ import me.dablakbandit.core.players.info.JSONInfo;
 
 public abstract class IInfoTypeDatabase<T extends JSONInfo>extends SQLListener{
 	
-	protected IInfoDatabase	infoDatabase;
-	protected Class<T>		typeClass;
-	protected String		database;
+	protected final IInfoDatabase	infoDatabase;
+	protected final Class<T>		typeClass;
+	protected final String			database;
 	
 	public IInfoTypeDatabase(IInfoDatabase infoDatabase, Class<T> typeClass, String database){
 		this.infoDatabase = infoDatabase;

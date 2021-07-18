@@ -13,7 +13,7 @@ import me.dablakbandit.core.players.CorePlayers;
 
 public class BankBlacklistPlayerHandler extends PlayerInventoryHandler{
 	
-	private ItemBlacklistImplementation implementation = ItemBlacklistImplementation.getInstance();
+	private final ItemBlacklistImplementation implementation = ItemBlacklistImplementation.getInstance();
 	
 	@Override
 	public void parseClick(CorePlayers pl, Inventory clicked, Inventory top, InventoryClickEvent event){

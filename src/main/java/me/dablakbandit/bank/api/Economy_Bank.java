@@ -10,7 +10,7 @@ import net.milkbowl.vault.economy.EconomyResponse;
 
 public class Economy_Bank extends AbstractEconomy{
 	
-	private static Economy_Bank economy = new Economy_Bank(BankPlugin.getInstance());
+	private static final Economy_Bank economy = new Economy_Bank(BankPlugin.getInstance());
 	
 	public static Economy_Bank getInstance(){
 		return economy;

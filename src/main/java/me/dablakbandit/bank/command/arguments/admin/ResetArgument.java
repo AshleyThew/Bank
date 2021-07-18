@@ -25,7 +25,7 @@ public class ResetArgument extends BankEndArgument{
 		super(command);
 	}
 	
-	private List<String> confirmationList = new ArrayList();
+	private final List<String> confirmationList = new ArrayList();
 	
 	@Override
 	protected void onArgument(CommandSender s, Command cmd, String label, String[] args, String[] original){

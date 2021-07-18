@@ -1,7 +1,5 @@
 package me.dablakbandit.bank.command.arguments.admin.add;
 
-import java.util.Set;
-
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -23,7 +21,7 @@ public class BlockArgument extends BankEndArgument{
 	protected void onArgument(CommandSender s, Command cmd, String label, String[] args, String[] original){
 		if(!checkPlayer(s)){ return; }
 		Player player = (Player)s;
-		Block looking = player.getTargetBlock((Set<Material>)null, 5);
+		Block looking = player.getTargetBlock(null, 5);
 		if(looking != null && looking.getType() != Material.AIR){
 			BlockType.getInstance().addBlock(looking.getLocation());
 			base.sendFormattedMessage(s, BankLanguageConfiguration.BANK_ADMIN_BLOCK_SET.get().replaceAll("<block>", looking.getType().name()));

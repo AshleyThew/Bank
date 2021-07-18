@@ -22,7 +22,7 @@ import me.dablakbandit.core.players.CorePlayers;
 
 public class SignType extends BankImplementation implements Listener{
 	
-	private static SignType citizensType = new SignType();
+	private static final SignType citizensType = new SignType();
 	
 	public static SignType getInstance(){
 		return citizensType;

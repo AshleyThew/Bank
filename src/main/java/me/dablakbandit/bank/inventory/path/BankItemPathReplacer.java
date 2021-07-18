@@ -14,7 +14,7 @@ import me.dablakbandit.bank.utils.format.Format;
 
 public class BankItemPathReplacer<T>{
 	
-	private List<PathReplacer<T>> replacers = new ArrayList();
+	private final List<PathReplacer<T>> replacers = new ArrayList();
 	
 	public void add(PathReplacer replacer){
 		replacers.add(replacer);
@@ -24,14 +24,14 @@ public class BankItemPathReplacer<T>{
 		add(new PathReplacer<T>(from, (t) -> Format.formatMoney(function.apply(t))));
 	}
 	
-	protected static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm:ss");
+	protected static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm:ss");
 	
 	public void addDate(String from, Function<T, Long> function){
 		add(new PathReplacer<T>(from, (t) -> sdf.format(new Date(function.apply(t)))));
 	}
 	
 	public void add(String from, Function<T, String> function){
-		add(new PathReplacer<T>(from, (t) -> function.apply(t)));
+		add(new PathReplacer<T>(from, function));
 	}
 	
 	public ItemStack apply(BankItemPath path, T t){
@@ -61,8 +61,8 @@ public class BankItemPathReplacer<T>{
 	
 	public static class PathReplacer<T>{
 		
-		private String				from;
-		private Function<T, String>	function;
+		private final String				from;
+		private final Function<T, String>	function;
 		
 		public PathReplacer(String from, Function<T, String> function){
 			this.from = from;

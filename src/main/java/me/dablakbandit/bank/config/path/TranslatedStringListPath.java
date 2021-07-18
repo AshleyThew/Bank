@@ -21,7 +21,7 @@ public class TranslatedStringListPath extends ListPath<String>{
 	}
 	
 	protected List<String> get(RawConfiguration config, String path){
-		return new ArrayList<>(config.getStringList(path).stream().map(s -> ChatColor.translateAlternateColorCodes('&', s)).collect(Collectors.toList()));
+		return config.getStringList(path).stream().map(s -> ChatColor.translateAlternateColorCodes('&', s)).collect(Collectors.toList());
 	}
 	
 	protected Object setAs(List<String> list){

@@ -9,7 +9,7 @@ import me.dablakbandit.core.players.CorePlayerManager;
 
 public class AutoSaveManager{
 	
-	private static AutoSaveManager instance = new AutoSaveManager();
+	private static final AutoSaveManager instance = new AutoSaveManager();
 	
 	public static AutoSaveManager getInstance(){
 		return instance;
@@ -28,9 +28,7 @@ public class AutoSaveManager{
 	}
 	
 	private void saveAll(){
-		CorePlayerManager.getInstance().getPlayers().values().forEach(pl -> {
-			LoaderManager.getInstance().save(pl, false);
-		});
+		CorePlayerManager.getInstance().getPlayers().values().forEach(pl -> LoaderManager.getInstance().save(pl, false));
 	}
 	
 	public void disable(){

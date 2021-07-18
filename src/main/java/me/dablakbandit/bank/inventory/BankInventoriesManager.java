@@ -13,14 +13,14 @@ import me.dablakbandit.core.players.CorePlayers;
 
 public class BankInventoriesManager{
 	
-	private static BankInventoriesManager inventoryHandler = new BankInventoriesManager();
+	private static final BankInventoriesManager inventoryHandler = new BankInventoriesManager();
 	
 	public static BankInventoriesManager getInstance(){
 		return inventoryHandler;
 	}
 	
 	private InventoryHandlers						handlers;
-	private Map<BankInventories, InventoryHandler>	handlerMap	= new EnumMap<>(BankInventories.class);
+	private final Map<BankInventories, InventoryHandler>	handlerMap	= new EnumMap<>(BankInventories.class);
 	
 	private BankInventoriesManager(){
 		

@@ -12,7 +12,7 @@ import me.dablakbandit.core.players.CorePlayers;
 
 public class MVDWPlaceholderImplementation extends BankImplementation{
 	
-	private static MVDWPlaceholderImplementation manager = new MVDWPlaceholderImplementation();
+	private static final MVDWPlaceholderImplementation manager = new MVDWPlaceholderImplementation();
 	
 	public static MVDWPlaceholderImplementation getInstance(){
 		return manager;

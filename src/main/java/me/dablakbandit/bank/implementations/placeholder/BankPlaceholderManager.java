@@ -13,14 +13,14 @@ import me.dablakbandit.core.players.info.CorePlayersInfo;
 
 public class BankPlaceholderManager{
 	
-	private static BankPlaceholderManager manager = new BankPlaceholderManager();
+	private static final BankPlaceholderManager manager = new BankPlaceholderManager();
 	
 	public static BankPlaceholderManager getInstance(){
 		return manager;
 	}
 	
-	private Map<String, Placeholder>	placeholderMap		= new HashMap<>();
-	private Map<String, Placeholder>	shortPlaceholderMap	= new HashMap<>();
+	private final Map<String, Placeholder>	placeholderMap		= new HashMap<>();
+	private final Map<String, Placeholder>	shortPlaceholderMap	= new HashMap<>();
 	
 	private BankPlaceholderManager(){
 		init();
@@ -65,8 +65,8 @@ public class BankPlaceholderManager{
 	
 	public static class Placeholder{
 		
-		private String							placeholder;
-		private Function<CorePlayers, String>	replaced;
+		private final String							placeholder;
+		private final Function<CorePlayers, String>	replaced;
 		
 		public Placeholder(String placeholder, Function<CorePlayers, String> replaced){
 			this.placeholder = placeholder;

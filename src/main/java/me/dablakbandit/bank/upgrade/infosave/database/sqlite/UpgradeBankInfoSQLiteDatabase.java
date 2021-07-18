@@ -16,7 +16,7 @@ import me.dablakbandit.core.utils.json.JSONParser;
 
 public class UpgradeBankInfoSQLiteDatabase extends IUpgradeInfoDatabase{
 	
-	private static UpgradeBankInfoSQLiteDatabase database = new UpgradeBankInfoSQLiteDatabase();
+	private static final UpgradeBankInfoSQLiteDatabase database = new UpgradeBankInfoSQLiteDatabase();
 	
 	public static UpgradeBankInfoSQLiteDatabase getInstance(){
 		return database;
@@ -29,9 +29,9 @@ public class UpgradeBankInfoSQLiteDatabase extends IUpgradeInfoDatabase{
 	private static PreparedStatement					getPlayerInfo;
 	private static PreparedStatement					getDistinctUUIDS;
 	
-	private static PlayerLockDatabase					playerLockDatabase	= new PlayerLockDatabase();
-	private static UpgradeBankInfoTypeSQLiteDatabase	cache				= new UpgradeBankInfoTypeSQLiteDatabase();
-	private static UUIDSQLiteDatabase					uuidsqLiteDatabase	= new UUIDSQLiteDatabase();
+	private static final PlayerLockDatabase					playerLockDatabase	= new PlayerLockDatabase();
+	private static final UpgradeBankInfoTypeSQLiteDatabase	cache				= new UpgradeBankInfoTypeSQLiteDatabase();
+	private static final UUIDSQLiteDatabase					uuidsqLiteDatabase	= new UUIDSQLiteDatabase();
 	
 	@Override
 	public void setup(Connection con){
@@ -52,7 +52,8 @@ public class UpgradeBankInfoSQLiteDatabase extends IUpgradeInfoDatabase{
 				getPlayerInfo.setString(1, pl.getUUIDString());
 				getPlayerInfo.setInt(2, info_id);
 				ResultSet rs = getPlayerInfo.executeQuery();
-				if(has = rs.next()){
+				has = rs.next();
+				if(has){
 					JSONParser.loadAndCopy(t, rs.getString("value"));
 				}
 				rs.close();

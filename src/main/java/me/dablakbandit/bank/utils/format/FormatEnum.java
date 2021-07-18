@@ -52,8 +52,8 @@ public enum FormatEnum{
     //@formatter:on
 	;
 	
-	private TranslatedStringPath	namePath;
-	private double					amount;
+	private final TranslatedStringPath	namePath;
+	private final double					amount;
 	
 	FormatEnum(TranslatedStringPath namePath){
 		this.namePath = namePath;
@@ -65,7 +65,7 @@ public enum FormatEnum{
 		amount = Double.parseDouble(base.toString());
 	}
 	
-	private static List<FormatEnum> reversed = Arrays.asList(values());
+	private static final List<FormatEnum> reversed = Arrays.asList(values());
 	
 	static{
 		Collections.reverse(reversed);

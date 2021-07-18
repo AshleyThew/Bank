@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class BankImplementationManager{
 	
-	private static BankImplementationManager typeManager = new BankImplementationManager();
+	private static final BankImplementationManager typeManager = new BankImplementationManager();
 	
 	public static BankImplementationManager getInstance(){
 		return typeManager;

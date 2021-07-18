@@ -2,9 +2,9 @@ package me.dablakbandit.bank.player.permission;
 
 public class PermissionCheck{
 	
-	private String	name;
-	private String	permission;
-	private boolean	has;
+	private final String	name;
+	private final String	permission;
+	private final boolean	has;
 	
 	public PermissionCheck(String name, String permission, boolean has){
 		this.name = name;

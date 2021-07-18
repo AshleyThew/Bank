@@ -12,14 +12,14 @@ import me.dablakbandit.core.database.mysql.MySQLConfiguration;
 
 public class BankDatabaseManager{
 	
-	private static BankDatabaseManager databaseManager = new BankDatabaseManager();
+	private static final BankDatabaseManager databaseManager = new BankDatabaseManager();
 	
 	public static BankDatabaseManager getInstance(){
 		return databaseManager;
 	}
 	
 	private BankDatabase		bankDatabase;
-	private MySQLConfiguration	mysqlConfiguration;
+	private final MySQLConfiguration	mysqlConfiguration;
 	
 	private BankDatabaseManager(){
 		mysqlConfiguration = new MySQLConfiguration(new Configuration(BankPlugin.getInstance(), "mysql.yml"));
