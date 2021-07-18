@@ -36,24 +36,24 @@ public class BankCommand extends ConfigurationCommand{
 	}
 	
 	protected void sendTitle(CommandSender s, String base, String args){
-		s.sendMessage(BankLanguageConfiguration.COMMAND_TITLE_FORMAT.get().replace("<base>", WordUtils.capitalize(base)).replace("<args>", WordUtils.capitalize(args)));
+		BankLanguageConfiguration.sendMessage(s, BankLanguageConfiguration.COMMAND_TITLE_FORMAT.get().replace("<base>", WordUtils.capitalize(base)).replace("<args>", WordUtils.capitalize(args)));
 	}
 	
 	protected void sendArgument(CommandSender s, String base, String args, String additional){
-		s.sendMessage(BankLanguageConfiguration.COMMAND_COMMANDS_FORMAT.get().replace("<base>", base).replaceAll("<args>", args + " " + additional));
+		BankLanguageConfiguration.sendMessage(s, BankLanguageConfiguration.COMMAND_COMMANDS_FORMAT.get().replace("<base>", base).replaceAll("<args>", args + " " + additional));
 	}
 	
 	public void sendFormattedMessage(CommandSender s, String message){
-		s.sendMessage(BankLanguageConfiguration.COMMAND_MESSAGE_FORMAT.get().replace("<message>", message));
+		BankLanguageConfiguration.sendMessage(s, BankLanguageConfiguration.COMMAND_MESSAGE_FORMAT.get().replace("<message>", message));
 	}
 	
 	public void sendUnknownCommand(CommandSender s, Command cmd, String label, String[] args){
 		String a = String.join(" ", args);
-		s.sendMessage(BankLanguageConfiguration.COMMAND_UNKNOWN_FORMAT.get().replace("<base>", cmd.getLabel()).replace("<args>", a));
+		BankLanguageConfiguration.sendMessage(s, BankLanguageConfiguration.COMMAND_UNKNOWN_FORMAT.get().replace("<base>", cmd.getLabel()).replace("<args>", a));
 	}
 	
 	public void sendPermission(CommandSender s, Command cmd, String label, String[] args){
-		s.sendMessage(BankLanguageConfiguration.COMMAND_NO_PERMISSION.get());
+		BankLanguageConfiguration.sendMessage(s, BankLanguageConfiguration.COMMAND_NO_PERMISSION.get());
 	}
 	
 	@Override

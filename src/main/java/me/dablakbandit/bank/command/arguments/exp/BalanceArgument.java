@@ -31,7 +31,7 @@ public class BalanceArgument extends BankEndArgument{
 	}
 	
 	private void balance(BankInfo bankInfo){
-		BankLanguageConfiguration.sendMessage(bankInfo.getPlayers(), BankLanguageConfiguration.MESSAGE_EXP_BALANCE.get().replaceAll("<exp>", Format.formatExp(bankInfo.getExpInfo().getExp())));
+		BankLanguageConfiguration.sendFormattedMessage(bankInfo.getPlayers(), BankLanguageConfiguration.MESSAGE_EXP_BALANCE.get().replaceAll("<exp>", Format.formatExp(bankInfo.getExpInfo().getExp())));
 	}
 	
 }

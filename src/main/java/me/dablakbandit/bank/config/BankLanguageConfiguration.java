@@ -154,12 +154,18 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	public static TranslatedStringPath		FORMAT_QUADRAGINTILLION			= new TranslatedStringPath("Quadragintillion");
 	
 	public static void sendMessage(CommandSender sender, String message){
-		sender.sendMessage(MESSAGE_FORMAT.get().replace("<message>", message));
+		for(String splitMessage : message.split("\n")){
+			sender.sendMessage(splitMessage);
+		}
 	}
 	
-	public static void sendMessage(CorePlayers pl, String message){
+	public static void sendFormattedMessage(CommandSender sender, String message){
+		sendMessage(sender, MESSAGE_FORMAT.get().replace("<message>", message));
+	}
+	
+	public static void sendFormattedMessage(CorePlayers pl, String message){
 		if(pl.getPlayer() != null){
-			pl.getPlayer().sendMessage(MESSAGE_FORMAT.get().replace("<message>", message));
+			sendMessage(pl.getPlayer(), MESSAGE_FORMAT.get().replace("<message>", message));
 		}
 	}
 	

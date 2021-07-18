@@ -64,7 +64,7 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo{
 		withdraw = Math.max(0, withdraw);
 		boolean complete = withdrawMoney(pl.getPlayer().getName(), withdraw);
 		if(complete){
-			BankLanguageConfiguration.sendMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_WITHDRAW.get().replaceAll("<money>", Format.formatMoney(withdraw)));
+			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_WITHDRAW.get().replaceAll("<money>", Format.formatMoney(withdraw)));
 		}else{
 			// player.sendMessage(LanguageConfiguration.MESSAGE_NOT_ENOUGH_MONEY_IN_BANK.getMessage());
 		}
@@ -103,14 +103,14 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo{
 		
 		if(amount == 0.0 || depositMoney(pl.getPlayer().getName(), amount, tax)){
 			if(amount != 0.0){
-				BankLanguageConfiguration.sendMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_DEPOSIT.get().replaceAll("<money>", Format.formatMoney(amount)).replaceAll("<tax>", Format.formatMoney(tax)));
+				BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_DEPOSIT.get().replaceAll("<money>", Format.formatMoney(amount)).replaceAll("<tax>", Format.formatMoney(tax)));
 				// player.sendMessage(LanguageConfiguration.MESSAGE_MONEY_DEPOSIT.getMessage().replace("<a>", Format.formatMoney(d)));
 			}
 			if(taxCalculator.isFull()){
 				// player.sendMessage(LanguageConfiguration.MESSAGE_MONEY_IS_FULL.getMessage());
 			}
 		}else{
-			BankLanguageConfiguration.sendMessage(pl.getPlayer(), ChatColor.AQUA + "[Bank] " + ChatColor.RED + "There was a problem depositing all your money, please contact an administrator");
+			BankLanguageConfiguration.sendFormattedMessage(pl.getPlayer(), ChatColor.AQUA + "[Bank] " + ChatColor.RED + "There was a problem depositing all your money, please contact an administrator");
 		}
 	}
 	

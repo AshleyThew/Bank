@@ -79,7 +79,7 @@ public class LoadRunner implements Runnable{
 			bankDatabaseManager.getPlayerLockDatabase().setLocked(pl, true);
 		}
 		if(force){
-			BankLanguageConfiguration.sendMessage(pl, BankLanguageConfiguration.MESSAGE_BANK_UNLOCKED.get());
+			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_BANK_UNLOCKED.get());
 		}
 		BankPlayersLoadedEvent event = new BankPlayersLoadedEvent(pl, pl.getPlayer());
 		Bukkit.getPluginManager().callEvent(event);

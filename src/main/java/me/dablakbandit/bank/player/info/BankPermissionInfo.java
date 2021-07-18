@@ -32,7 +32,7 @@ public class BankPermissionInfo extends IBankInfo{
 		boolean check = player.hasPermission(permission);
 		cache.add(System.currentTimeMillis(), new PermissionCheck(player.getName(), permission, check));
 		if(print && !check && BankPermissionConfiguration.PERMISSION_SEND_MESSAGE.get()){
-			BankLanguageConfiguration.sendMessage(pl, BankLanguageConfiguration.MESSAGE_PERMISSION_REQUIREMENT.get().replaceAll("<permission>", permission));
+			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_PERMISSION_REQUIREMENT.get().replaceAll("<permission>", permission));
 		}
 		return check;
 	}

@@ -35,8 +35,8 @@ public class ResetArgument extends BankEndArgument{
 		}
 		if(!confirmationList.remove(args[0])){
 			confirmationList.add(args[0]);
-			s.sendMessage(ChatColor.RED + "This will reset all of " + args[0] + "'s bank data.");
-			s.sendMessage(ChatColor.GREEN + "Please run the command again to confirm.");
+			BankLanguageConfiguration.sendFormattedMessage(s, ChatColor.RED + "This will reset all of " + args[0] + "'s bank data.");
+			BankLanguageConfiguration.sendFormattedMessage(s, ChatColor.GREEN + "Please run the command again to confirm.");
 			return;
 		}
 		
@@ -52,7 +52,7 @@ public class ResetArgument extends BankEndArgument{
 		}
 		BankPlayerManager.getInstance().addCorePlayers(pl);
 		LoaderManager.getInstance().save(pl, false);
-		s.sendMessage(ChatColor.GREEN + args[0] + "'s bank data reset.");
+		BankLanguageConfiguration.sendMessage(s, ChatColor.GREEN + args[0] + "'s bank data reset.");
 	}
 	
 	@Override

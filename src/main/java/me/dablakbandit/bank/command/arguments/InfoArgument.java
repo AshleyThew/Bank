@@ -22,11 +22,12 @@ public class InfoArgument extends BankEndArgument{
 		if(!checkPlayer(s)){ return; }
 		
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer((Player)s);
-		s.sendMessage(BankLanguageConfiguration.MESSAGE_INFO_BORDER.get());
+		BankLanguageConfiguration.sendMessage(s, BankLanguageConfiguration.MESSAGE_INFO_BORDER.get());
+		BankLanguageConfiguration.sendMessage(s, BankLanguageConfiguration.MESSAGE_INFO_BORDER.get());
 		for(String info : BankLanguageConfiguration.MESSAGE_INFO_VIEW.get()){
-			s.sendMessage(BankPlaceholderManager.getInstance().replace(pl, info));
+			BankLanguageConfiguration.sendMessage(s, BankPlaceholderManager.getInstance().replace(pl, info));
 		}
-		s.sendMessage(BankLanguageConfiguration.MESSAGE_INFO_BORDER.get());
+		BankLanguageConfiguration.sendMessage(s, BankLanguageConfiguration.MESSAGE_INFO_BORDER.get());
 	}
 	
 	@Override

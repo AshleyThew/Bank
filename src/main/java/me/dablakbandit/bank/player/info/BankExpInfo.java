@@ -60,7 +60,7 @@ public class BankExpInfo extends IBankInfo implements JSONInfo{
 		if(withdrawExp(withdraw)){
 			int total = EXPUtils.getTotalExperience(pl.getPlayer());
 			EXPUtils.setTotalExperience(pl.getPlayer(), (int)Math.min(Integer.MAX_VALUE, total + withdraw));
-			BankLanguageConfiguration.sendMessage(pl, BankLanguageConfiguration.MESSAGE_EXP_WITHDRAW.get().replaceAll("<exp>", Format.formatExp(withdraw)));
+			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_EXP_WITHDRAW.get().replaceAll("<exp>", Format.formatExp(withdraw)));
 		}
 	}
 	
@@ -99,7 +99,7 @@ public class BankExpInfo extends IBankInfo implements JSONInfo{
 		depositExp(deposit);
 		EXPUtils.setTotalExperience(pl.getPlayer(), (int)Math.min(Integer.MAX_VALUE, total - deposit));
 		if(deposit != 0){
-			BankLanguageConfiguration.sendMessage(pl, BankLanguageConfiguration.MESSAGE_EXP_DEPOSIT.get().replaceAll("<exp>", Format.formatExp(deposit)).replaceAll("<tax>", Format.formatExp(tax)));
+			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_EXP_DEPOSIT.get().replaceAll("<exp>", Format.formatExp(deposit)).replaceAll("<tax>", Format.formatExp(tax)));
 		}
 		if(taxCalculator.isFull()){
 			// player.sendMessage(LanguageConfiguration.MESSAGE_EXP_IS_FULL.getMessage());

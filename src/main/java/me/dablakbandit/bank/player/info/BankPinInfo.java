@@ -77,7 +77,7 @@ public class BankPinInfo extends IBankInfo implements JSONInfo{
 	
 	public void checkPass(Runnable runnable){
 		if(pl.getInfo(BankInfo.class).isLocked(true, () -> checkPass(runnable))){
-			BankLanguageConfiguration.sendMessage(pl, BankLanguageConfiguration.MESSAGE_BANK_LOCKED.get());
+			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_BANK_LOCKED.get());
 			return;
 		}
 		if(hasPassed()){
