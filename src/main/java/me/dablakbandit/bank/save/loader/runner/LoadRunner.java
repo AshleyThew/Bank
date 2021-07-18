@@ -23,8 +23,8 @@ public class LoadRunner implements Runnable{
 	private static final BankDatabaseManager	bankDatabaseManager	= BankDatabaseManager.getInstance();
 	
 	private final CorePlayers					pl;
-	private boolean						force, lock = true, log = true;
-	private Runnable					runnable;
+	private boolean								force, lock = true, log = true;
+	private Runnable							runnable;
 	
 	public LoadRunner(CorePlayers pl){
 		this.pl = pl;
@@ -86,7 +86,6 @@ public class LoadRunner implements Runnable{
 		if(log){
 			BankLog.info(BankPluginConfiguration.BANK_LOG_PLAYER_LEVEL, "Loaded " + pl.getUUIDString() + " after " + (System.currentTimeMillis() - start) + "ms");
 		}
-		BankLog.debug(runnable);
 		if(runnable != null){
 			Bukkit.getScheduler().runTask(BankPlugin.getInstance(), runnable);
 		}
