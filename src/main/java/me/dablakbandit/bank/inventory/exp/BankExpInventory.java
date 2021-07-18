@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.dablakbandit.bank.config.BankItemConfiguration;
+import me.dablakbandit.bank.config.BankLanguageConfiguration;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.config.BankSoundConfiguration;
 import me.dablakbandit.bank.config.path.BankItemPath;
@@ -40,7 +41,7 @@ public class BankExpInventory extends BankInventoryHandler<BankExpInfo>{
 	}
 	
 	private void withdraw(CorePlayers pl, BankExpInfo info){
-		pl.setOpenInventory(new AnvilInventory("" + (int)Math.floor(info.getExp())){
+		pl.setOpenInventory(new AnvilInventory(BankLanguageConfiguration.ANVIL_EXP_WTIHDRAW.get(), "" + (int)Math.floor(info.getExp())){
 			@Override
 			public void cancel(CorePlayers pl){
 				pl.setOpenInventory(BankExpInventory.this);
@@ -70,7 +71,7 @@ public class BankExpInventory extends BankInventoryHandler<BankExpInfo>{
 	}
 	
 	private void deposit(CorePlayers pl, BankExpInfo info){
-		pl.setOpenInventory(new AnvilInventory("" + EXPUtils.getTotalExperience(pl.getPlayer())){
+		pl.setOpenInventory(new AnvilInventory(BankLanguageConfiguration.ANVIL_EXP_DEPOSIT.get(), "" + EXPUtils.getTotalExperience(pl.getPlayer())){
 			@Override
 			public void cancel(CorePlayers pl){
 				pl.setOpenInventory(BankExpInventory.this);

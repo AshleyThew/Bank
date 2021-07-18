@@ -27,7 +27,7 @@ public abstract class AnvilInventory extends OpenInventory{
 	private int				exp;
 	private String			ret;
 	
-	public AnvilInventory(String input){
+	public AnvilInventory(String message, String input){
 		this.input = input;
 	}
 	

@@ -51,7 +51,7 @@ repositories {
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT'
     compileOnly 'org.spigotmc:spigot:1.16.1-R0.1-SNAPSHOT'
-    compileOnly 'me.dablakbandit:core:0.3.9'
+    compileOnly 'me.dablakbandit:core:0.4.0'
     compileOnly 'me.clip:placeholderapi:2.9.2'
     compileOnly 'be.maximvdw:MVdWPlaceholderAPI:2.5.1-SNAPSHOT'
     compile 'me.dablakbandit:core-plugin-downloader:0.0.1'

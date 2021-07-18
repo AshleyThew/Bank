@@ -3,6 +3,7 @@ package me.dablakbandit.bank.inventory.money;
 import org.bukkit.inventory.ItemStack;
 
 import me.dablakbandit.bank.config.BankItemConfiguration;
+import me.dablakbandit.bank.config.BankLanguageConfiguration;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.config.BankSoundConfiguration;
 import me.dablakbandit.bank.config.path.BankItemPath;
@@ -43,7 +44,7 @@ public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo>{
 	}
 	
 	private void withdraw(CorePlayers pl, BankMoneyInfo info){
-		pl.setOpenInventory(new AnvilInventory(Format.round(info.getMoney(), 2)){
+		pl.setOpenInventory(new AnvilInventory(BankLanguageConfiguration.ANVIL_MONEY_WTIHDRAW.get(), Format.round(info.getMoney(), 2)){
 			@Override
 			public void cancel(CorePlayers pl){
 				pl.setOpenInventory(BankMoneyInventory.this);
@@ -82,7 +83,7 @@ public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo>{
 		if(Eco.getInstance().getEconomy() != null){
 			balance = Eco.getInstance().getEconomy().getBalance(info.getPlayers().getPlayer());
 		}
-		pl.setOpenInventory(new AnvilInventory("" + Format.round(balance, 2)){
+		pl.setOpenInventory(new AnvilInventory(BankLanguageConfiguration.ANVIL_MONEY_DEPOSIT.get(), "" + Format.round(balance, 2)){
 			@Override
 			public void cancel(CorePlayers pl){
 				pl.setOpenInventory(BankMoneyInventory.this);

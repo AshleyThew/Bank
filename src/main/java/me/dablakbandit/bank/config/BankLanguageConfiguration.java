@@ -57,6 +57,11 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	@Comment("Available: <value>")
 	public static final BankTranslatedStringPath	COMMAND_UNABLE_PARSE			= new BankTranslatedStringPath(ChatColor.RED + "Unable to parse <value>.");
 	
+	public static final BankTranslatedStringPath	ANVIL_EXP_WTIHDRAW				= new BankTranslatedStringPath("Withdraw");
+	public static final BankTranslatedStringPath	ANVIL_EXP_DEPOSIT				= new BankTranslatedStringPath("Deposit");
+	public static final BankTranslatedStringPath	ANVIL_MONEY_WTIHDRAW			= new BankTranslatedStringPath("Withdraw");
+	public static final BankTranslatedStringPath	ANVIL_MONEY_DEPOSIT				= new BankTranslatedStringPath("Deposit");
+	
 	@Comment("Available: <message>")
 	public static final BankTranslatedStringPath	MESSAGE_FORMAT					= new BankTranslatedStringPath(ChatColor.GRAY + "[" + ChatColor.GREEN + "Bank" + ChatColor.GRAY + "] <message>");
 	@Comment("Available: <money>, <tax>")
