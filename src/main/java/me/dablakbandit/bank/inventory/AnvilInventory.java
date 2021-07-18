@@ -22,12 +22,13 @@ import me.dablakbandit.core.utils.anvil.AnvilUtil;
 
 public abstract class AnvilInventory extends OpenInventory{
 	
-	private final String	input;
+	private final String	message, input;
 	private boolean			returned	= false, entered = false;
 	private int				exp;
 	private String			ret;
 	
 	public AnvilInventory(String message, String input){
+		this.message = message;
 		this.input = input;
 	}
 	
@@ -57,7 +58,7 @@ public abstract class AnvilInventory extends OpenInventory{
 	@Override
 	public boolean open(CorePlayers pl, Player player){
 		returned = false;
-		AnvilUtil.open(player, () -> {
+		AnvilUtil.open(player, message, () -> {
 			player.getOpenInventory().setItem(0, clone(BankItemConfiguration.BANK_ANVIL_INPUT.get(), input));
 			exp = EXPUtils.getTotalExperience(player);
 		});
