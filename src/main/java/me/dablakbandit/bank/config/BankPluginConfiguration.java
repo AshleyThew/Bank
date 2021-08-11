@@ -186,6 +186,11 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	@Comment("Sign Text")
 	public static final TranslatedStringPath		BANK_TYPE_SIGN_TEXT							= new TranslatedStringPath(ChatColor.DARK_GREEN + "[Bank]");
 	
+	@Comment("Disable worlds")
+	public static final StringListPath				BANK_DISABLE_WORLDS							= new StringListPath();
+	@Comment("Disable gamemodes (CREATIVE, SURVIVAL, ADVENTURE, SPECTATOR)")
+	public static final StringListPath				BANK_DISABLE_GAMEMODES						= new StringListPath();
+	
 	@Comment("Enable skript implementation")
 	public static final BooleanPath					BANK_IMPLEMENTATION_SKRIPT_ENABLED			= new BooleanPath(false);
 	@Comment("Enable bank as the vault override")

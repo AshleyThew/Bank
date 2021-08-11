@@ -117,6 +117,11 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	@Comment("Available: <number>, <name>, <amount>")
 	public static final BankTranslatedStringPath	MESSAGE_TOP_EXP_INFO			= new BankTranslatedStringPath(ChatColor.GRAY + "<number>. " + ChatColor.GREEN + "<name>: " + ChatColor.GOLD + "$<amount>");
 	
+	public static final BankTranslatedStringPath	MESSAGE_WORLD_DISABLED			= new BankTranslatedStringPath(ChatColor.RED + "Bank disabled in this world.");
+	
+	@Comment("Available: <gamemode>")
+	public static final BankTranslatedStringPath	MESSAGE_GAMEMODE_DISABLED		= new BankTranslatedStringPath(ChatColor.RED + "Bank disabled for <gamemode>.");
+	
 	public static final BankTranslatedStringPath	FORMAT_THOUSAND					= new BankTranslatedStringPath("K");
 	public static final BankTranslatedStringPath	FORMAT_MILLION					= new BankTranslatedStringPath("Million");
 	public static final BankTranslatedStringPath	FORMAT_BILLION					= new BankTranslatedStringPath("Billion");

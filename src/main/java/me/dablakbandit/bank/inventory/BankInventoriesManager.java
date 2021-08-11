@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 
+import me.dablakbandit.bank.config.BankLanguageConfiguration;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
+import me.dablakbandit.bank.player.PlayerChecks;
 import me.dablakbandit.bank.player.info.BankInfo;
 import me.dablakbandit.bank.player.info.BankPinInfo;
 import me.dablakbandit.core.inventory.InventoryHandler;
@@ -13,13 +15,14 @@ import me.dablakbandit.core.players.CorePlayers;
 
 public class BankInventoriesManager{
 	
-	private static final BankInventoriesManager inventoryHandler = new BankInventoriesManager();
+	private static final BankInventoriesManager	inventoryHandler	= new BankInventoriesManager();
+	private static final PlayerChecks			playerChecks		= PlayerChecks.getInstance();
 	
 	public static BankInventoriesManager getInstance(){
 		return inventoryHandler;
 	}
 	
-	private InventoryHandlers						handlers;
+	private InventoryHandlers								handlers;
 	private final Map<BankInventories, InventoryHandler>	handlerMap	= new EnumMap<>(BankInventories.class);
 	
 	private BankInventoriesManager(){
@@ -32,6 +35,14 @@ public class BankInventoriesManager{
 	}
 	
 	public boolean open(CorePlayers pl, final BankInventories inventories){
+		if(playerChecks.checkWorldDisabled(pl.getPlayer())){
+			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_WORLD_DISABLED.get());
+			return false;
+		}
+		if(playerChecks.checkGamemodeDisabled(pl.getPlayer())){
+			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_WORLD_DISABLED.get());
+			return false;
+		}
 		BankInventories checkedInventories = checkOnlys(pl, inventories);
 		InventoryHandler handler = handlerMap.get(checkedInventories);
 		if(!handler.hasPermission(pl.getPlayer())){ return false; }

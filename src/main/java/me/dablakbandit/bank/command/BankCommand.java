@@ -11,14 +11,14 @@ import org.bukkit.plugin.Plugin;
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.config.BankCommandConfiguration;
 import me.dablakbandit.bank.config.BankLanguageConfiguration;
-import me.dablakbandit.bank.player.info.BankPermissionInfo;
+import me.dablakbandit.bank.player.PlayerChecks;
 import me.dablakbandit.core.command.config.CommandConfiguration;
 import me.dablakbandit.core.command.config.ConfigurationCommand;
-import me.dablakbandit.core.players.CorePlayerManager;
 
 public class BankCommand extends ConfigurationCommand{
 	
-	private static final BankCommand command = new BankCommand(BankPlugin.getInstance(), BankCommandConfiguration.getInstance(), BANK);
+	private static final BankCommand	command			= new BankCommand(BankPlugin.getInstance(), BankCommandConfiguration.getInstance(), BANK);
+	private static final PlayerChecks	playerChecks	= PlayerChecks.getInstance();
 	
 	public static BankCommand getInstance(){
 		return command;
@@ -56,6 +56,21 @@ public class BankCommand extends ConfigurationCommand{
 		BankLanguageConfiguration.sendMessage(s, BankLanguageConfiguration.COMMAND_NO_PERMISSION.get());
 	}
 	
+	public boolean onCommand(CommandSender s, Command cmd, String label, String[] args){
+		if(s instanceof Player){
+			Player player = (Player)s;
+			if(playerChecks.checkWorldDisabled(player)){
+				sendFormattedMessage(s, BankLanguageConfiguration.MESSAGE_WORLD_DISABLED.get());
+				return true;
+			}
+			if(playerChecks.checkGamemodeDisabled(player)){
+				sendFormattedMessage(s, BankLanguageConfiguration.MESSAGE_GAMEMODE_DISABLED.get().replace("<gamemode>", player.getGameMode().name().toLowerCase()));
+				return true;
+			}
+		}
+		return super.onCommand(s, cmd, label, args);
+	}
+	
 	@Override
 	public boolean hasPermission(CommandSender s){
 		return this.permission == null || checkPermissionInfo(s, this.permission);
@@ -63,6 +78,6 @@ public class BankCommand extends ConfigurationCommand{
 	
 	protected boolean checkPermissionInfo(CommandSender s, String permission){
 		if(!(s instanceof Player)){ return super.hasPermission(s); }
-		return CorePlayerManager.getInstance().getPlayer((Player)s).getInfo(BankPermissionInfo.class).checkPermission(permission, false);
+		return playerChecks.checkPermissionInfo((Player)s, permission, false);
 	}
 }

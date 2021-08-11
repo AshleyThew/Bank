@@ -55,14 +55,18 @@ public class CitizensType extends BankImplementation implements Listener{
 	
 	private void register(){
 		traitInfo = TraitInfo.create(BankTrait.class);
-		CitizensAPI.getTraitFactory().registerTrait(traitInfo);
+		if(CitizensAPI.hasImplementation()){
+			CitizensAPI.getTraitFactory().registerTrait(traitInfo);
+		}
 	}
 	
 	@Override
 	public void disable(){
 		HandlerList.unregisterAll(this);
 		if(traitInfo != null){
-			CitizensAPI.getTraitFactory().deregisterTrait(traitInfo);
+			if(CitizensAPI.hasImplementation()){
+				CitizensAPI.getTraitFactory().deregisterTrait(traitInfo);
+			}
 		}
 		BankLog.info(BankPluginConfiguration.BANK_LOG_PLUGIN_LEVEL, "Citizens disabled");
 	}

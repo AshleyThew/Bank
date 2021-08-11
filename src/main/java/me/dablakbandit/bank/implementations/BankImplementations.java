@@ -49,20 +49,33 @@ public enum BankImplementations{
 			object = (BankImplementation)NMSUtils.getMethod(supplier, "getInstance").invoke(null);
 		}catch(IllegalAccessException | InvocationTargetException e){
 			e.printStackTrace();
+			return;
 		}
-		object.load();
-		loaded = true;
+		try{
+			object.load();
+			loaded = true;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	public void enable(){
 		if(!loaded){ return; }
-		object.enable();
+		try{
+			object.enable();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	public void disable(){
 		if(!loaded){ return; }
-		object.disable();
-		loaded = false;
+		try{
+			object.disable();
+			loaded = false;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 }

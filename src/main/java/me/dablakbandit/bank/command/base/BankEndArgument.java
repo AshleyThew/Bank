@@ -7,13 +7,15 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.dablakbandit.bank.player.info.BankPermissionInfo;
+import me.dablakbandit.bank.player.PlayerChecks;
 import me.dablakbandit.core.commands.AdvancedArgument;
 import me.dablakbandit.core.commands.EndArgument;
 import me.dablakbandit.core.configuration.CommandConfiguration;
-import me.dablakbandit.core.players.CorePlayerManager;
 
 public abstract class BankEndArgument extends EndArgument{
+	
+	private static final PlayerChecks playerChecks = PlayerChecks.getInstance();
+	
 	public BankEndArgument(CommandConfiguration.Command command){
 		super(command);
 	}
@@ -58,6 +60,6 @@ public abstract class BankEndArgument extends EndArgument{
 	
 	protected boolean checkPermissionInfo(CommandSender s, String permission){
 		if(!(s instanceof Player)){ return super.hasPermission(s); }
-		return CorePlayerManager.getInstance().getPlayer((Player)s).getInfo(BankPermissionInfo.class).checkPermission(permission, false);
+		return playerChecks.checkPermissionInfo((Player)s, permission, false);
 	}
 }
