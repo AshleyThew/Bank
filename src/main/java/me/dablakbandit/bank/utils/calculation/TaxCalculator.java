@@ -40,7 +40,6 @@ public class TaxCalculator{
 		}
 		this.tax = this.deposit * this.taxRate;
 		this.deposit -= this.tax;
-		
 	}
 	
 	public double getDeposit(){

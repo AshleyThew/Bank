@@ -65,15 +65,20 @@ public class SendArgument extends BankEndArgument{
 	}
 	
 	private void send(CorePlayers from, CorePlayers to, int amount){
-		BankExpInfo info = from.getInfo(BankExpInfo.class);
-		if(amount < 0 || amount > info.getExp()){
+		BankExpInfo fromInfo = from.getInfo(BankExpInfo.class);
+		BankExpInfo toInfo = to.getInfo(BankExpInfo.class);
+		amount = Math.min((int)toInfo.getMaxAdd(amount), amount);
+		if(amount <= 0 || amount > fromInfo.getExp()){
 			base.sendFormattedMessage(from.getPlayer(), BankLanguageConfiguration.MESSAGE_EXP_NOT_ENOUGH.get());
 			return;
 		}
-		if(info.subtractExp(amount)){
+		if(fromInfo.subtractExp(amount)){
 			BankSoundConfiguration.EXP_SEND_OTHER.play(from);
-			to.getInfo(BankInfo.class).getMoneyInfo().addMoney(amount);
-			base.sendFormattedMessage(from.getPlayer(), BankLanguageConfiguration.MESSAGE_EXP_SENT.get().replaceAll("<exp>", Format.formatMoney(amount)).replaceAll("<name>", to.getPlayer().getName()));
+			BankSoundConfiguration.EXP_SEND_RECEIVE.play(to);
+			toInfo.addExp(amount);
+			String formatted = Format.formatExp(amount);
+			base.sendFormattedMessage(from.getPlayer(), BankLanguageConfiguration.MESSAGE_EXP_SENT.get().replaceAll("<exp>", formatted).replaceAll("<name>", to.getPlayer().getName()));
+			base.sendFormattedMessage(to.getPlayer(), BankLanguageConfiguration.MESSAGE_EXP_RECEIVED.get().replaceAll("<exp>", formatted).replaceAll("<name>", from.getPlayer().getName()));
 		}
 	}
 	

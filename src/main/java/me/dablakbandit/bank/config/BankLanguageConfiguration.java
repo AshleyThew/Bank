@@ -9,6 +9,7 @@ import me.dablakbandit.bank.config.path.BankTranslatedStringPath;
 import me.dablakbandit.bank.config.path.TranslatedStringListPath;
 import me.dablakbandit.core.config.comment.CommentAdvancedConfiguration;
 import me.dablakbandit.core.config.comment.annotation.Comment;
+import me.dablakbandit.core.config.comment.annotation.CommentArray;
 import me.dablakbandit.core.config.path.EmptyPath;
 import me.dablakbandit.core.config.path.Path;
 import me.dablakbandit.core.players.CorePlayers;
@@ -21,7 +22,7 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 		return configuration;
 	}
 	
-	@Comment("Edit messages from the plugin here")
+	@CommentArray({ "Edit messages from the plugin here.", "Use <nl> for new lines" })
 	private static final Path						BANK							= new EmptyPath();
 	
 	@Comment("Available: <block>")
@@ -73,6 +74,8 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	public static final BankTranslatedStringPath	MESSAGE_MONEY_NOT_ENOUGH		= new BankTranslatedStringPath(ChatColor.RED + "You do not have enough money to do that.");
 	@Comment("Available: <money>, <name>")
 	public static final BankTranslatedStringPath	MESSAGE_MONEY_SENT				= new BankTranslatedStringPath(ChatColor.GREEN + "Successfully sent $<money> to <name>");
+	@Comment("Available: <money>, <name>")
+	public static final BankTranslatedStringPath	MESSAGE_MONEY_RECEIVED			= new BankTranslatedStringPath(ChatColor.GREEN + "Received $<money> from <name>");
 	@Comment("Available: <amount>")
 	public static final BankTranslatedStringPath	MESSAGE_MONEY_INTEREST_GAINED	= new BankTranslatedStringPath(ChatColor.GREEN + "You gained $<amount> in interest");
 	
@@ -85,6 +88,8 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	public static final BankTranslatedStringPath	MESSAGE_EXP_NOT_ENOUGH			= new BankTranslatedStringPath(ChatColor.RED + "You do not have enough exp to do that.");
 	@Comment("Available: <exp>, <name>")
 	public static final BankTranslatedStringPath	MESSAGE_EXP_SENT				= new BankTranslatedStringPath(ChatColor.GREEN + "Successfully sent <exp> to <name>");
+	@Comment("Available: <exp>, <name>")
+	public static final BankTranslatedStringPath	MESSAGE_EXP_RECEIVED			= new BankTranslatedStringPath(ChatColor.GREEN + "Received <exp> from <name>");
 	@Comment("Available: <amount>")
 	public static final BankTranslatedStringPath	MESSAGE_EXP_INTEREST_GAINED		= new BankTranslatedStringPath(ChatColor.GREEN + "You gained <amount> in exp interest");
 	

@@ -47,11 +47,10 @@ public class BankExpInfo extends IBankInfo implements JSONInfo{
 	
 	private void finishLoad(){
 		if(offlineExp > 0){
+			double maxAdd = getMaxAdd(offlineExp);
+			double add = Math.min(maxAdd, offlineExp);
 			double newExp = this.exp + offlineExp;
-			if(newExp < 0.0 || newExp > BankPluginConfiguration.BANK_EXP_MAX.get()){
-				this.offlineExp = Math.max(0, Math.floor(BankPluginConfiguration.BANK_EXP_MAX.get() - this.exp));
-			}
-			addExp(offlineExp);
+			addExp(newExp);
 			this.offlineExp = 0;
 		}
 	}
@@ -110,6 +109,11 @@ public class BankExpInfo extends IBankInfo implements JSONInfo{
 	@Deprecated
 	public void setExp(double exp){
 		this.exp = exp;
+	}
+	
+	public double getMaxAdd(double amount){
+		TaxCalculator taxCalculator = new TaxCalculator(amount, this.exp, BankPluginConfiguration.BANK_EXP_MAX.get(), 0);
+		return taxCalculator.getDeposit();
 	}
 	
 	@Deprecated

@@ -114,8 +114,10 @@ public class BankSoundConfiguration extends CommentAdvancedConfiguration{
 	public static SoundsPath		INVENTORY_ITEMS_TABITEMPICKER_SELECT	= new SoundsPath(levelup);
 	
 	public static final SoundsPath	MONEY_SEND_OTHER						= new SoundsPath(levelup);
+	public static final SoundsPath	MONEY_SEND_RECEIVE						= new SoundsPath(levelup);
 	
 	public static final SoundsPath	EXP_SEND_OTHER							= new SoundsPath(levelup);
+	public static final SoundsPath	EXP_SEND_RECEIVE						= new SoundsPath(levelup);
 	
 	private BankSoundConfiguration(JavaPlugin plugin){
 		super(plugin, "sounds.yml");
