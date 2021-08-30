@@ -51,10 +51,10 @@ public class BankSoundConfiguration extends CommentAdvancedConfiguration{
 	public static final SoundsPath	INVENTORY_MONEY_WITHDRAW_ALL			= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_MONEY_DEPOSIT					= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_MONEY_DEPOSIT_ALL				= new SoundsPath(levelup);
-	public static SoundsPath		INVENTORY_MONEY_SEND_OTHER				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_MONEY_SEND_OTHER				= new SoundsPath(levelup);
 	
 	public static final SoundsPath	INVENTORY_ITEMS_CHANGE_TAB				= new SoundsPath(levelup);
-	public static SoundsPath		INVENTORY_ITEMS_OPEN_TAB_ITEM_PICKER	= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_OPEN_TAB_ITEM_PICKER	= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_ITEMS_OPEN_BUY_SLOTS			= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_ITEMS_OPEN_BUY_TABS			= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_ITEMS_OPEN_ADD				= new SoundsPath(levelup);
@@ -72,28 +72,28 @@ public class BankSoundConfiguration extends CommentAdvancedConfiguration{
 	
 	public static final SoundsPath	INVENTORY_ITEMS_BUY_TABS_MINUS			= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_ITEMS_BUY_TABS_BUY			= new SoundsPath(levelup);
-	public static SoundsPath		INVENTORY_ITEMS_BUY_TABS_ADD			= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_BUY_TABS_ADD			= new SoundsPath(levelup);
 	
 	public static final SoundsPath	INVENTORY_MENU_OPEN_PIN					= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_MENU_OPEN_MONEY				= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_MENU_OPEN_ITEMS				= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_MENU_OPEN_EXP					= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_MENU_OPEN_LOANS				= new SoundsPath(levelup);
-	public static SoundsPath		INVENTORY_MENU_OPEN_LOAN_VIEW			= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_MENU_OPEN_LOAN_VIEW			= new SoundsPath(levelup);
 	
 	public static final SoundsPath	INVENTORY_EXP_WITHDRAW					= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_EXP_WITHDRAW_ALL				= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_EXP_DEPOSIT					= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_EXP_DEPOSIT_ALL				= new SoundsPath(levelup);
-	public static SoundsPath		INVENTORY_EXP_SEND_OTHER				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_EXP_SEND_OTHER				= new SoundsPath(levelup);
 	
-	public static SoundsPath		INVENTORY_LOANS_PAYBACK_ALL				= new SoundsPath(levelup);
-	public static SoundsPath		INVENTORY_LOANS_PAYBACK					= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_LOANS_PAYBACK_ALL				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_LOANS_PAYBACK					= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_LOANS_OPEN_TAKE_OUT			= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_LOANS_OPEN_VIEW				= new SoundsPath(levelup);
-	public static SoundsPath		INVENTORY_LOANS_TAKE_OUT				= new SoundsPath(levelup);
-	public static SoundsPath		INVENTORY_LOANS_VIEW_UP					= new SoundsPath(levelup);
-	public static SoundsPath		INVENTORY_LOANS_VIEW_DOWN				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_LOANS_TAKE_OUT				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_LOANS_VIEW_UP					= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_LOANS_VIEW_DOWN				= new SoundsPath(levelup);
 	
 	public static final SoundsPath	INVENTORY_PIN_CLICK						= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_PIN_CLEAR						= new SoundsPath(levelup);
@@ -108,10 +108,10 @@ public class BankSoundConfiguration extends CommentAdvancedConfiguration{
 	public static final SoundsPath	INVENTORY_ITEMS_SORT_NAME				= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_ITEMS_SORT_AMOUNT				= new SoundsPath(levelup);
 	
-	public static SoundsPath		INVENTORY_ITEMS_TABITEMPICKER_RESET		= new SoundsPath(levelup);
-	public static SoundsPath		INVENTORY_ITEMS_TABITEMPICKER_UP		= new SoundsPath(levelup);
-	public static SoundsPath		INVENTORY_ITEMS_TABITEMPICKER_DOWN		= new SoundsPath(levelup);
-	public static SoundsPath		INVENTORY_ITEMS_TABITEMPICKER_SELECT	= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_TABITEMPICKER_RESET		= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_TABITEMPICKER_UP		= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_TABITEMPICKER_DOWN		= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_TABITEMPICKER_SELECT	= new SoundsPath(levelup);
 	
 	public static final SoundsPath	MONEY_SEND_OTHER						= new SoundsPath(levelup);
 	public static final SoundsPath	MONEY_SEND_RECEIVE						= new SoundsPath(levelup);

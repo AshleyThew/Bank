@@ -8,9 +8,7 @@ import org.bukkit.entity.Player;
 import me.dablakbandit.bank.command.base.BankEndArgument;
 import me.dablakbandit.bank.config.BankLanguageConfiguration;
 import me.dablakbandit.bank.config.BankSoundConfiguration;
-import me.dablakbandit.bank.player.info.BankExpInfo;
 import me.dablakbandit.bank.player.info.BankInfo;
-import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.command.config.CommandConfiguration;
 import me.dablakbandit.core.players.CorePlayerManager;
 import me.dablakbandit.core.players.CorePlayers;
@@ -47,7 +45,7 @@ public class SendArgument extends BankEndArgument{
 		}
 		try{
 			BankInfo bankInfo = pl.getInfo(BankInfo.class);
-			send(pl, payTo, amount);
+			bankInfo.getExpInfo().send(payTo, amount);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -62,24 +60,6 @@ public class SendArgument extends BankEndArgument{
 			return false;
 		}
 		return true;
-	}
-	
-	private void send(CorePlayers from, CorePlayers to, int amount){
-		BankExpInfo fromInfo = from.getInfo(BankExpInfo.class);
-		BankExpInfo toInfo = to.getInfo(BankExpInfo.class);
-		amount = Math.min((int)toInfo.getMaxAdd(amount), amount);
-		if(amount <= 0 || amount > fromInfo.getExp()){
-			base.sendFormattedMessage(from.getPlayer(), BankLanguageConfiguration.MESSAGE_EXP_NOT_ENOUGH.get());
-			return;
-		}
-		if(fromInfo.subtractExp(amount)){
-			BankSoundConfiguration.EXP_SEND_OTHER.play(from);
-			BankSoundConfiguration.EXP_SEND_RECEIVE.play(to);
-			toInfo.addExp(amount);
-			String formatted = Format.formatExp(amount);
-			base.sendFormattedMessage(from.getPlayer(), BankLanguageConfiguration.MESSAGE_EXP_SENT.get().replaceAll("<exp>", formatted).replaceAll("<name>", to.getPlayer().getName()));
-			base.sendFormattedMessage(to.getPlayer(), BankLanguageConfiguration.MESSAGE_EXP_RECEIVED.get().replaceAll("<exp>", formatted).replaceAll("<name>", from.getPlayer().getName()));
-		}
 	}
 	
 }

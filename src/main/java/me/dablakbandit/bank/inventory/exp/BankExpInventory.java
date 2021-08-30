@@ -1,5 +1,6 @@
 package me.dablakbandit.bank.inventory.exp;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -13,6 +14,8 @@ import me.dablakbandit.bank.inventory.BankInventories;
 import me.dablakbandit.bank.inventory.BankInventoriesManager;
 import me.dablakbandit.bank.inventory.BankInventoryHandler;
 import me.dablakbandit.bank.player.info.BankExpInfo;
+import me.dablakbandit.bank.player.info.BankInfo;
+import me.dablakbandit.core.players.CorePlayerManager;
 import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.utils.EXPUtils;
 
@@ -28,6 +31,7 @@ public class BankExpInventory extends BankInventoryHandler<BankExpInfo>{
 		setItem(BankItemConfiguration.BANK_EXP_BALANCE, this::getBalance);
 		setItem(BankItemConfiguration.BANK_EXP_DEPOSIT, consumeSound(this::deposit, BankSoundConfiguration.INVENTORY_EXP_DEPOSIT));
 		setItem(BankItemConfiguration.BANK_EXP_DEPOSITALL, consumeSound(this::depositAll, BankSoundConfiguration.INVENTORY_EXP_DEPOSIT_ALL));
+		setItem(BankItemConfiguration.BANK_EXP_SEND, consumeSound(this::sendExp, BankSoundConfiguration.EXP_SEND_OTHER));
 	}
 	
 	private ItemStack getBalance(BankItemPath path, BankExpInfo info){
@@ -104,6 +108,67 @@ public class BankExpInventory extends BankInventoryHandler<BankExpInfo>{
 		int exp = EXPUtils.getTotalExperience(player);
 		info.depositExp(pl, exp);
 		pl.refreshInventory();
+	}
+	
+	private void sendExp(CorePlayers pl, BankExpInfo info){
+		pl.setOpenInventory(new AnvilInventory(BankLanguageConfiguration.ANVIL_EXP_SEND_NAME.get(), " "){
+			@Override
+			public void cancel(CorePlayers pl){
+				pl.setOpenInventory(BankExpInventory.this);
+			}
+			
+			@Override
+			public void close(CorePlayers pl){
+				pl.setOpenInventory(BankExpInventory.this);
+			}
+			
+			@Override
+			public void onClick(CorePlayers pl, String value){
+				if(value.startsWith(" ")){
+					value = value.substring(1, value.length());
+				}
+				if(Bukkit.getPlayer(value) == null){
+					BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.COMMAND_UNKNOWN_PLAYER.get().replaceAll("<player>", value));
+					return;
+				}
+				sendExpAmount(pl, info, value);
+			}
+		});
+	}
+	
+	private void sendExpAmount(CorePlayers pl, BankExpInfo info, String name){
+		pl.setOpenInventory(new AnvilInventory(BankLanguageConfiguration.ANVIL_EXP_SEND_AMOUNT.get(), "1"){
+			@Override
+			public void cancel(CorePlayers pl){
+				pl.setOpenInventory(BankExpInventory.this);
+			}
+			
+			@Override
+			public void close(CorePlayers pl){
+				pl.setOpenInventory(BankExpInventory.this);
+			}
+			
+			@Override
+			public void onClick(CorePlayers from, String value){
+				int amount;
+				try{
+					amount = Integer.parseInt(value);
+				}catch(Exception e){
+					e.printStackTrace();
+					from.setOpenInventory(BankExpInventory.this);
+					return;
+				}
+				Player p = Bukkit.getPlayer(name);
+				final CorePlayers payTo = CorePlayerManager.getInstance().getPlayer(p);
+				if(p == null || payTo == null || payTo.getInfo(BankInfo.class).isLocked(false)){
+					BankSoundConfiguration.GLOBAL_ERROR.play(pl.getPlayer());
+					BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.COMMAND_UNKNOWN_PLAYER.get().replaceAll("<player>", name));
+					return;
+				}
+				info.send(payTo, amount);
+				from.setOpenInventory(BankExpInventory.this);
+			}
+		});
 	}
 	
 	private void addBack(){

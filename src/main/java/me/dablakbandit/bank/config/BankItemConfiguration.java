@@ -66,17 +66,23 @@ public class BankItemConfiguration extends CommentAdvancedConfiguration{
 	public static final BankItemPath	BANK_ITEM_TAB_CURRENT				= new BankItemPath(green_stained, ChatColor.GREEN + "Current <tab>", ChatColor.BLUE + "<items> Items");
 	public static final BankItemPath	BANK_ITEM_BLANK						= new BankItemPath(black_stained, " ");
 	public static final BankItemPath	BANK_ITEM_SCROLL_UP					= new BankItemPath(7, black_stained, ChatColor.AQUA + "Scroll Up", ChatColor.GREEN + "Scrolls up the tab");
-	public static final BankItemPath	BANK_ITEM_SCROLL_DOWN				= new BankItemPath(8, black_stained, ChatColor.AQUA + "Scroll Down", ChatColor.GREEN + "Scrolls down the tab");
+	public static final BankItemPath	BANK_ITEM_SCROLL_DOWN				=
+		new BankItemPath(8, black_stained, ChatColor.AQUA + "Scroll Down", ChatColor.GREEN + "Scrolls down the tab");
 	
-	public static final BankItemPath	BANK_ITEM_ADD						= new BankItemPath(4, black_stained, ChatColor.AQUA + "Add to this tab", ChatColor.GREEN + "Add item options");
-	public static final BankItemPath	BANK_ITEM_REMOVE					= new BankItemPath(5, black_stained, ChatColor.AQUA + "Remove from this tab", ChatColor.GREEN + "Remove item options");
-	public static final BankItemPath	BANK_ITEM_SORT						= new BankItemPath(6, black_stained, ChatColor.AQUA + "Sort this tab", ChatColor.GREEN + "Sort item options");
+	public static final BankItemPath	BANK_ITEM_ADD						=
+		new BankItemPath(4, black_stained, ChatColor.AQUA + "Add to this tab", ChatColor.GREEN + "Add item options");
+	public static final BankItemPath	BANK_ITEM_REMOVE					=
+		new BankItemPath(5, black_stained, ChatColor.AQUA + "Remove from this tab", ChatColor.GREEN + "Remove item options");
+	public static final BankItemPath	BANK_ITEM_SORT						=
+		new BankItemPath(6, black_stained, ChatColor.AQUA + "Sort this tab", ChatColor.GREEN + "Sort item options");
 	
 	@Comment("Available: <used>, <available>, <total>")
 	public static final BankItemPath	BANK_ITEM_SLOTS						=
-		new BankItemPath(1, black_stained, ChatColor.AQUA + "Slots", ChatColor.GREEN + "Used Slots: <used>", ChatColor.GREEN + "Available Slots: <available>", ChatColor.GREEN + "Total Slots: <total>", ChatColor.GREEN + "Click to buy more slots");
+		new BankItemPath(	1, black_stained, ChatColor.AQUA + "Slots", ChatColor.GREEN + "Used Slots: <used>", ChatColor.GREEN + "Available Slots: <available>",
+							ChatColor.GREEN + "Total Slots: <total>", ChatColor.GREEN + "Click to buy more slots");
 	@Comment("Available: <tabs>")
-	public static final BankItemPath	BANK_ITEM_TABS						= new BankItemPath(2, black_stained, ChatColor.AQUA + "Tabs", ChatColor.GREEN + "Available Tabs: <tabs>", ChatColor.GREEN + "Click to buy more tabs");
+	public static final BankItemPath	BANK_ITEM_TABS						=
+		new BankItemPath(2, black_stained, ChatColor.AQUA + "Tabs", ChatColor.GREEN + "Available Tabs: <tabs>", ChatColor.GREEN + "Click to buy more tabs");
 	public static final BankItemPath	BANK_ITEM_TRASHCAN					= new BankItemPath(3, black_stained, ChatColor.RED + "Trashcan", ChatColor.RED + "Items are destroyed");
 	@Comment("Items.Slot: amount of items to show (note disabling tabs adds + 9 to this)")
 	public static final BankItemPath	BANK_ITEM_ITEMS						= new BankItemPath(36, Material.AIR, "");
@@ -91,39 +97,66 @@ public class BankItemConfiguration extends CommentAdvancedConfiguration{
 	public static final BankItemPath	BANK_ITEM_BLACKLIST_GREEN			= new BankItemPath(green_stained, ChatColor.GREEN + "<name>", ChatColor.BLUE + "Click to toggle");
 	public static final BankItemPath	BANK_ITEM_BLACKLIST_RED				= new BankItemPath(red_stained, ChatColor.RED + "<name>", ChatColor.BLUE + "Click to toggle");
 	
-	public static final BankItemPath	BANK_ADD_ALL						= new BankItemPath(3, light_blue_stained, ChatColor.AQUA + "Add All", ChatColor.GREEN + "Adds all items in your whole inventory");
-	public static final BankItemPath	BANK_ADD_INVENTORY					= new BankItemPath(4, light_blue_stained, ChatColor.AQUA + "Add Inventory", ChatColor.GREEN + "Adds all items in your inventory");
-	public static final BankItemPath	BANK_ADD_HOTBAR						= new BankItemPath(5, light_blue_stained, ChatColor.AQUA + "Add Hotbar", ChatColor.GREEN + "Adds all items in your hotbar");
+	public static final BankItemPath	BANK_ADD_ALL						=
+		new BankItemPath(3, light_blue_stained, ChatColor.AQUA + "Add All", ChatColor.GREEN + "Adds all items in your whole inventory");
+	public static final BankItemPath	BANK_ADD_INVENTORY					=
+		new BankItemPath(4, light_blue_stained, ChatColor.AQUA + "Add Inventory", ChatColor.GREEN + "Adds all items in your inventory");
+	public static final BankItemPath	BANK_ADD_HOTBAR						=
+		new BankItemPath(5, light_blue_stained, ChatColor.AQUA + "Add Hotbar", ChatColor.GREEN + "Adds all items in your hotbar");
 	
-	public static final BankItemPath	BANK_REMOVE_ALL						= new BankItemPath(3, light_blue_stained, ChatColor.AQUA + "Remove All", ChatColor.GREEN + "Removes all items to your whole inventory");
-	public static final BankItemPath	BANK_REMOVE_INVENTORY				= new BankItemPath(4, light_blue_stained, ChatColor.AQUA + "Remove Inventory", ChatColor.GREEN + "Removes all items to your inventory");
-	public static final BankItemPath	BANK_REMOVE_HOTBAR					= new BankItemPath(5, light_blue_stained, ChatColor.AQUA + "Remove Hotbar", ChatColor.GREEN + "Removes all items to your hotbar");
+	public static final BankItemPath	BANK_REMOVE_ALL						=
+		new BankItemPath(3, light_blue_stained, ChatColor.AQUA + "Remove All", ChatColor.GREEN + "Removes all items to your whole inventory");
+	public static final BankItemPath	BANK_REMOVE_INVENTORY				=
+		new BankItemPath(4, light_blue_stained, ChatColor.AQUA + "Remove Inventory", ChatColor.GREEN + "Removes all items to your inventory");
+	public static final BankItemPath	BANK_REMOVE_HOTBAR					=
+		new BankItemPath(5, light_blue_stained, ChatColor.AQUA + "Remove Hotbar", ChatColor.GREEN + "Removes all items to your hotbar");
 	
-	public static final BankItemPath	BANK_SORT_MATERIAL					= new BankItemPath(3, light_blue_stained, ChatColor.AQUA + "Sort Alphabetically By Material", ChatColor.GREEN + "Sorts tab by the material of the items");
-	public static final BankItemPath	BANK_SORT_NAME						= new BankItemPath(4, light_blue_stained, ChatColor.AQUA + "Sort Alphabetically By Name", ChatColor.GREEN + "Sorts tab by item names");
-	public static final BankItemPath	BANK_SORT_AMOUNT					= new BankItemPath(5, light_blue_stained, ChatColor.AQUA + "Sort By Item Amount", ChatColor.GREEN + "Sorts tab by item amounts");
+	public static final BankItemPath	BANK_SORT_MATERIAL					=
+		new BankItemPath(3, light_blue_stained, ChatColor.AQUA + "Sort Alphabetically By Material", ChatColor.GREEN + "Sorts tab by the material of the items");
+	public static final BankItemPath	BANK_SORT_NAME						=
+		new BankItemPath(4, light_blue_stained, ChatColor.AQUA + "Sort Alphabetically By Name", ChatColor.GREEN + "Sorts tab by item names");
+	public static final BankItemPath	BANK_SORT_AMOUNT					=
+		new BankItemPath(5, light_blue_stained, ChatColor.AQUA + "Sort By Item Amount", ChatColor.GREEN + "Sorts tab by item amounts");
 	
 	public static final BankItemPath	BANK_MAIN_ITEM						= new BankItemPath(4, cyan_stained, ChatColor.AQUA + "Items", ChatColor.GREEN + "Click to view items");
 	@Comment("Available: <money>")
-	public static final BankItemPath	BANK_MAIN_MONEY						= new BankItemPath(3, green_stained, ChatColor.AQUA + "Balance $<money>", ChatColor.GREEN + "Click to withdraw/deposit");
-	public static final BankItemPath	BANK_MAIN_PIN						= new BankItemPath(2, red_stained, ChatColor.AQUA + "Pin options", ChatColor.GREEN + "Click to set/edit your pin");
+	public static final BankItemPath	BANK_MAIN_MONEY						=
+		new BankItemPath(3, green_stained, ChatColor.AQUA + "Balance $<money>", ChatColor.GREEN + "Click to withdraw/deposit");
+	public static final BankItemPath	BANK_MAIN_PIN						=
+		new BankItemPath(2, red_stained, ChatColor.AQUA + "Pin options", ChatColor.GREEN + "Click to set/edit your pin");
 	@Comment("Available: <exp>")
-	public static final BankItemPath	BANK_MAIN_EXP						= new BankItemPath(5, yellow_stained, ChatColor.AQUA + "<exp> exp", ChatColor.GREEN + "Your current amount of exp");
-	public static final BankItemPath	BANK_MAIN_LOANS						= new BankItemPath(6, light_blue_stained, ChatColor.AQUA + "Loans", ChatColor.GREEN + "Click to take and view current loans");
+	public static final BankItemPath	BANK_MAIN_EXP						=
+		new BankItemPath(5, yellow_stained, ChatColor.AQUA + "<exp> exp", ChatColor.GREEN + "Your current amount of exp");
+	public static final BankItemPath	BANK_MAIN_LOANS						=
+		new BankItemPath(6, light_blue_stained, ChatColor.AQUA + "Loans", ChatColor.GREEN + "Click to take and view current loans");
 	
 	@Comment("Available: <exp>")
-	public static final BankItemPath	BANK_EXP_BALANCE					= new BankItemPath(4, cyan_stained, ChatColor.AQUA + "<exp> exp", ChatColor.GREEN + "Your current amount of exp");
-	public static final BankItemPath	BANK_EXP_WITHDRAW					= new BankItemPath(3, red_stained, ChatColor.AQUA + "Click to withdraw exp", ChatColor.GREEN + "Enter the amount to withdraw");
-	public static final BankItemPath	BANK_EXP_WITHDRAWALL				= new BankItemPath(2, red_stained, ChatColor.AQUA + "Click to withdraw all exp", ChatColor.GREEN + "Withdraws all exp");
-	public static final BankItemPath	BANK_EXP_DEPOSIT					= new BankItemPath(5, green_stained, ChatColor.AQUA + "Click to deposit exp", ChatColor.GREEN + "Enter the amount to deposit");
-	public static final BankItemPath	BANK_EXP_DEPOSITALL					= new BankItemPath(6, green_stained, ChatColor.AQUA + "Click to deposit all exp", ChatColor.GREEN + "Deposits all exp");
+	public static final BankItemPath	BANK_EXP_BALANCE					=
+		new BankItemPath(4, cyan_stained, ChatColor.AQUA + "<exp> exp", ChatColor.GREEN + "Your current amount of exp");
+	public static final BankItemPath	BANK_EXP_WITHDRAW					=
+		new BankItemPath(3, red_stained, ChatColor.AQUA + "Click to withdraw exp", ChatColor.GREEN + "Enter the amount to withdraw");
+	public static final BankItemPath	BANK_EXP_WITHDRAWALL				=
+		new BankItemPath(2, red_stained, ChatColor.AQUA + "Click to withdraw all exp", ChatColor.GREEN + "Withdraws all exp");
+	public static final BankItemPath	BANK_EXP_DEPOSIT					=
+		new BankItemPath(5, green_stained, ChatColor.AQUA + "Click to deposit exp", ChatColor.GREEN + "Enter the amount to deposit");
+	public static final BankItemPath	BANK_EXP_DEPOSITALL					=
+		new BankItemPath(6, green_stained, ChatColor.AQUA + "Click to deposit all exp", ChatColor.GREEN + "Deposits all exp");
+	public static final BankItemPath	BANK_EXP_SEND						=
+		new BankItemPath(8, green_stained, ChatColor.AQUA + "Send exp", ChatColor.GREEN + "Send exp to another player.");
 	
 	@Comment("Available: <money>")
-	public static final BankItemPath	BANK_MONEY_BALANCE					= new BankItemPath(4, cyan_stained, ChatColor.AQUA + "Balance: $<money>", ChatColor.GREEN + "Your current amount of $$");
-	public static final BankItemPath	BANK_MONEY_WITHDRAW					= new BankItemPath(3, red_stained, ChatColor.AQUA + "Click to withdraw money", ChatColor.GREEN + "Enter the amount to withdraw");
-	public static final BankItemPath	BANK_MONEY_WITHDRAWALL				= new BankItemPath(2, red_stained, ChatColor.AQUA + "Click to withdraw all money", ChatColor.GREEN + "Withdraws all money");
-	public static final BankItemPath	BANK_MONEY_DEPOSIT					= new BankItemPath(5, green_stained, ChatColor.AQUA + "Click to deposit money", ChatColor.GREEN + "Enter the amount to deposit");
-	public static final BankItemPath	BANK_MONEY_DEPOSITALL				= new BankItemPath(6, green_stained, ChatColor.AQUA + "Click to deposit all money", ChatColor.GREEN + "Deposits all money");
+	public static final BankItemPath	BANK_MONEY_BALANCE					=
+		new BankItemPath(4, cyan_stained, ChatColor.AQUA + "Balance: $<money>", ChatColor.GREEN + "Your current amount of $$");
+	public static final BankItemPath	BANK_MONEY_WITHDRAW					=
+		new BankItemPath(3, red_stained, ChatColor.AQUA + "Click to withdraw money", ChatColor.GREEN + "Enter the amount to withdraw");
+	public static final BankItemPath	BANK_MONEY_WITHDRAWALL				=
+		new BankItemPath(2, red_stained, ChatColor.AQUA + "Click to withdraw all money", ChatColor.GREEN + "Withdraws all money");
+	public static final BankItemPath	BANK_MONEY_DEPOSIT					=
+		new BankItemPath(5, green_stained, ChatColor.AQUA + "Click to deposit money", ChatColor.GREEN + "Enter the amount to deposit");
+	public static final BankItemPath	BANK_MONEY_DEPOSITALL				=
+		new BankItemPath(6, green_stained, ChatColor.AQUA + "Click to deposit all money", ChatColor.GREEN + "Deposits all money");
+	public static final BankItemPath	BANK_MONEY_SEND						=
+		new BankItemPath(8, green_stained, ChatColor.AQUA + "Send money", ChatColor.GREEN + "Send money to another player.");
 	
 	public static final BankItemPath	BANK_PIN_SET						= new BankItemPath(4, green_stained, ChatColor.GREEN + "Set Pin", ChatColor.GREEN + "Click to set your pin");
 	public static final BankItemPath	BANK_PIN_REMOVE						= new BankItemPath(5, red_stained, ChatColor.RED + "Remove Pin", ChatColor.RED + "Click to remove your pin");
@@ -151,32 +184,48 @@ public class BankItemConfiguration extends CommentAdvancedConfiguration{
 	public static final EmptyPath		BANK_LOANS							= new EmptyPath();
 	
 	public static final BankItemPath	BANK_LOANS_VIEW						= new BankItemPath(5, green_stained, ChatColor.AQUA + "View loans", ChatColor.GREEN + "Click to view loans");
-	public static final BankItemPath	BANK_LOANS_TAKE_OUT					= new BankItemPath(4, green_stained, ChatColor.AQUA + "Take out loan", ChatColor.GREEN + "Click to take out a loan");
 	
+	public static final BankItemPath	BANK_LOANS_TAKE_OUT					=
+		new BankItemPath(4, green_stained, ChatColor.AQUA + "Take out loan", ChatColor.GREEN + "Click to take out a loan");
 	@Comment("Available: <total>")
-	public static final BankItemPath	BANK_LOANS_PAYBACK_ALL				= new BankItemPath(3, red_stained, ChatColor.AQUA + "Pay back all loans", ChatColor.GREEN + "Total: <total>", ChatColor.GREEN + "Click to pay back all current loans");
+	public static final BankItemPath	BANK_LOANS_PAYBACK_ALL				=
+		new BankItemPath(3, red_stained, ChatColor.AQUA + "Pay back all loans", ChatColor.GREEN + "Total: <total>", ChatColor.GREEN + "Click to pay back all current loans");
 	
 	@Comment("Available: <amount>, <original>, <interest>, <payback>, <deadline>, <created>")
-	public static final BankItemPath	BANK_LOAN_INFO						= new BankItemPath(	4, cyan_stained, ChatColor.AQUA + "Loan: <amount>", ChatColor.GREEN + "Original: <original>", ChatColor.GREEN + "Interest: <interest>", ChatColor.GREEN + "Payback: <payback>",
-																								ChatColor.GREEN + "Deadline: <deadline> days", ChatColor.GREEN + "Created: <created>", ChatColor.BLUE + "Click to payback");
-	public static final BankItemPath	BANK_LOAN_VIEW_PREVIOUS				= new BankItemPath(7, light_blue_stained, ChatColor.AQUA + "Previous loan", ChatColor.GREEN + "Click to view previous loan");
-	public static final BankItemPath	BANK_LOAN_VIEW_NEXT					= new BankItemPath(8, light_blue_stained, ChatColor.AQUA + "Next loan", ChatColor.GREEN + "Click to view next loan");
 	
-	public static final BankItemPath	BANK_LOAN_TAKE_OUT_PAYBACK			= new BankItemPath(3, light_blue_stained, ChatColor.AQUA + "Set payback", ChatColor.GREEN + "Click to set payback");
-	public static final BankItemPath	BANK_LOAN_TAKE_OUT_AMOUNT			= new BankItemPath(4, light_blue_stained, ChatColor.AQUA + "Set amount", ChatColor.GREEN + "Click to set amount");
+	public static final BankItemPath	BANK_LOAN_INFO						=
+		new BankItemPath(	4, cyan_stained, ChatColor.AQUA + "Loan: <amount>", ChatColor.GREEN + "Original: <original>", ChatColor.GREEN + "Interest: <interest>",
+							ChatColor.GREEN + "Payback: <payback>", ChatColor.GREEN + "Deadline: <deadline> days", ChatColor.GREEN + "Created: <created>",
+							ChatColor.BLUE + "Click to payback");
+	public static final BankItemPath	BANK_LOAN_VIEW_PREVIOUS				=
+		new BankItemPath(7, light_blue_stained, ChatColor.AQUA + "Previous loan", ChatColor.GREEN + "Click to view previous loan");
+	public static final BankItemPath	BANK_LOAN_VIEW_NEXT					=
+		new BankItemPath(8, light_blue_stained, ChatColor.AQUA + "Next loan", ChatColor.GREEN + "Click to view next loan");
+	
+	public static final BankItemPath	BANK_LOAN_TAKE_OUT_PAYBACK			=
+		new BankItemPath(3, light_blue_stained, ChatColor.AQUA + "Set payback", ChatColor.GREEN + "Click to set payback");
+	public static final BankItemPath	BANK_LOAN_TAKE_OUT_AMOUNT			=
+		new BankItemPath(4, light_blue_stained, ChatColor.AQUA + "Set amount", ChatColor.GREEN + "Click to set amount");
 	@Comment("Available: <amount>, <original>, <interest>, <payback>, <deadline>, <created>")
 	public static final BankItemPath	BANK_LOAN_TAKE_OUT_INFO				=
-		new BankItemPath(7, cyan_stained, ChatColor.AQUA + "Loan: <amount>", ChatColor.GREEN + "Original: <original>", ChatColor.GREEN + "Interest: <interest>", ChatColor.GREEN + "Payback: <payback>", ChatColor.GREEN + "Deadline: <deadline> days", ChatColor.GREEN + "Created: <created>");
+		new BankItemPath(	7, cyan_stained, ChatColor.AQUA + "Loan: <amount>", ChatColor.GREEN + "Original: <original>", ChatColor.GREEN + "Interest: <interest>",
+							ChatColor.GREEN + "Payback: <payback>", ChatColor.GREEN + "Deadline: <deadline> days", ChatColor.GREEN + "Created: <created>");
 	@Comment("All errors replace this accept button")
-	public static final BankItemPath	BANK_LOAN_TAKE_OUT_ACCEPT			= new BankItemPath(8, green_stained, ChatColor.AQUA + "Accept loan", ChatColor.GREEN + "Take out loan for $<amount>");
+	public static final BankItemPath	BANK_LOAN_TAKE_OUT_ACCEPT			=
+		new BankItemPath(8, green_stained, ChatColor.AQUA + "Accept loan", ChatColor.GREEN + "Take out loan for $<amount>");
 	@Comment("Below minimum in config")
-	public static final BankItemPath	BANK_LOAN_TAKE_OUT_ERROR_MINIMUM	= new BankItemPath(-1, red_stained, ChatColor.RED + "Loan below minimum", ChatColor.RED + "Minimum: <minimum>");
+	public static final BankItemPath	BANK_LOAN_TAKE_OUT_ERROR_MINIMUM	=
+		new BankItemPath(-1, red_stained, ChatColor.RED + "Loan below minimum", ChatColor.RED + "Minimum: <minimum>");
 	@Comment("Above maximum in config")
-	public static final BankItemPath	BANK_LOAN_TAKE_OUT_ERROR_MAXIMUM	= new BankItemPath(-1, red_stained, ChatColor.RED + "Loan above maximum", ChatColor.RED + "Maximum: <maximum>");
+	public static final BankItemPath	BANK_LOAN_TAKE_OUT_ERROR_MAXIMUM	=
+		new BankItemPath(-1, red_stained, ChatColor.RED + "Loan above maximum", ChatColor.RED + "Maximum: <maximum>");
 	@Comment("Above max set via permissions")
-	public static final BankItemPath	BANK_LOAN_TAKE_OUT_ERROR_PERMITTED	= new BankItemPath(-1, red_stained, ChatColor.RED + "Loan above permitted", ChatColor.RED + "Permitted: <permitted>");
+	public static final BankItemPath	BANK_LOAN_TAKE_OUT_ERROR_PERMITTED	=
+		new BankItemPath(-1, red_stained, ChatColor.RED + "Loan above permitted", ChatColor.RED + "Permitted: <permitted>");
 	@Comment("Above is less than 0")
-	public static final BankItemPath	BANK_LOAN_TAKE_OUT_ERROR_ZERO		= new BankItemPath(-1, red_stained, ChatColor.RED + "Loan set an amount", ChatColor.RED + "Set an amount to take out");
+	public static final BankItemPath	BANK_LOAN_TAKE_OUT_ERROR_ZERO		=
+		new BankItemPath(-1, red_stained, ChatColor.RED + "Loan set an amount", ChatColor.RED + "Set an amount to take out");
 	@Comment("Taken out too loans")
-	public static final BankItemPath	BANK_LOAN_TAKE_OUT_ERROR_TOO_MANY	= new BankItemPath(-1, red_stained, ChatColor.RED + "Max loans reached", ChatColor.RED + "You have already taken out the maximum amount of loans");
+	public static final BankItemPath	BANK_LOAN_TAKE_OUT_ERROR_TOO_MANY	=
+		new BankItemPath(-1, red_stained, ChatColor.RED + "Max loans reached", ChatColor.RED + "You have already taken out the maximum amount of loans");
 }

@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.config.BankLanguageConfiguration;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
+import me.dablakbandit.bank.config.BankSoundConfiguration;
 import me.dablakbandit.bank.utils.calculation.TaxCalculator;
 import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.players.CorePlayers;
@@ -49,8 +50,7 @@ public class BankExpInfo extends IBankInfo implements JSONInfo{
 		if(offlineExp > 0){
 			double maxAdd = getMaxAdd(offlineExp);
 			double add = Math.min(maxAdd, offlineExp);
-			double newExp = this.exp + offlineExp;
-			addExp(newExp);
+			addExp(add);
 			this.offlineExp = 0;
 		}
 	}
@@ -99,7 +99,8 @@ public class BankExpInfo extends IBankInfo implements JSONInfo{
 		depositExp(deposit);
 		EXPUtils.setTotalExperience(pl.getPlayer(), (int)Math.min(Integer.MAX_VALUE, total - deposit));
 		if(deposit != 0){
-			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_EXP_DEPOSIT.get().replaceAll("<exp>", Format.formatExp(deposit)).replaceAll("<tax>", Format.formatExp(tax)));
+			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_EXP_DEPOSIT.get().replaceAll("<exp>", Format.formatExp(deposit))
+																											.replaceAll("<tax>", Format.formatExp(tax)));
 		}
 		if(taxCalculator.isFull()){
 			// player.sendMessage(LanguageConfiguration.MESSAGE_EXP_IS_FULL.getMessage());
@@ -142,4 +143,26 @@ public class BankExpInfo extends IBankInfo implements JSONInfo{
 		}
 		return false;
 	}
+	
+	public boolean send(CorePlayers to, int amount){
+		BankExpInfo toInfo = to.getInfo(BankExpInfo.class);
+		amount = Math.min((int)toInfo.getMaxAdd(amount), amount);
+		if(amount <= 0 || amount > exp){
+			BankLanguageConfiguration.sendFormattedMessage(pl.getPlayer(), BankLanguageConfiguration.MESSAGE_EXP_NOT_ENOUGH.get());
+			return false;
+		}
+		if(subtractExp(amount)){
+			BankSoundConfiguration.EXP_SEND_OTHER.play(pl);
+			BankSoundConfiguration.EXP_SEND_RECEIVE.play(to);
+			toInfo.addExp(amount);
+			String formatted = Format.formatExp(amount);
+			BankLanguageConfiguration.sendFormattedMessage(pl.getPlayer(), BankLanguageConfiguration.MESSAGE_EXP_SENT	.get().replaceAll("<exp>", formatted)
+																														.replaceAll("<name>", to.getPlayer().getName()));
+			BankLanguageConfiguration.sendFormattedMessage(to.getPlayer(), BankLanguageConfiguration.MESSAGE_EXP_RECEIVED	.get().replaceAll("<exp>", formatted)
+																															.replaceAll("<name>", pl.getPlayer().getName()));
+			return true;
+		}
+		return false;
+	}
+	
 }

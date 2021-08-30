@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.config.BankLanguageConfiguration;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
+import me.dablakbandit.bank.config.BankSoundConfiguration;
 import me.dablakbandit.bank.utils.calculation.TaxCalculator;
 import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.players.CorePlayers;
@@ -101,14 +102,16 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo{
 		
 		if(amount == 0.0 || depositMoney(pl.getPlayer().getName(), amount, tax)){
 			if(amount != 0.0){
-				BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_DEPOSIT.get().replaceAll("<money>", Format.formatMoney(amount)).replaceAll("<tax>", Format.formatMoney(tax)));
+				BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_DEPOSIT	.get().replaceAll("<money>", Format.formatMoney(amount))
+																													.replaceAll("<tax>", Format.formatMoney(tax)));
 				// player.sendMessage(LanguageConfiguration.MESSAGE_MONEY_DEPOSIT.getMessage().replace("<a>", Format.formatMoney(d)));
 			}
 			if(taxCalculator.isFull()){
 				// player.sendMessage(LanguageConfiguration.MESSAGE_MONEY_IS_FULL.getMessage());
 			}
 		}else{
-			BankLanguageConfiguration.sendFormattedMessage(pl.getPlayer(), ChatColor.AQUA + "[Bank] " + ChatColor.RED + "There was a problem depositing all your money, please contact an administrator");
+			BankLanguageConfiguration.sendFormattedMessage(pl.getPlayer(), ChatColor.AQUA	+ "[Bank] " + ChatColor.RED
+																			+ "There was a problem depositing all your money, please contact an administrator");
 		}
 	}
 	
@@ -151,5 +154,27 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo{
 	@Deprecated
 	public void addMoney(double omoney){
 		this.money += omoney;
+	}
+	
+	public void send(CorePlayers to, double amount){
+		BankMoneyInfo toInfo = to.getInfo(BankMoneyInfo.class);
+		amount = Math.min(amount, toInfo.getMaxAdd(amount));
+		if(amount <= 0 || amount > money){
+			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_NOT_ENOUGH.get());
+			return;
+		}
+		if(BankPluginConfiguration.BANK_MONEY_FULL_DOLLARS.get()){
+			amount = Math.floor(amount);
+		}
+		if(subtractMoney(amount)){
+			BankSoundConfiguration.MONEY_SEND_OTHER.play(pl);
+			BankSoundConfiguration.MONEY_SEND_RECEIVE.play(to);
+			toInfo.addMoney(amount);
+			String formatted = Format.formatMoney(amount);
+			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_SENT	.get().replaceAll("<money>", formatted)
+																											.replaceAll("<name>", to.getPlayer().getName()));
+			BankLanguageConfiguration.sendFormattedMessage(to, BankLanguageConfiguration.MESSAGE_MONEY_RECEIVED	.get().replaceAll("<money>", formatted)
+																												.replaceAll("<name>", pl.getPlayer().getName()));
+		}
 	}
 }

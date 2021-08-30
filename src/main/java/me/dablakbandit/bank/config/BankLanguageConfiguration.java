@@ -38,33 +38,43 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	@Comment("Available: <version>")
 	public static final BankTranslatedStringPath	BANK_ADMIN_RELOAD				= new BankTranslatedStringPath("Bank v<version> reloaded.");
 	@Comment("Available: <player>")
-	public static final BankTranslatedStringPath	BANK_ADMIN_LOADING				= new BankTranslatedStringPath(ChatColor.GRAY + "Offline loading <player>, do '/bank admin save' when complete");
+	public static final BankTranslatedStringPath	BANK_ADMIN_LOADING				=
+		new BankTranslatedStringPath(ChatColor.GRAY + "Offline loading <player>, do '/bank admin save' when complete");
 	public static final BankTranslatedStringPath	BANK_ADMIN_SAVED				= new BankTranslatedStringPath(ChatColor.GREEN + "Saved opened player.");
 	public static final BankTranslatedStringPath	BANK_ADMIN_INVENTORY_PREFIX		= new BankTranslatedStringPath(ChatColor.RED + "Admin");
 	@Comment("Available: <player>")
 	public static final BankTranslatedStringPath	BANK_ADMIN_PERMISSION_UPDATED	= new BankTranslatedStringPath(ChatColor.GREEN + "Updated permissions for <player>");
 	
 	@Comment("Available: <base>, <args>")
-	public static final BankTranslatedStringPath	COMMAND_TITLE_FORMAT			= new BankTranslatedStringPath(ChatColor.GRAY + "[" + ChatColor.GREEN + "<base>" + ChatColor.AQUA + "<args>" + ChatColor.GRAY + "]");
+	public static final BankTranslatedStringPath	COMMAND_TITLE_FORMAT			=
+		new BankTranslatedStringPath(ChatColor.GRAY + "[" + ChatColor.GREEN + "<base>" + ChatColor.AQUA + "<args>" + ChatColor.GRAY + "]");
 	@Comment("Available: <base>, <args>")
-	public static final BankTranslatedStringPath	COMMAND_COMMANDS_FORMAT			= new BankTranslatedStringPath(ChatColor.WHITE + "/" + ChatColor.GRAY + "<base>" + ChatColor.AQUA + "<args>");
+	public static final BankTranslatedStringPath	COMMAND_COMMANDS_FORMAT			=
+		new BankTranslatedStringPath(ChatColor.WHITE + "/" + ChatColor.GRAY + "<base>" + ChatColor.AQUA + "<args>");
 	@Comment("Available: <message>")
-	public static final BankTranslatedStringPath	COMMAND_MESSAGE_FORMAT			= new BankTranslatedStringPath(ChatColor.GRAY + "[" + ChatColor.GREEN + "Bank" + ChatColor.GRAY + "] <message>");
+	public static final BankTranslatedStringPath	COMMAND_MESSAGE_FORMAT			=
+		new BankTranslatedStringPath(ChatColor.GRAY + "[" + ChatColor.GREEN + "Bank" + ChatColor.GRAY + "] <message>");
 	@Comment("Available: <base>, <args>")
 	public static final BankTranslatedStringPath	COMMAND_UNKNOWN_FORMAT			= new BankTranslatedStringPath(ChatColor.RED + "Unknown command /<base> <args>");
 	@Comment("Available: <player>")
 	public static final BankTranslatedStringPath	COMMAND_UNKNOWN_PLAYER			= new BankTranslatedStringPath(ChatColor.RED + "Unknown player <player>");
-	public static final BankTranslatedStringPath	COMMAND_NO_PERMISSION			= new BankTranslatedStringPath(ChatColor.RED + "You do not have the permission to perform this command.");
+	public static final BankTranslatedStringPath	COMMAND_NO_PERMISSION			=
+		new BankTranslatedStringPath(ChatColor.RED + "You do not have the permission to perform this command.");
 	@Comment("Available: <value>")
 	public static final BankTranslatedStringPath	COMMAND_UNABLE_PARSE			= new BankTranslatedStringPath(ChatColor.RED + "Unable to parse <value>.");
 	
 	public static final BankTranslatedStringPath	ANVIL_EXP_WTIHDRAW				= new BankTranslatedStringPath("Withdraw");
 	public static final BankTranslatedStringPath	ANVIL_EXP_DEPOSIT				= new BankTranslatedStringPath("Deposit");
+	public static final BankTranslatedStringPath	ANVIL_EXP_SEND_NAME				= new BankTranslatedStringPath("Enter Player Name");
+	public static final BankTranslatedStringPath	ANVIL_EXP_SEND_AMOUNT			= new BankTranslatedStringPath("Enter Amount");
 	public static final BankTranslatedStringPath	ANVIL_MONEY_WTIHDRAW			= new BankTranslatedStringPath("Withdraw");
 	public static final BankTranslatedStringPath	ANVIL_MONEY_DEPOSIT				= new BankTranslatedStringPath("Deposit");
+	public static final BankTranslatedStringPath	ANVIL_MONEY_SEND_NAME			= new BankTranslatedStringPath("Enter Player Name");
+	public static final BankTranslatedStringPath	ANVIL_MONEY_SEND_AMOUNT			= new BankTranslatedStringPath("Enter Amount");
 	
 	@Comment("Available: <message>")
-	public static final BankTranslatedStringPath	MESSAGE_FORMAT					= new BankTranslatedStringPath(ChatColor.GRAY + "[" + ChatColor.GREEN + "Bank" + ChatColor.GRAY + "] <message>");
+	public static final BankTranslatedStringPath	MESSAGE_FORMAT					=
+		new BankTranslatedStringPath(ChatColor.GRAY + "[" + ChatColor.GREEN + "Bank" + ChatColor.GRAY + "] <message>");
 	@Comment("Available: <money>, <tax>")
 	public static final BankTranslatedStringPath	MESSAGE_MONEY_DEPOSIT			= new BankTranslatedStringPath(ChatColor.GREEN + "You have deposited $<money> to the bank.");
 	@Comment("Available: <money>")
@@ -105,7 +115,8 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	public static final BankTranslatedStringPath	MESSAGE_BANK_UNLOCKED			= new BankTranslatedStringPath(ChatColor.GREEN + "Bank unlocked!");
 	public static final BankTranslatedStringPath	MESSAGE_PIN_ENTER_BEFORE		= new BankTranslatedStringPath(ChatColor.RED + "You must enter your pin before doing that.");
 	
-	public static final BankTranslatedStringPath	MESSAGE_INFO_BORDER				= new BankTranslatedStringPath(ChatColor.GREEN + "-----------------------------------------------------");
+	public static final BankTranslatedStringPath	MESSAGE_INFO_BORDER				=
+		new BankTranslatedStringPath(ChatColor.GREEN + "-----------------------------------------------------");
 	//@formatter:off
 	public static final TranslatedStringListPath	MESSAGE_INFO_VIEW				= new TranslatedStringListPath(
 			ChatColor.AQUA + " Bank balance $<bank_money>",
@@ -114,13 +125,17 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 				ChatColor.AQUA + " Exp interest in <bank_interest_exp_minutes> minutes (<bank_interest_exp_seconds> seconds)");
 	//@formatter:on
 	
-	public static final BankTranslatedStringPath	MESSAGE_TOP_MONEY_BORDER		= new BankTranslatedStringPath(ChatColor.GREEN + "-----------------------------------------------------");
+	public static final BankTranslatedStringPath	MESSAGE_TOP_MONEY_BORDER		=
+		new BankTranslatedStringPath(ChatColor.GREEN + "-----------------------------------------------------");
 	@Comment("Available: <number>, <name>, <amount>")
-	public static final BankTranslatedStringPath	MESSAGE_TOP_MONEY_INFO			= new BankTranslatedStringPath(ChatColor.GRAY + "<number>. " + ChatColor.GREEN + "<name>: " + ChatColor.GOLD + "$<amount>");
+	public static final BankTranslatedStringPath	MESSAGE_TOP_MONEY_INFO			=
+		new BankTranslatedStringPath(ChatColor.GRAY + "<number>. " + ChatColor.GREEN + "<name>: " + ChatColor.GOLD + "$<amount>");
 	
-	public static final BankTranslatedStringPath	MESSAGE_TOP_EXP_BORDER			= new BankTranslatedStringPath(ChatColor.GREEN + "-----------------------------------------------------");
+	public static final BankTranslatedStringPath	MESSAGE_TOP_EXP_BORDER			=
+		new BankTranslatedStringPath(ChatColor.GREEN + "-----------------------------------------------------");
 	@Comment("Available: <number>, <name>, <amount>")
-	public static final BankTranslatedStringPath	MESSAGE_TOP_EXP_INFO			= new BankTranslatedStringPath(ChatColor.GRAY + "<number>. " + ChatColor.GREEN + "<name>: " + ChatColor.GOLD + "$<amount>");
+	public static final BankTranslatedStringPath	MESSAGE_TOP_EXP_INFO			=
+		new BankTranslatedStringPath(ChatColor.GRAY + "<number>. " + ChatColor.GREEN + "<name>: " + ChatColor.GOLD + "$<amount>");
 	
 	public static final BankTranslatedStringPath	MESSAGE_WORLD_DISABLED			= new BankTranslatedStringPath(ChatColor.RED + "Bank disabled in this world.");
 	

@@ -7,11 +7,8 @@ import org.bukkit.entity.Player;
 
 import me.dablakbandit.bank.command.base.BankEndArgument;
 import me.dablakbandit.bank.config.BankLanguageConfiguration;
-import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.config.BankSoundConfiguration;
 import me.dablakbandit.bank.player.info.BankInfo;
-import me.dablakbandit.bank.player.info.BankMoneyInfo;
-import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.command.config.CommandConfiguration;
 import me.dablakbandit.core.players.CorePlayerManager;
 import me.dablakbandit.core.players.CorePlayers;
@@ -48,7 +45,7 @@ public class PayArgument extends BankEndArgument{
 		}
 		try{
 			BankInfo bankInfo = pl.getInfo(BankInfo.class);
-			send(pl, payTo, amount);
+			bankInfo.getMoneyInfo().send(payTo, amount);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -63,27 +60,6 @@ public class PayArgument extends BankEndArgument{
 			return false;
 		}
 		return true;
-	}
-	
-	private void send(CorePlayers from, CorePlayers to, double amount){
-		BankMoneyInfo fromInfo = from.getInfo(BankMoneyInfo.class);
-		BankMoneyInfo toInfo = to.getInfo(BankMoneyInfo.class);
-		amount = Math.min(amount, toInfo.getMaxAdd(amount));
-		if(amount <= 0 || amount > fromInfo.getMoney()){
-			base.sendFormattedMessage(from.getPlayer(), BankLanguageConfiguration.MESSAGE_MONEY_NOT_ENOUGH.get());
-			return;
-		}
-		if(BankPluginConfiguration.BANK_MONEY_FULL_DOLLARS.get()){
-			amount = Math.floor(amount);
-		}
-		if(fromInfo.subtractMoney(amount)){
-			BankSoundConfiguration.MONEY_SEND_OTHER.play(from);
-			BankSoundConfiguration.MONEY_SEND_RECEIVE.play(to);
-			toInfo.addMoney(amount);
-			String formatted = Format.formatMoney(amount);
-			base.sendFormattedMessage(from.getPlayer(), BankLanguageConfiguration.MESSAGE_MONEY_SENT.get().replaceAll("<money>", formatted).replaceAll("<name>", to.getPlayer().getName()));
-			base.sendFormattedMessage(to.getPlayer(), BankLanguageConfiguration.MESSAGE_MONEY_RECEIVED.get().replaceAll("<money>", formatted).replaceAll("<name>", from.getPlayer().getName()));
-		}
 	}
 	
 }
