@@ -36,7 +36,7 @@ public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo>{
 	}
 	
 	private ItemStack getBalance(BankItemPath path, BankMoneyInfo info){
-		return clone(path.get(), path.getName().replaceAll("<money>", Format.formatMoney(info.getMoney())), path.getLore());
+		return replaceNameLore(path, "<money>", Format.formatMoney(info.getMoney()));
 	}
 	
 	private void withdrawAll(CorePlayers pl, BankMoneyInfo info){

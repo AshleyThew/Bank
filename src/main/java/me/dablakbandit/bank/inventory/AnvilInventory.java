@@ -38,7 +38,7 @@ public abstract class AnvilInventory extends OpenInventory{
 			Bukkit.getScheduler().scheduleSyncDelayedTask(BankPlugin.getInstance(), () -> close(pl));
 		}else{
 			Bukkit.getScheduler().scheduleSyncDelayedTask(BankPlugin.getInstance(), () -> {
-				EXPUtils.setTotalExperience(player, exp);
+				EXPUtils.setExp(player, exp);
 				if(entered){
 					AnvilInventory.this.onClick(pl, ret);
 				}
@@ -60,7 +60,7 @@ public abstract class AnvilInventory extends OpenInventory{
 		returned = false;
 		AnvilUtil.open(player, message, () -> {
 			player.getOpenInventory().setItem(0, clone(BankItemConfiguration.BANK_ANVIL_INPUT.get(), input));
-			exp = EXPUtils.getTotalExperience(player);
+			exp = EXPUtils.getExp(player);
 		});
 		return true;
 	}

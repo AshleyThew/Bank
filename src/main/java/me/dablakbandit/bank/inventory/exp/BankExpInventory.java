@@ -35,7 +35,7 @@ public class BankExpInventory extends BankInventoryHandler<BankExpInfo>{
 	}
 	
 	private ItemStack getBalance(BankItemPath path, BankExpInfo info){
-		return clone(path.get(), path.getName().replaceAll("<exp>", "" + (int)Math.floor(info.getExp())), path.getLore());
+		return replaceNameLore(path, "<exp>", "" + (int)Math.floor(info.getExp()));
 	}
 	
 	private void withdrawAll(CorePlayers pl, BankExpInfo info){
@@ -75,7 +75,7 @@ public class BankExpInventory extends BankInventoryHandler<BankExpInfo>{
 	}
 	
 	private void deposit(CorePlayers pl, BankExpInfo info){
-		pl.setOpenInventory(new AnvilInventory(BankLanguageConfiguration.ANVIL_EXP_DEPOSIT.get(), "" + EXPUtils.getTotalExperience(pl.getPlayer())){
+		pl.setOpenInventory(new AnvilInventory(BankLanguageConfiguration.ANVIL_EXP_DEPOSIT.get(), "" + EXPUtils.getExp(pl.getPlayer())){
 			@Override
 			public void cancel(CorePlayers pl){
 				pl.setOpenInventory(BankExpInventory.this);
@@ -105,7 +105,7 @@ public class BankExpInventory extends BankInventoryHandler<BankExpInfo>{
 	
 	private void depositAll(CorePlayers pl, BankExpInfo info){
 		Player player = pl.getPlayer();
-		int exp = EXPUtils.getTotalExperience(player);
+		int exp = EXPUtils.getExp(player);
 		info.depositExp(pl, exp);
 		pl.refreshInventory();
 	}

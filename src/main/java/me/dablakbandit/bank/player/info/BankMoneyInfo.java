@@ -41,8 +41,7 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo{
 	private void finishLoad(){
 		if(offlineMoney > 0){
 			double maxAdd = getMaxAdd(offlineMoney);
-			double add = Math.min(maxAdd, offlineMoney);
-			addMoney(add);
+			addMoney(maxAdd);
 			this.offlineMoney = 0;
 		}
 	}
@@ -146,8 +145,12 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo{
 		this.money = money;
 	}
 	
+	public TaxCalculator calculate(double add){
+		return new TaxCalculator(add, this.money, BankPluginConfiguration.BANK_MONEY_MAX.get(), 0);
+	}
+	
 	public double getMaxAdd(double amount){
-		TaxCalculator taxCalculator = new TaxCalculator(amount, this.money, BankPluginConfiguration.BANK_MONEY_MAX.get(), 0);
+		TaxCalculator taxCalculator = calculate(amount);
 		return taxCalculator.getDeposit();
 	}
 	

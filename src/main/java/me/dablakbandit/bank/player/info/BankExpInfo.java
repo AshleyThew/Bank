@@ -26,11 +26,7 @@ public class BankExpInfo extends IBankInfo implements JSONInfo{
 	}
 	
 	public int getExpLevel(){
-		int level = 0;
-		while(exp >= EXPUtils.getTotalExperience(level + 1)){
-			level++;
-		}
-		return level;
+		return EXPUtils.getLevelFromExp((long)exp);
 	}
 	
 	@Override
@@ -49,8 +45,7 @@ public class BankExpInfo extends IBankInfo implements JSONInfo{
 	private void finishLoad(){
 		if(offlineExp > 0){
 			double maxAdd = getMaxAdd(offlineExp);
-			double add = Math.min(maxAdd, offlineExp);
-			addExp(add);
+			addExp(maxAdd);
 			this.offlineExp = 0;
 		}
 	}
@@ -58,8 +53,7 @@ public class BankExpInfo extends IBankInfo implements JSONInfo{
 	public void withdrawExp(CorePlayers pl, double withdraw){
 		withdraw = Math.max(0, withdraw);
 		if(withdrawExp(withdraw)){
-			int total = EXPUtils.getTotalExperience(pl.getPlayer());
-			EXPUtils.setTotalExperience(pl.getPlayer(), (int)Math.min(Integer.MAX_VALUE, total + withdraw));
+			EXPUtils.addExp(pl.getPlayer(), (int)Math.min(Integer.MAX_VALUE, withdraw));
 			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_EXP_WITHDRAW.get().replaceAll("<exp>", Format.formatExp(withdraw)));
 		}
 	}
@@ -88,7 +82,7 @@ public class BankExpInfo extends IBankInfo implements JSONInfo{
 		
 		deposit = Math.max(0, deposit);
 		
-		int total = EXPUtils.getTotalExperience(pl.getPlayer());
+		int total = EXPUtils.getExp(pl.getPlayer());
 		deposit = Math.min(total, deposit);
 		
 		TaxCalculator taxCalculator = new TaxCalculator(deposit, this.exp, BankPluginConfiguration.BANK_EXP_MAX.get(), BankPluginConfiguration.BANK_EXP_DEPOSIT_TAX_PERCENT.get());
@@ -97,7 +91,7 @@ public class BankExpInfo extends IBankInfo implements JSONInfo{
 		double tax = taxCalculator.getTax();
 		
 		depositExp(deposit);
-		EXPUtils.setTotalExperience(pl.getPlayer(), (int)Math.min(Integer.MAX_VALUE, total - deposit));
+		EXPUtils.setExp(pl.getPlayer(), (int)Math.min(Integer.MAX_VALUE, total - deposit));
 		if(deposit != 0){
 			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_EXP_DEPOSIT.get().replaceAll("<exp>", Format.formatExp(deposit))
 																											.replaceAll("<tax>", Format.formatExp(tax)));
@@ -107,13 +101,18 @@ public class BankExpInfo extends IBankInfo implements JSONInfo{
 		}
 	}
 	
+	public TaxCalculator calculate(double add){
+		return new TaxCalculator(add, this.exp, BankPluginConfiguration.BANK_EXP_MAX.get(), 0);
+	}
+	
 	@Deprecated
 	public void setExp(double exp){
 		this.exp = exp;
 	}
 	
+	@Deprecated
 	public double getMaxAdd(double amount){
-		TaxCalculator taxCalculator = new TaxCalculator(amount, this.exp, BankPluginConfiguration.BANK_EXP_MAX.get(), 0);
+		TaxCalculator taxCalculator = calculate(amount);
 		return taxCalculator.getDeposit();
 	}
 	

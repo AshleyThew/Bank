@@ -26,7 +26,7 @@ public class AllArgument extends BankEndArgument{
 	}
 	
 	private void depositAll(BankInfo bankInfo){
-		double deposit = Math.max(0, EXPUtils.getTotalExperience(bankInfo.getPlayers().getPlayer()));
+		double deposit = Math.max(0, EXPUtils.getExp(bankInfo.getPlayers().getPlayer()));
 		bankInfo.getExpInfo().depositExp(bankInfo.getPlayers(), deposit);
 	}
 }

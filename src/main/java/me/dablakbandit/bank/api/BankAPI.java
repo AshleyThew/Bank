@@ -123,7 +123,7 @@ public class BankAPI{
 			return;
 		}
 		pl = new CorePlayers(uuid);
-		pl.getInfo(BankMoneyInfo.class).setMoney(amount);
+		getAndLoad(pl, new BankMoneyInfo(pl)).setMoney(amount);
 		new SaveRunner(pl, false).run();
 	}
 	/*-

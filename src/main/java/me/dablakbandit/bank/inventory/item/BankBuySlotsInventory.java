@@ -38,7 +38,7 @@ public class BankBuySlotsInventory extends BankInventoryHandler<BankItemsInfo>{
 	private ItemStack getBuy(BankItemPath path, BankItemsInfo bankInfo){
 		int cost = bankInfo.getBuySlots() * BankPluginConfiguration.BANK_ITEMS_SLOTS_BUY_COST.get();
 		// ChatColor.GREEN + "Used Slots: <used>", ChatColor.GREEN + "Available Slots: <available>", ChatColor.GREEN + "Total Slots: <total>",
-		return clone(path.get(), path.getName().replaceAll("<slots>", "" + bankInfo.getBuySlots()).replaceAll("<cost>", "" + cost));
+		return replaceNameLore(path, "<slots>", "" + bankInfo.getBuySlots(), "<cost>", "" + cost);
 	}
 	
 	private void buy(CorePlayers pl, BankItemsInfo info){

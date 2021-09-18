@@ -59,7 +59,7 @@ public abstract class BankPinInventory extends BankInventoryHandler<BankInfo>{
 	
 	public ItemStack getNumber(int i){
 		BankItemPath path = BankItemConfiguration.BANK_PIN_NUMBER;
-		return clone(path.get(), path.getName().replaceAll("<number>", "" + i));
+		return replaceNameLore(path, "<number>", "" + i);
 	}
 	
 	public void clear(CorePlayers pl, BankInfo bankInfo){

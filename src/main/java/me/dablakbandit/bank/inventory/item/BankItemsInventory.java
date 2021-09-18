@@ -19,7 +19,6 @@ import me.dablakbandit.bank.inventory.BankInventoryHandler;
 import me.dablakbandit.bank.player.info.BankInfo;
 import me.dablakbandit.bank.player.info.BankItemsInfo;
 import me.dablakbandit.core.players.CorePlayers;
-import me.dablakbandit.core.utils.string.StringListReplacer;
 
 public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	
@@ -50,7 +49,8 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	}
 	
 	private void addSlots(){
-		setItem(BankItemConfiguration.BANK_ITEM_SLOTS, this::getSlots, BankPluginConfiguration.BANK_ITEMS_SLOTS_BUY_ENABLED.get() ? consumeSound(getBuySlots(), BankSoundConfiguration.INVENTORY_ITEMS_OPEN_BUY_SLOTS) : this::doNothing);
+		setItem(BankItemConfiguration.BANK_ITEM_SLOTS, this::getSlots,
+				BankPluginConfiguration.BANK_ITEMS_SLOTS_BUY_ENABLED.get() ? consumeSound(getBuySlots(), BankSoundConfiguration.INVENTORY_ITEMS_OPEN_BUY_SLOTS) : this::doNothing);
 	}
 	
 	private void doNothing(CorePlayers pl){
@@ -62,15 +62,16 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 		int used = itemsInfo.getBankSize(itemsInfo.getOpenTab());
 		int total = itemsInfo.getBankSlots(itemsInfo.getOpenTab());
 		int available = total - used;
-		return clone(path.get(), path.getName(), new StringListReplacer(path.getLore()).replace("<used>", "" + used).replace("<available>", "" + available).replace("<total>", "" + total));
+		return replaceNameLore(path, "<used>", "" + used, "<available>", "" + available, "<total>", "" + total);
 	}
 	
 	private void addTabs(){
-		setItem(BankItemConfiguration.BANK_ITEM_TABS, this::getTabs, BankPluginConfiguration.BANK_ITEMS_TABS_BUY_ENABLED.get() ? consumeSound(getBuyTabs(), BankSoundConfiguration.INVENTORY_ITEMS_OPEN_BUY_TABS) : this::doNothing);
+		setItem(BankItemConfiguration.BANK_ITEM_TABS, this::getTabs,
+				BankPluginConfiguration.BANK_ITEMS_TABS_BUY_ENABLED.get() ? consumeSound(getBuyTabs(), BankSoundConfiguration.INVENTORY_ITEMS_OPEN_BUY_TABS) : this::doNothing);
 	}
 	
 	private ItemStack getTabs(BankItemPath path, BankInfo bankInfo){
-		return clone(path.get(), path.getName(), new StringListReplacer(path.getLore()).replace("<tabs>", "" + bankInfo.getItemsInfo().getTotalTabCount()));
+		return replaceNameLore(path, "<tabs>", "" + bankInfo.getItemsInfo().getTotalTabCount());
 	}
 	
 	protected void addTrashcan(){
@@ -175,7 +176,7 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 		}
 		ItemStack is = pathItem.get();
 		is.setAmount(tab);
-		return clone(is, pathDescription.getName().replace("<tab>", "" + tab), replaceLore(pathDescription.getLore(), "<items>", "" + itemsInfo.getItemMap().get(tab).size()));
+		return replaceCloneNameLore(is, pathDescription.getName(), pathDescription.getLore(), "<tab>", "" + tab, "<items>", "" + itemsInfo.getItemMap().get(tab).size());
 	}
 	
 	public void onClick(CorePlayers pl, BankInfo bi, Inventory inv, InventoryClickEvent event){

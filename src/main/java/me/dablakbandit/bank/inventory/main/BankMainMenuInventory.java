@@ -45,7 +45,7 @@ public class BankMainMenuInventory extends BankInventoryHandler<BankInfo>{
 	}
 	
 	private ItemStack addMoneyItem(BankItemPath path, BankInfo bankInfo){
-		return clone(path.get(), path.getName().replaceAll("<money>", Format.formatMoney(bankInfo.getMoneyInfo().getMoney())));
+		return replaceNameLore(path, "<money>", Format.formatMoney(bankInfo.getMoneyInfo().getMoney()));
 	}
 	
 	private void addItem(){
@@ -67,7 +67,7 @@ public class BankMainMenuInventory extends BankInventoryHandler<BankInfo>{
 	}
 	
 	private ItemStack addExpItem(BankItemPath path, BankInfo bankInfo){
-		return clone(path.get(), path.getName().replaceAll("<exp>", "" + (int)Math.floor(bankInfo.getExpInfo().getExp())), path.getLore());
+		return replaceNameLore(path, "<exp>", "" + (int)Math.floor(bankInfo.getExpInfo().getExp()));
 	}
 	
 	@Override

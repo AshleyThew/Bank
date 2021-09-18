@@ -94,7 +94,12 @@ public abstract class BankInventoryHandler<T>extends InventoryHandler<T>{
 	
 	@Override
 	public boolean hasPermission(Player player){
-		return !this.descriptor.hasPermission() || CorePlayerManager.getInstance().getPlayer(player).getInfo(BankPermissionInfo.class).checkPermission(this.descriptor.getPermission(), true);
+		return !this.descriptor.hasPermission()
+				|| CorePlayerManager.getInstance().getPlayer(player).getInfo(BankPermissionInfo.class).checkPermission(this.descriptor.getPermission(), true);
+	}
+	
+	protected static ItemStack replaceNameLore(BankItemPath bankItemPath, String... replacements){
+		return replaceCloneNameLore(bankItemPath.get(), bankItemPath.getName(), bankItemPath.getLore(), replacements);
 	}
 	
 }
