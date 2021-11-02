@@ -48,7 +48,11 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	public Map<Integer, ItemStack> getTabItemMap(){
 		return tabItemMap;
 	}
-	
+
+	public Map<Integer, String> getTabNameMap() {
+		return tabNameMap;
+	}
+
 	public int getOpenTab(){
 		return openTab;
 	}

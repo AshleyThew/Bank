@@ -188,6 +188,7 @@ public class PlayerLockDatabase extends SQLListener{
 		List<String> locked = new ArrayList<>();
 		try{
 			ResultSet rs = getTimeUnlocked.executeQuery();
+			getTimeUnlocked.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
 			while(rs.next()){
 				locked.add(rs.getString(1));
 			}

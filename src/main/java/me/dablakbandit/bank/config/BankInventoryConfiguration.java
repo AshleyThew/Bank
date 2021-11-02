@@ -1,5 +1,6 @@
 package me.dablakbandit.bank.config;
 
+import me.dablakbandit.core.config.comment.annotation.CommentArray;
 import org.bukkit.plugin.Plugin;
 
 import me.dablakbandit.bank.BankPlugin;
@@ -23,6 +24,7 @@ public class BankInventoryConfiguration extends CommentAdvancedConfiguration{
 	}
 	
 	@InventoryBase
+	@CommentArray({"Available Title Placeholders:", "<player>", "<bank_money>", "<bank_exp>", "<bank_exp_level>", "<bank_slots>", "<bank_used_slots>"})
 	private static final Path						BANK							= new EmptyPath();
 	
 	public static final InventoryDescriptionPath	BANK_ITEMS						= new InventoryDescriptionPath(54, "Bank Items", "bank.open.items");

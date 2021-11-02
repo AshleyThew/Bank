@@ -4,6 +4,8 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import me.dablakbandit.bank.config.BankLanguageConfiguration;
+import me.dablakbandit.bank.implementations.placeholder.BankPlaceholderManager;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -101,5 +103,10 @@ public abstract class BankInventoryHandler<T>extends InventoryHandler<T>{
 	protected static ItemStack replaceNameLore(BankItemPath bankItemPath, String... replacements){
 		return replaceCloneNameLore(bankItemPath.get(), bankItemPath.getName(), bankItemPath.getLore(), replacements);
 	}
-	
+
+
+	@Override
+	protected boolean open(CorePlayers pl, Player player, int size, String title) {
+		return super.open(pl, player, size, BankPlaceholderManager.getInstance().replace(pl, title));
+	}
 }

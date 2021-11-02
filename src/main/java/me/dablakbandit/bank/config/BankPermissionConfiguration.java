@@ -41,6 +41,9 @@ public class BankPermissionConfiguration extends CommentAdvancedConfiguration{
 	@CommentArray({ "Give a player the permission: bank.item.slots.1000 for a 1000 slots",
 			"Use main config to enable combined totals, bank.item.slots.1000 & bank.item.slots.10 would be a total of 1010 slots" })
 	public static final BankIntegerPermissionPath	PERMISSION_SLOTS				= new BankIntegerPermissionPath("bank.item.slots.");
+
+	@Comment("Permission to rename tabs in items inventory")
+	public static final BankIntegerPermissionPath	PERMISSION_TAB_RENAME				= new BankIntegerPermissionPath("bank.item.tab.rename");
 	
 	@Comment("Permission to send money from inventory")
 	public static final PermissionPath				PERMISSION_INVENTORY_MONEY_SEND	= new BankPermissionPath("bank.open.money.send");

@@ -2,6 +2,16 @@ package me.dablakbandit.bank.inventory.item;
 
 import java.util.function.Consumer;
 
+import me.dablakbandit.bank.api.BankAPI;
+import me.dablakbandit.bank.config.BankLanguageConfiguration;
+import me.dablakbandit.bank.inventory.AnvilInventory;
+import me.dablakbandit.bank.inventory.exp.BankExpInventory;
+import me.dablakbandit.bank.inventory.money.BankMoneyInventory;
+import me.dablakbandit.bank.utils.format.Format;
+import me.dablakbandit.core.utils.EXPUtils;
+import me.dablakbandit.core.vault.Eco;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
@@ -176,7 +186,14 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 		}
 		ItemStack is = pathItem.get();
 		is.setAmount(tab);
-		return replaceCloneNameLore(is, pathDescription.getName(), pathDescription.getLore(), "<tab>", "" + tab, "<items>", "" + itemsInfo.getItemMap().get(tab).size());
+		String name = pathDescription.getName();
+		if (BankPluginConfiguration.BANK_ITEMS_TABS_RENAME_ENABLED.get()) {
+			String set = bankInfo.getItemsInfo().getTabNameMap().get(tab);
+			if(set!=null){
+				name = set;
+			}
+		}
+		return replaceCloneNameLore(is, name, pathDescription.getLore(), "<tab>", "" + tab, "<items>", "" + itemsInfo.getItemMap().get(tab).size());
 	}
 	
 	public void onClick(CorePlayers pl, BankInfo bi, Inventory inv, InventoryClickEvent event){
@@ -222,15 +239,66 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	
 	protected void handleTab(CorePlayers pl, BankInfo bi, Inventory inv, InventoryClickEvent event){
 		int tab = event.getRawSlot() - descriptor.getSize() + 10;
-		if(bi.getItemsInfo().getOpenTab() == tab){ return; }
-		if(event.isRightClick()){
-			// TODO RIGHT CLICK
-			// This is reserved for custom tab items
+		if(BankPluginConfiguration.BANK_ITEMS_TABS_RENAME_ENABLED.get() && event.isRightClick()){
+			handleTabRename(pl, bi, tab);
+			return;
 		}
+		if(bi.getItemsInfo().getOpenTab() == tab){ return; }
 		bi.getItemsInfo().setOpenTab(tab);
 		bi.getItemsInfo().addScrolled(-bi.getItemsInfo().getScrolled());
 		pl.refreshInventory();
 		BankSoundConfiguration.INVENTORY_ITEMS_CHANGE_TAB.play(pl);
+	}
+
+	protected void handleTabRename(CorePlayers pl, BankInfo bi, int tab){
+		String current = bi.getItemsInfo().getTabNameMap().get(tab);
+		if(current == null){
+			current = " ";
+		}
+		pl.setOpenInventory(new AnvilInventory(BankLanguageConfiguration.ANVIL_ITEM_TAB_RENAME.get().replace("<i>", "" + current), current){
+			@Override
+			public void cancel(CorePlayers pl){
+				pl.setOpenInventory(BankItemsInventory.this);
+			}
+
+			@Override
+			public void close(CorePlayers pl){
+				pl.setOpenInventory(BankItemsInventory.this);
+			}
+
+			@Override
+			public void onClick(CorePlayers pl, String value){
+				if(value.startsWith(" ")){
+					value = value.substring(1, value.length());
+				}
+				if(!value.isEmpty()){
+					renameTab(pl, bi, tab, ChatColor.RESET + ChatColor.translateAlternateColorCodes('&', value));
+				}
+				pl.setOpenInventory(BankItemsInventory.this);
+			}
+		});
+	}
+
+	protected void renameTab(CorePlayers pl, BankInfo bankInfo, int tab, String name){
+		if(BankPluginConfiguration.BANK_ITEMS_TABS_RENAME_COST_MONEY.get() > 0){
+			if(!Eco.getInstance().getEconomy().has(pl.getPlayer(), BankPluginConfiguration.BANK_ITEMS_TABS_RENAME_COST_MONEY.get())){
+				return;
+			}
+		}
+		if(BankPluginConfiguration.BANK_ITEMS_TABS_RENAME_COST_EXP.get() > 0){
+			if(EXPUtils.getExp(pl.getPlayer()) < BankPluginConfiguration.BANK_ITEMS_TABS_RENAME_COST_EXP.get()){
+				return;
+			}
+		}
+		if(BankPluginConfiguration.BANK_ITEMS_TABS_RENAME_COST_MONEY.get() > 0){
+			Eco.getInstance().getEconomy().withdrawPlayer(pl.getPlayer(), BankPluginConfiguration.BANK_ITEMS_TABS_RENAME_COST_MONEY.get());
+		}
+		if(BankPluginConfiguration.BANK_ITEMS_TABS_RENAME_COST_EXP.get() > 0){
+			int exp = EXPUtils.getExp(pl.getPlayer());
+			exp -= BankPluginConfiguration.BANK_ITEMS_TABS_RENAME_COST_EXP.get();
+			EXPUtils.setExp(pl.getPlayer(), exp);
+		}
+		bankInfo.getItemsInfo().getTabNameMap().put(tab, name);
 	}
 	
 	protected ItemStack getItemStack(BankInfo bi, Integer slot){

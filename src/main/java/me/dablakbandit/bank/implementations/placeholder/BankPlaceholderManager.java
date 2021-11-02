@@ -78,7 +78,10 @@ public class BankPlaceholderManager{
 		}
 		
 		public String replace(CorePlayers pl, String info){
-			return info.replaceAll("<" + placeholder + ">", get(pl));
+			if(info.contains("<" + placeholder + ">")) {
+				return info.replaceAll("<" + placeholder + ">", get(pl));
+			}
+			return info;
 		}
 	}
 }

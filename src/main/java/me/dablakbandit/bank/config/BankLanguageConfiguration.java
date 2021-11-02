@@ -62,7 +62,8 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 		new BankTranslatedStringPath(ChatColor.RED + "You do not have the permission to perform this command.");
 	@Comment("Available: <value>")
 	public static final BankTranslatedStringPath	COMMAND_UNABLE_PARSE			= new BankTranslatedStringPath(ChatColor.RED + "Unable to parse <value>.");
-	
+
+	public static final BankTranslatedStringPath	ANVIL_ITEM_TAB_RENAME			= new BankTranslatedStringPath("Rename Tab <i>");
 	public static final BankTranslatedStringPath	ANVIL_EXP_WTIHDRAW				= new BankTranslatedStringPath("Withdraw");
 	public static final BankTranslatedStringPath	ANVIL_EXP_DEPOSIT				= new BankTranslatedStringPath("Deposit");
 	public static final BankTranslatedStringPath	ANVIL_EXP_SEND_NAME				= new BankTranslatedStringPath("Enter Player Name");

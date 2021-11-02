@@ -67,6 +67,12 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final BooleanPath					BANK_ITEMS_TABS_BUY_ENABLED					= new BooleanPath(false);
 	@Comment("Cost for each new tabs")
 	public static final IntegerPath					BANK_ITEMS_TABS_BUY_COST					= new IntegerPath(50);
+	@Comment("Enable tab renaming")
+	public static final BooleanPath					BANK_ITEMS_TABS_RENAME_ENABLED				= new BooleanPath(false);
+	@Comment("Money cost for renaming a tab")
+	public static final IntegerPath					BANK_ITEMS_TABS_RENAME_COST_MONEY			= new IntegerPath(0);
+	@Comment("Exp cost for renaming a tab")
+	public static final IntegerPath					BANK_ITEMS_TABS_RENAME_COST_EXP				= new IntegerPath(0);
 	@Comment("Default amount of item slots")
 	public static final IntegerPath					BANK_ITEMS_SLOTS_DEFAULT					= new IntegerPath(50);
 	@Comment("Set bought slots unique to each tab")
