@@ -133,6 +133,10 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final IntegerPath					BANK_EXP_INTEREST_TIMER_TIME				= new IntegerPath(1800);
 	@CommentArray({ "Set the amount of time till the next interest given", "Once set this cannot be modified in the config whilst the server is running" })
 	public static final IntegerPath					BANK_EXP_INTEREST_TIMER_NEXT				= new IntegerPath(1800);
+	@CommentArray("Enable sync payouts for multiple servers")
+	public static final BooleanPath					BANK_EXP_INTEREST_TIMER_SYNC_ENABLED		= new BooleanPath(false);
+	@CommentArray({"Set sync seed for servers", "Both servers require the same seed number for this to work!", "You can use a website like https://currentmillis.com/ to seed this number if you want payouts at certain times."})
+	public static final LongPath					BANK_EXP_INTEREST_TIMER_SYNC_SEED			= new LongPath(0);
 	
 	@Comment("Enable bank money")
 	public static final BooleanPath					BANK_MONEY_ENABLED							= new BooleanPath(true);
@@ -180,6 +184,10 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final IntegerPath					BANK_MONEY_INTEREST_TIMER_TIME				= new IntegerPath(1800);
 	@CommentArray({ "Set the amount of time till the next interest given", "Once set this cannot be modified in the config whilst the server is running" })
 	public static final IntegerPath					BANK_MONEY_INTEREST_TIMER_NEXT				= new IntegerPath(1800);
+	@CommentArray("Enable sync payouts for multiple servers")
+	public static final BooleanPath					BANK_MONEY_INTEREST_TIMER_SYNC_ENABLED		= new BooleanPath(false);
+	@CommentArray({"Set sync seed for servers", "Both servers require the same seed number for this to work!", "You can use a website like https://currentmillis.com/ to seed this number if you want payouts at certain times."})
+	public static final LongPath					BANK_MONEY_INTEREST_TIMER_SYNC_SEED			= new LongPath(0);
 	
 	@Comment("Enable Citizens / Use /trait add bank-trait")
 	public static final BooleanPath					BANK_TYPE_CITIZENS_ENABLED					= new BooleanPath(false);
