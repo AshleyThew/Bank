@@ -4,11 +4,11 @@ public class TaxCalculator{
 	
 	private final double	current, max, taxRate;
 	
-	private double			deposit, tax;
+	private double attempt, tax;
 	private boolean			full;
 	
-	public TaxCalculator(double deposit, double current, double max, double taxRate){
-		this.deposit = Math.max(0, deposit);
+	public TaxCalculator(double attempt, double current, double max, double taxRate){
+		this.attempt = Math.max(0, attempt);
 		this.current = current;
 		this.max = max;
 		this.taxRate = Math.max(0, taxRate);
@@ -16,12 +16,12 @@ public class TaxCalculator{
 	}
 	
 	private void calculate(){
-		if(this.deposit < 0.0 || this.current > this.max){
-			this.deposit = 0.0;
+		if(this.attempt < 0.0 || this.current > this.max){
+			this.attempt = 0.0;
 			this.full = true;
 			return;
 		}
-		double newAmount = this.current + this.deposit;
+		double newAmount = this.current + this.attempt;
 		
 		// If overflow or over max
 		if(newAmount < 0.0 || newAmount >= this.max){
@@ -30,20 +30,20 @@ public class TaxCalculator{
 			
 			double maxDeposit = tempDeposit + tempTax;
 			// Attempting to full bank
-			if(maxDeposit <= this.deposit){
-				this.deposit = tempDeposit;
+			if(maxDeposit <= this.attempt){
+				this.attempt = tempDeposit;
 				this.tax = tempTax;
 				return;
 			}else{
-				this.deposit = tempDeposit;
+				this.attempt = tempDeposit;
 			}
 		}
-		this.tax = this.deposit * this.taxRate;
-		this.deposit -= this.tax;
+		this.tax = this.attempt * this.taxRate;
+		this.attempt -= this.tax;
 	}
 	
-	public double getDeposit(){
-		return deposit;
+	public double getResult(){
+		return attempt;
 	}
 	
 	public double getTax(){
@@ -51,7 +51,7 @@ public class TaxCalculator{
 	}
 	
 	public double getCombined(){
-		return deposit + tax;
+		return attempt + tax;
 	}
 	
 	public boolean isFull(){

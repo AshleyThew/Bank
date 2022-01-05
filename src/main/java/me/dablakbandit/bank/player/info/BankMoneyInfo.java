@@ -60,20 +60,26 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo{
 	
 	public boolean withdrawMoney(CorePlayers pl, double withdraw){
 		withdraw = Math.max(0, withdraw);
-		boolean complete = withdrawMoney(pl.getPlayer().getName(), withdraw);
+
+		TaxCalculator taxCalculator = new TaxCalculator(withdraw, 0, Double.MAX_VALUE, BankPluginConfiguration.BANK_MONEY_WITHDRAW_TAX_PERCENT.get());
+		withdraw = taxCalculator.getCombined();
+
+		boolean complete = withdrawMoney(pl.getPlayer().getName(), withdraw, taxCalculator.getResult());
 		if(complete){
-			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_WITHDRAW.get().replaceAll("<money>", Format.formatMoney(withdraw)));
+			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_WITHDRAW.get()
+					.replaceAll("<money>", Format.formatMoney(withdraw))
+					.replaceAll("<tax>", Format.formatMoney(taxCalculator.getTax())));
 		}else{
 			// player.sendMessage(LanguageConfiguration.MESSAGE_NOT_ENOUGH_MONEY_IN_BANK.getMessage());
 		}
 		return complete;
 	}
 	
-	private boolean withdrawMoney(String name, double d){
-		if(d <= money){
-			EconomyResponse er = Eco.getInstance().getEconomy().depositPlayer(name, d);
+	private boolean withdrawMoney(String name, double total, double deposit){
+		if(total <= money){
+			EconomyResponse er = Eco.getInstance().getEconomy().depositPlayer(name, deposit);
 			if(!er.transactionSuccess()){ return false; }
-			money -= d;
+			money -= total;
 			// if(BankPluginConfiguration.LOGS_ENABLED.get() && BankPluginConfiguration.LOGS_MONEY.get()){
 			// log(name + " withdrew: " + format(d) + ", new amount: " + format(money));
 			// }
@@ -151,7 +157,7 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo{
 	
 	public double getMaxAdd(double amount){
 		TaxCalculator taxCalculator = calculate(amount);
-		return taxCalculator.getDeposit();
+		return taxCalculator.getResult();
 	}
 	
 	@Deprecated

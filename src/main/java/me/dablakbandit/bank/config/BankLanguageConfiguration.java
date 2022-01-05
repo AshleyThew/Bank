@@ -78,7 +78,7 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 		new BankTranslatedStringPath(ChatColor.GRAY + "[" + ChatColor.GREEN + "Bank" + ChatColor.GRAY + "] <message>");
 	@Comment("Available: <money>, <tax>")
 	public static final BankTranslatedStringPath	MESSAGE_MONEY_DEPOSIT			= new BankTranslatedStringPath(ChatColor.GREEN + "You have deposited $<money> to the bank.");
-	@Comment("Available: <money>")
+	@Comment("Available: <money>, <tax>")
 	public static final BankTranslatedStringPath	MESSAGE_MONEY_WITHDRAW			= new BankTranslatedStringPath(ChatColor.GREEN + "You have withdrawn $<money> from the bank.");
 	@Comment("Available: <money>")
 	public static final BankTranslatedStringPath	MESSAGE_MONEY_BALANCE			= new BankTranslatedStringPath(ChatColor.GREEN + "You have $<money> in the bank.");
@@ -92,7 +92,7 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	
 	@Comment("Available: <exp>, <tax>")
 	public static final BankTranslatedStringPath	MESSAGE_EXP_DEPOSIT				= new BankTranslatedStringPath(ChatColor.GREEN + "You have deposited <exp> exp to the bank.");
-	@Comment("Available: <exp>")
+	@Comment("Available: <exp>, <tax>")
 	public static final BankTranslatedStringPath	MESSAGE_EXP_WITHDRAW			= new BankTranslatedStringPath(ChatColor.GREEN + "You have withdrawn <exp> exp from the bank.");
 	@Comment("Available: <exp>")
 	public static final BankTranslatedStringPath	MESSAGE_EXP_BALANCE				= new BankTranslatedStringPath(ChatColor.GREEN + "You have <exp> exp in the bank.");

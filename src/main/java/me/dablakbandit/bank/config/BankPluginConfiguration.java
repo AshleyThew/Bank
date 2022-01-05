@@ -111,6 +111,8 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	
 	@Comment("Percentage to tax players when depositing, 0.01 = 1%")
 	public static final DoublePath					BANK_EXP_DEPOSIT_TAX_PERCENT				= new DoublePath(0);
+	@Comment("Percentage to tax players when withdrawing, 0.01 = 1%")
+	public static final DoublePath					BANK_EXP_WITHDRAW_TAX_PERCENT				= new DoublePath(0);
 	@Comment("Enable bank exp interest")
 	public static final BooleanPath					BANK_EXP_INTEREST_ENABLED					= new BooleanPath(false);
 	@Comment("If running mysql set only 1 server as main")
@@ -154,6 +156,8 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final BooleanPath					BANK_MONEY_DEPOSIT_FULL						= new BooleanPath(false);
 	@Comment("Percentage to tax players when depositing, 0.01 = 1%")
 	public static final DoublePath					BANK_MONEY_DEPOSIT_TAX_PERCENT				= new DoublePath(0);
+	@Comment("Percentage to tax players when withdrawing, 0.01 = 1%")
+	public static final DoublePath					BANK_MONEY_WITHDRAW_TAX_PERCENT				= new DoublePath(0);
 	@Comment("Set bank mode to money only")
 	public static final BooleanPath					BANK_MONEY_ONLY								= new BooleanPath(false);
 	@Comment("Set max money in bank")

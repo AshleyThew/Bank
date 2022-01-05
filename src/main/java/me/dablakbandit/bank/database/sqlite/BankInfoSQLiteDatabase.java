@@ -2,6 +2,7 @@ package me.dablakbandit.bank.database.sqlite;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLSyntaxErrorException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -52,7 +53,10 @@ public class BankInfoSQLiteDatabase extends IInfoDatabase{
 			ResultSet rs = connection.prepareStatement("PRAGMA table_info(`" + table + "`);").executeQuery();
 			exists = rs.next();
 			rs.close();
-		}catch(Exception ignored){
+		}catch(Throwable ignored){
+			if(!(ignored instanceof SQLSyntaxErrorException)){
+				ignored.printStackTrace();
+			}
 		}
 		return exists;
 	}
