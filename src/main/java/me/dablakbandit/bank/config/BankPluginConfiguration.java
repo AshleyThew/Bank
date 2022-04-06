@@ -2,6 +2,8 @@ package me.dablakbandit.bank.config;
 
 import java.util.Arrays;
 
+import me.dablakbandit.bank.implementations.blacklist.BlacklistMode;
+import me.dablakbandit.core.configuration.AdvancedConfiguration;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -87,7 +89,10 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final BooleanPath					BANK_ITEMS_SLOTS_PERMISSION_COMBINE			= new BooleanPath(false);
 	@Comment("Enable item blacklist")
 	public static final BooleanPath					BANK_ITEMS_BLACKLIST_ENABLED				= new BooleanPath(false);
-	
+
+	@Comment("Blacklist mode (blacklist/whitelist)")
+	public static final EnumPath					BANK_ITEMS_BLACKLIST_MODE					= new EnumPath<>(BlacklistMode.class, BlacklistMode.BLACKLIST);
+
 	@Comment("Enable bank pin")
 	public static final BooleanPath					BANK_PIN_ENABLED							= new BooleanPath(true);
 	

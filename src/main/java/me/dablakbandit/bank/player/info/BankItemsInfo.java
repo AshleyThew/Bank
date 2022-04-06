@@ -319,8 +319,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	}
 	
 	public void removeAllBankToInventory(Player player){
-		boolean taken = false;
-		taken |= removeBankTo(player, 0, 36);
+		boolean taken = removeBankTo(player, 0, 36);
 		taken |= removeBankToOffhand(player);
 		if(taken){
 			save(BankPluginConfiguration.BANK_SAVE_ITEM_WITHDRAW);

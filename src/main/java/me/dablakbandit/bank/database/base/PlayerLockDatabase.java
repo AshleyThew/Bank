@@ -4,10 +4,7 @@
 
 package me.dablakbandit.bank.database.base;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +24,10 @@ public class PlayerLockDatabase extends SQLListener{
 	@Override
 	public void setup(Connection c){
 		try{
-			c.prepareStatement("CREATE TABLE IF NOT EXISTS `bank_player_lock` ( `uuid` VARCHAR(36) NOT NULL, `locked` BOOLEAN NOT NULL, PRIMARY KEY(`uuid`));").execute();
-			
-			c.prepareStatement("CREATE TABLE IF NOT EXISTS `bank_player_time_lock` ( `uuid` VARCHAR(36) NOT NULL, `locked` TIMESTAMP NOT NULL, PRIMARY KEY(`uuid`));").execute();
+			Statement statement = c.createStatement();
+			statement.execute("CREATE TABLE IF NOT EXISTS `bank_player_lock` ( `uuid` VARCHAR(36) NOT NULL, `locked` BOOLEAN NOT NULL, PRIMARY KEY(`uuid`));");
+
+			statement.execute("CREATE TABLE IF NOT EXISTS `bank_player_time_lock` ( `uuid` VARCHAR(36) NOT NULL, `locked` TIMESTAMP NOT NULL, PRIMARY KEY(`uuid`));");
 			
 			isLocked = c.prepareStatement("SELECT * FROM `bank_player_lock` WHERE `uuid` = ?;");
 			setLocked = c.prepareStatement("UPDATE `bank_player_lock` SET `locked` = ? WHERE `uuid`=?;");
@@ -40,6 +38,8 @@ public class PlayerLockDatabase extends SQLListener{
 			setTimeLocked = c.prepareStatement("UPDATE `bank_player_time_lock` SET `locked` = ? WHERE `uuid`=?;");
 			addTimeLocked = c.prepareStatement("INSERT INTO `bank_player_time_lock` (`uuid`, `locked`) VALUES (?,?);");
 			getTimeUnlocked = c.prepareStatement("SELECT * FROM `bank_player_time_lock` WHERE `locked` < ?;");
+
+			statement.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -53,30 +53,34 @@ public class PlayerLockDatabase extends SQLListener{
 		}
 	}
 	
-	protected synchronized boolean isStandardLocked(String uuid){
+	protected boolean isStandardLocked(String uuid){
 		boolean ret = true;
 		try{
-			isLocked.setString(1, uuid);
-			ResultSet rs = isLocked.executeQuery();
-			if(rs.next()){
-				ret = rs.getBoolean("locked");
+			synchronized(isLocked){
+				isLocked.setString(1, uuid);
+				ResultSet rs = isLocked.executeQuery();
+				if (rs.next()) {
+					ret = rs.getBoolean("locked");
+				}
+				rs.close();
 			}
-			rs.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		return ret;
 	}
 	
-	protected synchronized boolean isTimeLocked(String uuid){
+	protected boolean isTimeLocked(String uuid){
 		boolean ret = true;
 		try{
-			isTimeLocked.setString(1, uuid);
-			ResultSet rs = isTimeLocked.executeQuery();
-			if(rs.next()){
-				ret = rs.getTimestamp("locked").getTime() > System.currentTimeMillis();
+			synchronized(isTimeLocked){
+				isTimeLocked.setString(1, uuid);
+				ResultSet rs = isTimeLocked.executeQuery();
+				if (rs.next()) {
+					ret = rs.getTimestamp("locked").getTime() > System.currentTimeMillis();
+				}
+				rs.close();
 			}
-			rs.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -91,18 +95,23 @@ public class PlayerLockDatabase extends SQLListener{
 		}
 	}
 	
-	protected synchronized boolean isStandardLocked(CorePlayers pl, boolean set){
+	protected boolean isStandardLocked(CorePlayers pl, boolean set){
 		boolean ret = true;
 		String uuid = pl.getUUIDString();
 		try{
-			isLocked.setString(1, uuid);
-			ResultSet rs = isLocked.executeQuery();
+			ResultSet rs;
+			synchronized(isLocked){
+				isLocked.setString(1, uuid);
+				rs = isLocked.executeQuery();
+			}
 			if(rs.next()){
 				ret = rs.getBoolean("locked");
 			}else{
-				addLocked.setString(1, uuid);
-				addLocked.setBoolean(2, set);
-				addLocked.execute();
+				synchronized(addLocked){
+					addLocked.setString(1, uuid);
+					addLocked.setBoolean(2, set);
+					addLocked.execute();
+				}
 				ret = false;
 			}
 			rs.close();

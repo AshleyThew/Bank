@@ -141,7 +141,7 @@ public class BankExpInfo extends IBankInfo implements JSONInfo{
 	
 	@Deprecated
 	public boolean subtractExp(int amount){
-		if(exp <= amount){
+		if(amount <= exp){
 			exp -= amount;
 			save(BankPluginConfiguration.BANK_SAVE_EXP_WITHDRAW);
 			return true;

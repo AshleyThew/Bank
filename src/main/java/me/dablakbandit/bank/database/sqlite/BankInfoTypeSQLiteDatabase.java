@@ -1,11 +1,9 @@
 package me.dablakbandit.bank.database.sqlite;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 
 import me.dablakbandit.bank.database.base.IInfoDatabase;
 import me.dablakbandit.bank.database.base.IInfoTypeDatabase;
@@ -25,13 +23,16 @@ public class BankInfoTypeSQLiteDatabase<T extends JSONInfo>extends IInfoTypeData
 	@Override
 	public void setup(Connection con){
 		try{
-			con.prepareStatement("CREATE TABLE IF NOT EXISTS `" + database + "`( `uuid` VARCHAR(36) NOT NULL, `value` LONGTEXT NOT NULL, `last_modified` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (`uuid`));").execute();
+			Statement statement = con.createStatement();
+			statement.execute("CREATE TABLE IF NOT EXISTS `" + database + "`( `uuid` VARCHAR(36) NOT NULL, `value` LONGTEXT NOT NULL, `last_modified` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (`uuid`));");
 			getPlayerInfo = con.prepareStatement("SELECT * FROM `" + database + "` WHERE `uuid` = ?;");
 			insertPlayerInfo = con.prepareStatement("INSERT INTO `" + database + "` (`uuid`, `value`) VALUES (?,?);");
 			updatePlayerInfo = con.prepareStatement("UPDATE `" + database + "` SET `value` = ?, `last_modified` = ? WHERE `uuid` = ?;");
 			expire = con.prepareStatement("DELETE FROM `" + database + "` WHERE `last_modified` < ?;");
 			getModified = con.prepareStatement("SELECT * FROM `" + database + "` WHERE `last_modified` > ?;");
 			getDistinctUUIDS = con.prepareStatement("SELECT DISTINCT(`uuid`) FROM `" + database + "`;");
+
+			statement.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}

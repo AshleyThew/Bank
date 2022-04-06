@@ -3,6 +3,7 @@ package me.dablakbandit.bank.implementations.blacklist;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import me.dablakbandit.bank.config.BankPluginConfiguration;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -28,7 +29,8 @@ public class ItemBlacklistImplementation extends BankImplementation{
 	
 	public boolean isBlacklisted(ItemStack itemStack){
 		if(!enabled){ return false; }
-		return isItemBlacklisted(itemStack) || isNameBlacklisted(itemStack) || isLoreBlacklisted(itemStack);
+		boolean blacklisted = isItemBlacklisted(itemStack) || isNameBlacklisted(itemStack) || isLoreBlacklisted(itemStack);
+		return BankPluginConfiguration.BANK_ITEMS_BLACKLIST_MODE.get() == BlacklistMode.WHITELIST ? !blacklisted : blacklisted;
 	}
 	
 	private boolean isItemBlacklisted(ItemStack itemStack){

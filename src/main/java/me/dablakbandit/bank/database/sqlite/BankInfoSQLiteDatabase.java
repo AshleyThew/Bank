@@ -1,6 +1,7 @@
 package me.dablakbandit.bank.database.sqlite;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLSyntaxErrorException;
 import java.text.SimpleDateFormat;
@@ -35,11 +36,13 @@ public class BankInfoSQLiteDatabase extends IInfoDatabase{
 	public boolean columnExists(Connection connection, String db, String column){
 		List<String> columns = new ArrayList<>();
 		try{
-			ResultSet rs = connection.prepareStatement("PRAGMA table_info(`" + db + "`);").executeQuery();
+			PreparedStatement ps = connection.prepareStatement("PRAGMA table_info(`" + db + "`);");
+			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				columns.add(rs.getString(2));
 			}
 			rs.close();
+			ps.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -50,9 +53,11 @@ public class BankInfoSQLiteDatabase extends IInfoDatabase{
 	public boolean tableExists(Connection connection, String table){
 		boolean exists = false;
 		try{
-			ResultSet rs = connection.prepareStatement("PRAGMA table_info(`" + table + "`);").executeQuery();
+			PreparedStatement ps = connection.prepareStatement("PRAGMA table_info(`" + table + "`);");
+			ResultSet rs = ps.executeQuery();
 			exists = rs.next();
 			rs.close();
+			ps.close();
 		}catch(Throwable ignored){
 			if(!(ignored instanceof SQLSyntaxErrorException)){
 				ignored.printStackTrace();
@@ -67,12 +72,11 @@ public class BankInfoSQLiteDatabase extends IInfoDatabase{
 	}
 	
 	@Override
-	public <T extends JSONInfo> IInfoTypeDatabase<T> getInfoTypeDatabase(Class<T> typeClass){
+	public synchronized <T extends JSONInfo> IInfoTypeDatabase<T> getInfoTypeDatabase(Class<T> typeClass){
 		IInfoTypeDatabase infoTypeDatabase = infoTypeDatabasesMap.get(typeClass);
 		if(infoTypeDatabase == null){
 			String database = "bank_player_info_" + typeClass.getSimpleName().toLowerCase();
-			boolean add = infoTypeDatabaseSet.add(database);
-			if(add){
+			if(infoTypeDatabaseSet.add(database)){
 				infoTypeDatabase = new BankInfoTypeSQLiteDatabase(this, typeClass, database);
 				getDatabase().addListener(infoTypeDatabase);
 				infoTypeDatabasesMap.put(typeClass, infoTypeDatabase);

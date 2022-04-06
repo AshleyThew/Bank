@@ -43,8 +43,8 @@ public class BankPermissionConfiguration extends CommentAdvancedConfiguration{
 	public static final BankIntegerPermissionPath	PERMISSION_SLOTS				= new BankIntegerPermissionPath("bank.item.slots.");
 
 	@Comment("Permission to rename tabs in items inventory")
-	public static final BankIntegerPermissionPath	PERMISSION_TAB_RENAME				= new BankIntegerPermissionPath("bank.item.tab.rename");
-	
+	public static final PermissionPath				PERMISSION_TAB_RENAME						= new PermissionPath("bank.item.tab.rename");
+
 	@Comment("Permission to send money from inventory")
 	public static final PermissionPath				PERMISSION_INVENTORY_MONEY_SEND	= new BankPermissionPath("bank.open.money.send");
 	

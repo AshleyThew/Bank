@@ -49,10 +49,6 @@ public class BankBlacklistItemInventory extends BankInventoryHandler<BankAdminIn
 		pl.refreshInventory();
 	}
 	
-	private void returnToItems(CorePlayers pl){
-		BankInventoriesManager.getInstance().open(pl, BankInventories.BANK_ITEMS);
-	}
-	
 	@Override
 	public BankAdminInfo getInvoker(CorePlayers pl){
 		return pl.getInfo(BankAdminInfo.class);

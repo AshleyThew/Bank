@@ -3,7 +3,7 @@ package me.dablakbandit.bank.inventory.item;
 import java.util.function.Consumer;
 
 import me.dablakbandit.bank.api.BankAPI;
-import me.dablakbandit.bank.config.BankLanguageConfiguration;
+import me.dablakbandit.bank.config.*;
 import me.dablakbandit.bank.inventory.AnvilInventory;
 import me.dablakbandit.bank.inventory.exp.BankExpInventory;
 import me.dablakbandit.bank.inventory.money.BankMoneyInventory;
@@ -19,9 +19,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import me.dablakbandit.bank.config.BankItemConfiguration;
-import me.dablakbandit.bank.config.BankPluginConfiguration;
-import me.dablakbandit.bank.config.BankSoundConfiguration;
 import me.dablakbandit.bank.config.path.BankItemPath;
 import me.dablakbandit.bank.inventory.BankInventories;
 import me.dablakbandit.bank.inventory.BankInventoriesManager;
@@ -239,7 +236,7 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	
 	protected void handleTab(CorePlayers pl, BankInfo bi, Inventory inv, InventoryClickEvent event){
 		int tab = event.getRawSlot() - descriptor.getSize() + 10;
-		if(BankPluginConfiguration.BANK_ITEMS_TABS_RENAME_ENABLED.get() && event.isRightClick()){
+		if(BankPluginConfiguration.BANK_ITEMS_TABS_RENAME_ENABLED.get() && event.isRightClick() && BankPermissionConfiguration.PERMISSION_TAB_RENAME.has(pl.getPlayer())){
 			handleTabRename(pl, bi, tab);
 			return;
 		}
