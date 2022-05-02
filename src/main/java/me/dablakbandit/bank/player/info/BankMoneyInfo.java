@@ -1,5 +1,6 @@
 package me.dablakbandit.bank.player.info;
 
+import me.dablakbandit.bank.log.BankLog;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
@@ -76,9 +77,16 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo{
 	}
 	
 	private boolean withdrawMoney(String name, double total, double deposit){
+		if(Eco.getInstance().getEconomy() == null){
+			BankLog.debug(name + " withdraw transaction failed with error: Economy instance not set");
+			return false;
+		}
 		if(total <= money){
 			EconomyResponse er = Eco.getInstance().getEconomy().depositPlayer(name, deposit);
-			if(!er.transactionSuccess()){ return false; }
+			if(!er.transactionSuccess()){
+				BankLog.debug(name + " withdraw transaction failed with error: " + er.errorMessage);
+				return false;
+			}
 			money -= total;
 			// if(BankPluginConfiguration.LOGS_ENABLED.get() && BankPluginConfiguration.LOGS_MONEY.get()){
 			// log(name + " withdrew: " + format(d) + ", new amount: " + format(money));
@@ -122,9 +130,15 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo{
 	
 	@SuppressWarnings("deprecation")
 	private boolean depositMoney(String name, double amount, double tax){
-		if(Eco.getInstance().getEconomy() == null){ return false; }
+		if(Eco.getInstance().getEconomy() == null){
+			BankLog.debug(name + " deposit transaction failed with error: Economy instance not set");
+			return false;
+		}
 		EconomyResponse er = Eco.getInstance().getEconomy().withdrawPlayer(name, amount);
-		if(!er.transactionSuccess()){ return false; }
+		if(!er.transactionSuccess()){
+			BankLog.debug(name + " deposit transaction failed with error: " +  er.errorMessage);
+			return false;
+		}
 		money += amount - tax;
 		// if(BankPluginConfiguration.LOGS_ENABLED.get() && BankPluginConfiguration.LOGS_MONEY.get()){
 		// log(name + " deposited: " + format(d) + ", new amount: " + format(money));

@@ -86,6 +86,9 @@ public class BankItemConfiguration extends CommentAdvancedConfiguration{
 	public static final BankItemPath	BANK_ITEM_TRASHCAN					= new BankItemPath(3, black_stained, ChatColor.RED + "Trashcan", ChatColor.RED + "Items are destroyed");
 	@Comment("Items.Slot: amount of items to show (note disabling tabs adds + 9 to this)")
 	public static final BankItemPath	BANK_ITEM_ITEMS						= new BankItemPath(36, Material.AIR, "");
+
+	@Comment("Available: <cost>")
+	public static final BankItemPath	BANK_ITEM_LOCKED					= new BankItemPath(-1, Material.RED_STAINED_GLASS_PANE, ChatColor.RED + "Slot locked", ChatColor.GREEN + "Purchase more slots to unlock.", ChatColor.GREEN + "Click to unlock for $<cost>");
 	
 	@Comment("Items.Slot: amount of checks to show")
 	public static final BankItemPath	BANK_PERMISSION_HISTORY_LIST		= new BankItemPath(45, Material.AIR, "");

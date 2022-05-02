@@ -2,15 +2,10 @@ package me.dablakbandit.bank.inventory.item;
 
 import java.util.function.Consumer;
 
-import me.dablakbandit.bank.api.BankAPI;
 import me.dablakbandit.bank.config.*;
 import me.dablakbandit.bank.inventory.AnvilInventory;
-import me.dablakbandit.bank.inventory.exp.BankExpInventory;
-import me.dablakbandit.bank.inventory.money.BankMoneyInventory;
-import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.utils.EXPUtils;
 import me.dablakbandit.core.vault.Eco;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -219,18 +214,26 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 		ItemStack is = event.getCurrentItem();
 		if(is == null || is.getType().equals(Material.AIR)){ return; }
 		int itemSlot = event.getRawSlot() - 9;
-		if(event.isShiftClick() || event.isLeftClick()){
-			int clicked = bi.getScrolled() * 9 + itemSlot;
-			if(bi.takeBankItemAt(pl.getPlayer(), bi.getOpenTab(), clicked, false)){
-				BankSoundConfiguration.INVENTORY_ITEMS_ITEM_TAKE.play(pl);
-				pl.refreshInventory();
+		int slot = bi.getScrolled() * 9 + itemSlot;
+
+		ItemStack ia = bi.getBankItemAtSlot(slot, bi.getOpenTab());
+		if(ia == null){
+			if(BankPluginConfiguration.BANK_ITEMS_SLOTS_LOCKED_ENABLED.get() && slot >= bi.getBankSlots(bi.getOpenTab())){
+				if(BankPluginConfiguration.BANK_ITEMS_SLOTS_LOCKED_CLICK.get()){
+					if(bi.buySlots(1, pl)){
+						pl.refreshInventory();
+					}
+				}
 			}
-		}else if(event.isRightClick()){
-			int clicked = bi.getScrolled() * 9 + itemSlot;
-			if(bi.takeBankItemAt(pl.getPlayer(), bi.getOpenTab(), clicked, true)){
-				BankSoundConfiguration.INVENTORY_ITEMS_ITEM_TAKE.play(pl);
-				pl.refreshInventory();
-			}
+			return;
+		}
+		int total = ia.getAmount();
+		if(event.isRightClick()){
+			total = (int)Math.ceil(total / 2.0);
+		}
+		if(bi.takeBankItemAt(pl.getPlayer(), bi.getOpenTab(), slot, total)){
+			BankSoundConfiguration.INVENTORY_ITEMS_ITEM_TAKE.play(pl);
+			pl.refreshInventory();
 		}
 	}
 	
@@ -300,7 +303,14 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	
 	protected ItemStack getItemStack(BankInfo bi, Integer slot){
 		BankItemsInfo itemsInfo = bi.getItemsInfo();
-		return itemsInfo.getBankItemAtInt(slot + itemsInfo.getScrolled() * 9, itemsInfo.getOpenTab());
+		int finalSlot = slot + itemsInfo.getScrolled() * 9;
+		ItemStack slotItem = itemsInfo.getBankItemAtSlot(finalSlot, itemsInfo.getOpenTab());
+		if(BankPluginConfiguration.BANK_ITEMS_SLOTS_LOCKED_ENABLED.get() && slotItem == null){
+			if(finalSlot >= itemsInfo.getBankSlots(itemsInfo.getOpenTab())){
+				return replaceNameLore(BankItemConfiguration.BANK_ITEM_LOCKED, "<cost>", "" + BankPluginConfiguration.BANK_ITEMS_SLOTS_BUY_COST.get());
+			}
+		}
+		return slotItem;
 	}
 	
 	public void set(CorePlayers pl, Player player, Inventory inventory){

@@ -5,7 +5,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import me.dablakbandit.bank.config.BankLanguageConfiguration;
+import me.dablakbandit.bank.config.path.BankPermissionPath;
 import me.dablakbandit.bank.implementations.placeholder.BankPlaceholderManager;
+import me.dablakbandit.core.config.path.PermissionPath;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -91,6 +93,14 @@ public abstract class BankInventoryHandler<T>extends InventoryHandler<T>{
 		return (pl, t) -> {
 			consumer.onClick(pl, t);
 			sounds.play(pl);
+		};
+	}
+
+	public ItemInfoHandler<T> consumePermissions(PermissionPath permissionPath, ItemInfoHandler<T> consumer){
+		return (pl, t) -> {
+			if(permissionPath.has(pl.getPlayer())) {
+				consumer.onClick(pl, t);
+			}
 		};
 	}
 	

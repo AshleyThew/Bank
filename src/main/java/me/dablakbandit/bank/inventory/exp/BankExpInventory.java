@@ -1,13 +1,10 @@
 package me.dablakbandit.bank.inventory.exp;
 
+import me.dablakbandit.bank.config.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.dablakbandit.bank.config.BankItemConfiguration;
-import me.dablakbandit.bank.config.BankLanguageConfiguration;
-import me.dablakbandit.bank.config.BankPluginConfiguration;
-import me.dablakbandit.bank.config.BankSoundConfiguration;
 import me.dablakbandit.bank.config.path.BankItemPath;
 import me.dablakbandit.bank.inventory.AnvilInventory;
 import me.dablakbandit.bank.inventory.BankInventories;
@@ -31,7 +28,7 @@ public class BankExpInventory extends BankInventoryHandler<BankExpInfo>{
 		setItem(BankItemConfiguration.BANK_EXP_BALANCE, this::getBalance);
 		setItem(BankItemConfiguration.BANK_EXP_DEPOSIT, consumeSound(this::deposit, BankSoundConfiguration.INVENTORY_EXP_DEPOSIT));
 		setItem(BankItemConfiguration.BANK_EXP_DEPOSITALL, consumeSound(this::depositAll, BankSoundConfiguration.INVENTORY_EXP_DEPOSIT_ALL));
-		setItem(BankItemConfiguration.BANK_EXP_SEND, consumeSound(this::sendExp, BankSoundConfiguration.EXP_SEND_OTHER));
+		setItem(BankItemConfiguration.BANK_EXP_SEND, consumePermissions(BankPermissionConfiguration.PERMISSION_INVENTORY_EXP_SEND, consumeSound(this::sendExp, BankSoundConfiguration.EXP_SEND_OTHER)));
 	}
 	
 	private ItemStack getBalance(BankItemPath path, BankExpInfo info){

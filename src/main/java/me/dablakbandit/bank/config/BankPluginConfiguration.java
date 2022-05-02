@@ -81,6 +81,12 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final BooleanPath					BANK_ITEMS_SLOTS_BUY_PER_TAB				= new BooleanPath(true);
 	@Comment("Enable buying of slots")
 	public static final BooleanPath					BANK_ITEMS_SLOTS_BUY_ENABLED				= new BooleanPath(false);
+
+	@Comment("Enable locked slots")
+	public static final BooleanPath					BANK_ITEMS_SLOTS_LOCKED_ENABLED				= new BooleanPath(false);
+
+	@Comment("Enable click to buy locked slots (also requires buy enabled above)")
+	public static final BooleanPath					BANK_ITEMS_SLOTS_LOCKED_CLICK				= new BooleanPath(false);
 	@Comment("Cost for each new slots")
 	public static final IntegerPath					BANK_ITEMS_SLOTS_BUY_COST					= new IntegerPath(50);
 	@Comment("Max amount of bought slots")
@@ -327,6 +333,15 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final IntegerPath					BANK_LOANS_INTEREST_TIMER_NEXT				= new IntegerPath(0);
 	@Comment("Set to override the timer next")
 	public static final IntegerPath					BANK_LOANS_INTEREST_TIMER_OVERRIDE			= new IntegerPath(0);
+
+	@Comment("Enable items lost on death")
+	public static final BooleanPath					BANK_DEATH_ITEMS_REMOVE						= new BooleanPath(false);
+
+	@Comment("Enable money lost on death")
+	public static final BooleanPath					BANK_DEATH_MONEY_REMOVE						= new BooleanPath(false);
+
+	@Comment("Enable exp lost on death")
+	public static final BooleanPath					BANK_DEATH_EXP_REMOVE						= new BooleanPath(false);
 	
 	@Comment("Set the log levels. Values: LOWEST, LOW, MEDIUM, HIGH, HIGHEST")
 	public static final EnumPath<BankLogLevel>		BANK_LOG_LEVEL								= new EnumPath<>(BankLogLevel.class, BankLogLevel.LOWEST);

@@ -290,7 +290,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 		}
 	}
 	
-	public ItemStack getBankItemAtInt(int slot, int page){
+	public ItemStack getBankItemAtSlot(int slot, int page){
 		List<ItemStack> listItems = getItems(page);
 		if(slot >= listItems.size()){ return null; }
 		return listItems.get(slot);
@@ -438,9 +438,9 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 		return add;
 	}
 	
-	private boolean takeBankItemAt(Player player, int tab, int slot, int take){
+	private boolean takeBankItem(Player player, int tab, int slot, int take){
 		Inventory inv = player.getInventory();
-		ItemStack is = getBankItemAtInt(slot, tab);
+		ItemStack is = getBankItemAtSlot(slot, tab);
 		if(is == null){ return false; }
 		int original = is.getAmount();
 		int toTake = Math.min(is.getAmount(), take);
@@ -458,12 +458,9 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 			return left != original;
 		}
 	}
-	
-	public boolean takeBankItemAt(Player player, int tab, int slot, boolean half){
-		ItemStack ia = getBankItemAtInt(slot, tab);
-		if(ia == null){ return false; }
-		int total = ia.getAmount();
-		boolean taken = takeBankItemAt(player, tab, slot, half ? (int)Math.ceil(ia.getAmount() / 2.0) : total);
+
+	public boolean takeBankItemAt(Player player, int tab, int slot, int amount){
+		boolean taken = takeBankItem(player, tab, slot, amount);
 		if(taken){
 			save(BankPluginConfiguration.BANK_SAVE_ITEM_WITHDRAW);
 		}
@@ -480,7 +477,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 		itemMap.put(page, list);
 	}
 	
-	public boolean buySlots(CorePlayers pl){
+	public boolean buySlots(int buySlots, CorePlayers pl){
 		if(buySlots == 0){ return false; }
 		double d = buySlots * BankPluginConfiguration.BANK_ITEMS_SLOTS_BUY_COST.get();
 		if(Eco.getInstance().getEconomy().has(pl.getName(), d) && Eco.getInstance().getEconomy().withdrawPlayer(pl.getName(), d).transactionSuccess()){
