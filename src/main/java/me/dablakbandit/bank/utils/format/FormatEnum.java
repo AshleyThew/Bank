@@ -3,6 +3,7 @@ package me.dablakbandit.bank.utils.format;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import me.dablakbandit.bank.config.BankLanguageConfiguration;
 import me.dablakbandit.core.config.path.TranslatedStringPath;
@@ -76,8 +77,8 @@ public enum FormatEnum{
 			if(formatMoney == THOUSAND && !thousand){
 				continue;
 			}
-			if(amount >= formatMoney.amount){ return String.format(normalFormat + " " + formatMoney.namePath.get(), amount / formatMoney.amount); }
+			if(amount >= formatMoney.amount){ return String.format(Locale.ROOT, normalFormat + " " + formatMoney.namePath.get(), amount / formatMoney.amount); }
 		}
-		return String.format(round ? roundFormat : normalFormat, round ? Math.floor(amount) : amount);
+		return String.format(Locale.ROOT, round ? roundFormat : normalFormat, round ? Math.floor(amount) : amount);
 	}
 }
