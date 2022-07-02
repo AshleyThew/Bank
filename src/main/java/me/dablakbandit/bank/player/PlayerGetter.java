@@ -22,7 +22,6 @@ public class PlayerGetter{
 		return false;
 	}
 	
-	@SuppressWarnings("deprecation")
 	public static Player getPlayer(String uuid, String name){
 		try{
 			if(huuid){ return Bukkit.getPlayer(UUID.fromString(uuid)); }
@@ -31,7 +30,6 @@ public class PlayerGetter{
 		return Bukkit.getPlayer(name);
 	}
 	
-	@SuppressWarnings("deprecation")
 	public static Player getPlayer(UUID uuid, String name){
 		try{
 			if(huuid){ return Bukkit.getPlayer(uuid); }

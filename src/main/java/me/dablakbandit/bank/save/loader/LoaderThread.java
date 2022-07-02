@@ -11,14 +11,9 @@ import me.dablakbandit.bank.log.BankLog;
 public class LoaderThread implements Runnable{
 	
 	private final AtomicBoolean		stop	= new AtomicBoolean(false);
-	private volatile boolean	log		= false;
-	
+
 	public void terminate(){
 		stop.set(true);
-	}
-	
-	public void log(){
-		log = true;
 	}
 	
 	private final List<Runnable> runners = Collections.synchronizedList(new ArrayList<>());

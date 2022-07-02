@@ -170,7 +170,7 @@ public class Economy_Bank extends AbstractEconomy{
 	
 	@Override
 	public List<String> getBanks(){
-		return new ArrayList();
+		return new ArrayList<>();
 	}
 	
 	@Override

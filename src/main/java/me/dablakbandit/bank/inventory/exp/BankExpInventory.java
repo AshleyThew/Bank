@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.dablakbandit.bank.config.path.BankItemPath;
+import me.dablakbandit.bank.config.path.impl.BankItemPath;
 import me.dablakbandit.bank.inventory.AnvilInventory;
 import me.dablakbandit.bank.inventory.BankInventories;
 import me.dablakbandit.bank.inventory.BankInventoriesManager;
@@ -122,7 +122,7 @@ public class BankExpInventory extends BankInventoryHandler<BankExpInfo>{
 			@Override
 			public void onClick(CorePlayers pl, String value){
 				if(value.startsWith(" ")){
-					value = value.substring(1, value.length());
+					value = value.substring(1);
 				}
 				if(Bukkit.getPlayer(value) == null){
 					BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.COMMAND_UNKNOWN_PLAYER.get().replaceAll("<player>", value));

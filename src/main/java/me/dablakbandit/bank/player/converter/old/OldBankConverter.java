@@ -27,7 +27,7 @@ public class OldBankConverter{
 	
 	public boolean convert(String from, SaveType to){
 		BankDatabaseManager.getInstance().load(to);
-		if ("MYSQL".equals(from.toUpperCase())) {
+		if ("MYSQL".equalsIgnoreCase(from)) {
 			return convertMySQL();
 		}
 		return convertSQLite();

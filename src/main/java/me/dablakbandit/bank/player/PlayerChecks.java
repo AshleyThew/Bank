@@ -8,7 +8,7 @@ import me.dablakbandit.core.players.CorePlayerManager;
 
 public class PlayerChecks{
 	
-	public static PlayerChecks playerChecks = new PlayerChecks();
+	public static final PlayerChecks playerChecks = new PlayerChecks();
 	
 	public static PlayerChecks getInstance(){
 		return playerChecks;

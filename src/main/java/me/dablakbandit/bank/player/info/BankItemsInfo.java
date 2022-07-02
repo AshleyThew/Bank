@@ -190,6 +190,9 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	}
 	
 	public ItemStack addBankItem(Player player, ItemStack is, int tab){
+		if(!BankPermissionConfiguration.PERMISSION_ITEMS_DEPOSIT.has(pl.getPlayer())){
+			return is;
+		}
 		if(isEmpty(is)){ return is; }
 		if(ItemBlacklistImplementation.getInstance().isBlacklisted(is)){
 			// pl.getPlayer().sendMessage(LanguageConfiguration.MESSAGE_ITEM_IS_BLACKLISTED.getMessage());
@@ -250,7 +253,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	}
 	
 	public int getBankSize(int page){
-		if(BankPluginConfiguration.BANK_ITEMS_SLOTS_BUY_PER_TAB.get()){ return itemMap.get(openTab).size(); }
+		if(BankPluginConfiguration.BANK_ITEMS_SLOTS_BUY_PER_TAB.get()){ return itemMap.get(page).size(); }
 		return itemMap.values().stream().map(List::size).mapToInt(Integer::intValue).sum();
 	}
 	
@@ -298,12 +301,6 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	
 	public List<ItemStack> getItems(int page){
 		return itemMap.get(page);
-	}
-	
-	@Deprecated
-	private void setBankItemAtInt(int slot, int page, ItemStack is){
-		List<ItemStack> listItems = itemMap.get(page);
-		listItems.set(slot, is);
 	}
 	
 	private void removeBankItemAtInt(int slot, int page){
@@ -439,7 +436,9 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	}
 	
 	private boolean takeBankItem(Player player, int tab, int slot, int take){
-		Inventory inv = player.getInventory();
+		if(!BankPermissionConfiguration.PERMISSION_ITEMS_WITHDRAW.has(player)){
+			return false;
+		}
 		ItemStack is = getBankItemAtSlot(slot, tab);
 		if(is == null){ return false; }
 		int original = is.getAmount();
@@ -527,15 +526,18 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 			permissionSlots = 0;
 		}
 		int tabCount = BankPluginConfiguration.BANK_ITEMS_TABS_DEFAULT.get() + boughtTabs;
-		tabCount = Math.min(tabCount, 9);
 		if(BankPluginConfiguration.BANK_ITEMS_TABS_PERMISSION_ENABLED.get()){
-			for(int tab = 9; tab > 1; tab--){
-				if(pl.getPlayer().hasPermission("bank.tabs." + tab)){
-					tabCount = Math.max(tabCount, tab);
-					break;
+			List<Integer> tabsList = BankPermissionConfiguration.PERMISSION_TABS.getValue(pl, permissions);
+			if(BankPluginConfiguration.BANK_ITEMS_TABS_PERMISSION_COMBINE.get()){
+				int sum = tabsList.stream().reduce(0, Integer::sum);
+				Math.max(tabCount, sum + boughtTabs);
+			}else{
+				for(int tab : tabsList){
+					tabCount = Math.max(tabCount, tab + boughtTabs);
 				}
 			}
 		}
+		tabCount = Math.max(0, Math.min(tabCount, 9));
 		totalTabCount = tabCount;
 	}
 }

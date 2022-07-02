@@ -19,10 +19,9 @@ public class BankCommandConfiguration extends CommandConfiguration{
 	
 	public static Command		BANK_ADMIN						= new Command("admin", "bank.admin");
 	public static Command		BANK_ADMIN_RELOAD				= new Command("reload", "bank.admin.reload");
-	public static Command		BANK_ADMIN_ADD					= new Command("add", "bank.admin.add");
-	public static Command		BANK_ADMIN_ADD_BLOCK			= new Command("block", "bank.admin.add.block");
-	public static Command		BANK_ADMIN_REMOVE				= new Command("remove", "bank.admin.remove");
-	public static Command		BANK_ADMIN_REMOVE_BLOCK			= new Command("block", "bank.admin.remove.block");
+	public static Command		BANK_ADMIN_BLOCK				= new Command("block", "bank.admin.block");
+	public static Command		BANK_ADMIN_BLOCK_ADD			= new Command("add", "bank.admin.block.add");
+	public static Command		BANK_ADMIN_BLOCK_REMOVE			= new Command("remove", "bank.admin.block.remove");
 	public static Command		BANK_ADMIN_RESET				= new Command("reset", "bank.admin.reset", new String[0], new String[]{ "<name>" });
 	public static Command		BANK_ADMIN_FIX					= new Command("fix", "bank.admin.fix");
 	public static Command		BANK_ADMIN_FIX_USERNAMES		= new Command("usernames", "bank.admin.fix.usernames");
@@ -42,7 +41,10 @@ public class BankCommandConfiguration extends CommandConfiguration{
 	public static Command		BANK_ADMIN_SLOTS				= new Command("slots", "bank.admin.slots");
 	public static Command		BANK_ADMIN_SLOTS_ADD			= new Command("add", "bank.admin.slots.add", new String[0], new String[]{ "<player> <amount>" });
 	public static Command		BANK_ADMIN_SLOTS_SET			= new Command("set", "bank.admin.slots.set", new String[0], new String[]{ "<player> <amount>" });
-	
+	public static Command		BANK_ADMIN_TAX					= new Command("tax", "bank.admin.tax");
+	public static Command		BANK_ADMIN_TAX_INFO				= new Command("withdraw", "bank.admin.tax.info");
+	public static Command		BANK_ADMIN_TAX_WITHDRAW			= new Command("withdraw", "bank.admin.tax.withdraw", new String[0], new String[]{ "<player> <amount>" });
+
 	public static Command		BANK_ECO						= new Command("eco", "bank.admin.eco");
 	public static Command		BANK_ECO_GIVE					= new Command("give", "bank.admin.give", new String[0], new String[]{ "<name> <amount>" });
 	public static Command		BANK_ECO_SET					= new Command("set", "bank.admin.set", new String[0], new String[]{ "<name> <amount>" });

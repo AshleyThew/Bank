@@ -12,7 +12,7 @@ import me.dablakbandit.core.players.CorePlayers;
 
 public class BankPermissionInfo extends IBankInfo{
 	
-	private final PermissionCheckCache<PermissionCheck>	cache	= new PermissionCheckCache(60);
+	private final PermissionCheckCache<PermissionCheck>	cache	= new PermissionCheckCache<>(60);
 	private Player									imitating;
 	
 	public BankPermissionInfo(CorePlayers pl){

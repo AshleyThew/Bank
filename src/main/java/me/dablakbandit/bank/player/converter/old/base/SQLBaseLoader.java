@@ -216,8 +216,7 @@ public abstract class SQLBaseLoader extends Loader{
 				BankInfo bi = new BankInfo(pl);
 				pl.addInfo(bi);
 				load(pl);
-				while(bi.isLocked(false)){
-				}
+				while(bi.isLocked(false));
 				rs.close();
 				new SaveRunner(pl, true).run();
 				uuids.add(uuid);

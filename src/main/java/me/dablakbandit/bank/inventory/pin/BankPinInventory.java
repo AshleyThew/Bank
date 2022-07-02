@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import me.dablakbandit.bank.config.BankItemConfiguration;
 import me.dablakbandit.bank.config.BankSoundConfiguration;
-import me.dablakbandit.bank.config.path.BankItemPath;
+import me.dablakbandit.bank.config.path.impl.BankItemPath;
 import me.dablakbandit.bank.inventory.BankInventoryHandler;
 import me.dablakbandit.bank.player.info.BankInfo;
 import me.dablakbandit.core.players.CorePlayers;
@@ -73,7 +73,7 @@ public abstract class BankPinInventory extends BankInventoryHandler<BankInfo>{
 	@Override
 	public void set(CorePlayers pl, Player player, Inventory inv){
 		super.set(pl, player, inv);
-		List<Integer> nums = new ArrayList(pin_nums);
+		List<Integer> nums = new ArrayList<>(pin_nums);
 		Collections.shuffle(nums);
 		for(int index = 0; index < 9; index++){
 			int number = nums.get(index);

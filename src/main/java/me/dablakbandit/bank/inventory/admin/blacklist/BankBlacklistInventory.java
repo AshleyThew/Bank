@@ -43,9 +43,10 @@ public class BankBlacklistInventory extends BankInventoryHandler<CorePlayers>{
 	}
 	
 	private void addItems(int size){
-		int show = BankItemConfiguration.BANK_ITEM_BLACKLIST_ITEMS.getSlot();
+		int show = BankItemConfiguration.BANK_ITEM_BLACKLIST_ITEMS.getExtendValue("Slots", Integer.class);
+		int start = BankItemConfiguration.BANK_ITEM_BLACKLIST_ITEMS.getExtendValue("Start", Integer.class);
 		for(int item = 0; item < show; item++){
-			int slot = item + 9;
+			int slot = item + start;
 			if(slot > size){
 				break;
 			}

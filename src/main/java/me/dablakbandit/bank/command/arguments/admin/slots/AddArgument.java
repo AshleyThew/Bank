@@ -1,5 +1,6 @@
 package me.dablakbandit.bank.command.arguments.admin.slots;
 
+import me.dablakbandit.core.commands.tabcompleter.TabCompleter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -38,6 +39,10 @@ public class AddArgument extends BankEndArgument{
 		}
 		pl.getInfo(BankItemsInfo.class).addCommandSlots(amount);
 		base.sendFormattedMessage(s, BankLanguageConfiguration.BANK_ADMIN_SLOTS_ADD.get().replaceAll("<amount>", args[1]).replaceAll("<player>", args[0]).replaceAll("<new_amount>", "" + pl.getInfo(BankItemsInfo.class).getCommandSlots()));
+	}
+
+	public void init(){
+		addTabCompleter(0, TabCompleter.PLAYERS);
 	}
 	
 }

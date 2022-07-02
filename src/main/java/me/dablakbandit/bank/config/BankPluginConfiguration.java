@@ -2,13 +2,13 @@ package me.dablakbandit.bank.config;
 
 import java.util.Arrays;
 
+import me.dablakbandit.bank.config.path.impl.BankSynchronizedDoubleNicePath;
 import me.dablakbandit.bank.implementations.blacklist.BlacklistMode;
-import me.dablakbandit.core.configuration.AdvancedConfiguration;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.dablakbandit.bank.BankPlugin;
-import me.dablakbandit.bank.config.path.BankLoansPaybackFailedPath;
+import me.dablakbandit.bank.config.path.impl.BankLoansPaybackFailedPath;
 import me.dablakbandit.bank.log.BankLogLevel;
 import me.dablakbandit.bank.save.type.SaveType;
 import me.dablakbandit.core.config.comment.CommentAdvancedConfiguration;
@@ -23,7 +23,8 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static BankPluginConfiguration getInstance(){
 		return configuration;
 	}
-	
+
+	@SuppressWarnings({"rawtypes", "unused"})
 	@Comment("Edit the plugin here")
 	private static final Path						BANK										= new EmptyPath();
 	
@@ -61,10 +62,11 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final BooleanPath					BANK_ITEMS_TABS_PERMISSION_ENABLED			= new BooleanPath(false);
 	@Comment("Default amount of item tabs")
 	public static final IntegerPath					BANK_ITEMS_TABS_DEFAULT						= new IntegerPath(9);
+
+	@Comment("Combine permissions to calculate tabs (permissions.yml)")
+	public static final BooleanPath					BANK_ITEMS_TABS_PERMISSION_COMBINE			= new BooleanPath(false);
 	@Comment("Maximum amount of items able to be stored in a tab")
 	public static final IntegerPath					BANK_ITEMS_TABS_SIZE_MAX					= new IntegerPath(Integer.MAX_VALUE);
-	@CommentArray({ "Used by the scroll buttons to determine max scroll down (1-6)", "Set this to the height of items in your bank inventory" })
-	public static final IntegerPath					BANK_ITEMS_TABS_ROWS						= new IntegerPath(4);
 	@Comment("Enable buying of tabs")
 	public static final BooleanPath					BANK_ITEMS_TABS_BUY_ENABLED					= new BooleanPath(false);
 	@Comment("Cost for each new tabs")
@@ -97,7 +99,7 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final BooleanPath					BANK_ITEMS_BLACKLIST_ENABLED				= new BooleanPath(false);
 
 	@Comment("Blacklist mode (blacklist/whitelist)")
-	public static final EnumPath					BANK_ITEMS_BLACKLIST_MODE					= new EnumPath<>(BlacklistMode.class, BlacklistMode.BLACKLIST);
+	public static final EnumPath<BlacklistMode> 	BANK_ITEMS_BLACKLIST_MODE					= new EnumPath<>(BlacklistMode.class, BlacklistMode.BLACKLIST);
 
 	@Comment("Enable bank pin")
 	public static final BooleanPath					BANK_PIN_ENABLED							= new BooleanPath(true);
@@ -119,7 +121,10 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	
 	@Comment("Premium version")
 	public static EmptyPath							BANK_EXP_INTEREST							= new EmptyPath();
-	
+
+	@Comment("Storage of taxes taken from players")
+	public static final BankSynchronizedDoubleNicePath BANK_EXP_TAX_STORAGE						= new BankSynchronizedDoubleNicePath(0);
+
 	@Comment("Percentage to tax players when depositing, 0.01 = 1%")
 	public static final DoublePath					BANK_EXP_DEPOSIT_TAX_PERCENT				= new DoublePath(0);
 	@Comment("Percentage to tax players when withdrawing, 0.01 = 1%")
@@ -165,6 +170,8 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final BooleanPath					BANK_MONEY_FULL_DOLLARS						= new BooleanPath(false);
 	@Comment("Only able to deposit full $ (no decimal)")
 	public static final BooleanPath					BANK_MONEY_DEPOSIT_FULL						= new BooleanPath(false);
+	@Comment("Storage of taxes taken from players")
+	public static final BankSynchronizedDoubleNicePath BANK_MONEY_TAX_STORAGE					= new BankSynchronizedDoubleNicePath(0);
 	@Comment("Percentage to tax players when depositing, 0.01 = 1%")
 	public static final DoublePath					BANK_MONEY_DEPOSIT_TAX_PERCENT				= new DoublePath(0);
 	@Comment("Percentage to tax players when withdrawing, 0.01 = 1%")
@@ -240,7 +247,8 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final IntegerPath					BANK_EXPIRE_DAYS							= new IntegerPath(30);
 	
 	@CommentArray({ "Enable converters from other plugins here", "Keep the other plugins folder!", "And delete the other plugin jar" })
-	private static final Path						BANK_CONVERTER								= new EmptyPath();
+	@SuppressWarnings("unused")
+	private static final Path<?>					BANK_CONVERTER								= new EmptyPath();
 	@Comment("Enable bankcraft converter (make sure to backup bankcraft data)")
 	public static final BooleanPath					BANK_CONVERTER_BANKCRAFT_ENABLED			= new BooleanPath(false);
 	@Comment("Enable chestbank converter (make sure to backup chestbank data)")
@@ -249,6 +257,8 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final BooleanPath					BANK_CONVERTER_ECONOMYBANK_ENABLED			= new BooleanPath(false);
 	@Comment("Enable timeismoney converter (make sure to backup timeismoney data)")
 	public static final BooleanPath					BANK_CONVERTER_TIMEISMONEY_ENABLED			= new BooleanPath(false);
+	@Comment("Enable bankplus converter (make sure to backup bankplus data)")
+	public static final BooleanPath					BANK_CONVERTER_BANKPLUS_ENABLED				= new BooleanPath(false);
 	
 	@Comment("Force utf8mb4 to deal with unicode")
 	public static final BooleanPath					BANK_MYSQL_UTF8MB4_FORCED					= new BooleanPath(true);
@@ -291,6 +301,7 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final IntegerPath					BANK_LOANS_DEADLINE_DAYS					= new IntegerPath(30);
 	@Comment("Time in minutes to check deadlines")
 	public static final IntegerPath					BANK_LOANS_DEADLINE_CHECK					= new IntegerPath(5);
+	@SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
 	@Comment("Commands to run when deadline reach (supports chat colors) (variables: <uuid>, <name>, <amount>)")
 	public static final StringListPath				BANK_LOANS_DEADLINE_COMMANDS				= new StringListPath(Arrays.asList("tempban <uuid> 10m Failed to pay $<amount> loan"));
 	

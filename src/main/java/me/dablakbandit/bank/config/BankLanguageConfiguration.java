@@ -5,8 +5,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.dablakbandit.bank.BankPlugin;
-import me.dablakbandit.bank.config.path.BankTranslatedStringPath;
-import me.dablakbandit.bank.config.path.TranslatedStringListPath;
+import me.dablakbandit.bank.config.path.impl.BankTranslatedStringPath;
+import me.dablakbandit.bank.config.path.impl.TranslatedStringListPath;
 import me.dablakbandit.core.config.comment.CommentAdvancedConfiguration;
 import me.dablakbandit.core.config.comment.annotation.Comment;
 import me.dablakbandit.core.config.comment.annotation.CommentArray;
@@ -21,7 +21,8 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	public static BankLanguageConfiguration getInstance(){
 		return configuration;
 	}
-	
+
+	@SuppressWarnings({"rawtypes", "unused"})
 	@CommentArray({ "Edit messages from the plugin here.", "Use <nl> for new lines" })
 	private static final Path						BANK							= new EmptyPath();
 	

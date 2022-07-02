@@ -11,6 +11,7 @@ import me.dablakbandit.core.config.path.EmptyPath;
 import me.dablakbandit.core.config.path.InventoryDescriptionPath;
 import me.dablakbandit.core.config.path.Path;
 
+
 public class BankInventoryConfiguration extends CommentAdvancedConfiguration{
 	
 	private static final BankInventoryConfiguration config = new BankInventoryConfiguration(BankPlugin.getInstance());
@@ -22,7 +23,8 @@ public class BankInventoryConfiguration extends CommentAdvancedConfiguration{
 	private BankInventoryConfiguration(Plugin plugin){
 		super(plugin, "inventories.yml", InventoryConfiguration::new);
 	}
-	
+
+	@SuppressWarnings({"rawtypes", "unused"})
 	@InventoryBase
 	@CommentArray({"Available Title Placeholders:", "<player>", "<bank_money>", "<bank_exp>", "<bank_exp_level>", "<bank_slots>", "<bank_used_slots>"})
 	private static final Path						BANK							= new EmptyPath();

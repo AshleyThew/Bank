@@ -1,10 +1,12 @@
-package me.dablakbandit.bank.config.path;
+package me.dablakbandit.bank.config.path.impl;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import me.dablakbandit.bank.config.path.BankExtendedPath;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -16,12 +18,14 @@ import me.dablakbandit.core.config.path.ItemPath;
 import me.dablakbandit.core.utils.ItemUtils;
 import me.dablakbandit.core.utils.NMSUtils;
 
-public class BankItemPath extends ItemPath{
+public class BankItemPath extends ItemPath implements BankExtendedPath {
 	
 	private int				slot;
 	private String			name;
 	private List<String>	lore;
 	private int[]			slots	= new int[0];
+
+	private Map<String, Object> extendedValues;
 	
 	public BankItemPath(Material material, String name){
 		this(material, 1, name);
@@ -217,4 +221,17 @@ public class BankItemPath extends ItemPath{
 		}
 		return null;
 	}
+
+	public void setExtendedValues(Map<String, Object> extendedValues){
+		this.extendedValues = extendedValues;
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T getExtendValue(String key, Class<T> clazz){
+		if(this.extendedValues == null){
+			return null;
+		}
+		return (T) this.extendedValues.get(key);
+	}
+
 }

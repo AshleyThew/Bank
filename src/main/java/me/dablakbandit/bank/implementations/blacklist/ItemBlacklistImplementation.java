@@ -21,10 +21,10 @@ public class ItemBlacklistImplementation extends BankImplementation{
 	}
 	
 	private boolean					enabled	= false;
-	private List<BlacklistedItem>	blacklisted;
+	private final List<BlacklistedItem>	blacklisted;
 	
 	private ItemBlacklistImplementation(){
-		blacklisted = BankItemBlacklistConfiguration.BLACKLIST.get().stream().map(string -> JSONParser.fromJSON(string, BlacklistedItem.class)).collect(Collectors.toList());
+		this.blacklisted = BankItemBlacklistConfiguration.BLACKLIST.get().stream().map(string -> JSONParser.fromJSON(string, BlacklistedItem.class)).collect(Collectors.toList());
 	}
 	
 	public boolean isBlacklisted(ItemStack itemStack){

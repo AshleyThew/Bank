@@ -1,5 +1,6 @@
 package me.dablakbandit.bank.inventory.item;
 
+import me.dablakbandit.bank.config.BankPermissionConfiguration;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;

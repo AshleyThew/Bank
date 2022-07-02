@@ -23,7 +23,7 @@ public class BankInventoriesManager{
 	}
 	
 	private InventoryHandlers								handlers;
-	private final Map<BankInventories, InventoryHandler>	handlerMap	= new EnumMap<>(BankInventories.class);
+	private final Map<BankInventories, InventoryHandler<?>>	handlerMap	= new EnumMap<>(BankInventories.class);
 	
 	private BankInventoriesManager(){
 		
@@ -44,7 +44,7 @@ public class BankInventoriesManager{
 			return false;
 		}
 		BankInventories checkedInventories = checkOnlys(pl, inventories);
-		InventoryHandler handler = handlerMap.get(checkedInventories);
+		InventoryHandler<?> handler = handlerMap.get(checkedInventories);
 		if(!handler.hasPermission(pl.getPlayer())){ return false; }
 		if(pl.getInfo(BankInfo.class).isLocked(true, () -> open(pl, inventories))){ return false; }
 		pl.setOpenInventory(handler);
@@ -52,7 +52,7 @@ public class BankInventoriesManager{
 	}
 	
 	public boolean openBypass(CorePlayers pl, BankInventories inventories){
-		InventoryHandler handler = handlerMap.get(inventories);
+		InventoryHandler<?> handler = handlerMap.get(inventories);
 		if(!handler.hasPermission(pl.getPlayer())){ return false; }
 		pl.setOpenInventory(handler);
 		return true;

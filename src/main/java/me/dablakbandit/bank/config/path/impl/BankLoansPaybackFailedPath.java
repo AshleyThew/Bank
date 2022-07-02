@@ -1,4 +1,4 @@
-package me.dablakbandit.bank.config.path;
+package me.dablakbandit.bank.config.path.impl;
 
 import java.util.*;
 
@@ -40,7 +40,8 @@ public class BankLoansPaybackFailedPath extends Path<BankLoansPaybackFailedPath.
 		
 		public LoansPaybackFailed(){
 		}
-		
+
+		@SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
 		public LoansPaybackFailed(String command){
 			map.put(1, Arrays.asList(command));
 		}

@@ -56,13 +56,14 @@ public class LoadRunner implements Runnable{
 		if(log){
 			BankLog.info(BankPluginConfiguration.BANK_LOG_PLAYER_LEVEL, "Loading " + pl.getUUIDString());
 		}
-		bankDatabaseManager.getInfoDatabase().ensureConnection();
+		IInfoDatabase infoDatabase = bankDatabaseManager.getInfoDatabase();
+		infoDatabase.ensureConnection();
+		infoDatabase.getPlayerLockDatabase().ensureConnection();
 		BankInfo bankInfo = pl.getInfo(BankInfo.class);
 		if(bankInfo == null){ return; }
 		if(!bankInfo.isLocked(false)){ return; }
-		if(!force && bankDatabaseManager.getPlayerLockDatabase().isLocked(pl, true)){ return; }
+		if(!force && infoDatabase.getPlayerLockDatabase().isLocked(pl, true)){ return; }
 		long start = System.currentTimeMillis();
-		IInfoDatabase infoDatabase = bankDatabaseManager.getInfoDatabase();
 		if(pl.getName() != null){
 			infoDatabase.getUUIDDatabase().saveUUID(pl.getUUIDString(), pl.getName());
 		}
@@ -76,7 +77,7 @@ public class LoadRunner implements Runnable{
 		});
 		bankInfo.setLocked(false);
 		if(lock){
-			bankDatabaseManager.getPlayerLockDatabase().setLocked(pl, true);
+			infoDatabase.getPlayerLockDatabase().setLocked(pl, true);
 		}
 		if(force){
 			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_BANK_UNLOCKED.get());

@@ -2,7 +2,6 @@ package me.dablakbandit.bank.database;
 
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.database.base.IInfoDatabase;
-import me.dablakbandit.bank.database.base.PlayerLockDatabase;
 import me.dablakbandit.bank.save.type.SaveType;
 import me.dablakbandit.bank.upgrade.infosave.UpgradeInfoSaveManager;
 import me.dablakbandit.core.configuration.Configuration;
@@ -67,7 +66,4 @@ public class BankDatabaseManager{
 		return bankDatabase.getInfoDatabase();
 	}
 	
-	public PlayerLockDatabase getPlayerLockDatabase(){
-		return bankDatabase.getInfoDatabase().getPlayerLockDatabase();
-	}
 }

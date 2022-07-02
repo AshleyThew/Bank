@@ -4,10 +4,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.dablakbandit.bank.config.BankItemConfiguration;
-import me.dablakbandit.bank.config.path.BankItemPath;
+import me.dablakbandit.bank.config.path.impl.BankItemPath;
 import me.dablakbandit.bank.implementations.blacklist.ItemBlacklistImplementation;
 import me.dablakbandit.bank.inventory.BankInventories;
-import me.dablakbandit.bank.inventory.BankInventoriesManager;
 import me.dablakbandit.bank.inventory.BankInventoryHandler;
 import me.dablakbandit.bank.player.info.admin.BankAdminInfo;
 import me.dablakbandit.core.players.CorePlayers;

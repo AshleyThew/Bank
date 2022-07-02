@@ -37,7 +37,7 @@ public class HistoryArgument extends BankEndArgument{
 			return;
 		}
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer((Player)s);
-		pl.getInfo(BankAdminInfo.class).setPermissionsCheck(new ArrayList(open.getInfo(BankPermissionInfo.class).getHistory()));
+		pl.getInfo(BankAdminInfo.class).setPermissionsCheck(new ArrayList<>(open.getInfo(BankPermissionInfo.class).getHistory()));
 		BankInventoriesManager.getInstance().openBypass(pl, BankInventories.BANK_ADMIN_PERMISSION_HISTORY);
 	}
 	

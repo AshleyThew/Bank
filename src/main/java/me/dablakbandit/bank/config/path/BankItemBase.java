@@ -18,7 +18,7 @@ public @interface BankItemBase{
 		"~Special~", 
 		"Slot: <slot> Set the slot in the inventory, can be used in some cases to specify length, if default -1 then changing will do nothing.",
 		"Slots: Duplicate this item to additional slots. Integer list.",
-		"HeadURL: <url> / Head url from minecraft player skin, requires Item.Material to be PLAYER_SKULL",
+		"HeadURL: <url> / Head url from minecraft player skin, requires Item.Material to be PLAYER_HEAD or PLAYER_SKULL (Premium)\"",
 		"HeadDB: <headdb-id> / HeadDB identifier",
 		"Enchant: <enchant_name>",	
 		"CustomModelData: <integer> (1.14+ only!)", 

@@ -1,4 +1,4 @@
-package me.dablakbandit.bank.command.arguments.admin.remove;
+package me.dablakbandit.bank.command.arguments.admin.block;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -11,9 +11,9 @@ import me.dablakbandit.bank.config.BankLanguageConfiguration;
 import me.dablakbandit.bank.implementations.other.BlockType;
 import me.dablakbandit.core.command.config.CommandConfiguration;
 
-public class BlockArgument extends BankEndArgument{
+public class AddArgument extends BankEndArgument{
 	
-	public BlockArgument(CommandConfiguration.Command command){
+	public AddArgument(CommandConfiguration.Command command){
 		super(command);
 	}
 	
@@ -22,13 +22,9 @@ public class BlockArgument extends BankEndArgument{
 		if(!checkPlayer(s)){ return; }
 		Player player = (Player)s;
 		Block looking = player.getTargetBlock(null, 5);
-		if(looking != null && looking.getType() != Material.AIR){
-			if(!BlockType.getInstance().isBlock(looking.getLocation())){
-				base.sendFormattedMessage(s, BankLanguageConfiguration.BANK_ADMIN_BLOCK_NOT.get().replaceAll("<block>", looking.getType().name()));
-				return;
-			}
-			BlockType.getInstance().removeBlock(looking.getLocation());
-			base.sendFormattedMessage(s, BankLanguageConfiguration.BANK_ADMIN_BLOCK_REMOVE.get().replaceAll("<block>", looking.getType().name()));
+		if(looking.getType() != Material.AIR){
+			BlockType.getInstance().addBlock(looking.getLocation());
+			base.sendFormattedMessage(s, BankLanguageConfiguration.BANK_ADMIN_BLOCK_SET.get().replaceAll("<block>", looking.getType().name()));
 		}
 	}
 	

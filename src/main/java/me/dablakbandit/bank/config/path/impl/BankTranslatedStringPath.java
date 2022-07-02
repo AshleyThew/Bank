@@ -1,4 +1,4 @@
-package me.dablakbandit.bank.config.path;
+package me.dablakbandit.bank.config.path.impl;
 
 import me.dablakbandit.core.config.RawConfiguration;
 import me.dablakbandit.core.config.path.TranslatedStringPath;

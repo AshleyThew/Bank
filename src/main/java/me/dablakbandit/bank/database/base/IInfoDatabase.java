@@ -16,8 +16,8 @@ import me.dablakbandit.core.players.info.JSONInfo;
 
 public abstract class IInfoDatabase extends SQLListener{
 	
-	protected final Set<String>							infoTypeDatabaseSet		= new HashSet();
-	protected final Map<Class<?>, IInfoTypeDatabase>	infoTypeDatabasesMap	= new HashMap();
+	protected final Set<String>							infoTypeDatabaseSet		= new HashSet<>();
+	protected final Map<Class<?>, IInfoTypeDatabase<?>>	infoTypeDatabasesMap	= new HashMap<>();
 	
 	public abstract <T extends JSONInfo> IInfoTypeDatabase<T> getInfoTypeDatabase(T t);
 	

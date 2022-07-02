@@ -114,7 +114,7 @@ public class BankInfoTypeSQLiteDatabase<T extends JSONInfo>extends IInfoTypeData
 	
 	@Override
 	public Map<String, Long> getOffline(){
-		Map<String, Long> map = new HashMap();
+		Map<String, Long> map = new HashMap<>();
 		try{
 			List<String> offline = infoDatabase.getPlayerLockDatabase().getUnlocked();
 			for(String uuid : offline){
@@ -141,7 +141,7 @@ public class BankInfoTypeSQLiteDatabase<T extends JSONInfo>extends IInfoTypeData
 	
 	@Override
 	public Set<String> getDistinctUUIDS(){
-		Set<String> uuids = new HashSet();
+		Set<String> uuids = new HashSet<>();
 		try{
 			synchronized(getDistinctUUIDS){
 				ResultSet rs = getDistinctUUIDS.executeQuery();

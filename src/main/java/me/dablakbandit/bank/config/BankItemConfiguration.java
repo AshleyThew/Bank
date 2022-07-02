@@ -1,5 +1,8 @@
 package me.dablakbandit.bank.config;
 
+import me.dablakbandit.bank.config.path.BankExtendedPath;
+import me.dablakbandit.bank.config.path.impl.BankEmptyPath;
+import me.dablakbandit.bank.config.path.PathExtended;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -8,7 +11,7 @@ import org.bukkit.plugin.Plugin;
 
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.config.path.BankItemBase;
-import me.dablakbandit.bank.config.path.BankItemPath;
+import me.dablakbandit.bank.config.path.impl.BankItemPath;
 import me.dablakbandit.core.config.comment.CommentAdvancedConfiguration;
 import me.dablakbandit.core.config.comment.CommentConfiguration;
 import me.dablakbandit.core.config.comment.annotation.Comment;
@@ -16,6 +19,13 @@ import me.dablakbandit.core.config.comment.annotation.CommentArray;
 import me.dablakbandit.core.config.path.EmptyPath;
 import me.dablakbandit.core.config.path.Path;
 import me.dablakbandit.core.utils.ItemUtils;
+
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BankItemConfiguration extends CommentAdvancedConfiguration{
 	
@@ -52,13 +62,15 @@ public class BankItemConfiguration extends CommentAdvancedConfiguration{
 		if(m != null){ return new ItemStack(m, 1); }
 		return new ItemStack(stained, 1, (short)DyeColor.valueOf(name).ordinal());
 	}
-	
+
+	@SuppressWarnings({"rawtypes", "unused"})
 	@BankItemBase
 	private static final Path			BANK								= new EmptyPath();
 	
 	public static final BankItemPath	BANK_BACK							= new BankItemPath(red_stained, ChatColor.RED + "Back", ChatColor.RED + "Go back");
 	
-	@Comment("Available: <tab>, <items>")
+	@CommentArray({"Available: <tab>, <items>", ".Tabs: Inventory slots to show tabs in"})
+	@PathExtended(key = "Tabs", value = "45,46,47,48,49,50,51,52,53", classType = Integer[].class)
 	public static final BankItemPath	BANK_ITEM_TAB_NUMBER				= new BankItemPath(light_blue_stained, ChatColor.AQUA + "Tab <tab>", ChatColor.BLUE + "<items> Items");
 	@Comment("Available: <tab>")
 	public static final BankItemPath	BANK_ITEM_TAB_LOCKED				= new BankItemPath(red_stained, ChatColor.AQUA + "Tab <tab>", ChatColor.RED + "Locked");
@@ -84,19 +96,26 @@ public class BankItemConfiguration extends CommentAdvancedConfiguration{
 	public static final BankItemPath	BANK_ITEM_TABS						=
 		new BankItemPath(2, black_stained, ChatColor.AQUA + "Tabs", ChatColor.GREEN + "Available Tabs: <tabs>", ChatColor.GREEN + "Click to buy more tabs");
 	public static final BankItemPath	BANK_ITEM_TRASHCAN					= new BankItemPath(3, black_stained, ChatColor.RED + "Trashcan", ChatColor.RED + "Items are destroyed");
-	@Comment("Items.Slot: amount of items to show (note disabling tabs adds + 9 to this)")
-	public static final BankItemPath	BANK_ITEM_ITEMS						= new BankItemPath(36, Material.AIR, "");
+	@CommentArray({".Start: Start slot for setting items", ".Width: Amount of columns to show", ".Rows: Amount of rows to show"})
+	@PathExtended(key = "Start", value = "9", classType = Integer.class)
+	@PathExtended(key = "Width", value = "9", classType = Integer.class)
+	@PathExtended(key = "Rows", value = "4", classType = Integer.class)
+	public static final BankEmptyPath	BANK_ITEM_ITEMS						= new BankEmptyPath();
 
 	@Comment("Available: <cost>")
-	public static final BankItemPath	BANK_ITEM_LOCKED					= new BankItemPath(-1, Material.RED_STAINED_GLASS_PANE, ChatColor.RED + "Slot locked", ChatColor.GREEN + "Purchase more slots to unlock.", ChatColor.GREEN + "Click to unlock for $<cost>");
+	public static final BankItemPath	BANK_ITEM_LOCKED					= new BankItemPath(-1, red_stained, ChatColor.RED + "Slot locked", ChatColor.GREEN + "Purchase more slots to unlock.", ChatColor.GREEN + "Click to unlock for $<cost>");
 	
-	@Comment("Items.Slot: amount of checks to show")
-	public static final BankItemPath	BANK_PERMISSION_HISTORY_LIST		= new BankItemPath(45, Material.AIR, "");
+	@CommentArray({".Slots: amount of checks to show", ".Start: Start slot for showing history"})
+	@PathExtended(key = "Slots", value = "45", classType = Integer.class)
+	@PathExtended(key = "Start", value = "9", classType = Integer.class)
+	public static final BankEmptyPath	BANK_PERMISSION_HISTORY_LIST		= new BankEmptyPath();
 	public static final BankItemPath	BANK_PERMISSION_HISTORY_TRUE		= new BankItemPath(green_stained, "");
 	public static final BankItemPath	BANK_PERMISSION_HISTORY_FALSE		= new BankItemPath(red_stained, "");
-	
-	@Comment("Items.Slot: amount of items to show")
-	public static final BankItemPath	BANK_ITEM_BLACKLIST_ITEMS			= new BankItemPath(45, Material.AIR, "");
+
+	@CommentArray({".Slots: amount of checks to show", ".Start: Start slot for showing history"})
+	@PathExtended(key = "Slots", value = "45", classType = Integer.class)
+	@PathExtended(key = "Start", value = "9", classType = Integer.class)
+	public static final BankEmptyPath	BANK_ITEM_BLACKLIST_ITEMS			= new BankEmptyPath();
 	public static final BankItemPath	BANK_ITEM_BLACKLIST_GREEN			= new BankItemPath(green_stained, ChatColor.GREEN + "<name>", ChatColor.BLUE + "Click to toggle");
 	public static final BankItemPath	BANK_ITEM_BLACKLIST_RED				= new BankItemPath(red_stained, ChatColor.RED + "<name>", ChatColor.BLUE + "Click to toggle");
 	
@@ -231,4 +250,51 @@ public class BankItemConfiguration extends CommentAdvancedConfiguration{
 	@Comment("Taken out too loans")
 	public static final BankItemPath	BANK_LOAN_TAKE_OUT_ERROR_TOO_MANY	=
 		new BankItemPath(-1, red_stained, ChatColor.RED + "Max loans reached", ChatColor.RED + "You have already taken out the maximum amount of loans");
+
+	@SuppressWarnings("unchecked")
+	protected boolean loadPath(Field field, Path path) {
+		boolean save = super.loadPath(field, path);
+		if(path instanceof BankExtendedPath){
+			PathExtended[] extendeds = field.getAnnotationsByType(PathExtended.class);
+			if (extendeds.length > 0) {
+				CommentConfiguration config = BankItemConfiguration.config.getConfig();
+				Map<String, Object> map = new HashMap<>();
+				for (PathExtended extend : extendeds) {
+					try {
+
+						String pathKey = path.getActualPath()+ "." + extend.key();
+					Object value = null;
+					if (Integer.class.equals(extend.classType())) {
+						value = Integer.valueOf(extend.value());
+						if(config.isSet(pathKey)){
+							value = config.getInt(pathKey);
+						}else{
+							config.set(pathKey, value);
+							save = true;
+						}
+					} else if (Integer[].class.equals(extend.classType())) {
+						value = Arrays.stream(extend.value().split(",")).map(Integer::valueOf).collect(Collectors.toList());
+						if(config.isSet(pathKey)){
+							value = config.getIntegerList(pathKey);
+						}else{
+							config.set(pathKey, value);
+							save = true;
+						}
+						value = ((List<Integer>)value).toArray(new Integer[0]);
+					}
+					if(value != null){
+						map.put(extend.key(), value);
+					}
+					}catch (Exception e){
+						e.printStackTrace();
+					}
+				}
+				if(map.size() > 0){
+					((BankExtendedPath) path).setExtendedValues(map);
+				}
+			}
+		}
+		return save;
+	}
+
 }

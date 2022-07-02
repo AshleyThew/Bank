@@ -1,4 +1,4 @@
-package me.dablakbandit.bank.config.path;
+package me.dablakbandit.bank.config.path.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +25,6 @@ public class TranslatedStringListPath extends ListPath<String>{
 	}
 	
 	protected Object setAs(List<String> list){
-		List<String> set = list.stream().map(s -> s.replaceAll("§", "&")).collect(Collectors.toList());
-		return set;
+		return list.stream().map(s -> s.replaceAll("§", "&")).collect(Collectors.toList());
 	}
 }

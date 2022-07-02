@@ -66,18 +66,20 @@ public class BankInfoSQLiteDatabase extends IInfoDatabase{
 		return exists;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends JSONInfo> IInfoTypeDatabase<T> getInfoTypeDatabase(T t){
 		return (IInfoTypeDatabase<T>)getInfoTypeDatabase(t.getClass());
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public synchronized <T extends JSONInfo> IInfoTypeDatabase<T> getInfoTypeDatabase(Class<T> typeClass){
-		IInfoTypeDatabase infoTypeDatabase = infoTypeDatabasesMap.get(typeClass);
+		IInfoTypeDatabase<?> infoTypeDatabase = infoTypeDatabasesMap.get(typeClass);
 		if(infoTypeDatabase == null){
 			String database = "bank_player_info_" + typeClass.getSimpleName().toLowerCase();
 			if(infoTypeDatabaseSet.add(database)){
-				infoTypeDatabase = new BankInfoTypeSQLiteDatabase(this, typeClass, database);
+				infoTypeDatabase = new BankInfoTypeSQLiteDatabase<>(this, typeClass, database);
 				getDatabase().addListener(infoTypeDatabase);
 				infoTypeDatabasesMap.put(typeClass, infoTypeDatabase);
 			}
@@ -89,7 +91,7 @@ public class BankInfoSQLiteDatabase extends IInfoDatabase{
 	public int expire(long time){
 		try{
 			int expired = 0;
-			for(Map.Entry<Class<?>, IInfoTypeDatabase> databaseEntry : infoTypeDatabasesMap.entrySet()){
+			for(Map.Entry<Class<?>, IInfoTypeDatabase<?>> databaseEntry : infoTypeDatabasesMap.entrySet()){
 				expired = Math.max(expired, databaseEntry.getValue().expire(time));
 			}
 			return expired;
@@ -110,7 +112,7 @@ public class BankInfoSQLiteDatabase extends IInfoDatabase{
 	public boolean playerExists(String uuid){
 		boolean exists = false;
 		try{
-			for(Map.Entry<Class<?>, IInfoTypeDatabase> typeDatabaseEntry : infoTypeDatabasesMap.entrySet()){
+			for(Map.Entry<Class<?>, IInfoTypeDatabase<?>> typeDatabaseEntry : infoTypeDatabasesMap.entrySet()){
 				exists |= typeDatabaseEntry.getValue().playerExists(uuid);
 			}
 		}catch(Exception e){
@@ -131,11 +133,12 @@ public class BankInfoSQLiteDatabase extends IInfoDatabase{
 		return playerLockDatabase;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<String> getDistinctUUIDS(){
-		Set<String> uuids = new HashSet();
+		Set<String> uuids = new HashSet<>();
 		try{
-			for(Map.Entry<Class<?>, IInfoTypeDatabase> typeDatabaseEntry : infoTypeDatabasesMap.entrySet()){
+			for(Map.Entry<Class<?>, IInfoTypeDatabase<?>> typeDatabaseEntry : infoTypeDatabasesMap.entrySet()){
 				uuids.addAll(typeDatabaseEntry.getValue().getDistinctUUIDS());
 			}
 		}catch(Exception e){

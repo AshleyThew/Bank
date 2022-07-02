@@ -1,4 +1,4 @@
-package me.dablakbandit.bank.config.path;
+package me.dablakbandit.bank.config.path.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;

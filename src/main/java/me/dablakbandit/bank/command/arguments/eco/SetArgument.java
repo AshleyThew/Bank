@@ -1,5 +1,6 @@
 package me.dablakbandit.bank.command.arguments.eco;
 
+import me.dablakbandit.bank.config.BankLanguageConfiguration;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -30,7 +31,7 @@ public class SetArgument extends BankEndArgument{
 		}
 		String uuid = BankAPI.getInstance().getUUID(args[0]);
 		if(uuid == null){
-			base.sendFormattedMessage(s, ChatColor.RED + "Unknown player " + args[0]);
+			base.sendFormattedMessage(s, BankLanguageConfiguration.COMMAND_UNKNOWN_PLAYER.get().replaceAll("<player>", args[0]));
 			return;
 		}
 		BankAPI.getInstance().setMoney(uuid, amount);

@@ -1,5 +1,6 @@
 package me.dablakbandit.bank.implementations.lock;
 
+import me.dablakbandit.bank.database.base.IInfoDatabase;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -43,9 +44,10 @@ public class LockType extends BankImplementation{
 	}
 	
 	private void setOnlineLocked(){
+		IInfoDatabase infoDatabase = BankDatabaseManager.getInstance().getInfoDatabase();
 		for(BankInfo bankInfo : CorePlayerManager.getInstance().getInfo(BankInfo.class)){
 			if(!bankInfo.isLocked(false)){
-				BankDatabaseManager.getInstance().getPlayerLockDatabase().setLocked(bankInfo.getPlayers(), true);
+				infoDatabase.getPlayerLockDatabase().setLocked(bankInfo.getPlayers(), true);
 			}
 		}
 	}

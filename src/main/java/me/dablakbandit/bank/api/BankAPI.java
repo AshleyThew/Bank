@@ -23,6 +23,7 @@ public class BankAPI{
 	
 	public static final BankAPI api = new BankAPI();
 	
+	@SuppressWarnings("SameReturnValue")
 	public static BankAPI getInstance(){
 		return api;
 	}
@@ -181,7 +182,7 @@ public class BankAPI{
 	}
 	
 	public boolean isLocked(String uuid){
-		return BankDatabaseManager.getInstance().getPlayerLockDatabase().isLocked(uuid);
+		return BankDatabaseManager.getInstance().getInfoDatabase().getPlayerLockDatabase().isLocked(uuid);
 	}
 	
 }

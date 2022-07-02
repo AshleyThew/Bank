@@ -1,13 +1,13 @@
 package me.dablakbandit.bank.utils.calculation;
 
-public class TaxCalculator{
+public class PaymentCalculator {
 	
 	private final double	current, max, taxRate;
 	
 	private double attempt, tax;
 	private boolean			full;
 	
-	public TaxCalculator(double attempt, double current, double max, double taxRate){
+	public PaymentCalculator(double attempt, double current, double max, double taxRate){
 		this.attempt = Math.max(0, attempt);
 		this.current = current;
 		this.max = max;

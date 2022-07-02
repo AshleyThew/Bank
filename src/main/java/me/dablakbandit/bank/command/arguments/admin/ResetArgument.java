@@ -3,6 +3,7 @@ package me.dablakbandit.bank.command.arguments.admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.dablakbandit.bank.player.info.BankInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -25,7 +26,7 @@ public class ResetArgument extends BankEndArgument{
 		super(command);
 	}
 	
-	private final List<String> confirmationList = new ArrayList();
+	private final List<String> confirmationList = new ArrayList<>();
 	
 	@Override
 	protected void onArgument(CommandSender s, Command cmd, String label, String[] args, String[] original){
@@ -51,6 +52,7 @@ public class ResetArgument extends BankEndArgument{
 			pl = new CorePlayers(uuid);
 		}
 		BankPlayerManager.getInstance().addCorePlayers(pl);
+		pl.getType(BankInfo.class).setLocked(false);
 		LoaderManager.getInstance().save(pl, false);
 		BankLanguageConfiguration.sendMessage(s, ChatColor.GREEN + args[0] + "'s bank data reset.");
 	}

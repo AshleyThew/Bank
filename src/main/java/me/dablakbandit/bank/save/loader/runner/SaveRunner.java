@@ -26,12 +26,13 @@ public class SaveRunner implements Runnable{
 		long start = System.currentTimeMillis();
 		IInfoDatabase infoDatabase = bankDatabaseManager.getInfoDatabase();
 		infoDatabase.getUUIDDatabase().ensureConnection();
+		infoDatabase.getPlayerLockDatabase().ensureConnection();
 		pl.getAllInfo().stream().filter(info -> (info instanceof IBankInfo && info instanceof JSONInfo)).map(info -> (JSONInfo)info).forEach(info -> {
 			info.jsonFinal();
 			infoDatabase.getInfoTypeDatabase(info).savePlayer(pl, info, System.currentTimeMillis());
 		});
 		if(unlock){
-			bankDatabaseManager.getPlayerLockDatabase().setLocked(pl, false);
+			infoDatabase.getPlayerLockDatabase().setLocked(pl, false);
 		}
 		BankLog.info(BankPluginConfiguration.BANK_LOG_PLAYER_LEVEL, "Saved " + pl.getUUIDString() + " after " + (System.currentTimeMillis() - start) + "ms");
 	}

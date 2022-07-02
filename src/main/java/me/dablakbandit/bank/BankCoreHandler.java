@@ -199,6 +199,8 @@ public class BankCoreHandler extends CoreHandler implements Listener{
 		BankPlayerManager.getInstance().enable();
 		// Initialize placeholders
 		BankPlaceholderManager.getInstance();
+		// Enable converts
+		Converters.enable();
 	}
 	
 	/**

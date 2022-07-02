@@ -4,15 +4,13 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import me.dablakbandit.bank.config.BankLanguageConfiguration;
-import me.dablakbandit.bank.config.path.BankPermissionPath;
 import me.dablakbandit.bank.implementations.placeholder.BankPlaceholderManager;
 import me.dablakbandit.core.config.path.PermissionPath;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.dablakbandit.bank.config.BankSoundConfiguration;
-import me.dablakbandit.bank.config.path.BankItemPath;
+import me.dablakbandit.bank.config.path.impl.BankItemPath;
 import me.dablakbandit.bank.player.info.BankPermissionInfo;
 import me.dablakbandit.core.inventory.InventoryHandler;
 import me.dablakbandit.core.inventory.handler.ItemInfoHandler;

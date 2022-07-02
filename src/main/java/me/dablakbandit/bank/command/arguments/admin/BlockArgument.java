@@ -5,9 +5,9 @@ import org.bukkit.command.CommandSender;
 import me.dablakbandit.bank.command.base.BankDefaultArgument;
 import me.dablakbandit.core.command.config.CommandConfiguration;
 
-public class RemoveArgument extends BankDefaultArgument{
+public class BlockArgument extends BankDefaultArgument{
 	
-	public RemoveArgument(CommandConfiguration.Command command){
+	public BlockArgument(CommandConfiguration.Command command){
 		super(command);
 	}
 	

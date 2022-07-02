@@ -8,7 +8,7 @@ import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.config.BankLanguageConfiguration;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.config.BankSoundConfiguration;
-import me.dablakbandit.bank.utils.calculation.TaxCalculator;
+import me.dablakbandit.bank.utils.calculation.PaymentCalculator;
 import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.players.info.JSONInfo;
@@ -62,14 +62,14 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo{
 	public boolean withdrawMoney(CorePlayers pl, double withdraw){
 		withdraw = Math.max(0, withdraw);
 
-		TaxCalculator taxCalculator = new TaxCalculator(withdraw, 0, Double.MAX_VALUE, BankPluginConfiguration.BANK_MONEY_WITHDRAW_TAX_PERCENT.get());
-		withdraw = taxCalculator.getCombined();
+		PaymentCalculator calculator = new PaymentCalculator(withdraw, 0, Double.MAX_VALUE, BankPluginConfiguration.BANK_MONEY_WITHDRAW_TAX_PERCENT.get());
+		withdraw = calculator.getCombined();
 
-		boolean complete = withdrawMoney(pl.getPlayer().getName(), withdraw, taxCalculator.getResult());
+		boolean complete = withdrawMoney(pl.getPlayer().getName(), withdraw, calculator.getResult());
 		if(complete){
 			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_WITHDRAW.get()
 					.replaceAll("<money>", Format.formatMoney(withdraw))
-					.replaceAll("<tax>", Format.formatMoney(taxCalculator.getTax())));
+					.replaceAll("<tax>", Format.formatMoney(calculator.getTax())));
 		}else{
 			// player.sendMessage(LanguageConfiguration.MESSAGE_NOT_ENOUGH_MONEY_IN_BANK.getMessage());
 		}
@@ -96,6 +96,19 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo{
 		}
 		return false;
 	}
+
+	public PaymentCalculator getPaymentCalculator(double amount, boolean tax){
+		amount = Math.max(0, amount);
+		if(BankPluginConfiguration.BANK_MONEY_FULL_DOLLARS.get()){
+			amount = Math.floor(amount);
+		}
+
+		if(tax) {
+			return new PaymentCalculator(amount, this.money, BankPluginConfiguration.BANK_MONEY_MAX.get(), BankPluginConfiguration.BANK_MONEY_DEPOSIT_TAX_PERCENT.get());
+		}else{
+			return new PaymentCalculator(amount, this.money, BankPluginConfiguration.BANK_MONEY_MAX.get(), 0);
+		}
+	}
 	
 	public void deposit(CorePlayers pl, double amount){
 		amount = Math.max(0, amount);
@@ -103,10 +116,10 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo{
 			amount = Math.floor(amount);
 		}
 		
-		TaxCalculator taxCalculator = new TaxCalculator(amount, this.money, BankPluginConfiguration.BANK_MONEY_MAX.get(), BankPluginConfiguration.BANK_MONEY_DEPOSIT_TAX_PERCENT.get());
+		PaymentCalculator calculator = getPaymentCalculator(amount, true);
 		
-		amount = taxCalculator.getCombined();
-		double tax = taxCalculator.getTax();
+		amount = calculator.getCombined();
+		double tax = calculator.getTax();
 		
 		if(BankPluginConfiguration.BANK_MONEY_DEPOSIT_FULL.get()){
 			amount = Math.floor(amount);
@@ -117,9 +130,8 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo{
 			if(amount != 0.0){
 				BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_DEPOSIT	.get().replaceAll("<money>", Format.formatMoney(amount))
 																													.replaceAll("<tax>", Format.formatMoney(tax)));
-				// player.sendMessage(LanguageConfiguration.MESSAGE_MONEY_DEPOSIT.getMessage().replace("<a>", Format.formatMoney(d)));
 			}
-			if(taxCalculator.isFull()){
+			if(calculator.isFull()){
 				// player.sendMessage(LanguageConfiguration.MESSAGE_MONEY_IS_FULL.getMessage());
 			}
 		}else{
@@ -165,13 +177,9 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo{
 		this.money = money;
 	}
 	
-	public TaxCalculator calculate(double add){
-		return new TaxCalculator(add, this.money, BankPluginConfiguration.BANK_MONEY_MAX.get(), 0);
-	}
-	
 	public double getMaxAdd(double amount){
-		TaxCalculator taxCalculator = calculate(amount);
-		return taxCalculator.getResult();
+		PaymentCalculator calculator = getPaymentCalculator(amount, false);
+		return calculator.getResult();
 	}
 	
 	@Deprecated

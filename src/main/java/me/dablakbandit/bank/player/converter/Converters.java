@@ -25,6 +25,14 @@ public enum Converters{
 			}
 		});
 	}
+
+	public static void enable(){
+		Arrays.stream(values()).forEach(converters -> {
+			if(converters.path == null || converters.path.get()){
+				converters.converter.enable();
+			}
+		});
+	}
 	
 	public static void disable(){
 		Arrays.stream(values()).forEach(converters -> converters.converter.disable());

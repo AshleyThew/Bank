@@ -1,5 +1,6 @@
 package me.dablakbandit.bank.implementations.citizens;
 
+import net.citizensnpcs.api.event.CitizensEnableEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -52,13 +53,19 @@ public class CitizensType extends BankImplementation implements Listener{
 		BankLog.info(BankPluginConfiguration.BANK_LOG_PLUGIN_LEVEL, "Citizens enabled");
 		Bukkit.getPluginManager().registerEvents(this, BankPlugin.getInstance());
 	}
-	
-	private void register(){
-		traitInfo = TraitInfo.create(BankTrait.class);
-		if(CitizensAPI.hasImplementation()){
-			CitizensAPI.getTraitFactory().registerTrait(traitInfo);
-		}
-	}
+
+    private void register(){
+        if(traitInfo == null){
+            traitInfo = TraitInfo.create(BankTrait.class);
+        }
+        if(CitizensAPI.hasImplementation()){
+            try{
+                CitizensAPI.getTraitFactory().registerTrait(traitInfo);
+            }catch(IllegalArgumentException e){
+
+            }
+        }
+    }
 	
 	@Override
 	public void disable(){
@@ -99,4 +106,9 @@ public class CitizensType extends BankImplementation implements Listener{
 			register();
 		}
 	}
+
+    @EventHandler
+    public void onCitizensEnable(CitizensEnableEvent ev) {
+        register();
+    }
 }

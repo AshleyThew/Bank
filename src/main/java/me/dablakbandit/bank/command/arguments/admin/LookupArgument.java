@@ -28,7 +28,7 @@ public class LookupArgument extends BankEndArgument{
 		String name = args[0];
 		String uuid = BankDatabaseManager.getInstance().getInfoDatabase().getUUIDDatabase().getUUID(name);
 		if(uuid == null){
-			base.sendFormattedMessage(s, ChatColor.RED + "Unknown player " + name);
+			base.sendFormattedMessage(s, BankLanguageConfiguration.COMMAND_UNKNOWN_PLAYER.get().replaceAll("<player>", name));
 			return;
 		}
 		if(s instanceof Player){

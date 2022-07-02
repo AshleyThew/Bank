@@ -88,13 +88,6 @@ public class PlaceholderAPIImplementation extends BankImplementation{
 			case "used_slots":{
 				return "" + pl.getInfo(BankItemsInfo.class).getTotalUsedSlots();
 			}
-			/*-
-			case "loans_total":{
-				return "" + pl.getInfo(LoansInfo.class).getTotal();
-			}
-			case "loans_left":{
-				return "" + pl.getInfo(LoansInfo.class).getLeft();
-			}*/
 			}
 			return null;
 		}

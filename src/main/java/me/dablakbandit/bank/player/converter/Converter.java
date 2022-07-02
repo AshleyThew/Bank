@@ -9,5 +9,7 @@ public abstract class Converter{
 	public abstract void setup();
 	
 	public abstract void disable();
-	
+
+	public void enable() {
+	}
 }

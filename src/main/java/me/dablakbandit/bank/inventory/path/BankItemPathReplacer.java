@@ -9,14 +9,14 @@ import java.util.function.Function;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.dablakbandit.bank.config.path.BankItemPath;
+import me.dablakbandit.bank.config.path.impl.BankItemPath;
 import me.dablakbandit.bank.utils.format.Format;
 
 public class BankItemPathReplacer<T>{
 	
-	private final List<PathReplacer<T>> replacers = new ArrayList();
+	private final List<PathReplacer<T>> replacers = new ArrayList<>();
 	
-	public void add(PathReplacer replacer){
+	public void add(PathReplacer<T> replacer){
 		replacers.add(replacer);
 	}
 	

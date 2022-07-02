@@ -50,8 +50,8 @@ public enum BankInventories implements Consumer<CorePlayers>{
 		this.playerInventoryHandler = playerInventoryHandler.get();
 	}
 	
-	public InventoryHandler getInventory(){
-		InventoryHandler handler = supplier.get();
+	public InventoryHandler<?> getInventory(){
+		InventoryHandler<?> handler = supplier.get();
 		handler.setDescriptor(descriptionPath.get());
 		handler.setup();
 		handler.setPlayerInventoryHandler(playerInventoryHandler);

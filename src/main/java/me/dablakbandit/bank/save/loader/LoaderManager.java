@@ -29,11 +29,10 @@ public class LoaderManager{
 	
 	public void stop(){
 		if(loaderThread != null){
-			loaderThread.log();
 			loaderThread.terminate();
-		}
-		while(!loaderThread.finished()){
-			loaderThread.runRunners();
+			while(!loaderThread.finished()){
+				loaderThread.runRunners();
+			}
 		}
 	}
 	
