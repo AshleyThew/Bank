@@ -327,7 +327,7 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	
 	protected void ensureScrolled(BankItemsInfo info){
 		Integer[] tabs = BankItemConfiguration.BANK_ITEM_TAB_NUMBER.getExtendValue("Tabs", Integer[].class);
-		if(info.getOpenTab() <= 0 || info.getOpenTab() >= tabs.length){
+		if(info.getOpenTab() <= 0 || info.getOpenTab() > tabs.length){
 			info.setOpenTab(1);
 		}
 
