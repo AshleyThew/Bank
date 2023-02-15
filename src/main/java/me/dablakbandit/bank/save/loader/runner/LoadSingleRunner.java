@@ -26,8 +26,8 @@ public class LoadSingleRunner implements Runnable{
 		pl.getAllInfo().stream().filter(info -> (info instanceof IBankInfo && info instanceof JSONInfo)).map(info -> (JSONInfo)info).forEach(info -> {
 			infoDatabase.getInfoTypeDatabase(info).loadPlayer(pl, info);
 			info.jsonInit();
-			if(info instanceof PermissionsInfo){
-				Bukkit.getScheduler().runTask(BankPlugin.getInstance(), ((PermissionsInfo)info)::checkPermissions);
+			if(pl.getPlayer() != null && info instanceof PermissionsInfo){
+				Bukkit.getScheduler().runTask(BankPlugin.getInstance(), () -> ((PermissionsInfo) info).checkPermissions(pl.getPlayer()));
 			}
 		});
 	}

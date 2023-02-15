@@ -23,7 +23,6 @@ public class InfoArgument extends BankEndArgument{
 		
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer((Player)s);
 		BankLanguageConfiguration.sendMessage(s, BankLanguageConfiguration.MESSAGE_INFO_BORDER.get());
-		BankLanguageConfiguration.sendMessage(s, BankLanguageConfiguration.MESSAGE_INFO_BORDER.get());
 		for(String info : BankLanguageConfiguration.MESSAGE_INFO_VIEW.get()){
 			BankLanguageConfiguration.sendMessage(s, BankPlaceholderManager.getInstance().replace(pl, info));
 		}

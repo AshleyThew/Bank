@@ -31,7 +31,7 @@ public class UpdateArgument extends BankEndArgument{
 			base.sendFormattedMessage(s, BankLanguageConfiguration.COMMAND_UNKNOWN_PLAYER.get().replaceAll("<player>", args[0]));
 			return;
 		}
-		other.getAllInfo().stream().filter(info -> info instanceof PermissionsInfo).forEach(info -> ((PermissionsInfo)info).checkPermissions());
+		other.getAllInfo().stream().filter(info -> info instanceof PermissionsInfo).forEach(info -> ((PermissionsInfo)info).checkPermissions(player));
 		BankLanguageConfiguration.sendFormattedMessage(s, BankLanguageConfiguration.BANK_ADMIN_PERMISSION_UPDATED.get().replace("<player>", args[0]));
 	}
 	

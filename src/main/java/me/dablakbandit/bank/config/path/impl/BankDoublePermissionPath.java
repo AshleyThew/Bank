@@ -40,7 +40,7 @@ public class BankDoublePermissionPath extends PermissionPath{
 		int length = path.length();
 		for(PermissionAttachmentInfo info : list){
 			String check = info.getPermission();
-			if(check.startsWith(path)){
+			if(info.getValue() && check.startsWith(path)){
 				try{
 					values.add(Double.parseDouble(check.substring(length)));
 				}catch(Exception e){

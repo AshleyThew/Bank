@@ -6,7 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.config.path.impl.BankTranslatedStringPath;
-import me.dablakbandit.bank.config.path.impl.TranslatedStringListPath;
+import me.dablakbandit.bank.config.path.impl.BankTranslatedStringListPath;
 import me.dablakbandit.core.config.comment.CommentAdvancedConfiguration;
 import me.dablakbandit.core.config.comment.annotation.Comment;
 import me.dablakbandit.core.config.comment.annotation.CommentArray;
@@ -32,6 +32,13 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	public static final BankTranslatedStringPath	BANK_ADMIN_BLOCK_NOT			= new BankTranslatedStringPath(ChatColor.GREEN + "Block <block> is not a bank");
 	@Comment("Available: <block>")
 	public static final BankTranslatedStringPath	BANK_ADMIN_BLOCK_REMOVE			= new BankTranslatedStringPath(ChatColor.GREEN + "Block <block> removed as bank");
+
+	@Comment("Available: <url>")
+	public static final BankTranslatedStringPath	BANK_ADMIN_DEBUG_ITEM_URL			= new BankTranslatedStringPath(ChatColor.GREEN + "Uploaded item info to <url>, click to open/copy");
+
+	public static final BankTranslatedStringPath	BANK_ADMIN_DEBUG_ITEM_ERROR			= new BankTranslatedStringPath(ChatColor.RED + "Unable to upload item, please view console logs for errors");
+
+	public static final BankTranslatedStringPath	BANK_ADMIN_DEBUG_ITEM_NONE			= new BankTranslatedStringPath(ChatColor.RED + "Please hold an item in your hand");
 	@Comment("Available: <player>, <new_amount>")
 	public static final BankTranslatedStringPath	BANK_ADMIN_SLOTS_ADD			= new BankTranslatedStringPath("Added <amount> slots to <player>, new amount <new_amount>");
 	@Comment("Available: <player>")
@@ -120,7 +127,7 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	public static final BankTranslatedStringPath	MESSAGE_INFO_BORDER				=
 		new BankTranslatedStringPath(ChatColor.GREEN + "-----------------------------------------------------");
 	//@formatter:off
-	public static final TranslatedStringListPath	MESSAGE_INFO_VIEW				= new TranslatedStringListPath(
+	public static final BankTranslatedStringListPath MESSAGE_INFO_VIEW				= new BankTranslatedStringListPath(
 			ChatColor.AQUA + " Bank balance $<bank_money>",
 				ChatColor.AQUA + " Bank exp <bank_exp>, <bank_exp_level> levels",
 				ChatColor.AQUA + " Money interest in <bank_interest_money_minutes> minutes (<bank_interest_money_seconds> seconds)",

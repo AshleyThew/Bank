@@ -1,8 +1,11 @@
 package me.dablakbandit.bank.config;
 
 import me.dablakbandit.bank.config.path.BankExtendedPath;
+import me.dablakbandit.bank.config.path.BankItemDelete;
 import me.dablakbandit.bank.config.path.impl.BankEmptyPath;
 import me.dablakbandit.bank.config.path.PathExtended;
+import me.dablakbandit.core.config.comment.annotation.Delete;
+import me.dablakbandit.core.config.comment.annotation.DeleteArray;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -37,7 +40,8 @@ public class BankItemConfiguration extends CommentAdvancedConfiguration{
 	
 	private BankItemConfiguration(Plugin plugin){
 		super(plugin, "items.yml");
-		CommentConfiguration.addCommandSupplier(BankItemBase.class, BankItemBase::value);
+		CommentConfiguration.addCommentSupplier(BankItemBase.class, BankItemBase::value);
+		CommentConfiguration.addDeleteSupplier(BankItemDelete.class, BankItemDelete::value);
 	}
 	
 	private static final Material	stained				= getStainedMaterial();
@@ -183,14 +187,31 @@ public class BankItemConfiguration extends CommentAdvancedConfiguration{
 	public static final BankItemPath	BANK_PIN_SET						= new BankItemPath(4, green_stained, ChatColor.GREEN + "Set Pin", ChatColor.GREEN + "Click to set your pin");
 	public static final BankItemPath	BANK_PIN_REMOVE						= new BankItemPath(5, red_stained, ChatColor.RED + "Remove Pin", ChatColor.RED + "Click to remove your pin");
 	public static final BankItemPath	BANK_PIN_CLEAR						= new BankItemPath(39, yellow_stained, ChatColor.GREEN + "Clear Pin", ChatColor.GREEN + "Click to clear");
-	@CommentArray({ "Available: <number>", "Number.Slot: Top left of the 3 x 3 pad" })
-	public static final BankItemPath	BANK_PIN_NUMBER						= new BankItemPath(12, green_stained, ChatColor.AQUA + "<number>");
-	public static final BankItemPath	BANK_PIN_ZERO						= new BankItemPath(40, light_blue_stained, ChatColor.AQUA + "0");
+	@CommentArray({ "Each pin slot is randomized except for Zero", "Available: <number>" })
+	@BankItemDelete
+	public static final BankEmptyPath	BANK_PIN_NUMBER						= new BankEmptyPath();
+	public static final BankItemPath	BANK_PIN_NUMBER_ONE					= new BankItemPath(12, green_stained, ChatColor.AQUA + "1");
+	public static final BankItemPath	BANK_PIN_NUMBER_TWO					= new BankItemPath(13, green_stained, ChatColor.AQUA + "2");
+	public static final BankItemPath	BANK_PIN_NUMBER_THREE				= new BankItemPath(14, green_stained, ChatColor.AQUA + "3");
+	public static final BankItemPath	BANK_PIN_NUMBER_FOUR				= new BankItemPath(21, green_stained, ChatColor.AQUA + "4");
+	public static final BankItemPath	BANK_PIN_NUMBER_FIVE				= new BankItemPath(22, green_stained, ChatColor.AQUA + "5");
+	public static final BankItemPath	BANK_PIN_NUMBER_SIX					= new BankItemPath(23, green_stained, ChatColor.AQUA + "6");
+	public static final BankItemPath	BANK_PIN_NUMBER_SEVEN				= new BankItemPath(30, green_stained, ChatColor.AQUA + "7");
+	public static final BankItemPath	BANK_PIN_NUMBER_EIGHT				= new BankItemPath(31, green_stained, ChatColor.AQUA + "8");
+	public static final BankItemPath	BANK_PIN_NUMBER_NINE				= new BankItemPath(32, green_stained, ChatColor.AQUA + "9");
+	public static final BankItemPath	BANK_PIN_NUMBER_ZERO				= new BankItemPath(40, light_blue_stained, ChatColor.AQUA + "0");
+
+	@CommentArray({ "Available: <length>" })
+	@Delete("Unfinished")
+	@BankItemDelete
+	public static final BankEmptyPath	BANK_PIN_PROGRESS					= new BankEmptyPath();
 	@Comment("Finished.Slot: Starting progress slot")
-	public static final BankItemPath	BANK_PIN_PROGRESS_FINISHED			= new BankItemPath(17, green_stained, ChatColor.AQUA + "<length>/4");
-	@Comment("Unfinished.Slot: Addition progress slot (17 + (number * 9))")
-	public static final BankItemPath	BANK_PIN_PROGRESS_UNFINISHED		= new BankItemPath(9, yellow_stained, ChatColor.AQUA + "<length>/4");
-	
+	public static final BankItemPath	BANK_PIN_PROGRESS_FINISHED			= new BankItemPath(-1, green_stained, ChatColor.AQUA + "<length>/4");
+	public static final BankItemPath	BANK_PIN_PROGRESS_SLOT_1			= new BankItemPath(17, yellow_stained, ChatColor.AQUA + "<length>/4");
+	public static final BankItemPath	BANK_PIN_PROGRESS_SLOT_2			= new BankItemPath(26, yellow_stained, ChatColor.AQUA + "<length>/4");
+	public static final BankItemPath	BANK_PIN_PROGRESS_SLOT_3			= new BankItemPath(35, yellow_stained, ChatColor.AQUA + "<length>/4");
+	public static final BankItemPath	BANK_PIN_PROGRESS_SLOT_4			= new BankItemPath(44, yellow_stained, ChatColor.AQUA + "<length>/4");
+
 	public static final BankItemPath	BANK_ITEM_BUY_SLOT_MINUS			= new BankItemPath(3, red_stained, ChatColor.RED + "-");
 	@Comment("Available: <slots>, <cost>")
 	public static final BankItemPath	BANK_ITEM_BUY_SLOT_BUY				= new BankItemPath(4, light_blue_stained, ChatColor.AQUA + "Buy <slots> for $<cost>");

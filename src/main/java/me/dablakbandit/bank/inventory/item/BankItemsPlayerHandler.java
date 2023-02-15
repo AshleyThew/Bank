@@ -21,7 +21,7 @@ public class BankItemsPlayerHandler extends PlayerInventoryHandler{
 			if(event.isShiftClick()){
 				BankItemsInfo info = pl.getInfo(BankItemsInfo.class);
 				event.setCancelled(true);
-				event.setCurrentItem(info.addBankItem(pl.getPlayer(), is));
+				event.setCurrentItem(info.addBankItem(pl.getPlayer(), is, false));
 				// bi.save(BankPluginConfiguration.SAVE_ITEM_DEPOSIT);
 				BankSoundConfiguration.INVENTORY_ITEMS_ITEM_ADD.play(pl);
 				pl.refreshInventory();

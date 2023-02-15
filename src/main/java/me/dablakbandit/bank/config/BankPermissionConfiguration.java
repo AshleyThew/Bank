@@ -1,5 +1,6 @@
 package me.dablakbandit.bank.config;
 
+import me.dablakbandit.bank.config.path.impl.BankPermissionStringListPath;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.dablakbandit.bank.BankPlugin;
@@ -60,8 +61,13 @@ public class BankPermissionConfiguration extends CommentAdvancedConfiguration{
 	@Comment("Permission to withdraw items from bank")
 	public static final PermissionPath				PERMISSION_ITEMS_WITHDRAW	= new BankPermissionPath("bank.items.withdraw", false);
 
+	@Comment("Extra perms for admins when opening players banks")
+	public static final BankPermissionStringListPath PERMISSION_ADMIN_PERMISSIONS				= new BankPermissionStringListPath("bank.tabs.9");
+
 	@Comment("Note this permission can't be disabled for security reasons.")
 	public static final StringPath					PERMISSION_ADMIN_INVENTORY		= new StringPath("bank.admin.inventory.open");
+
+
 	
 	private BankPermissionConfiguration(JavaPlugin plugin){
 		super(plugin, "permissions.yml");

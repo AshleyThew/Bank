@@ -2,10 +2,12 @@ package me.dablakbandit.bank.player.info;
 
 import java.util.*;
 
+import me.dablakbandit.bank.config.path.impl.BankPermissionStringListPath;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import me.dablakbandit.bank.config.BankPermissionConfiguration;
@@ -151,45 +153,45 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 		
 	}
 	
-	public void addInventoryToBank(Player player){
-		addToBank(player, 9, 36);
+	public void addInventoryToBank(Player player, boolean force){
+		addToBank(player, 9, 36, force);
 	}
 	
-	public void addAllInventoryToBank(Player player){
-		addToBank(player, 0, 36);
-		addOffhandToBank(player);
+	public void addAllInventoryToBank(Player player, boolean force){
+		addToBank(player, 0, 36, force);
+		addOffhandToBank(player, force);
 	}
 	
-	public void addHotbarToBank(Player player){
-		addToBank(player, 0, 9);
-		addOffhandToBank(player);
+	public void addHotbarToBank(Player player, boolean force){
+		addToBank(player, 0, 9, force);
+		addOffhandToBank(player, force);
 	}
 	
-	public void addOffhandToBank(Player player){
+	public void addOffhandToBank(Player player, boolean force){
 		if(!Version.isAtleastNine()){ return; }
 		ItemStack is = player.getInventory().getItemInOffHand();
 		if(isEmpty(is)){ return; }
-		player.getInventory().setItemInOffHand(addBankItem(player, is));
+		player.getInventory().setItemInOffHand(addBankItem(player, is, force));
 	}
 	
-	protected void addToBank(Player player, int x, int z){
+	protected void addToBank(Player player, int x, int z, boolean force){
 		Inventory inv = player.getInventory();
 		for(int i = x; i < z; i++){
 			ItemStack is = inv.getItem(i);
 			if(isEmpty(is)){
 				continue;
 			}
-			is = addBankItem(player, is);
+			is = addBankItem(player, is, force);
 			inv.setItem(i, is);
 			if(is != null){ return; }
 		}
 	}
 	
-	public ItemStack addBankItem(Player player, ItemStack is){
-		return addBankItem(player, is, openTab);
+	public ItemStack addBankItem(Player player, ItemStack is, boolean force){
+		return addBankItem(player, is, openTab, force);
 	}
 	
-	public ItemStack addBankItem(Player player, ItemStack is, int tab){
+	public ItemStack addBankItem(Player player, ItemStack is, int tab, boolean force){
 		if(!BankPermissionConfiguration.PERMISSION_ITEMS_DEPOSIT.has(pl.getPlayer())){
 			return is;
 		}
@@ -206,9 +208,9 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 			save(BankPluginConfiguration.BANK_SAVE_ITEM_DEPOSIT);
 			return null;
 		}
-		int size = getBankSize(openTab);
-		if(size < BankPluginConfiguration.BANK_ITEMS_TABS_SIZE_MAX.get()){
-			if(getBankSize(tab) < getBankSlots(tab)){
+		int size = getTabSize(openTab);
+		if(force || size < BankPluginConfiguration.BANK_ITEMS_TABS_SIZE_MAX.get()){
+			if(force || getTotalBankSize(tab) < getBankSlots(tab)){
 				itemMap.get(tab).add(is);
 				save(BankPluginConfiguration.BANK_SAVE_ITEM_DEPOSIT);
 				return null;
@@ -251,10 +253,13 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	private boolean isEmpty(ItemStack is){
 		return is == null || is.getType() == Material.AIR;
 	}
-	
-	public int getBankSize(int page){
+
+	public int getTotalBankSize(int page){
 		if(BankPluginConfiguration.BANK_ITEMS_SLOTS_BUY_PER_TAB.get()){ return itemMap.get(page).size(); }
 		return itemMap.values().stream().map(List::size).mapToInt(Integer::intValue).sum();
+	}
+	public int getTabSize(int page){
+		return itemMap.get(page).size();
 	}
 	
 	public int getBoughtSlots(int page){
@@ -498,7 +503,9 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 			// player.sendMessage(LanguageConfiguration.MESSAGE_SLOTS_BOUGHT.getMessage().replace("<i>", "" + buy_slot_amount).replace("<p>", Format.formatMoney(d)));
 			boughtTabs += buyTabs;
 			buyTabs = 0;
-			checkPermissions();
+			if(getPlayers().getPlayer() != null) {
+				checkPermissions(getPlayers().getPlayer());
+			}
 			return true;
 		}else{
 			// player.sendMessage(LanguageConfiguration.MESSAGE_SLOTS_FAILED.getMessage());
@@ -511,23 +518,23 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	}
 	
 	@Override
-	public void checkPermissions(){
-		if(pl.getPlayer() == null){ return; }
-		Collection<PermissionAttachmentInfo> permissions = pl.getPlayer().getEffectivePermissions();
-		
-		List<Integer> maxList = BankPermissionConfiguration.PERMISSION_SLOTS.getValue(pl, permissions);
-		if(maxList.size() > 0){
-			if(BankPluginConfiguration.BANK_ITEMS_SLOTS_PERMISSION_COMBINE.get()){
-				permissionSlots = maxList.stream().mapToInt(Integer::intValue).sum();
-			}else{
-				permissionSlots = Collections.max(maxList);
+	public void checkPermissions(Permissible permissible){
+		Collection<PermissionAttachmentInfo> permissions = permissible.getEffectivePermissions();
+		if(!(permissible instanceof BankPermissionStringListPath.PathPermissible)) {
+			List<Integer> maxList = BankPermissionConfiguration.PERMISSION_SLOTS.getValue(permissions);
+			if (maxList.size() > 0) {
+				if (BankPluginConfiguration.BANK_ITEMS_SLOTS_PERMISSION_COMBINE.get()) {
+					permissionSlots = maxList.stream().mapToInt(Integer::intValue).sum();
+				} else {
+					permissionSlots = Collections.max(maxList);
+				}
+			} else {
+				permissionSlots = 0;
 			}
-		}else{
-			permissionSlots = 0;
 		}
 		int tabCount = BankPluginConfiguration.BANK_ITEMS_TABS_DEFAULT.get() + boughtTabs;
 		if(BankPluginConfiguration.BANK_ITEMS_TABS_PERMISSION_ENABLED.get()){
-			List<Integer> tabsList = BankPermissionConfiguration.PERMISSION_TABS.getValue(pl, permissions);
+			List<Integer> tabsList = BankPermissionConfiguration.PERMISSION_TABS.getValue(permissions);
 			if(BankPluginConfiguration.BANK_ITEMS_TABS_PERMISSION_COMBINE.get()){
 				int sum = tabsList.stream().reduce(0, Integer::sum);
 				Math.max(tabCount, sum + boughtTabs);

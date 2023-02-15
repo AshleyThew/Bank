@@ -71,8 +71,8 @@ public class LoadRunner implements Runnable{
 		infoList.forEach(info -> {
 			infoDatabase.getInfoTypeDatabase(info).loadPlayer(pl, info);
 			info.jsonInit();
-			if(info instanceof PermissionsInfo){
-				Bukkit.getScheduler().runTask(BankPlugin.getInstance(), ((PermissionsInfo)info)::checkPermissions);
+			if(pl.getPlayer() != null && info instanceof PermissionsInfo){
+				Bukkit.getScheduler().runTask(BankPlugin.getInstance(), () -> ((PermissionsInfo) info).checkPermissions(pl.getPlayer()));
 			}
 		});
 		bankInfo.setLocked(false);

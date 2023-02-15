@@ -2,6 +2,7 @@ package me.dablakbandit.bank.implementations.placeholder;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import me.dablakbandit.bank.player.info.BankExpInfo;
@@ -42,39 +43,45 @@ public class BankPlaceholderManager{
 	}
 	
 	private <T extends CorePlayersInfo> void addCoreDouble(String placeholder, Class<T> clazz, Function<T, Double> function, Function<Double, String> converter){
-		add(placeholder, pl -> converter.apply(function.apply(pl.getInfo(clazz))));
+		add(placeholder, clazz, (pl, val) -> converter.apply(function.apply(val)));
 	}
 	
 	private <T extends CorePlayersInfo> void addCoreInteger(String placeholder, Class<T> clazz, Function<T, Integer> function, Function<Integer, String> converter){
-		add(placeholder, pl -> converter.apply(function.apply(pl.getInfo(clazz))));
+		add(placeholder, clazz, (pl, val) -> converter.apply(function.apply(val)));
 	}
 	
 	private <T> void addInteger(String placeholder, T t, Function<T, Integer> function, Function<Integer, String> converter){
-		add(placeholder, pl -> converter.apply(function.apply(t)));
+		add(placeholder, Object.class, (pl, ignore) -> converter.apply(function.apply(t)));
 	}
 	
 	private <T extends CorePlayersInfo> void addCorePlaceholder(String placeholder, Class<T> clazz, Function<T, String> function){
-		add(placeholder, (pl) -> function.apply(pl.getInfo(clazz)));
+		add(placeholder, clazz, (pl, val) -> function.apply(val));
 	}
 	
-	private void add(String placeholder, Function<CorePlayers, String> function){
-		Placeholder value = new Placeholder(placeholder, function);
+	private <T> void add(String placeholder, Class<T> clazz, BiFunction<CorePlayers, T, String> function){
+		Placeholder<T> value = new Placeholder(placeholder, clazz, function);
 		placeholderMap.put(placeholder, value);
 		shortPlaceholderMap.put(placeholder.replaceFirst("bank_", ""), value);
 	}
 	
-	public static class Placeholder{
+	public static class Placeholder<T>{
 		
 		private final String							placeholder;
-		private final Function<CorePlayers, String>	replaced;
+		private final Class<T> clazz;
+		private final BiFunction<CorePlayers, T, String>	replaced;
 		
-		public Placeholder(String placeholder, Function<CorePlayers, String> replaced){
+		public Placeholder(String placeholder, Class<T> clazz, BiFunction<CorePlayers, T, String> replaced){
 			this.placeholder = placeholder;
+			this.clazz = clazz;
 			this.replaced = replaced;
 		}
 		
 		public String get(CorePlayers pl){
-			return replaced.apply(pl);
+			T value = null;
+			if(clazz != null && CorePlayersInfo.class.isAssignableFrom(clazz)){
+				value = pl.getType(clazz);
+			}
+			return replaced.apply(pl, value);
 		}
 		
 		public String replace(CorePlayers pl, String info){

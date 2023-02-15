@@ -64,7 +64,7 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	
 	private ItemStack getSlots(BankItemPath path, BankInfo bankInfo){
 		BankItemsInfo itemsInfo = bankInfo.getItemsInfo();
-		int used = itemsInfo.getBankSize(itemsInfo.getOpenTab());
+		int used = itemsInfo.getTotalBankSize(itemsInfo.getOpenTab());
 		int total = itemsInfo.getBankSlots(itemsInfo.getOpenTab());
 		int available = total - used;
 		return replaceNameLore(path, "<used>", "" + used, "<available>", "" + available, "<total>", "" + total);
@@ -209,7 +209,7 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	}
 	
 	private void handleItemInput(CorePlayers pl, BankItemsInfo bi, ItemStack is, InventoryClickEvent event){
-		ItemStack i = bi.addBankItem(pl.getPlayer(), is);
+		ItemStack i = bi.addBankItem(pl.getPlayer(), is, false);
 		event.setCursor(i);
 		pl.refreshInventory();
 		BankSoundConfiguration.INVENTORY_ITEMS_ITEM_ADD.play(pl);

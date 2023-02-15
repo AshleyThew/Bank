@@ -20,6 +20,7 @@ public @interface BankItemBase{
 		"Slots: Duplicate this item to additional slots. Integer list.",
 		"HeadURL: <url> / Head url from minecraft player skin, requires Item.Material to be PLAYER_HEAD or PLAYER_SKULL (Premium)\"",
 		"HeadDB: <headdb-id> / HeadDB identifier",
+		"PlayerHead: <true/false> If this should be the players own head.",
 		"Enchant: <enchant_name>",	
 		"CustomModelData: <integer> (1.14+ only!)", 
 		"",

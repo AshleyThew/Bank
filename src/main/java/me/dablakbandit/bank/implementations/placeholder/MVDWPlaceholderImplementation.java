@@ -33,37 +33,49 @@ public class MVDWPlaceholderImplementation extends BankImplementation{
 			if(!event.isOnline()){ return "Offline"; }
 			CorePlayers pl = CorePlayerManager.getInstance().getPlayer(event.getPlayer());
 			if(pl == null){ return "Offline"; }
-			return Format.formatMoney(pl.getInfo(BankMoneyInfo.class).getMoney());
+			BankMoneyInfo info = pl.getInfo(BankMoneyInfo.class);
+			if(info==null) { return ""; }
+			return Format.formatMoney(info.getMoney());
 		});
 		PlaceholderAPI.registerPlaceholder(BankPlugin.getInstance(), "bank_exp", event -> {
 			if(!event.isOnline()){ return "Offline"; }
 			CorePlayers pl = CorePlayerManager.getInstance().getPlayer(event.getPlayer());
 			if(pl == null){ return "Offline"; }
-			return Format.formatMoney(pl.getInfo(BankExpInfo.class).getExp());
+			BankExpInfo info = pl.getInfo(BankExpInfo.class);
+			if(info==null) { return ""; }
+			return Format.formatMoney(info.getExp());
 		});
 		PlaceholderAPI.registerPlaceholder(BankPlugin.getInstance(), "bank_slots", event -> {
 			if(!event.isOnline()){ return "Offline"; }
 			CorePlayers pl = CorePlayerManager.getInstance().getPlayer(event.getPlayer());
 			if(pl == null){ return "Offline"; }
-			return "" + pl.getInfo(BankItemsInfo.class).getTotalSlots();
+			BankItemsInfo info = pl.getInfo(BankItemsInfo.class);
+			if(info==null) { return ""; }
+			return "" + info.getTotalSlots();
 		});
 		PlaceholderAPI.registerPlaceholder(BankPlugin.getInstance(), "bank_used_slots", event -> {
 			if(!event.isOnline()){ return "Offline"; }
 			CorePlayers pl = CorePlayerManager.getInstance().getPlayer(event.getPlayer());
 			if(pl == null){ return "Offline"; }
-			return "" + pl.getInfo(BankItemsInfo.class).getTotalUsedSlots();
+			BankItemsInfo info = pl.getInfo(BankItemsInfo.class);
+			if(info==null) { return ""; }
+			return "" + info.getTotalUsedSlots();
 		});
 		/*-PlaceholderAPI.registerPlaceholder(BankPlugin.getInstance(), "bank_loans_total", event -> {
 			if(!event.isOnline()){ return "Offline"; }
 			CorePlayers pl = CorePlayerManager.getInstance().getPlayer(event.getPlayer());
 			if(pl == null){ return "Offline"; }
-			return "" + pl.getInfo(LoansInfo.class).getTotal();
+			BankLoansInfo info = pl.getInfo(BankLoansInfo.class);
+			if(info==null) { return ""; }
+			return "" + info.getOriginal();
 		});
 		PlaceholderAPI.registerPlaceholder(BankPlugin.getInstance(), "bank_loans_left", event -> {
 			if(!event.isOnline()){ return "Offline"; }
 			CorePlayers pl = CorePlayerManager.getInstance().getPlayer(event.getPlayer());
 			if(pl == null){ return "Offline"; }
-			return "" + pl.getInfo(LoansInfo.class).getLeft();
+			BankLoansInfo info = pl.getInfo(BankLoansInfo.class);
+			if(info==null) { return ""; }
+			return "" + info.getTotal();
 		});*/
 	}
 	

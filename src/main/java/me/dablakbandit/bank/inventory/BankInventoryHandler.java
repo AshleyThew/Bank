@@ -5,8 +5,10 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import me.dablakbandit.bank.implementations.placeholder.BankPlaceholderManager;
+import me.dablakbandit.bank.inventory.head.PlayerHead;
 import me.dablakbandit.core.config.path.PermissionPath;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import me.dablakbandit.bank.config.BankSoundConfiguration;
@@ -116,5 +118,13 @@ public abstract class BankInventoryHandler<T>extends InventoryHandler<T>{
 	@Override
 	protected boolean open(CorePlayers pl, Player player, int size, String title) {
 		return super.open(pl, player, size, BankPlaceholderManager.getInstance().replace(pl, title));
+	}
+
+	@Override
+	public void set(CorePlayers pl, Player player, Inventory inventory) {
+		super.set(pl, player, inventory);
+		for (ItemStack itemStack : inventory.getContents()) {
+			PlayerHead.getInstance().replace(pl, itemStack);
+		}
 	}
 }

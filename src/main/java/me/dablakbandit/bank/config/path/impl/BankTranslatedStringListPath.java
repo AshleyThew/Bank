@@ -10,13 +10,13 @@ import org.bukkit.ChatColor;
 import me.dablakbandit.core.config.RawConfiguration;
 import me.dablakbandit.core.config.path.ListPath;
 
-public class TranslatedStringListPath extends ListPath<String>{
+public class BankTranslatedStringListPath extends ListPath<String>{
 	
-	public TranslatedStringListPath(List<String> def){
+	public BankTranslatedStringListPath(List<String> def){
 		super(def);
 	}
 	
-	public TranslatedStringListPath(String... def){
+	public BankTranslatedStringListPath(String... def){
 		super(new ArrayList<>(Arrays.asList(def)));
 	}
 	

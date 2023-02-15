@@ -7,8 +7,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import me.dablakbandit.bank.config.path.BankExtendedPath;
+import me.dablakbandit.bank.inventory.head.PlayerHead;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,6 +19,8 @@ import me.dablakbandit.core.config.RawConfiguration;
 import me.dablakbandit.core.config.path.ItemPath;
 import me.dablakbandit.core.utils.ItemUtils;
 import me.dablakbandit.core.utils.NMSUtils;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 
 public class BankItemPath extends ItemPath implements BankExtendedPath {
 	
@@ -147,6 +151,9 @@ public class BankItemPath extends ItemPath implements BankExtendedPath {
 		}
 		if(isSet(path, "Slots")){
 			slots = config.getIntegerList(path + ".Slots").stream().mapToInt(i -> i).toArray();
+		}
+		if(isSet(path, "PlayerHead") && config.getBoolean(path + ".PlayerHead")){
+			PlayerHead.getInstance().set(is);
 		}
 		if(isSet(path, "Name")){
 			name = ChatColor.translateAlternateColorCodes('&', config.getString(path + ".Name"));

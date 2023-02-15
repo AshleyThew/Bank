@@ -21,17 +21,17 @@ public class BankAddItemsInventory extends BankInventoryHandler<BankInfo>{
 	}
 	
 	private void addAll(CorePlayers pl, BankInfo bankInfo){
-		bankInfo.getItemsInfo().addAllInventoryToBank(pl.getPlayer());
+		bankInfo.getItemsInfo().addAllInventoryToBank(pl.getPlayer(), false);
 		returnToItems(pl);
 	}
 	
 	private void addInventory(CorePlayers pl, BankInfo bankInfo){
-		bankInfo.getItemsInfo().addInventoryToBank(pl.getPlayer());
+		bankInfo.getItemsInfo().addInventoryToBank(pl.getPlayer(), false);
 		returnToItems(pl);
 	}
 	
 	private void addHotbar(CorePlayers pl, BankInfo bankInfo){
-		bankInfo.getItemsInfo().addHotbarToBank(pl.getPlayer());
+		bankInfo.getItemsInfo().addHotbarToBank(pl.getPlayer(), false);
 		returnToItems(pl);
 	}
 	

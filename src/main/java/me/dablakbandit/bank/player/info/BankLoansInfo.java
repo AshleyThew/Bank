@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
+import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import me.dablakbandit.bank.config.BankPermissionConfiguration;
@@ -111,8 +112,7 @@ public class BankLoansInfo extends IBankInfo implements JSONInfo, PermissionsInf
 		return loanInterest;
 	}
 	
-	public void checkPermissions(){
-		if(pl.getPlayer() == null){ return; }
+	public void checkPermissions(Permissible permissible){
 		Collection<PermissionAttachmentInfo> permissions = pl.getPlayer().getEffectivePermissions();
 		
 		List<Double> maxList = BankPermissionConfiguration.PERMISSION_LOAN_AMOUNT.getValue(pl, permissions);

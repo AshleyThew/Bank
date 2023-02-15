@@ -22,6 +22,8 @@ public class BankCommandConfiguration extends CommandConfiguration{
 	public static Command		BANK_ADMIN_BLOCK				= new Command("block", "bank.admin.block");
 	public static Command		BANK_ADMIN_BLOCK_ADD			= new Command("add", "bank.admin.block.add");
 	public static Command		BANK_ADMIN_BLOCK_REMOVE			= new Command("remove", "bank.admin.block.remove");
+	public static Command		BANK_ADMIN_DEBUG				= new Command("debug", "bank.admin.debug");
+	public static Command		BANK_ADMIN_DEBUG_ITEM			= new Command("item", "bank.admin.debug.item");
 	public static Command		BANK_ADMIN_RESET				= new Command("reset", "bank.admin.reset", new String[0], new String[]{ "<name>" });
 	public static Command		BANK_ADMIN_FIX					= new Command("fix", "bank.admin.fix");
 	public static Command		BANK_ADMIN_FIX_USERNAMES		= new Command("usernames", "bank.admin.fix.usernames");

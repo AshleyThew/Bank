@@ -112,6 +112,7 @@ public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo>{
 				}
 				deposit = Math.min(max, deposit);
 				info.deposit(pl, deposit);
+				pl.setOpenInventory(BankMoneyInventory.this);
 			}
 		});
 	}

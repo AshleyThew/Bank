@@ -25,11 +25,7 @@ public class BankIntegerPermissionPath extends PermissionPath{
 		return !permission.isCheck() || CorePlayerManager.getInstance().getPlayer(player).getInfo(BankPermissionInfo.class).checkPermission(permission.getPermission(), true);
 	}
 	
-	public List<Integer> getValue(CorePlayers pl){
-		return getValue(pl, pl.getPlayer().getEffectivePermissions());
-	}
-	
-	public List<Integer> getValue(CorePlayers pl, Collection<PermissionAttachmentInfo> list){
+	public List<Integer> getValue(Collection<PermissionAttachmentInfo> list){
 		Permission permission = get();
 		if(!permission.isCheck()){ return Collections.emptyList(); }
 		return getValues(permission.getPermission(), list);
@@ -40,7 +36,7 @@ public class BankIntegerPermissionPath extends PermissionPath{
 		int length = path.length();
 		for(PermissionAttachmentInfo info : list){
 			String check = info.getPermission();
-			if(check.startsWith(path)){
+			if(info.getValue() && check.startsWith(path)){
 				try{
 					values.add(Integer.parseInt(check.substring(length)));
 				}catch(Exception e){
