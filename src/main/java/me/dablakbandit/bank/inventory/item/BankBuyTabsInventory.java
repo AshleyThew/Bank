@@ -19,7 +19,7 @@ public class BankBuyTabsInventory extends BankInventoryHandler<BankItemsInfo>{
 	public void init(){
 		int size = descriptor.getSize();
 		setAll(size, BankItemConfiguration.BANK_ITEM_BLANK);
-		setItem(0, BankItemConfiguration.BANK_BACK, consumeSound(this::returnToItems, BankSoundConfiguration.INVENTORY_GLOBAL_BACK));
+		setItem(BankItemConfiguration.BANK_ITEM_BUY_TAB_BACK, consumeSound(this::returnToItems, BankSoundConfiguration.INVENTORY_GLOBAL_BACK));
 		setItem(BankItemConfiguration.BANK_ITEM_BUY_TAB_MINUS, consumeSound(this::decrease, BankSoundConfiguration.INVENTORY_ITEMS_BUY_TABS_MINUS));
 		setItem(BankItemConfiguration.BANK_ITEM_BUY_TAB_ADD, consumeSound(this::increase, BankSoundConfiguration.INVENTORY_ITEMS_BUY_SLOTS_ADD));
 		setItem(BankItemConfiguration.BANK_ITEM_BUY_TAB_BUY, this::getBuy, consumeSound(this::buy, BankSoundConfiguration.INVENTORY_ITEMS_BUY_TABS_BUY));

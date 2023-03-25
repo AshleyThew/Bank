@@ -120,7 +120,7 @@ public class BankSoundConfiguration extends CommentAdvancedConfiguration{
 	public static final SoundsPath	EXP_SEND_RECEIVE						= new SoundsPath(levelup);
 	
 	private BankSoundConfiguration(JavaPlugin plugin){
-		super(plugin, "sounds.yml");
+		super(plugin, "conf/sounds.yml");
 	}
 	
 	public static class SoundsPath extends Path<Sounds>{

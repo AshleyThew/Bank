@@ -12,7 +12,7 @@ public class BankTrashcanInventory extends BankInventoryHandler<BankInfo>{
 	
 	@Override
 	public void init(){
-		setItem(0, BankItemConfiguration.BANK_BACK, consumeSound(this::returnToItems, BankSoundConfiguration.INVENTORY_GLOBAL_BACK));
+		setItem(BankItemConfiguration.BANK_TRASHCAN_BACK, consumeSound(this::returnToItems, BankSoundConfiguration.INVENTORY_GLOBAL_BACK));
 	}
 	
 	protected void returnToItems(CorePlayers pl){

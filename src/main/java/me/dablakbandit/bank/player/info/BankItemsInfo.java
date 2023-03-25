@@ -3,6 +3,9 @@ package me.dablakbandit.bank.player.info;
 import java.util.*;
 
 import me.dablakbandit.bank.config.path.impl.BankPermissionStringListPath;
+import me.dablakbandit.bank.implementations.def.ItemDefault;
+import me.dablakbandit.bank.implementations.def.ItemDefaultImplementation;
+import me.dablakbandit.bank.log.BankLog;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -21,7 +24,7 @@ import me.dablakbandit.core.utils.itemutils.IItemUtils;
 import me.dablakbandit.core.utils.json.strategy.Exclude;
 import me.dablakbandit.core.vault.Eco;
 
-public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInfo{
+public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInfo, BankDefaultInfo{
 	
 	private static final IItemUtils				itemUtils		= ItemUtils.getInstance();
 	
@@ -192,7 +195,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	}
 	
 	public ItemStack addBankItem(Player player, ItemStack is, int tab, boolean force){
-		if(!BankPermissionConfiguration.PERMISSION_ITEMS_DEPOSIT.has(pl.getPlayer())){
+		if(!BankPermissionConfiguration.PERMISSION_ITEMS_DEPOSIT.has(player)){
 			return is;
 		}
 		if(isEmpty(is)){ return is; }
@@ -200,8 +203,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 			// pl.getPlayer().sendMessage(LanguageConfiguration.MESSAGE_ITEM_IS_BLACKLISTED.getMessage());
 			return is;
 		}
-		if(tab > totalTabCount){ return is; }
-		
+		if(!force && tab > totalTabCount){ return is; }
 		int itemSize = is.getAmount();
 		is = mergeBank(is, tab);
 		if(isEmpty(is)){
@@ -546,5 +548,14 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 		}
 		tabCount = Math.max(0, Math.min(tabCount, 9));
 		totalTabCount = tabCount;
+	}
+
+	@Override
+	public void initDefault() {
+		if(pl.getPlayer() != null && BankPluginConfiguration.BANK_ITEMS_DEFAULT_ENABLED.get()){
+			for (ItemDefault itemDefault : ItemDefaultImplementation.getInstance().getDefault()) {
+				addBankItem(pl.getPlayer(), itemDefault.getItemStack(), true);
+			}
+		}
 	}
 }

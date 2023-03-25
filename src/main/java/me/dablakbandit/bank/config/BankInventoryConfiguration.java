@@ -21,7 +21,7 @@ public class BankInventoryConfiguration extends CommentAdvancedConfiguration{
 	}
 	
 	private BankInventoryConfiguration(Plugin plugin){
-		super(plugin, "inventories.yml", InventoryConfiguration::new);
+		super(plugin, "conf/inventories.yml", InventoryConfiguration::new);
 	}
 
 	@SuppressWarnings({"rawtypes", "unused"})
@@ -50,5 +50,6 @@ public class BankInventoryConfiguration extends CommentAdvancedConfiguration{
 	public static final InventoryDescriptionPath	BANK_ADMIN_PERMISSION_HISTORY	= new InventoryDescriptionPath(54, "Bank Admin Permission History", "bank.admin.permission.history");
 	public static final InventoryDescriptionPath	BANK_ADMIN_BLACKLIST			= new InventoryDescriptionPath(54, "Bank Admin Blacklist", "bank.admin.blacklist.open");
 	public static final InventoryDescriptionPath	BANK_ADMIN_BLACKLIST_ITEM		= new InventoryDescriptionPath(9, "Bank Admin Blacklist Item Editor", "bank.admin.blacklist.edit");
-	
+	public static final InventoryDescriptionPath	BANK_ADMIN_ITEM_DEFAULT			= new InventoryDescriptionPath(54, "Bank Admin Default Items", "bank.admin.item.default.open");
+
 }

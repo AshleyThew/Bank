@@ -16,7 +16,7 @@ public class BankPinMenuInventory extends BankInventoryHandler<BankInfo>{
 	public void init(){
 		int size = descriptor.getSize();
 		setAll(size, BankItemConfiguration.BANK_ITEM_BLANK);
-		setItem(0, BankItemConfiguration.BANK_BACK, consumeSound(this::returnToMainMenu, BankSoundConfiguration.INVENTORY_GLOBAL_BACK));
+		setItem(BankItemConfiguration.BANK_PIN_BACK, consumeSound(this::returnToMainMenu, BankSoundConfiguration.INVENTORY_GLOBAL_BACK));
 		setItem(BankItemConfiguration.BANK_PIN_SET, consumeSound(getPinSet(), BankSoundConfiguration.INVENTORY_PIN_SET));
 		setItem(BankItemConfiguration.BANK_PIN_REMOVE, (item, bi) -> bi.getPinInfo().hasPin() ? item.get() : BankItemConfiguration.BANK_ITEM_BLANK.get(), this::removePin);
 	}

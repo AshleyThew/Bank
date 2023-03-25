@@ -70,7 +70,7 @@ public class BankPermissionConfiguration extends CommentAdvancedConfiguration{
 
 	
 	private BankPermissionConfiguration(JavaPlugin plugin){
-		super(plugin, "permissions.yml");
+		super(plugin, "conf/permissions.yml");
 	}
 	
 }

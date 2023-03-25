@@ -98,6 +98,9 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	@Comment("Enable item blacklist")
 	public static final BooleanPath					BANK_ITEMS_BLACKLIST_ENABLED				= new BooleanPath(false);
 
+	@Comment("Enable item defaults")
+	public static final BooleanPath					BANK_ITEMS_DEFAULT_ENABLED					= new BooleanPath(false);
+
 	@Comment("Blacklist mode (blacklist/whitelist)")
 	public static final EnumPath<BlacklistMode> 	BANK_ITEMS_BLACKLIST_MODE					= new EnumPath<>(BlacklistMode.class, BlacklistMode.BLACKLIST);
 
@@ -108,6 +111,10 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final BooleanPath					BANK_EXP_ENABLED							= new BooleanPath(true);
 	@Comment("Set bank mode to exp only")
 	public static final BooleanPath					BANK_EXP_ONLY								= new BooleanPath(false);
+	@Comment("Enabled default exp")
+	public static final BooleanPath					BANK_EXP_DEFAULT_ENABLED					= new BooleanPath(false);
+	@Comment("Default amount of exp to give new banks")
+	public static final DoublePath					BANK_EXP_DEFAULT_AMOUNT						= new DoublePath(0);
 	@Comment("Format exp in messages")
 	public static final BooleanPath					BANK_EXP_FORMAT_ENABLED						= new BooleanPath(true);
 	@Comment("Format exp in thousands eg 300K")
@@ -170,6 +177,10 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final BooleanPath					BANK_MONEY_FULL_DOLLARS						= new BooleanPath(false);
 	@Comment("Only able to deposit full $ (no decimal)")
 	public static final BooleanPath					BANK_MONEY_DEPOSIT_FULL						= new BooleanPath(false);
+	@Comment("Enabled default money")
+	public static final BooleanPath					BANK_MONEY_DEFAULT_ENABLED					= new BooleanPath(false);
+	@Comment("Default amount of money to give new banks")
+	public static final DoublePath					BANK_MONEY_DEFAULT_AMOUNT					= new DoublePath(0);
 	@Comment("Storage of taxes taken from players")
 	public static final BankSynchronizedDoubleNicePath BANK_MONEY_TAX_STORAGE					= new BankSynchronizedDoubleNicePath(0);
 	@Comment("Percentage to tax players when depositing, 0.01 = 1%")

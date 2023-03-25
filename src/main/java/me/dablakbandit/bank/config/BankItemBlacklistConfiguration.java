@@ -16,7 +16,7 @@ public class BankItemBlacklistConfiguration extends CommentAdvancedConfiguration
 	}
 	
 	private BankItemBlacklistConfiguration(JavaPlugin plugin){
-		super(plugin, "itemblacklist.yml");
+		super(plugin, "conf/itemblacklist.yml");
 	}
 	
 	@CommentArray({ "Items that are blacklist are saved here", "Use '/bank admin item blacklist' in-game" })

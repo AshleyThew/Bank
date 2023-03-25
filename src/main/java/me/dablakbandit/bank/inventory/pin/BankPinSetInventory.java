@@ -17,7 +17,7 @@ public class BankPinSetInventory extends BankPinInventory{
 	@Override
 	public void init(){
 		super.init();
-		setItem(0, BankItemConfiguration.BANK_BACK, getComplete());
+		setItem(BankItemConfiguration.BANK_PIN_BACK, getComplete());
 	}
 	
 	@Override

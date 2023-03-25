@@ -12,7 +12,7 @@ import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.players.info.JSONInfo;
 import me.dablakbandit.core.utils.EXPUtils;
 
-public class BankExpInfo extends IBankInfo implements JSONInfo{
+public class BankExpInfo extends IBankInfo implements JSONInfo, BankDefaultInfo{
 	
 	private double	exp;
 	private double	offlineExp;
@@ -177,5 +177,11 @@ public class BankExpInfo extends IBankInfo implements JSONInfo{
 		}
 		return false;
 	}
-	
+
+	@Override
+	public void initDefault() {
+		if(BankPluginConfiguration.BANK_EXP_DEFAULT_ENABLED.get()){
+			exp = BankPluginConfiguration.BANK_EXP_DEFAULT_AMOUNT.get();
+		}
+	}
 }

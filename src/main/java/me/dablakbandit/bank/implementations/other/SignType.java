@@ -34,7 +34,6 @@ public class SignType extends BankImplementation implements Listener{
 	
 	@Override
 	public void load(){
-		BankLog.info(BankPluginConfiguration.BANK_LOG_PLUGIN_LEVEL, "Signs enabled");
 	}
 	
 	@Override

@@ -17,7 +17,7 @@ public class BankBlacklistItemInventory extends BankInventoryHandler<BankAdminIn
 	public void init(){
 		int size = descriptor.getSize();
 		setAll(size, BankItemConfiguration.BANK_ITEM_BLANK);
-		setItem(0, BankItemConfiguration.BANK_BACK, BankInventories.BANK_ADMIN_BLACKLIST);
+		setItem(BankItemConfiguration.BANK_ITEM_BLACKLIST_BACK, BankInventories.BANK_ADMIN_BLACKLIST);
 		setItem(3, this::getData, this::toggleData);
 		setItem(5, this::getNBT, this::toggleNBT);
 	}

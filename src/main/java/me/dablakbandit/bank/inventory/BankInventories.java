@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 import me.dablakbandit.bank.config.BankInventoryConfiguration;
 import me.dablakbandit.bank.inventory.admin.blacklist.BankBlacklistInventory;
 import me.dablakbandit.bank.inventory.admin.blacklist.BankBlacklistItemInventory;
+import me.dablakbandit.bank.inventory.admin.item.def.BankItemDefaultInventory;
 import me.dablakbandit.bank.inventory.admin.permission.BankPermissionHistoryInventory;
 import me.dablakbandit.bank.inventory.exp.BankExpInventory;
 import me.dablakbandit.bank.inventory.item.*;
@@ -37,6 +38,7 @@ public enum BankInventories implements Consumer<CorePlayers>{
 	BANK_ADMIN_PERMISSION_HISTORY(BankPermissionHistoryInventory::new, BankInventoryConfiguration.BANK_ADMIN_PERMISSION_HISTORY, PlayerInventoryHandlers.DENY),
 	BANK_ADMIN_BLACKLIST(BankBlacklistInventory::new, BankInventoryConfiguration.BANK_ADMIN_BLACKLIST, PlayerInventoryHandlers.ADMIN_BLACKLIST),
 	BANK_ADMIN_BLACKLIST_ITEM(BankBlacklistItemInventory::new, BankInventoryConfiguration.BANK_ADMIN_BLACKLIST_ITEM, PlayerInventoryHandlers.DENY),
+	BANK_ADMIN_ITEM_DEFAULT(BankItemDefaultInventory::new, BankInventoryConfiguration.BANK_ADMIN_ITEM_DEFAULT, PlayerInventoryHandlers.ITEM_DEFAULT),
     ;
     //@formatter:on
 	

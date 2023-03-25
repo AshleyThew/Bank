@@ -170,9 +170,9 @@ public class BankExpInventory extends BankInventoryHandler<BankExpInfo>{
 	
 	private void addBack(){
 		if(BankPluginConfiguration.BANK_EXP_ONLY.get()){
-			setItem(0, BankItemConfiguration.BANK_ITEM_BLANK);
+			setItem(BankItemConfiguration.BANK_EXP_BACK.getSlot(), BankItemConfiguration.BANK_ITEM_BLANK);
 		}else{
-			setItem(0, BankItemConfiguration.BANK_BACK, consumeSound(this::returnToMainMenu, BankSoundConfiguration.INVENTORY_GLOBAL_BACK));
+			setItem(BankItemConfiguration.BANK_EXP_BACK, consumeSound(this::returnToMainMenu, BankSoundConfiguration.INVENTORY_GLOBAL_BACK));
 		}
 	}
 	

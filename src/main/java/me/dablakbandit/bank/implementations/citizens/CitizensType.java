@@ -50,7 +50,6 @@ public class CitizensType extends BankImplementation implements Listener{
 		if(plugin != null && plugin.isEnabled()){
 			register();
 		}
-		BankLog.info(BankPluginConfiguration.BANK_LOG_PLUGIN_LEVEL, "Citizens enabled");
 		Bukkit.getPluginManager().registerEvents(this, BankPlugin.getInstance());
 	}
 

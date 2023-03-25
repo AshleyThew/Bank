@@ -3,6 +3,7 @@ package me.dablakbandit.bank.inventory;
 import java.util.function.Supplier;
 
 import me.dablakbandit.bank.inventory.admin.blacklist.BankBlacklistPlayerHandler;
+import me.dablakbandit.bank.inventory.admin.item.def.BankItemDefaultPlayerHandler;
 import me.dablakbandit.bank.inventory.item.BankItemsPlayerHandler;
 import me.dablakbandit.bank.inventory.item.BankTrashcanPlayerHandler;
 import me.dablakbandit.core.inventory.PlayerInventoryHandler;
@@ -13,6 +14,7 @@ public enum PlayerInventoryHandlers implements Supplier<PlayerInventoryHandler>{
 	TRASHCAN(new BankTrashcanPlayerHandler()),
 	DENY(new DenyPlayerHandler()),
 	ADMIN_BLACKLIST(new BankBlacklistPlayerHandler()),
+	ITEM_DEFAULT(new BankItemDefaultPlayerHandler()),
 	;
 	//@formatter:on
 	

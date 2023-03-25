@@ -209,7 +209,7 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	}
 	
 	private BankLanguageConfiguration(JavaPlugin plugin){
-		super(plugin, "language.yml");
+		super(plugin, "conf/language.yml");
 	}
 	
 }

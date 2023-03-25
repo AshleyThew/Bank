@@ -35,7 +35,6 @@ public class BlockType extends BankImplementation implements Listener{
 	
 	@Override
 	public void load(){
-		BankLog.info(BankPluginConfiguration.BANK_LOG_PLUGIN_LEVEL, "Blocks enabled");
 	}
 	
 	@Override

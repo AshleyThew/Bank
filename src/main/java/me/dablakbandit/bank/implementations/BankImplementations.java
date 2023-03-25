@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.implementations.blacklist.ItemBlacklistImplementation;
 import me.dablakbandit.bank.implementations.citizens.CitizensType;
+import me.dablakbandit.bank.implementations.def.ItemDefaultImplementation;
 import me.dablakbandit.bank.implementations.headdb.HeadDBImplementation;
 import me.dablakbandit.bank.implementations.lock.LockType;
 import me.dablakbandit.bank.implementations.other.BlockType;
@@ -14,8 +15,10 @@ import me.dablakbandit.bank.implementations.placeholder.MVDWPlaceholderImplement
 import me.dablakbandit.bank.implementations.placeholder.PlaceholderAPIImplementation;
 import me.dablakbandit.bank.implementations.skript.SkriptImplementation;
 import me.dablakbandit.bank.implementations.vault.VaultImplementation;
+import me.dablakbandit.bank.log.BankLog;
 import me.dablakbandit.core.config.path.BooleanPath;
 import me.dablakbandit.core.utils.NMSUtils;
+import org.apache.commons.lang.WordUtils;
 
 public enum BankImplementations{
 	//@formatter:off
@@ -28,6 +31,7 @@ public enum BankImplementations{
 	MVDW_PLACEHOLDER(MVDWPlaceholderImplementation.class, BankPluginConfiguration.BANK_IMPLEMENTATION_PLACEHOLDER_MVDW),
 	PLACEHOLDER_API(PlaceholderAPIImplementation.class, BankPluginConfiguration.BANK_IMPLEMENTATION_PLACEHOLDER_API),
 	ITEM_BLACKLIST(ItemBlacklistImplementation.class, BankPluginConfiguration.BANK_ITEMS_BLACKLIST_ENABLED),
+	ITEM_DEFAULT(ItemDefaultImplementation.class, BankPluginConfiguration.BANK_ITEMS_DEFAULT_ENABLED),
 	HEADDB(HeadDBImplementation.class, null),
 	
     //@formatter:on
@@ -53,6 +57,7 @@ public enum BankImplementations{
 		}
 		try{
 			object.load();
+			BankLog.info(BankPluginConfiguration.BANK_LOG_PLUGIN_LEVEL, WordUtils.capitalize(name().toLowerCase().replace("_", " ")) + " loaded");
 			loaded = true;
 		}catch(Exception e){
 			e.printStackTrace();

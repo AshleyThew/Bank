@@ -7,6 +7,7 @@ import java.util.Date;
 
 import me.dablakbandit.bank.database.base.IInfoDatabase;
 import me.dablakbandit.bank.database.base.IInfoTypeDatabase;
+import me.dablakbandit.bank.player.info.BankDefaultInfo;
 import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.players.info.JSONInfo;
 import me.dablakbandit.core.utils.json.JSONParser;
@@ -83,6 +84,8 @@ public class BankInfoTypeSQLiteDatabase<T extends JSONInfo>extends IInfoTypeData
 				has = rs.next();
 				if(has){
 					JSONParser.loadAndCopy(t, rs.getString("value"));
+				}else if(t instanceof BankDefaultInfo){
+					((BankDefaultInfo) t).initDefault();
 				}
 				rs.close();
 			}

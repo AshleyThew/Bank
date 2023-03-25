@@ -15,7 +15,7 @@ import me.dablakbandit.core.players.info.JSONInfo;
 import me.dablakbandit.core.vault.Eco;
 import net.milkbowl.vault.economy.EconomyResponse;
 
-public class BankMoneyInfo extends IBankInfo implements JSONInfo{
+public class BankMoneyInfo extends IBankInfo implements JSONInfo, BankDefaultInfo{
 	
 	private double	money;
 	private double	offlineMoney;
@@ -206,6 +206,13 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo{
 																											.replaceAll("<name>", to.getPlayer().getName()));
 			BankLanguageConfiguration.sendFormattedMessage(to, BankLanguageConfiguration.MESSAGE_MONEY_RECEIVED	.get().replaceAll("<money>", formatted)
 																												.replaceAll("<name>", pl.getPlayer().getName()));
+		}
+	}
+
+	@Override
+	public void initDefault() {
+		if(BankPluginConfiguration.BANK_MONEY_DEFAULT_ENABLED.get()){
+			money = BankPluginConfiguration.BANK_MONEY_DEFAULT_AMOUNT.get();
 		}
 	}
 }

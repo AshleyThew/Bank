@@ -143,6 +143,7 @@ public class BankItemPath extends ItemPath implements BankExtendedPath {
 	
 	protected ItemStack get(RawConfiguration config, String path){
 		ItemStack is = super.get(config, path);
+		int amount = is.getAmount();
 		if(isSet(path, "Slot")){
 			slot = config.getInt(path + ".Slot", slot);
 		}else{
@@ -194,6 +195,7 @@ public class BankItemPath extends ItemPath implements BankExtendedPath {
 				e.printStackTrace();
 			}
 		}
+		is.setAmount(amount);
 		return is;
 	}
 	

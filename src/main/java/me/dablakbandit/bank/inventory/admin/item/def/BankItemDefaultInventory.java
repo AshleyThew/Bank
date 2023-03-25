@@ -1,20 +1,21 @@
-package me.dablakbandit.bank.inventory.admin.blacklist;
+package me.dablakbandit.bank.inventory.admin.item.def;
 
+import me.dablakbandit.bank.implementations.def.ItemDefault;
+import me.dablakbandit.bank.implementations.def.ItemDefaultImplementation;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import me.dablakbandit.bank.config.BankItemConfiguration;
 import me.dablakbandit.bank.implementations.blacklist.BlacklistedItem;
-import me.dablakbandit.bank.implementations.blacklist.ItemBlacklistImplementation;
 import me.dablakbandit.bank.inventory.BankInventories;
 import me.dablakbandit.bank.inventory.BankInventoriesManager;
 import me.dablakbandit.bank.inventory.BankInventoryHandler;
 import me.dablakbandit.bank.player.info.admin.BankAdminInfo;
 import me.dablakbandit.core.players.CorePlayers;
 
-public class BankBlacklistInventory extends BankInventoryHandler<CorePlayers>{
+public class BankItemDefaultInventory extends BankInventoryHandler<CorePlayers>{
 	
-	private final ItemBlacklistImplementation	implementation	= ItemBlacklistImplementation.getInstance();
+	private final ItemDefaultImplementation implementation	= ItemDefaultImplementation.getInstance();
 	private int							scrolled;
 	
 	@Override
@@ -61,22 +62,18 @@ public class BankBlacklistInventory extends BankInventoryHandler<CorePlayers>{
 	}
 	
 	public void onClick(CorePlayers pl, int slot, InventoryClickEvent event){
-		if(slot >= implementation.getBlacklisted().size()){ return; }
+		if(slot >= implementation.getDefault().size()){ return; }
 		if(event.isRightClick()){
-			implementation.getBlacklisted().remove(slot);
+			implementation.getDefault().remove(slot);
 			pl.refreshInventory();
-		}else{
-			BlacklistedItem item = implementation.getBlacklisted().get(slot);
-			pl.getInfo(BankAdminInfo.class).setItem(item);
-			BankInventoriesManager.getInstance().openBypass(pl, BankInventories.BANK_ADMIN_BLACKLIST_ITEM);
 		}
 	}
 	
 	private ItemStack getItemStack(int slot){
 		int get = scrolled * 9 + slot;
-		if(get >= implementation.getBlacklisted().size()){ return null; }
-		BlacklistedItem item = implementation.getBlacklisted().get(get);
+		if(get >= implementation.getDefault().size()){ return null; }
+		ItemDefault item = implementation.getDefault().get(get);
 		ItemStack is = item.getItemStack();
-		return add(is.clone(), "Match Data: " + item.isMatchData(), "Match NBT: " + item.isMatchNBT(), "Left click to edit", "Right click to remove");
+		return add(is.clone(), "Right click to remove");
 	}
 }

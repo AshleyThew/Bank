@@ -14,7 +14,7 @@ public class BankAddItemsInventory extends BankInventoryHandler<BankInfo>{
 	public void init(){
 		int size = descriptor.getSize();
 		setAll(size, BankItemConfiguration.BANK_ITEM_BLANK);
-		setItem(0, BankItemConfiguration.BANK_BACK, consumeSound(this::returnToItems, BankSoundConfiguration.INVENTORY_GLOBAL_BACK));
+		setItem(BankItemConfiguration.BANK_ADD_BACK, consumeSound(this::returnToItems, BankSoundConfiguration.INVENTORY_GLOBAL_BACK));
 		setItem(BankItemConfiguration.BANK_ADD_ALL, consumeSound(this::addAll, BankSoundConfiguration.INVENTORY_ITEMS_ADD_ALL));
 		setItem(BankItemConfiguration.BANK_ADD_INVENTORY, consumeSound(this::addInventory, BankSoundConfiguration.INVENTORY_ITEMS_ADD_INVENTORY));
 		setItem(BankItemConfiguration.BANK_ADD_HOTBAR, consumeSound(this::addHotbar, BankSoundConfiguration.INVENTORY_ITEMS_ADD_HOTBAR));

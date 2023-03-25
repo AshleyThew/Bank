@@ -38,8 +38,8 @@ public class BankPermissionHistoryInventory extends BankInventoryHandler<CorePla
 	}
 	
 	private void addScrolls(){
-		setItem(BankItemConfiguration.BANK_ITEM_SCROLL_UP, (pl) -> addScroll(pl, -1));
-		setItem(BankItemConfiguration.BANK_ITEM_SCROLL_DOWN, (pl) -> addScroll(pl, 1));
+		setItem(BankItemConfiguration.BANK_PERMISSION_HISTORY_SCROLL_UP, (pl) -> addScroll(pl, -1));
+		setItem(BankItemConfiguration.BANK_PERMISSION_HISTORY_SCROLL_DOWN, (pl) -> addScroll(pl, 1));
 	}
 	
 	private void addScroll(CorePlayers pl, int add){

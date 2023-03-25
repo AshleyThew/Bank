@@ -1,6 +1,8 @@
 package me.dablakbandit.bank;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -146,6 +148,15 @@ public class BankCoreHandler extends CoreHandler implements Listener{
 	 * @see BankSoundConfiguration
 	 */
 	private void loadConfigurations(){
+		moveConfigFile("commands.yml");
+		moveConfigFile("hiscores.yml");
+		moveConfigFile("itemblacklist.yml");
+		moveConfigFile("default_items.yml");
+		moveConfigFile("language.yml");
+		moveConfigFile("permissions.yml");
+		moveConfigFile("sounds.yml");
+		moveConfigFile("inventories.yml");
+		moveConfigFile("items.yml");
 		BankPluginConfiguration.getInstance().load();
 		BankLanguageConfiguration.getInstance().load();
 		BankCommandConfiguration.getInstance().load();
@@ -153,7 +164,22 @@ public class BankCoreHandler extends CoreHandler implements Listener{
 		BankInventoryConfiguration.getInstance().load();
 		BankPermissionConfiguration.getInstance().load();
 		BankItemBlacklistConfiguration.getInstance().load();
+		BankItemDefaultConfiguration.getInstance().load();
 		BankSoundConfiguration.getInstance().load();
+	}
+
+	private void moveConfigFile(String fileName){
+		File file = new File(BankPlugin.getInstance().getDataFolder(), fileName);
+		if(!file.exists()){
+			return;
+		}
+		File folder = new File(BankPlugin.getInstance().getDataFolder(), "conf/");
+		folder.mkdirs();
+		try {
+			Files.move(file.toPath(), new File(folder, fileName).toPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
