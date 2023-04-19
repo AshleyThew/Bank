@@ -26,10 +26,10 @@ public class BankDoublePermissionPath extends PermissionPath{
 	}
 	
 	public List<Double> getValue(CorePlayers pl){
-		return getValue(pl, pl.getPlayer().getEffectivePermissions());
+		return getValue(pl.getPlayer().getEffectivePermissions());
 	}
 	
-	public List<Double> getValue(CorePlayers pl, Collection<PermissionAttachmentInfo> list){
+	public List<Double> getValue(Collection<PermissionAttachmentInfo> list){
 		Permission permission = get();
 		if(!permission.isCheck()){ return Collections.emptyList(); }
 		return getValues(permission.getPermission(), list);

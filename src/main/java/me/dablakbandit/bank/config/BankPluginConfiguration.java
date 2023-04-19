@@ -36,6 +36,8 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final BooleanPath					BANK_SAVE_AUTO_ENABLED						= new BooleanPath(true);
 	@Comment("Auto Save Timer (seconds)")
 	public static final IntegerPath					BANK_SAVE_AUTO_TIMER						= new IntegerPath(600);
+	@Comment("Delay load when joining the server if first load is unsuccessful (in ticks), -1 to disable")
+	public static final IntegerPath						BANK_SAVE_LOAD_DELAY						= new IntegerPath(-1);
 	
 	@Comment("Auto Save when item deposited")
 	public static final BooleanPath					BANK_SAVE_ITEM_DEPOSIT						= new BooleanPath(false);

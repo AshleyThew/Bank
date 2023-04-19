@@ -1,5 +1,7 @@
 package me.dablakbandit.bank.player;
 
+import me.dablakbandit.bank.config.BankPluginConfiguration;
+import me.dablakbandit.bank.player.info.IBankInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -43,6 +45,17 @@ public class BankPlayerManager extends CorePlayersListener implements Listener{
 	@Override
 	public void loadCorePlayers(CorePlayers pl){
 		LoaderManager.getInstance().load(pl);
+		if(BankPluginConfiguration.BANK_SAVE_LOAD_DELAY.get() != -1){
+			Bukkit.getScheduler().runTaskLater(BankPlugin.getInstance(), () -> {
+				delayedLoad(pl);
+			}, BankPluginConfiguration.BANK_SAVE_LOAD_DELAY.get());
+		}
+	}
+	
+	private void delayedLoad(CorePlayers pl){
+		if(pl.getPlayer().isOnline()){
+			pl.getInfo(BankInfo.class).isLocked(true);
+		}
 	}
 	
 	@Override

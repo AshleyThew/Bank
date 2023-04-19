@@ -69,7 +69,7 @@ public class BankCommandConfiguration extends CommandConfiguration{
 	public static Command		BANK_MONEY_WITHDRAW				= new Command("withdraw", "bank.money.withdraw", new String[0], new String[]{ "<amount>" });
 	public static Command		BANK_MONEY_WITHDRAW_ALL			= new Command("all", "bank.money.withdraw.all");
 	
-	public static Command		BANK_OPEN						= new Command("open", "bank.open.command");
+	public static Command		BANK_OPEN						= new Command("open", "bank.open.command", new String[0], new String[]{ "<player>" });
 	
 	public static Command		BANK_INFO						= new Command("info", "bank.info");
 	

@@ -17,10 +17,21 @@ public class BankSynchronizedDoubleNicePath extends DoubleNicePath {
         }
     }
 
-    public void addValue(Double add){
+    public void addValue(Double amount){
         synchronized (lock){
-            double set = super.get() + add;
+            double set = super.get() + amount;
             super.set(set, true);
         }
+    }
+
+    public boolean takeValue(Double amount){
+        synchronized (lock){
+            double set = super.get() - amount;
+            if(set<=0){
+                return false;
+            }
+            super.set(set, true);
+        }
+        return true;
     }
 }
