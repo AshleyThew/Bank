@@ -27,7 +27,7 @@ public class LoadSingleRunner implements Runnable{
 			infoDatabase.getInfoTypeDatabase(info).loadPlayer(pl, info);
 			info.jsonInit();
 			if(pl.getPlayer() != null && info instanceof PermissionsInfo){
-				Bukkit.getScheduler().runTask(BankPlugin.getInstance(), () -> ((PermissionsInfo) info).checkPermissions(pl.getPlayer()));
+				Bukkit.getScheduler().runTask(BankPlugin.getInstance(), () -> ((PermissionsInfo)info).checkPermissions(pl.getPlayer(), false));
 			}
 		});
 	}

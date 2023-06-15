@@ -71,7 +71,7 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo, BankDefaultInf
 					.replaceAll("<money>", Format.formatMoney(withdraw))
 					.replaceAll("<tax>", Format.formatMoney(calculator.getTax())));
 		}else{
-			// player.sendMessage(LanguageConfiguration.MESSAGE_NOT_ENOUGH_MONEY_IN_BANK.getMessage());
+			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_NOT_ENOUGH.get().replaceAll("<money>", Format.formatMoney(money)));
 		}
 		return complete;
 	}

@@ -27,7 +27,7 @@ public class PlayerGetter{
 			if(huuid){ return Bukkit.getPlayer(UUID.fromString(uuid)); }
 		}catch(Exception ignored){
 		}
-		return Bukkit.getPlayer(name);
+		return Bukkit.getPlayerExact(name);
 	}
 	
 	public static Player getPlayer(UUID uuid, String name){
@@ -35,7 +35,7 @@ public class PlayerGetter{
 			if(huuid){ return Bukkit.getPlayer(uuid); }
 		}catch(Exception ignored){
 		}
-		return Bukkit.getPlayer(name);
+		return Bukkit.getPlayerExact(name);
 	}
 	
 	public static String getUUID(Player player){

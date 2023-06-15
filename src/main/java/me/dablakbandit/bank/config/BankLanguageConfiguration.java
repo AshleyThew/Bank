@@ -90,7 +90,9 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	public static final BankTranslatedStringPath	MESSAGE_MONEY_WITHDRAW			= new BankTranslatedStringPath(ChatColor.GREEN + "You have withdrawn $<money> from the bank.");
 	@Comment("Available: <money>")
 	public static final BankTranslatedStringPath	MESSAGE_MONEY_BALANCE			= new BankTranslatedStringPath(ChatColor.GREEN + "You have $<money> in the bank.");
-	public static final BankTranslatedStringPath	MESSAGE_MONEY_NOT_ENOUGH		= new BankTranslatedStringPath(ChatColor.RED + "You do not have enough money to do that.");
+	@Comment("Available: <money>")
+	public static final BankTranslatedStringPath		MESSAGE_MONEY_NOT_ENOUGH		=
+		new BankTranslatedStringPath(ChatColor.RED + "You do not have enough money to do that, your balance is $<money>.");
 	@Comment("Available: <money>, <name>")
 	public static final BankTranslatedStringPath	MESSAGE_MONEY_SENT				= new BankTranslatedStringPath(ChatColor.GREEN + "Successfully sent $<money> to <name>");
 	@Comment("Available: <money>, <name>")

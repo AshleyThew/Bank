@@ -21,17 +21,26 @@ public class UpdateArgument extends BankEndArgument{
 	
 	@Override
 	protected void onArgument(CommandSender s, Command cmd, String label, String[] args, String[] original){
-		if(args.length != 1){
+		if(args.length == 0){
 			base.sendArguments(s, cmd, args, original, arguments.entrySet());
 			return;
 		}
-		Player player = Bukkit.getPlayer(args[0]);
-		CorePlayers other = CorePlayerManager.getInstance().getPlayer(player);
-		if(other == null){
+		Player player = Bukkit.getPlayerExact(args[0]);
+		CorePlayers pl = CorePlayerManager.getInstance().getPlayer(player);
+		if(pl == null){
 			base.sendFormattedMessage(s, BankLanguageConfiguration.COMMAND_UNKNOWN_PLAYER.get().replaceAll("<player>", args[0]));
 			return;
 		}
-		other.getAllInfo().stream().filter(info -> info instanceof PermissionsInfo).forEach(info -> ((PermissionsInfo)info).checkPermissions(player));
+		boolean debug = false;
+		if(args.length > 1){
+			try{
+				debug = Boolean.parseBoolean(args[1]);
+			}catch(Exception e){
+			}
+		}
+		for(PermissionsInfo permissionsInfo : pl.getAllInfoType(PermissionsInfo.class)){
+			permissionsInfo.checkPermissions(player, debug);
+		}
 		BankLanguageConfiguration.sendFormattedMessage(s, BankLanguageConfiguration.BANK_ADMIN_PERMISSION_UPDATED.get().replace("<player>", args[0]));
 	}
 	

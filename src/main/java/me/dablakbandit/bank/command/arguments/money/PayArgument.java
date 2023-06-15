@@ -29,7 +29,7 @@ public class PayArgument extends BankEndArgument{
 		if(!checkPlayer(s)){ return; }
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer((Player)s);
 		if(!checkPassedPin(pl)){ return; }
-		Player p = Bukkit.getPlayer(args[0]);
+		Player p = Bukkit.getPlayerExact(args[0]);
 		final CorePlayers payTo = CorePlayerManager.getInstance().getPlayer(p);
 		if(p == null || payTo == null || payTo.getInfo(BankInfo.class).isLocked(false)){
 			BankSoundConfiguration.GLOBAL_ERROR.play((Player)s);

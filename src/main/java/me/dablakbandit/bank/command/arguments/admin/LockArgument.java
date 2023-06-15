@@ -31,7 +31,7 @@ public class LockArgument extends BankEndArgument{
 			base.sendArguments(s, cmd, args, original, arguments.entrySet());
 			return;
 		}
-		Player player = Bukkit.getPlayer(args[0]);
+		Player player = Bukkit.getPlayerExact(args[0]);
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer(player);
 		IInfoDatabase infoDatabase = BankDatabaseManager.getInstance().getInfoDatabase();
 		if(player == null || pl == null){

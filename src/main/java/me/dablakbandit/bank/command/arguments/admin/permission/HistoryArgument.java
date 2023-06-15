@@ -30,7 +30,7 @@ public class HistoryArgument extends BankEndArgument{
 			base.sendArguments(s, cmd, args, original, arguments.entrySet());
 			return;
 		}
-		Player player = Bukkit.getPlayer(args[0]);
+		Player player = Bukkit.getPlayerExact(args[0]);
 		CorePlayers open = CorePlayerManager.getInstance().getPlayer(player);
 		if(open == null){
 			base.sendFormattedMessage(s, BankLanguageConfiguration.COMMAND_UNKNOWN_PLAYER.get().replaceAll("<player>", args[0]));

@@ -112,7 +112,7 @@ public class BankLoansInfo extends IBankInfo implements JSONInfo, PermissionsInf
 		return loanInterest;
 	}
 	
-	public void checkPermissions(Permissible permissible){
+	public void checkPermissions(Permissible permissible, boolean debug){
 		Collection<PermissionAttachmentInfo> permissions = permissible.getEffectivePermissions();
 		
 		List<Double> maxList = BankPermissionConfiguration.PERMISSION_LOAN_AMOUNT.getValue(permissions);

@@ -506,7 +506,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 			boughtTabs += buyTabs;
 			buyTabs = 0;
 			if(getPlayers().getPlayer() != null) {
-				checkPermissions(getPlayers().getPlayer());
+				checkPermissions(getPlayers().getPlayer(), false);
 			}
 			return true;
 		}else{
@@ -520,7 +520,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	}
 	
 	@Override
-	public void checkPermissions(Permissible permissible){
+	public void checkPermissions(Permissible permissible, boolean debug){
 		Collection<PermissionAttachmentInfo> permissions = permissible.getEffectivePermissions();
 		if(!(permissible instanceof BankPermissionStringListPath.PathPermissible)) {
 			List<Integer> maxList = BankPermissionConfiguration.PERMISSION_SLOTS.getValue(permissions);
@@ -533,21 +533,27 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 			} else {
 				permissionSlots = 0;
 			}
+			if(debug){
+				BankLog.debug("Permissions for " + pl.getName() + " slots is: " + permissionSlots);
+			}
 		}
 		int tabCount = BankPluginConfiguration.BANK_ITEMS_TABS_DEFAULT.get() + boughtTabs;
 		if(BankPluginConfiguration.BANK_ITEMS_TABS_PERMISSION_ENABLED.get()){
+			int permissionsCount = 0;
 			List<Integer> tabsList = BankPermissionConfiguration.PERMISSION_TABS.getValue(permissions);
 			if(BankPluginConfiguration.BANK_ITEMS_TABS_PERMISSION_COMBINE.get()){
-				int sum = tabsList.stream().reduce(0, Integer::sum);
-				Math.max(tabCount, sum + boughtTabs);
+				permissionsCount = tabsList.stream().reduce(0, Integer::sum);
 			}else{
 				for(int tab : tabsList){
-					tabCount = Math.max(tabCount, tab + boughtTabs);
+					permissionsCount = Math.max(permissionsCount, tab);
 				}
 			}
+			tabCount = Math.max(tabCount, permissionsCount + boughtTabs);
+			if(debug){
+				BankLog.debug("Permissions for " + pl.getName() + " tabs is: " + permissionsCount);
+			}
 		}
-		tabCount = Math.max(0, Math.min(tabCount, 9));
-		totalTabCount = tabCount;
+		totalTabCount = Math.max(0, tabCount);
 	}
 
 	@Override

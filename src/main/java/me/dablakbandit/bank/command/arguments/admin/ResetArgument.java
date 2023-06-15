@@ -41,7 +41,7 @@ public class ResetArgument extends BankEndArgument{
 			return;
 		}
 		
-		Player player = Bukkit.getPlayer(args[0]);
+		Player player = Bukkit.getPlayerExact(args[0]);
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer(player);
 		if(player == null || pl == null){
 			String uuid = BankDatabaseManager.getInstance().getInfoDatabase().getUUIDDatabase().getUUID(args[0]);

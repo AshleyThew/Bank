@@ -143,7 +143,7 @@ public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo>{
 				if(value.startsWith(" ")){
 					value = value.substring(1);
 				}
-				if(Bukkit.getPlayer(value) == null){
+				if(Bukkit.getPlayerExact(value) == null){
 					BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.COMMAND_UNKNOWN_PLAYER.get().replaceAll("<player>", value));
 					return;
 				}
@@ -174,7 +174,7 @@ public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo>{
 					from.setOpenInventory(BankMoneyInventory.this);
 					return;
 				}
-				Player p = Bukkit.getPlayer(name);
+				Player p = Bukkit.getPlayerExact(name);
 				final CorePlayers payTo = CorePlayerManager.getInstance().getPlayer(p);
 				if(p == null || payTo == null || payTo.getInfo(BankInfo.class).isLocked(false)){
 					BankSoundConfiguration.GLOBAL_ERROR.play(pl.getPlayer());

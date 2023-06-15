@@ -26,7 +26,7 @@ public class OpenArgument extends BankEndArgument{
 			base.sendArguments(s, cmd, args, original, arguments.entrySet());
 			return;
 		}
-		Player player = Bukkit.getPlayer(args[0]);
+		Player player = Bukkit.getPlayerExact(args[0]);
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer(player);
 		if(pl == null){
 			base.sendFormattedMessage(s, BankLanguageConfiguration.COMMAND_UNKNOWN_PLAYER.get().replaceAll("<player>", args[0]));

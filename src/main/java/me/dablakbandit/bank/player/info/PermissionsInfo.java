@@ -4,5 +4,5 @@ import org.bukkit.permissions.Permissible;
 
 public interface PermissionsInfo{
 	
-	void checkPermissions(Permissible permissible);
+	void checkPermissions(Permissible permissible, boolean debug);
 }
