@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import me.dablakbandit.bank.config.path.BankExtendedPath;
 import me.dablakbandit.bank.inventory.head.PlayerHead;
+import net.citizensnpcs.util.NMS;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -49,6 +50,11 @@ public class BankItemPath extends ItemPath implements BankExtendedPath {
 	
 	public BankItemPath(int slot, ItemStack def, String name){
 		this(slot, def, name, Collections.emptyList());
+	}
+	
+	public BankItemPath(int slot, ItemStack def, int amount, String name){
+		this(slot, def, name, Collections.emptyList());
+		def.setAmount(amount);
 	}
 	
 	public BankItemPath(Material material, String name, List<String> lore){
@@ -188,6 +194,13 @@ public class BankItemPath extends ItemPath implements BankExtendedPath {
 				e.printStackTrace();
 			}
 		}
+		if(itemFlagExists && isSet(path, "ItemFlags")){
+			try{
+				setItemFlags(is, config, path);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
 		if(isSet(path, "CustomModelData") && customExists){
 			try{
 				setCustomModelData(is, config, path);
@@ -208,9 +221,26 @@ public class BankItemPath extends ItemPath implements BankExtendedPath {
 		}
 	}
 	
+	private static boolean itemFlagExists = true;
+	
+	static{
+		try{
+			itemFlagExists = NMSUtils.getClassSilent("org.bukkit.inventory.ItemFlag") != null;
+		}catch(Exception ignored){
+		}
+	}
+	
 	protected void setCustomModelData(ItemStack is, RawConfiguration config, String path){
 		ItemMeta im = is.getItemMeta();
 		im.setCustomModelData(config.getInt(path + ".CustomModelData"));
+		is.setItemMeta(im);
+	}
+	
+	protected void setItemFlags(ItemStack is, RawConfiguration config, String path){
+		ItemMeta im = is.getItemMeta();
+		config.getStringList(path + ".ItemFlags").forEach(flag -> {
+			im.addItemFlags(org.bukkit.inventory.ItemFlag.valueOf(flag));
+		});
 		is.setItemMeta(im);
 	}
 	

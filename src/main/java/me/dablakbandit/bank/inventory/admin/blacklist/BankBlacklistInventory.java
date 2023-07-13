@@ -12,6 +12,8 @@ import me.dablakbandit.bank.inventory.BankInventoryHandler;
 import me.dablakbandit.bank.player.info.admin.BankAdminInfo;
 import me.dablakbandit.core.players.CorePlayers;
 
+import java.util.List;
+
 public class BankBlacklistInventory extends BankInventoryHandler<CorePlayers>{
 	
 	private final ItemBlacklistImplementation	implementation	= ItemBlacklistImplementation.getInstance();
@@ -51,7 +53,7 @@ public class BankBlacklistInventory extends BankInventoryHandler<CorePlayers>{
 				break;
 			}
 			int finalItem = item;
-			setItem(slot, (i) -> getItemStack(finalItem), (pl, t, inventory, event) -> onClick(pl, finalItem, event));
+			setItem(slot, (pl, i) -> getItemStack(pl, finalItem), (pl, t, inventory, event) -> onClick(pl, finalItem, event));
 		}
 	}
 	
@@ -61,21 +63,25 @@ public class BankBlacklistInventory extends BankInventoryHandler<CorePlayers>{
 	}
 	
 	public void onClick(CorePlayers pl, int slot, InventoryClickEvent event){
-		if(slot >= implementation.getBlacklisted().size()){ return; }
+		BankAdminInfo adminInfo = pl.getInfo(BankAdminInfo.class);
+		List<BlacklistedItem> blacklisted = implementation.getBlacklisted(adminInfo.getBlacklistType());
+		if(slot >= blacklisted.size()){ return; }
 		if(event.isRightClick()){
-			implementation.getBlacklisted().remove(slot);
+			blacklisted.remove(slot);
 			pl.refreshInventory();
 		}else{
-			BlacklistedItem item = implementation.getBlacklisted().get(slot);
-			pl.getInfo(BankAdminInfo.class).setItem(item);
+			BlacklistedItem item = blacklisted.get(slot);
+			adminInfo.setItem(item);
 			BankInventoriesManager.getInstance().openBypass(pl, BankInventories.BANK_ADMIN_BLACKLIST_ITEM);
 		}
 	}
 	
-	private ItemStack getItemStack(int slot){
+	private ItemStack getItemStack(CorePlayers pl, int slot){
+		BankAdminInfo adminInfo = pl.getInfo(BankAdminInfo.class);
 		int get = scrolled * 9 + slot;
-		if(get >= implementation.getBlacklisted().size()){ return null; }
-		BlacklistedItem item = implementation.getBlacklisted().get(get);
+		List<BlacklistedItem> blacklisted = implementation.getBlacklisted(adminInfo.getBlacklistType());
+		if(get >= blacklisted.size()){ return null; }
+		BlacklistedItem item = blacklisted.get(get);
 		ItemStack is = item.getItemStack();
 		return add(is.clone(), "Match Data: " + item.isMatchData(), "Match NBT: " + item.isMatchNBT(), "Left click to edit", "Right click to remove");
 	}

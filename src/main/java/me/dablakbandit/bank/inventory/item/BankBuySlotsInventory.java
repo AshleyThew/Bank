@@ -44,6 +44,7 @@ public class BankBuySlotsInventory extends BankInventoryHandler<BankItemsInfo>{
 	private void buy(CorePlayers pl, BankItemsInfo info){
 		if(info.buySlots(info.getBuySlots(), pl)){
 			returnToItems(pl);
+			info.resetBuySlots();
 		}
 	}
 	

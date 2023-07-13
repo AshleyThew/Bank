@@ -210,16 +210,16 @@ public class BankItemConfiguration extends CommentAdvancedConfiguration{
 	@CommentArray({ "Each pin slot is randomized except for Zero", "Available: <number>" })
 	@BankItemDelete
 	public static final BankEmptyPath	BANK_PIN_NUMBER						= new BankEmptyPath();
-	public static final BankItemPath	BANK_PIN_NUMBER_ONE					= new BankItemPath(12, green_stained, ChatColor.AQUA + "1");
-	public static final BankItemPath	BANK_PIN_NUMBER_TWO					= new BankItemPath(13, green_stained, ChatColor.AQUA + "2");
-	public static final BankItemPath	BANK_PIN_NUMBER_THREE				= new BankItemPath(14, green_stained, ChatColor.AQUA + "3");
-	public static final BankItemPath	BANK_PIN_NUMBER_FOUR				= new BankItemPath(21, green_stained, ChatColor.AQUA + "4");
-	public static final BankItemPath	BANK_PIN_NUMBER_FIVE				= new BankItemPath(22, green_stained, ChatColor.AQUA + "5");
-	public static final BankItemPath	BANK_PIN_NUMBER_SIX					= new BankItemPath(23, green_stained, ChatColor.AQUA + "6");
-	public static final BankItemPath	BANK_PIN_NUMBER_SEVEN				= new BankItemPath(30, green_stained, ChatColor.AQUA + "7");
-	public static final BankItemPath	BANK_PIN_NUMBER_EIGHT				= new BankItemPath(31, green_stained, ChatColor.AQUA + "8");
-	public static final BankItemPath	BANK_PIN_NUMBER_NINE				= new BankItemPath(32, green_stained, ChatColor.AQUA + "9");
-	public static final BankItemPath	BANK_PIN_NUMBER_ZERO				= new BankItemPath(40, light_blue_stained, ChatColor.AQUA + "0");
+	public static final BankItemPath	BANK_PIN_NUMBER_ONE					= new BankItemPath(12, green_stained, 1, ChatColor.AQUA + "1");
+	public static final BankItemPath	BANK_PIN_NUMBER_TWO					= new BankItemPath(13, green_stained, 2, ChatColor.AQUA + "2");
+	public static final BankItemPath	BANK_PIN_NUMBER_THREE				= new BankItemPath(14, green_stained, 3, ChatColor.AQUA + "3");
+	public static final BankItemPath	BANK_PIN_NUMBER_FOUR				= new BankItemPath(21, green_stained, 4, ChatColor.AQUA + "4");
+	public static final BankItemPath	BANK_PIN_NUMBER_FIVE				= new BankItemPath(22, green_stained, 5, ChatColor.AQUA + "5");
+	public static final BankItemPath	BANK_PIN_NUMBER_SIX					= new BankItemPath(23, green_stained, 6, ChatColor.AQUA + "6");
+	public static final BankItemPath	BANK_PIN_NUMBER_SEVEN				= new BankItemPath(30, green_stained, 7, ChatColor.AQUA + "7");
+	public static final BankItemPath	BANK_PIN_NUMBER_EIGHT				= new BankItemPath(31, green_stained, 8, ChatColor.AQUA + "8");
+	public static final BankItemPath	BANK_PIN_NUMBER_NINE				= new BankItemPath(32, green_stained, 9, ChatColor.AQUA + "9");
+	public static final BankItemPath	BANK_PIN_NUMBER_ZERO				= new BankItemPath(40, light_blue_stained, 1, ChatColor.AQUA + "0");
 
 	@CommentArray({ "Available: <length>" })
 	@Delete("Unfinished")

@@ -31,6 +31,7 @@ public class BankCommandConfiguration extends CommandConfiguration{
 	public static Command		BANK_ADMIN_PIN_RESET			= new Command("reset", "bank.admin.pin.reset");
 	public static Command		BANK_ADMIN_ITEM					= new Command("item", "bank.admin.item");
 	public static Command		BANK_ADMIN_ITEM_BLACKLIST		= new Command("blacklist", "bank.admin.item.blacklist");
+	public static Command		BANK_ADMIN_ITEM_TRASHBLACKLIST	= new Command("trashblacklist", "bank.admin.item.blacklist");
 	public static Command		BANK_ADMIN_ITEM_DEFAULT			= new Command("default", "bank.admin.item.default");
 	public static Command		BANK_ADMIN_PERMISSION			= new Command("permission", "bank.admin.permission");
 	public static Command		BANK_ADMIN_PERMISSION_HISTORY	= new Command("history", "bank.admin.permission.history", new String[0], new String[]{ "<name>" });

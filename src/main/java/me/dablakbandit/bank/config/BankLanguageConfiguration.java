@@ -106,6 +106,7 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	public static final BankTranslatedStringPath	MESSAGE_EXP_WITHDRAW			= new BankTranslatedStringPath(ChatColor.GREEN + "You have withdrawn <exp> exp from the bank.");
 	@Comment("Available: <exp>")
 	public static final BankTranslatedStringPath	MESSAGE_EXP_BALANCE				= new BankTranslatedStringPath(ChatColor.GREEN + "You have <exp> exp in the bank.");
+	@Comment("Available: <exp>")
 	public static final BankTranslatedStringPath	MESSAGE_EXP_NOT_ENOUGH			= new BankTranslatedStringPath(ChatColor.RED + "You do not have enough exp to do that.");
 	@Comment("Available: <exp>, <name>")
 	public static final BankTranslatedStringPath	MESSAGE_EXP_SENT				= new BankTranslatedStringPath(ChatColor.GREEN + "Successfully sent <exp> to <name>");
@@ -130,7 +131,8 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 		new BankTranslatedStringPath(ChatColor.GREEN + "-----------------------------------------------------");
 	//@formatter:off
 	public static final BankTranslatedStringListPath MESSAGE_INFO_VIEW				= new BankTranslatedStringListPath(
-			ChatColor.AQUA + " Bank balance $<bank_money>",
+			ChatColor.AQUA + " Welcome <player_name>",
+				ChatColor.AQUA + " Bank balance $<bank_money>",
 				ChatColor.AQUA + " Bank exp <bank_exp>, <bank_exp_level> levels",
 				ChatColor.AQUA + " Money interest in <bank_interest_money_minutes> minutes (<bank_interest_money_seconds> seconds)",
 				ChatColor.AQUA + " Exp interest in <bank_interest_exp_minutes> minutes (<bank_interest_exp_seconds> seconds)");

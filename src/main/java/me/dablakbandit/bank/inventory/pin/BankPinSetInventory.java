@@ -25,7 +25,7 @@ public class BankPinSetInventory extends BankPinInventory{
 		BankSoundConfiguration.INVENTORY_PIN_CLICK.play(pl);
 		BankPinInfo pinInfo = bankInfo.getPinInfo();
 		int clicked = getClick(event);
-		if(pinInfo.checkPinSet("" + clicked)){
+		if(pinInfo.checkPinSet(String.valueOf(clicked))){
 			getComplete().accept(pl);
 		}else{
 			pl.refreshInventory();

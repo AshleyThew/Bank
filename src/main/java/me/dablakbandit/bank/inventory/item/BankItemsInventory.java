@@ -182,7 +182,9 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 			pathDescription = pathItem;
 		}
 		ItemStack is = pathItem.get();
-		is.setAmount(tab);
+		if(BankPluginConfiguration.BANK_ITEMS_TABS_AMOUNT_SET.get()){
+			is.setAmount(tab);
+		}
 		String name = pathDescription.getName();
 		if (BankPluginConfiguration.BANK_ITEMS_TABS_RENAME_ENABLED.get()) {
 			String set = bankInfo.getItemsInfo().getTabNameMap().get(tab);

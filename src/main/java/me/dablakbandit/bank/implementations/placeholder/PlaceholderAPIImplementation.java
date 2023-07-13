@@ -58,7 +58,7 @@ public class PlaceholderAPIImplementation extends BankImplementation{
 		
 		@Override
 		public String getIdentifier(){
-			return "bank";
+			return BankPluginConfiguration.BANK_IMPLEMENTATION_PLACEHOLDER_PREFIX.get();
 		}
 		
 		@Override

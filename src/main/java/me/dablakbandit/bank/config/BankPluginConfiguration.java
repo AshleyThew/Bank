@@ -58,6 +58,11 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final BooleanPath					BANK_ITEMS_ENABLED							= new BooleanPath(true);
 	@Comment("Enable the trashcan in the item gui")
 	public static final BooleanPath					BANK_ITEMS_TRASHCAN_ENABLED					= new BooleanPath(true);
+	@Comment("Enable the trashcan blacklist, requires the normal item blacklist to also be enabled")
+	public static final BooleanPath					BANK_ITEMS_TRASHCAN_BLACKLIST_ENABLED			= new BooleanPath(false);
+
+	@Comment("Blacklist mode (blacklist/whitelist)")
+	public static final EnumPath<BlacklistMode>		BANK_ITEMS_TRASHCAN_BLACKLIST_MODE			= new EnumPath<>(BlacklistMode.class, BlacklistMode.BLACKLIST);
 	@Comment("Enable the tabs in the item gui")
 	public static final BooleanPath					BANK_ITEMS_TABS_ENABLED						= new BooleanPath(true);
 	@Comment("Enable permissions for tabs: bank.tabs.<number>")
@@ -79,6 +84,8 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final IntegerPath					BANK_ITEMS_TABS_RENAME_COST_MONEY			= new IntegerPath(0);
 	@Comment("Exp cost for renaming a tab")
 	public static final IntegerPath					BANK_ITEMS_TABS_RENAME_COST_EXP				= new IntegerPath(0);
+	@Comment("Enable tab amount setting")
+	public static final BooleanPath					BANK_ITEMS_TABS_AMOUNT_SET					= new BooleanPath(true);
 	@Comment("Default amount of item slots")
 	public static final IntegerPath					BANK_ITEMS_SLOTS_DEFAULT					= new IntegerPath(50);
 	@Comment("Set bought slots unique to each tab")
@@ -246,6 +253,9 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final BooleanPath					BANK_IMPLEMENTATION_VAULT_OVERRIDE			= new BooleanPath(false);
 	@Comment("Enable bank commands for vault eco (/bank eco)")
 	public static final BooleanPath					BANK_IMPLEMENTATION_VAULT_COMMANDS			= new BooleanPath(false);
+	
+	@Comment("Prefix for placeholders")
+	public static final StringPath						BANK_IMPLEMENTATION_PLACEHOLDER_PREFIX		= new StringPath("bank");
 	@Comment("Enable MVDWPlaceholderAPI")
 	public static final BooleanPath					BANK_IMPLEMENTATION_PLACEHOLDER_MVDW		= new BooleanPath(false);
 	@Comment("Enable PlaceholderAPI")

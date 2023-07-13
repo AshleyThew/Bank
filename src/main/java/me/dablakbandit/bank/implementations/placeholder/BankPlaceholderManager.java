@@ -20,15 +20,14 @@ public class BankPlaceholderManager{
 		return manager;
 	}
 	
-	private final Map<String, Placeholder>	placeholderMap		= new HashMap<>();
-	private final Map<String, Placeholder>	shortPlaceholderMap	= new HashMap<>();
+	private final Map<String, Placeholder<?>> placeholderMap = new HashMap<>();
 	
 	private BankPlaceholderManager(){
 		init();
 	}
 	
 	public String replace(CorePlayers pl, String info){
-		for(Map.Entry<String, Placeholder> entry : placeholderMap.entrySet()){
+		for(Map.Entry<String, Placeholder<?>> entry : placeholderMap.entrySet()){
 			info = entry.getValue().replace(pl, info);
 		}
 		return info;
@@ -40,6 +39,7 @@ public class BankPlaceholderManager{
 		addCoreInteger("bank_exp_level", BankExpInfo.class, BankExpInfo::getExpLevel, String::valueOf);
 		addCoreInteger("bank_slots", BankItemsInfo.class, BankItemsInfo::getTotalSlots, String::valueOf);
 		addCoreInteger("bank_used_slots", BankItemsInfo.class, BankItemsInfo::getTotalUsedSlots, String::valueOf);
+		add("player_name", null, (pl, t) -> pl.getName());
 	}
 	
 	private <T extends CorePlayersInfo> void addCoreDouble(String placeholder, Class<T> clazz, Function<T, Double> function, Function<Double, String> converter){
@@ -59,9 +59,8 @@ public class BankPlaceholderManager{
 	}
 	
 	private <T> void add(String placeholder, Class<T> clazz, BiFunction<CorePlayers, T, String> function){
-		Placeholder<T> value = new Placeholder(placeholder, clazz, function);
+		Placeholder<T> value = new Placeholder<>(placeholder, clazz, function);
 		placeholderMap.put(placeholder, value);
-		shortPlaceholderMap.put(placeholder.replaceFirst("bank_", ""), value);
 	}
 	
 	public static class Placeholder<T>{

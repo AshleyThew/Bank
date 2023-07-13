@@ -1,11 +1,6 @@
 package me.dablakbandit.bank.inventory.pin;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -21,7 +16,7 @@ import me.dablakbandit.core.players.CorePlayers;
 
 public abstract class BankPinInventory extends BankInventoryHandler<BankInfo>{
 	
-	protected static int[]					pins;
+	protected static Integer[]					pins;
 	protected static final List<Integer>	pin_nums	= Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
 	protected static final List<BankItemPath> itemPaths = Arrays.asList(
 			BankItemConfiguration.BANK_PIN_NUMBER_ONE,
@@ -41,6 +36,8 @@ public abstract class BankPinInventory extends BankInventoryHandler<BankInfo>{
 			BankItemConfiguration.BANK_PIN_PROGRESS_SLOT_3,
 			BankItemConfiguration.BANK_PIN_PROGRESS_SLOT_4
 	);
+	
+	private final Map<String, Integer[]>		pinMap			= new HashMap<>();
 
 	@Override
 	public void init(){
@@ -53,17 +50,16 @@ public abstract class BankPinInventory extends BankInventoryHandler<BankInfo>{
 			setItem(progressPaths.get(i).getSlot(), (bi) -> getProgress(bi, finalI));
 		}
 
-		pins = itemPaths.stream().map(path -> path.getSlot()).mapToInt(Integer::intValue).toArray();
+		pins = itemPaths.stream().mapToInt(BankItemPath::getSlot).boxed().toArray(Integer[]::new);
 		Arrays.stream(pins).forEach(pin -> setItem(pin, BankItemConfiguration.BANK_ITEM_BLANK, this::onClick));
 		setItem(BankItemConfiguration.BANK_PIN_CLEAR, this::clear);
 		setItem(BankItemConfiguration.BANK_PIN_NUMBER_ZERO, this::getZero, this::onClick);
-		
 	}
 	
 	public ItemStack getProgress(BankInfo info, int set){
 		int current = info.getPinInfo().getTempPin().length();
 		BankItemPath path = set < current ? BankItemConfiguration.BANK_PIN_PROGRESS_FINISHED : progressPaths.get(set);
-		return clone(path.get(), path.getName().replaceAll("<length>", "" + current));
+		return clone(path.get(), path.getName().replaceAll("<length>", String.valueOf(current)));
 	}
 	
 	public ItemStack getZero(BankItemPath path){
@@ -72,7 +68,7 @@ public abstract class BankPinInventory extends BankInventoryHandler<BankInfo>{
 	
 	public ItemStack getNumber(int i){
 		BankItemPath path = itemPaths.get(i-1);
-		return replaceNameLore(path, "<number>", "" + i);
+		return replaceNameLore(path, "<number>", String.valueOf(i));
 	}
 	
 	public void clear(CorePlayers pl, BankInfo bankInfo){
@@ -88,10 +84,11 @@ public abstract class BankPinInventory extends BankInventoryHandler<BankInfo>{
 		super.set(pl, player, inv);
 		List<Integer> nums = new ArrayList<>(pin_nums);
 		Collections.shuffle(nums);
+		pinMap.put(pl.getUUIDString(), nums.toArray(new Integer[0]));
 		for(int index = 0; index < 9; index++){
 			int number = nums.get(index);
 			ItemStack is = getNumber(number);
-			is.setAmount(number);
+			// is.setAmount(number);
 			inv.setItem(pins[index], is);
 		}
 	}
@@ -108,7 +105,18 @@ public abstract class BankPinInventory extends BankInventoryHandler<BankInfo>{
 	}
 	
 	public int getClick(InventoryClickEvent event){
-		return event.getRawSlot() == BankItemConfiguration.BANK_PIN_NUMBER_ZERO.getSlot() ? 0 : event.getCurrentItem().getAmount();
+		if(event.getRawSlot() == BankItemConfiguration.BANK_PIN_NUMBER_ZERO.getSlot()){
+			return 0;
+		}else{
+			Integer[] integers = pinMap.get(event.getWhoClicked().getUniqueId().toString());
+			int index = Arrays.asList(pins).indexOf(event.getRawSlot());
+			return integers[index];
+		}
 	}
 	
+	@Override
+	public void onClose(CorePlayers pl, Player player){
+		super.onClose(pl, player);
+		pinMap.remove(pl.getUUIDString());
+	}
 }

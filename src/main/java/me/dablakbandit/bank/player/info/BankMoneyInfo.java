@@ -191,7 +191,7 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo, BankDefaultInf
 		BankMoneyInfo toInfo = to.getInfo(BankMoneyInfo.class);
 		amount = Math.min(amount, toInfo.getMaxAdd(amount));
 		if(amount <= 0 || amount > money){
-			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_NOT_ENOUGH.get());
+			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_NOT_ENOUGH.get().replaceAll("<money>", Format.formatMoney(money)));
 			return;
 		}
 		if(BankPluginConfiguration.BANK_MONEY_FULL_DOLLARS.get()){

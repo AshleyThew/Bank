@@ -1,5 +1,7 @@
 package me.dablakbandit.bank.inventory.item;
 
+import me.dablakbandit.bank.config.BankPluginConfiguration;
+import me.dablakbandit.bank.implementations.blacklist.ItemBlacklistImplementation;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -12,6 +14,12 @@ import me.dablakbandit.core.players.CorePlayers;
 public class BankTrashcanPlayerHandler extends PlayerInventoryHandler{
 	@Override
 	public void parseClick(CorePlayers pl, Inventory clicked, Inventory top, InventoryClickEvent event){
+		if(BankPluginConfiguration.BANK_ITEMS_TRASHCAN_BLACKLIST_ENABLED.get()){
+			if(event.getCurrentItem() != null && ItemBlacklistImplementation.getInstance().isTrashBlacklisted(event.getCurrentItem())){
+				event.setCancelled(true);
+				return;
+			}
+		}
 		Bukkit.getScheduler().runTaskLater(BankPlugin.getInstance(), () -> pl.refreshInventory(BankTrashcanInventory.class), 1);
 	}
 	

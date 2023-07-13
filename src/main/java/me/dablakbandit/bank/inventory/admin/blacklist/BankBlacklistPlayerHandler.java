@@ -1,5 +1,6 @@
 package me.dablakbandit.bank.inventory.admin.blacklist;
 
+import me.dablakbandit.bank.player.info.admin.BankAdminInfo;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -17,9 +18,10 @@ public class BankBlacklistPlayerHandler extends PlayerInventoryHandler{
 	
 	@Override
 	public void parseClick(CorePlayers pl, Inventory clicked, Inventory top, InventoryClickEvent event){
+		BankAdminInfo adminInfo = pl.getInfo(BankAdminInfo.class);
 		ItemStack is = event.getCurrentItem();
 		if(is == null || is.getType() == Material.AIR){ return; }
-		implementation.getBlacklisted().add(new BlacklistedItem(is.clone()));
+		implementation.getBlacklisted(adminInfo.getBlacklistType()).add(new BlacklistedItem(is.clone()));
 		implementation.save();
 		event.setCancelled(true);
 		pl.refreshInventory();

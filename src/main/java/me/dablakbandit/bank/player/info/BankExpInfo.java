@@ -161,7 +161,7 @@ public class BankExpInfo extends IBankInfo implements JSONInfo, BankDefaultInfo{
 		BankExpInfo toInfo = to.getInfo(BankExpInfo.class);
 		amount = Math.min((int)toInfo.getMaxAdd(amount), amount);
 		if(amount <= 0 || amount > exp){
-			BankLanguageConfiguration.sendFormattedMessage(pl.getPlayer(), BankLanguageConfiguration.MESSAGE_EXP_NOT_ENOUGH.get());
+			BankLanguageConfiguration.sendFormattedMessage(pl.getPlayer(), BankLanguageConfiguration.MESSAGE_EXP_NOT_ENOUGH.get().replaceAll("<exp>", Format.formatExp(exp)));
 			return false;
 		}
 		if(subtractExp(amount)){

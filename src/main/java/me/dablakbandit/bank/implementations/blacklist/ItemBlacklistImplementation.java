@@ -22,9 +22,12 @@ public class ItemBlacklistImplementation extends BankImplementation{
 	
 	private boolean					enabled	= false;
 	private final List<BlacklistedItem>	blacklisted;
+	private final List<BlacklistedItem>	trashBlacklisted;
 	
 	private ItemBlacklistImplementation(){
 		this.blacklisted = BankItemBlacklistConfiguration.BLACKLIST.get().stream().map(string -> JSONParser.fromJSON(string, BlacklistedItem.class)).collect(Collectors.toList());
+		this.trashBlacklisted =
+			BankItemBlacklistConfiguration.TRASH_BLACKLIST.get().stream().map(string -> JSONParser.fromJSON(string, BlacklistedItem.class)).collect(Collectors.toList());
 	}
 	
 	public boolean isBlacklisted(ItemStack itemStack){
@@ -55,6 +58,36 @@ public class ItemBlacklistImplementation extends BankImplementation{
 		});
 	}
 	
+	public boolean isTrashBlacklisted(ItemStack itemStack){
+		if(!enabled){ return false; }
+		boolean blacklisted = isItemTrashBlacklisted(itemStack) || isNameTrashBlacklisted(itemStack) || isLoreTrashBlacklisted(itemStack);
+		return BankPluginConfiguration.BANK_ITEMS_TRASHCAN_BLACKLIST_MODE.get() == BlacklistMode.WHITELIST ? !blacklisted : blacklisted;
+	}
+	
+	private boolean isItemTrashBlacklisted(ItemStack itemStack){
+		return trashBlacklisted.stream().anyMatch(bi -> bi.equals(itemStack));
+	}
+	
+	private boolean isNameTrashBlacklisted(ItemStack itemStack){
+		ItemMeta itemMeta = itemStack.getItemMeta();
+		if(itemMeta == null || !itemMeta.hasDisplayName()){ return false; }
+		String displayName = itemMeta.getDisplayName();
+		String strippedName = ChatColor.stripColor(displayName);
+		return BankItemBlacklistConfiguration.TRASH_BLACKLISTED_NAME.get().stream()
+																	.anyMatch(blacklistedName -> strippedName.contains(blacklistedName) || strippedName.matches(blacklistedName));
+	}
+	
+	private boolean isLoreTrashBlacklisted(ItemStack itemStack){
+		ItemMeta itemMeta = itemStack.getItemMeta();
+		if(itemMeta == null || !itemMeta.hasLore()){ return false; }
+		List<String> itemMetaLore = itemMeta.getLore();
+		return itemMetaLore.stream().anyMatch(lore -> {
+			String strippedLore = ChatColor.stripColor(lore);
+			return BankItemBlacklistConfiguration.TRASH_BLACKLISTED_LORE.get().stream()
+																		.anyMatch(blacklistedLore -> strippedLore.contains(blacklistedLore) || strippedLore.matches(blacklistedLore));
+		});
+	}
+	
 	@Override
 	public void load(){
 		
@@ -62,12 +95,20 @@ public class ItemBlacklistImplementation extends BankImplementation{
 	
 	public void save(){
 		BankItemBlacklistConfiguration.BLACKLIST.set(blacklisted.stream().map(bi -> JSONParser.toJson(bi).toString()).collect(Collectors.toList()));
+		BankItemBlacklistConfiguration.TRASH_BLACKLIST.set(trashBlacklisted.stream().map(bi -> JSONParser.toJson(bi).toString()).collect(Collectors.toList()));
 	}
 	
-	public List<BlacklistedItem> getBlacklisted(){
-		return blacklisted;
+	public List<BlacklistedItem> getBlacklisted(BlacklistType blacklistType){
+		switch(blacklistType){
+		case NORMAL:
+			return blacklisted;
+		case TRASH:
+			return trashBlacklisted;
+		}
+		return null;
 	}
 	
+
 	@Override
 	public void enable(){
 		enabled = true;

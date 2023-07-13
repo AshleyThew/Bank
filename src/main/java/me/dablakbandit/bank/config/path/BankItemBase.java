@@ -21,8 +21,11 @@ public @interface BankItemBase{
 		"HeadURL: <url> / Head url from minecraft player skin, requires Item.Material to be PLAYER_HEAD or PLAYER_SKULL (Premium)\"",
 		"HeadDB: <headdb-id> / HeadDB identifier",
 		"PlayerHead: <true/false> If this should be the players own head.",
-		"Enchant: <enchant_name>",	
-		"CustomModelData: <integer> (1.14+ only!)", 
+		"Enchant: <enchant_name>",
+		"ItemFlags:" +
+		"- <itemflag1> See: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/ItemFlag.html",
+		"- <itemflag2>",
+		"CustomModelData: <integer> (1.14+ only!)",
 		"",
 		"~Example with all~",
 		"Blank:",
@@ -41,6 +44,8 @@ public @interface BankItemBase{
 		"  HeadURL: 'http://textures.minecraft.net/texture/1998e3668a6ca62eb75f36fa4bb7f5ecdb26b170aacd3377db53f62f188b38'",
 		"  HeadDB: 'burger'",
 		"  Enchant: 'THORNS'",
+		"  ItemFlags:" +
+		"  - \"HIDE_ENCHANTS\"",
 		"  CustomModelData: 69",
 		"",
 	};

@@ -121,6 +121,10 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 		this.buySlots = Math.max(0, this.buySlots - 1);
 	}
 	
+	public void resetBuySlots(){
+		this.buySlots = 0;
+	}
+	
 	public int getBuyTabs(){
 		return buyTabs;
 	}
@@ -483,14 +487,13 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 		itemMap.put(page, list);
 	}
 	
-	public boolean buySlots(int buySlots, CorePlayers pl){
-		if(buySlots == 0){ return false; }
-		double d = buySlots * BankPluginConfiguration.BANK_ITEMS_SLOTS_BUY_COST.get();
+	public boolean buySlots(int slots, CorePlayers pl){
+		if(slots == 0){ return false; }
+		double d = slots * BankPluginConfiguration.BANK_ITEMS_SLOTS_BUY_COST.get();
 		if(Eco.getInstance().getEconomy().has(pl.getName(), d) && Eco.getInstance().getEconomy().withdrawPlayer(pl.getName(), d).transactionSuccess()){
 			// player.sendMessage(LanguageConfiguration.MESSAGE_SLOTS_BOUGHT.getMessage().replace("<i>", "" + buy_slot_amount).replace("<p>", Format.formatMoney(d)));
 			int slot = BankPluginConfiguration.BANK_ITEMS_SLOTS_BUY_PER_TAB.get() ? openTab : 1;
-			boughtSlotsMap.put(slot, getBoughtSlots(slot) + buySlots);
-			buySlots = 0;
+			boughtSlotsMap.put(slot, getBoughtSlots(slot) + slots);
 			return true;
 		}else{
 			// player.sendMessage(LanguageConfiguration.MESSAGE_SLOTS_FAILED.getMessage());
