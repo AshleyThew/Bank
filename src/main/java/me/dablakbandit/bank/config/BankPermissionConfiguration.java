@@ -66,6 +66,22 @@ public class BankPermissionConfiguration extends CommentAdvancedConfiguration{
 
 	@Comment("Note this permission can't be disabled for security reasons.")
 	public static final StringPath					PERMISSION_ADMIN_INVENTORY		= new StringPath("bank.admin.inventory.open");
+	
+	@CommentArray({ "Give a player the permission: bank.money.interest.online.0.05 for 5% interest",
+			"Highest value will be taken from the user bank.money.interest.online.0.05 & bank.money.interest.online.0.01 will select 5% interest" })
+	public static final BankDoublePermissionPath		PERMISSION_MONEY_INTEREST_ONLINE	= new BankDoublePermissionPath("bank.money.interest.online.");
+	
+	@CommentArray({ "Give a player the permission: bank.money.interest.offline.0.05 for 5% interest",
+			"Highest value will be taken from the user bank.money.interest.offline.0.05 & bank.money.interest.offline.0.01 will select 5% interest" })
+	public static final BankDoublePermissionPath		PERMISSION_MONEY_INTEREST_OFFLINE	= new BankDoublePermissionPath("bank.money.interest.offline.");
+	
+	@CommentArray({ "Give a player the permission: bank.exp.interest.online.0.05 for 5% interest",
+			"Highest value will be taken from the user bank.exp.interest.online.0.05 & bank.exp.interest.online.0.01 will select 5% interest" })
+	public static final BankDoublePermissionPath		PERMISSION_EXP_INTEREST_ONLINE		= new BankDoublePermissionPath("bank.exp.interest.online.");
+	
+	@CommentArray({ "Give a player the permission: bank.exp.interest.offline.0.05 for 5% interest",
+			"Highest value will be taken from the user bank.exp.interest.offline.0.05 & bank.exp.interest.offline.0.01 will select 5% interest" })
+	public static final BankDoublePermissionPath		PERMISSION_EXP_INTEREST_OFFLINE		= new BankDoublePermissionPath("bank.exp.interest.offline.");
 
 
 	

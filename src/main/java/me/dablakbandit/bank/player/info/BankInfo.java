@@ -4,6 +4,11 @@ import me.dablakbandit.bank.save.loader.LoaderManager;
 import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.players.info.CorePlayersInfo;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class BankInfo extends CorePlayersInfo{
 	
 	private boolean				locked	= true;
@@ -22,12 +27,12 @@ public class BankInfo extends CorePlayersInfo{
 	}
 	
 	private void init(){
-		pl.addInfo(itemsInfo = new BankItemsInfo(pl));
-		pl.addInfo(expInfo = new BankExpInfo(pl));
-		pl.addInfo(moneyInfo = new BankMoneyInfo(pl));
-		pl.addInfo(pinInfo = new BankPinInfo(pl));
-		pl.addInfo(permissionInfo = new BankPermissionInfo(pl));
-		pl.addInfo(loansInfo = new BankLoansInfo(pl));
+		pl.addInfo(this.itemsInfo = new BankItemsInfo(pl));
+		pl.addInfo(this.expInfo = new BankExpInfo(pl));
+		pl.addInfo(this.moneyInfo = new BankMoneyInfo(pl));
+		pl.addInfo(this.pinInfo = new BankPinInfo(pl));
+		pl.addInfo(this.permissionInfo = new BankPermissionInfo(pl));
+		pl.addInfo(this.loansInfo = new BankLoansInfo(pl));
 	}
 	
 	@Override

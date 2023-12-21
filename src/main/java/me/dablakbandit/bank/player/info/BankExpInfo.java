@@ -1,5 +1,7 @@
 package me.dablakbandit.bank.player.info;
 
+import me.dablakbandit.bank.config.BankPermissionConfiguration;
+import me.dablakbandit.core.utils.json.strategy.Exclude;
 import org.bukkit.Bukkit;
 
 import me.dablakbandit.bank.BankPlugin;
@@ -11,11 +13,21 @@ import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.players.info.JSONInfo;
 import me.dablakbandit.core.utils.EXPUtils;
+import org.bukkit.permissions.Permissible;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 
-public class BankExpInfo extends IBankInfo implements JSONInfo, BankDefaultInfo{
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
+public class BankExpInfo extends IBankInfo implements JSONInfo, BankDefaultInfo, PermissionsInfo{
 	
 	private double	exp;
 	private double	offlineExp;
+	
+	@Exclude
+	private double	interestPercentageOnline;
+	private double	interestPercentageOffline;
 	
 	public BankExpInfo(CorePlayers pl){
 		super(pl);
@@ -23,6 +35,14 @@ public class BankExpInfo extends IBankInfo implements JSONInfo, BankDefaultInfo{
 	
 	public double getExp(){
 		return exp;
+	}
+	
+	public double getInterestPercentageOnline(){
+		return interestPercentageOnline;
+	}
+	
+	public double getInterestPercentageOffline(){
+		return interestPercentageOffline;
 	}
 	
 	public int getExpLevel(){
@@ -182,6 +202,25 @@ public class BankExpInfo extends IBankInfo implements JSONInfo, BankDefaultInfo{
 	public void initDefault() {
 		if(BankPluginConfiguration.BANK_EXP_DEFAULT_ENABLED.get()){
 			exp = BankPluginConfiguration.BANK_EXP_DEFAULT_AMOUNT.get();
+		}
+	}
+	
+	@Override
+	public void checkPermissions(Permissible permissible, boolean debug){
+		Collection<PermissionAttachmentInfo> permissions = permissible.getEffectivePermissions();
+		
+		List<Double> onlineList = BankPermissionConfiguration.PERMISSION_EXP_INTEREST_ONLINE.getValue(permissions);
+		if(!onlineList.isEmpty()){
+			interestPercentageOnline = Collections.max(onlineList);
+		}else{
+			interestPercentageOnline = BankPluginConfiguration.BANK_EXP_INTEREST_ONLINE_PERCENT_GAINED.get();
+		}
+		
+		List<Double> offlineList = BankPermissionConfiguration.PERMISSION_EXP_INTEREST_OFFLINE.getValue(permissions);
+		if(!offlineList.isEmpty()){
+			interestPercentageOffline = Collections.max(offlineList);
+		}else{
+			interestPercentageOffline = BankPluginConfiguration.BANK_EXP_INTEREST_OFFLINE_PERCENT_GAINED.get();
 		}
 	}
 }

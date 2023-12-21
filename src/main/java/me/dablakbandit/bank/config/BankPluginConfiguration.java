@@ -151,14 +151,16 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final BooleanPath					BANK_EXP_INTEREST_MAIN						= new BooleanPath(false);
 	@Comment("Enable message on exp interest gained")
 	public static final BooleanPath					BANK_EXP_INTEREST_MESSAGE_ENABLED			= new BooleanPath(false);
-	@Comment("Set the amount as a % to gain, 0.01 is 1%")
+	@Comment("Set the default amount as a % to gain, 0.01 is 1%, check permissions.yml for more")
 	public static final DoublePath					BANK_EXP_INTEREST_ONLINE_PERCENT_GAINED		= new DoublePath(0.01);
-	@Comment("Set the amount as a % to gain, 0.001 is 0.1%")
+	@Comment("Set the default amount as a % to gain, 0.001 is 0.1%, check permissions.yml for more")
 	public static final DoublePath					BANK_EXP_INTEREST_OFFLINE_PERCENT_GAINED	= new DoublePath(0.001);
-	@Comment("Set the max amount of exp gained")
+	@Comment("Set the max amount of exp payout online")
 	public static final DoubleNicePath				BANK_EXP_INTEREST_ONLINE_MAX				= new DoubleNicePath(Double.MAX_VALUE);
-	@Comment("Set the max amount of exp gained")
+	@Comment("Set the max amount of exp gained offline")
 	public static final DoubleNicePath				BANK_EXP_INTEREST_OFFLINE_MAX				= new DoubleNicePath(Double.MAX_VALUE);
+	@Comment("Set the max amount of exp payout online")
+	public static final DoubleNicePath					BANK_EXP_INTEREST_OFFLINE_PAYOUT_MAX		= new DoubleNicePath(Double.MAX_VALUE);
 	@Comment("Set the account minimum to give interest")
 	public static final DoubleNicePath				BANK_EXP_INTEREST_ONLINE_MINIMUM			= new DoubleNicePath(0);
 	@Comment("Set the account minimum to give interest")
@@ -210,14 +212,16 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final BooleanPath					BANK_MONEY_INTEREST_MAIN					= new BooleanPath(false);
 	@Comment("Enable message on money interest gained")
 	public static final BooleanPath					BANK_MONEY_INTEREST_MESSAGE_ENABLED			= new BooleanPath(false);
-	@Comment("Set the amount as a % to gain, 0.01 is 1%")
+	@Comment("Set the default amount as a % to gain, 0.01 is 1%, check permissions.yml for more")
 	public static final DoublePath					BANK_MONEY_INTEREST_ONLINE_PERCENT_GAINED	= new DoublePath(0.01);
-	@Comment("Set the amount as a % to gain, 0.001 is 0.1%")
+	@Comment("Set the default amount as a % to gain, 0.001 is 0.1%, check permissions.yml for more")
 	public static final DoublePath					BANK_MONEY_INTEREST_OFFLINE_PERCENT_GAINED	= new DoublePath(0.001);
-	@Comment("Set the max amount of money gained")
+	@Comment("Set the max amount of money payout offline")
 	public static final DoubleNicePath				BANK_MONEY_INTEREST_ONLINE_MAX				= new DoubleNicePath(Double.MAX_VALUE);
-	@Comment("Set the max amount of money gained")
+	@Comment("Set the max amount of money gained offline")
 	public static final DoubleNicePath				BANK_MONEY_INTEREST_OFFLINE_MAX				= new DoubleNicePath(Double.MAX_VALUE);
+	@Comment("Set the max amount of money payout offline")
+	public static final DoubleNicePath					BANK_MONEY_INTEREST_OFFLINE_PAYOUT_MAX		= new DoubleNicePath(Double.MAX_VALUE);
 	@Comment("Set the account minimum to give interest")
 	public static final DoubleNicePath				BANK_MONEY_INTEREST_ONLINE_MINIMUM			= new DoubleNicePath(0);
 	@Comment("Set the account minimum to give interest")

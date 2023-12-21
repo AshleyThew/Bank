@@ -116,7 +116,7 @@ public class BankLoansInfo extends IBankInfo implements JSONInfo, PermissionsInf
 		Collection<PermissionAttachmentInfo> permissions = permissible.getEffectivePermissions();
 		
 		List<Double> maxList = BankPermissionConfiguration.PERMISSION_LOAN_AMOUNT.getValue(permissions);
-		if(maxList.size() > 0){
+		if(!maxList.isEmpty()){
 			if(BankPluginConfiguration.BANK_LOANS_AMOUNT_PERMISSION_COMBINE.get()){
 				loanMax = maxList.stream().mapToDouble(Double::doubleValue).sum();
 			}else{
@@ -127,7 +127,7 @@ public class BankLoansInfo extends IBankInfo implements JSONInfo, PermissionsInf
 		}
 		
 		List<Double> interestList = BankPermissionConfiguration.PERMISSION_LOAN_INTEREST.getValue(permissions);
-		if(interestList.size() > 0){
+		if(!interestList.isEmpty()){
 			loanInterest = Collections.min(interestList);
 		}else{
 			loanInterest = 0;

@@ -1,5 +1,8 @@
 package me.dablakbandit.bank.inventory.admin.blacklist;
 
+import me.dablakbandit.bank.config.BankPluginConfiguration;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -18,7 +21,22 @@ public class BankBlacklistInventory extends BankInventoryHandler<CorePlayers>{
 	
 	private final ItemBlacklistImplementation	implementation	= ItemBlacklistImplementation.getInstance();
 	private int							scrolled;
-	
+
+	@Override
+	protected boolean open(CorePlayers pl, Player player, int size, String title) {
+		BankAdminInfo adminInfo = pl.getInfo(BankAdminInfo.class);
+		boolean enabled = false;
+		switch (adminInfo.getBlacklistType()) {
+			case NORMAL:
+				enabled = BankPluginConfiguration.BANK_ITEMS_BLACKLIST_ENABLED.get();
+				break;
+			case TRASH:
+				enabled = BankPluginConfiguration.BANK_ITEMS_TRASHCAN_BLACKLIST_ENABLED.get();
+				break;
+		}
+		return super.open(pl, player, size, title + ": " + (enabled ? ChatColor.GREEN + "Enabled(config)" : ChatColor.RED + "Disabled(config)"));
+	}
+
 	@Override
 	public void init(){
 		addInfo();
