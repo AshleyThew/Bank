@@ -1,8 +1,5 @@
 package me.dablakbandit.bank.implementations;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.function.Supplier;
-
 import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.implementations.blacklist.ItemBlacklistImplementation;
 import me.dablakbandit.bank.implementations.citizens.CitizensType;
@@ -19,6 +16,9 @@ import me.dablakbandit.bank.log.BankLog;
 import me.dablakbandit.core.config.path.BooleanPath;
 import me.dablakbandit.core.utils.NMSUtils;
 import org.apache.commons.lang.WordUtils;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.function.Supplier;
 
 public enum BankImplementations{
 	//@formatter:off
@@ -54,6 +54,12 @@ public enum BankImplementations{
 		}catch(IllegalAccessException | InvocationTargetException e){
 			e.printStackTrace();
 			return;
+		} catch (Exception e) {
+			if (e instanceof ClassNotFoundException) {
+				BankLog.error("Error loading " + WordUtils.capitalize(name().toLowerCase().replace("_", " ")) + " implementation, please disable " + name() + " in the config");
+			} else {
+				throw e;
+			}
 		}
 		try{
 			object.load();
