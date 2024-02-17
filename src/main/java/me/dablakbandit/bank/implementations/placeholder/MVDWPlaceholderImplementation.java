@@ -56,7 +56,7 @@ public class MVDWPlaceholderImplementation extends BankImplementation{
 			if(pl == null){ return "Offline"; }
 			BankItemsInfo info = pl.getInfo(BankItemsInfo.class);
 			if(info==null) { return ""; }
-			return "" + info.getTotalSlots();
+			return "" + info.getBankItemsHandler().getTotalSlots();
 		});
 		PlaceholderAPI.registerPlaceholder(BankPlugin.getInstance(), getPlaceholder("_used_slots"), event -> {
 			if(!event.isOnline()){ return "Offline"; }
@@ -64,7 +64,7 @@ public class MVDWPlaceholderImplementation extends BankImplementation{
 			if(pl == null){ return "Offline"; }
 			BankItemsInfo info = pl.getInfo(BankItemsInfo.class);
 			if(info==null) { return ""; }
-			return "" + info.getTotalUsedSlots();
+			return "" + info.getBankItemsHandler().getTotalUsedSlots();
 		});
 		/*-PlaceholderAPI.registerPlaceholder(BankPlugin.getInstance(), getPlaceholder("_loans_total"), event -> {
 		

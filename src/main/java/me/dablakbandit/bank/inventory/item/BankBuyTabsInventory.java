@@ -26,23 +26,23 @@ public class BankBuyTabsInventory extends BankInventoryHandler<BankItemsInfo>{
 	}
 	
 	private void increase(CorePlayers pl, BankItemsInfo info){
-		info.incrementBuyTabs();
+		info.getBankItemsHandler().incrementBuyTabs();
 		pl.refreshInventory();
 	}
 	
 	private void decrease(CorePlayers pl, BankItemsInfo info){
-		info.decrementBuyTabs();
+		info.getBankItemsHandler().decrementBuyTabs();
 		pl.refreshInventory();
 	}
 	
 	private ItemStack getBuy(BankItemPath path, BankItemsInfo bankInfo){
-		int cost = bankInfo.getBuyTabs() * BankPluginConfiguration.BANK_ITEMS_TABS_BUY_COST.get();
+		int cost = bankInfo.getBankItemsHandler().getBuyTabs() * BankPluginConfiguration.BANK_ITEMS_TABS_BUY_COST.get();
 		// ChatColor.GREEN + "Used Slots: <used>", ChatColor.GREEN + "Available Slots: <available>", ChatColor.GREEN + "Total Slots: <total>",
-		return replaceNameLore(path, "<tabs>", "" + bankInfo.getBuyTabs(), "<cost>", "" + cost);
+		return replaceNameLore(path, "<tabs>", "" + bankInfo.getBankItemsHandler().getBuyTabs(), "<cost>", "" + cost);
 	}
 	
 	private void buy(CorePlayers pl, BankItemsInfo info){
-		if(info.buyTabs(pl)){
+		if (info.getBankItemsHandler().buyTabs(pl)) {
 			returnToItems(pl);
 		}
 	}

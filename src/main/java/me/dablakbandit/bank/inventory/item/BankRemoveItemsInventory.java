@@ -21,17 +21,17 @@ public class BankRemoveItemsInventory extends BankInventoryHandler<BankInfo>{
 	}
 	
 	private void removeAll(CorePlayers pl, BankInfo bankInfo){
-		bankInfo.getItemsInfo().removeAllBankToInventory(pl.getPlayer());
+		bankInfo.getItemsInfo().getBankItemsHandler().removeAllBankToInventory(pl.getPlayer());
 		returnToItems(pl);
 	}
 	
 	private void removeInventory(CorePlayers pl, BankInfo bankInfo){
-		bankInfo.getItemsInfo().removeBankToInventory(pl.getPlayer());
+		bankInfo.getItemsInfo().getBankItemsHandler().removeBankToInventory(pl.getPlayer());
 		returnToItems(pl);
 	}
 	
 	private void removeHotbar(CorePlayers pl, BankInfo bankInfo){
-		bankInfo.getItemsInfo().removeBankToHotbar(pl.getPlayer());
+		bankInfo.getItemsInfo().getBankItemsHandler().removeBankToHotbar(pl.getPlayer());
 		returnToItems(pl);
 	}
 	

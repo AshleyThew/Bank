@@ -11,11 +11,11 @@ import me.dablakbandit.bank.player.info.BankInfo;
 import me.dablakbandit.core.players.CorePlayerManager;
 
 public class LockType extends BankImplementation{
-	
-	private static final LockType citizensType = new LockType();
+
+	private static final LockType lockType = new LockType();
 	
 	public static LockType getInstance(){
-		return citizensType;
+		return lockType;
 	}
 	
 	private LockType(){

@@ -88,6 +88,10 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final BooleanPath					BANK_ITEMS_TABS_AMOUNT_SET					= new BooleanPath(true);
 	@Comment("Default amount of item slots")
 	public static final IntegerPath					BANK_ITEMS_SLOTS_DEFAULT					= new IntegerPath(50);
+	@Comment("Enable merging of the same items in the bank")
+	public static final BooleanPath BANK_ITEMS_SLOTS_MERGE_ENABLED = new BooleanPath(false);
+	@Comment("Set the max stack count for merged items")
+	public static final IntegerPath BANK_ITEMS_SLOTS_MERGE_MAX = new IntegerPath(Integer.MAX_VALUE);
 	@Comment("Set bought slots unique to each tab")
 	public static final BooleanPath					BANK_ITEMS_SLOTS_BUY_PER_TAB				= new BooleanPath(true);
 	@Comment("Enable buying of slots")

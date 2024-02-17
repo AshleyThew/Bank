@@ -1,6 +1,5 @@
 package me.dablakbandit.bank.implementations.placeholder;
 
-import org.bukkit.entity.Player;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.dablakbandit.bank.BankPlugin;
@@ -13,6 +12,8 @@ import me.dablakbandit.bank.player.info.BankMoneyInfo;
 import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.players.CorePlayerManager;
 import me.dablakbandit.core.players.CorePlayers;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 @SuppressWarnings("deprecation")
 public class PlaceholderAPIImplementation extends BankImplementation{
@@ -89,13 +90,25 @@ public class PlaceholderAPIImplementation extends BankImplementation{
 			case "slots":{
 				BankItemsInfo info = pl.getInfo(BankItemsInfo.class);
 				if(info == null){ return ""; }
-				return "" + info.getTotalSlots();
+				return "" + info.getBankItemsHandler().getTotalSlots();
 			}
 			case "used_slots":{
 				BankItemsInfo info = pl.getInfo(BankItemsInfo.class);
 				if(info == null){ return ""; }
-				return "" + info.getTotalUsedSlots();
+				return "" + info.getBankItemsHandler().getTotalUsedSlots();
 			}
+			}
+			if (holder.startsWith("items_count_")) {
+				try {
+					String item = holder.substring("items_count_".length());
+					String[] damageSplit = item.split(":");
+					String[] modelSplit = item.split("#");
+					Material material = Material.valueOf(damageSplit[0]);
+					Integer damage = damageSplit.length > 1 ? Integer.parseInt(damageSplit[1]) : null;
+					Integer model = modelSplit.length > 1 ? Integer.parseInt(modelSplit[1]) : null;
+					return String.valueOf(pl.getInfo(BankItemsInfo.class).getBankItemsHandler().countTotal(material, damage, model));
+				} catch (Exception ignored) {
+				}
 			}
 			return null;
 		}

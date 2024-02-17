@@ -148,6 +148,14 @@ public class BankCoreHandler extends CoreHandler implements Listener{
 	 * @see BankSoundConfiguration
 	 */
 	private void loadConfigurations(){
+		File pluginFolder = BankPlugin.getInstance().getDataFolder();
+		if (!pluginFolder.exists()) {
+			pluginFolder.mkdirs();
+		}
+		File confFolder = new File(pluginFolder, "conf/");
+		if (!confFolder.exists()) {
+			confFolder.mkdirs();
+		}
 		moveConfigFile("commands.yml");
 		moveConfigFile("hiscores.yml");
 		moveConfigFile("itemblacklist.yml");

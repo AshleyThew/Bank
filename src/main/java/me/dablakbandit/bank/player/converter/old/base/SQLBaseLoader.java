@@ -97,7 +97,7 @@ public abstract class SQLBaseLoader extends Loader{
 				pi.setPin(rs.getString("pin"));
 				ei.setExp(rs.getDouble("exp"));
 				bii.getTabItemMap().putAll(convertJSONToTabs(bii, rs.getString("tabs")));
-				bii.getItems().putAll(convertJSONToItems(pl, rs.getString("items")));
+				bii.getBankItemMap().putAll(convertJSONToItems(pl, rs.getString("items")));
 				String bought = rs.getString("bought_slots_map");
 				if(bought != null && !bought.equals("0")){
 					JSONObject object = new JSONObject(bought);

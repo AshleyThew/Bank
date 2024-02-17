@@ -126,7 +126,9 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	public static final BankTranslatedStringPath	MESSAGE_BANK_LOCKED				= new BankTranslatedStringPath(ChatColor.RED + "Bank locked/loading please wait");
 	public static final BankTranslatedStringPath	MESSAGE_BANK_UNLOCKED			= new BankTranslatedStringPath(ChatColor.GREEN + "Bank unlocked!");
 	public static final BankTranslatedStringPath	MESSAGE_PIN_ENTER_BEFORE		= new BankTranslatedStringPath(ChatColor.RED + "You must enter your pin before doing that.");
-	
+	@Comment("Available: <amount>, <formatted_amount>")
+	public static final BankTranslatedStringPath MESSAGE_ITEM_MERGE_COUNT = new BankTranslatedStringPath(ChatColor.YELLOW + "x<formatted_amount>");
+
 	public static final BankTranslatedStringPath	MESSAGE_INFO_BORDER				=
 		new BankTranslatedStringPath(ChatColor.GREEN + "-----------------------------------------------------");
 	//@formatter:off

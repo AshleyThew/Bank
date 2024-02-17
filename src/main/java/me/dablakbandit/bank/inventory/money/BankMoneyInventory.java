@@ -83,7 +83,7 @@ public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo>{
 	private void deposit(CorePlayers pl, BankMoneyInfo info){
 		double balance = 0;
 		if(Eco.getInstance().getEconomy() != null){
-			balance = Eco.getInstance().getEconomy().getBalance(info.getPlayers().getPlayer());
+			balance = Eco.getInstance().getEconomy().getBalance(pl.getPlayer());
 		}
 		pl.setOpenInventory(new AnvilInventory(BankLanguageConfiguration.ANVIL_MONEY_DEPOSIT.get(), "" + Format.round(balance, 2)){
 			@Override

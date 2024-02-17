@@ -36,17 +36,17 @@ public class BankAPI{
 	public int getSlots(Player player){
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer(player);
 		BankItemsInfo bif = pl.getInfo(BankItemsInfo.class);
-		return bif.getBankSlots(bif.getOpenTab());
+		return bif.getBankItemsHandler().getBankSlots(bif.getOpenTab());
 	}
 	
 	public int getSlots(String uuid){
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer(uuid);
 		if(pl != null){
 			BankItemsInfo bif = pl.getInfo(BankItemsInfo.class);
-			return bif.getBankSlots(bif.getOpenTab());
+			return bif.getBankItemsHandler().getBankSlots(bif.getOpenTab());
 		}
 		pl = new CorePlayers(uuid);
-		return getAndLoad(pl, new BankItemsInfo(pl)).getBankSlots() + BankPluginConfiguration.BANK_ITEMS_SLOTS_DEFAULT.get();
+		return getAndLoad(pl, new BankItemsInfo(pl)).getBankItemsHandler().getBankSlots() + BankPluginConfiguration.BANK_ITEMS_SLOTS_DEFAULT.get();
 	}
 	
 	protected <T extends CorePlayersInfo> T getAndLoad(CorePlayers pl, T t){

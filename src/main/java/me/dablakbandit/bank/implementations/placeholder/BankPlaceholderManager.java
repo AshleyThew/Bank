@@ -1,16 +1,16 @@
 package me.dablakbandit.bank.implementations.placeholder;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-
 import me.dablakbandit.bank.player.info.BankExpInfo;
 import me.dablakbandit.bank.player.info.BankItemsInfo;
 import me.dablakbandit.bank.player.info.BankMoneyInfo;
 import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.players.info.CorePlayersInfo;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public class BankPlaceholderManager{
 	
@@ -37,8 +37,8 @@ public class BankPlaceholderManager{
 		addCoreDouble("bank_money", BankMoneyInfo.class, BankMoneyInfo::getMoney, Format::formatMoney);
 		addCoreDouble("bank_exp", BankExpInfo.class, BankExpInfo::getExp, Format::formatExp);
 		addCoreInteger("bank_exp_level", BankExpInfo.class, BankExpInfo::getExpLevel, String::valueOf);
-		addCoreInteger("bank_slots", BankItemsInfo.class, BankItemsInfo::getTotalSlots, String::valueOf);
-		addCoreInteger("bank_used_slots", BankItemsInfo.class, BankItemsInfo::getTotalUsedSlots, String::valueOf);
+		addCoreInteger("bank_slots", BankItemsInfo.class, (bankItemsInfo -> bankItemsInfo.getBankItemsHandler().getBankSlots()), String::valueOf);
+		addCoreInteger("bank_used_slots", BankItemsInfo.class, (bankItemsInfo -> bankItemsInfo.getBankItemsHandler().getTotalUsedSlots()), String::valueOf);
 		add("player_name", null, (pl, t) -> pl.getName());
 	}
 	

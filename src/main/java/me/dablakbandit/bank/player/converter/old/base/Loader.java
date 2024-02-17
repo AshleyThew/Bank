@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import me.dablakbandit.bank.player.info.item.BankItem;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -36,9 +37,9 @@ public abstract class Loader extends SQLListener{
 	public abstract void forceLoad(CorePlayers pl);
 	
 	public abstract boolean isConnected();
-	
-	protected final Map<Integer, List<ItemStack>> convertJSONToItems(CorePlayers pl, String s) throws Exception{
-		Map<Integer, List<ItemStack>> items = new HashMap<>();
+
+	protected final Map<Integer, List<BankItem>> convertJSONToItems(CorePlayers pl, String s) throws Exception {
+		Map<Integer, List<BankItem>> items = new HashMap<>();
 		if(s == null){ return items; }
 		JSONObject jo = new JSONObject(s);
 		for(int tab = 1; tab <= 9; tab++){
@@ -51,7 +52,7 @@ public abstract class Loader extends SQLListener{
 						jo1 = ja.getJSONObject(ii);
 						ItemStack is;
 						is = convertJSONToItemStack(jo1);
-						items.get(tab).add(is);
+						items.get(tab).add(new BankItem(is));
 					}catch(Exception e){
 						e.printStackTrace();
 						if(jo1 != null){
