@@ -86,11 +86,25 @@ public class PlaceholderAPIImplementation extends BankImplementation{
 				if(info == null){ return ""; }
 				return Format.formatMoney(info.getMoney());
 			}
+				case "raw_money": {
+					BankMoneyInfo info = pl.getInfo(BankMoneyInfo.class);
+					if (info == null) {
+						return "";
+					}
+					return Format.round(info.getMoney(), 2);
+				}
 			case "exp":{
 				BankExpInfo info = pl.getInfo(BankExpInfo.class);
 				if(info == null){ return ""; }
-				return Format.formatMoney(info.getExp());
+				return Format.formatExp(info.getExp());
 			}
+				case "raw_exp": {
+					BankExpInfo info = pl.getInfo(BankExpInfo.class);
+					if (info == null) {
+						return "";
+					}
+					return Format.round(info.getExp(), 2);
+				}
 			case "slots":{
 				BankItemsInfo info = pl.getInfo(BankItemsInfo.class);
 				if(info == null){ return ""; }
