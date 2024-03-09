@@ -1,11 +1,8 @@
 package me.dablakbandit.bank.player.info;
 
-import me.dablakbandit.bank.config.BankPermissionConfiguration;
-import me.dablakbandit.core.utils.json.strategy.Exclude;
-import org.bukkit.Bukkit;
-
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.config.BankLanguageConfiguration;
+import me.dablakbandit.bank.config.BankPermissionConfiguration;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.config.BankSoundConfiguration;
 import me.dablakbandit.bank.utils.calculation.PaymentCalculator;
@@ -13,6 +10,8 @@ import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.players.info.JSONInfo;
 import me.dablakbandit.core.utils.EXPUtils;
+import me.dablakbandit.core.utils.json.strategy.Exclude;
+import org.bukkit.Bukkit;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
@@ -107,12 +106,16 @@ public class BankExpInfo extends IBankInfo implements JSONInfo, BankDefaultInfo,
 	}
 
 	public PaymentCalculator getPaymentCalculator(double amount, boolean tax){
+		return getPaymentCalculator(amount, BankPluginConfiguration.BANK_EXP_MAX.get(), tax);
+	}
+
+	public PaymentCalculator getPaymentCalculator(double amount, double max, boolean tax) {
 		amount = Math.max(0, amount);
 
 		if(tax) {
-			return new PaymentCalculator(amount, this.exp, BankPluginConfiguration.BANK_EXP_MAX.get(), BankPluginConfiguration.BANK_EXP_DEPOSIT_TAX_PERCENT.get());
+			return new PaymentCalculator(amount, this.exp, max, BankPluginConfiguration.BANK_EXP_DEPOSIT_TAX_PERCENT.get());
 		}else{
-			return new PaymentCalculator(amount, this.exp, BankPluginConfiguration.BANK_EXP_MAX.get(), 0);
+			return new PaymentCalculator(amount, this.exp, max, 0);
 		}
 	}
 
@@ -152,7 +155,9 @@ public class BankExpInfo extends IBankInfo implements JSONInfo, BankDefaultInfo,
 	
 	@Deprecated
 	public void addExp(double oexp){
-		this.exp += oexp;
+		PaymentCalculator calculator = getPaymentCalculator(oexp, Double.MAX_VALUE, false);
+		this.exp = calculator.getCombined();
+		save(BankPluginConfiguration.BANK_SAVE_EXP_DEPOSIT);
 	}
 	
 	public void addOfflineExp(double exp){
@@ -168,7 +173,7 @@ public class BankExpInfo extends IBankInfo implements JSONInfo, BankDefaultInfo,
 	}
 	
 	@Deprecated
-	public boolean subtractExp(int amount){
+	public boolean subtractExp(double amount) {
 		if(amount <= exp){
 			exp -= amount;
 			save(BankPluginConfiguration.BANK_SAVE_EXP_WITHDRAW);
@@ -176,10 +181,10 @@ public class BankExpInfo extends IBankInfo implements JSONInfo, BankDefaultInfo,
 		}
 		return false;
 	}
-	
-	public boolean send(CorePlayers to, int amount){
+
+	public boolean send(CorePlayers to, double amount) {
 		BankExpInfo toInfo = to.getInfo(BankExpInfo.class);
-		amount = Math.min((int)toInfo.getMaxAdd(amount), amount);
+		amount = Math.min(toInfo.getMaxAdd(amount), amount);
 		if(amount <= 0 || amount > exp){
 			BankLanguageConfiguration.sendFormattedMessage(pl.getPlayer(), BankLanguageConfiguration.MESSAGE_EXP_NOT_ENOUGH.get().replaceAll("<exp>", Format.formatExp(exp)));
 			return false;

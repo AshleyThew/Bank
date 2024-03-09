@@ -1,13 +1,15 @@
 package me.dablakbandit.bank.inventory.item;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Consumer;
-
 import me.dablakbandit.bank.config.*;
+import me.dablakbandit.bank.config.path.impl.BankItemPath;
 import me.dablakbandit.bank.inventory.AnvilInventory;
+import me.dablakbandit.bank.inventory.BankInventories;
+import me.dablakbandit.bank.inventory.BankInventoriesManager;
+import me.dablakbandit.bank.inventory.BankInventoryHandler;
+import me.dablakbandit.bank.player.info.BankInfo;
+import me.dablakbandit.bank.player.info.BankItemsInfo;
 import me.dablakbandit.bank.player.info.item.BankItem;
-import me.dablakbandit.bank.utils.format.Format;
+import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.utils.EXPUtils;
 import me.dablakbandit.core.vault.Eco;
 import org.bukkit.ChatColor;
@@ -18,13 +20,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import me.dablakbandit.bank.config.path.impl.BankItemPath;
-import me.dablakbandit.bank.inventory.BankInventories;
-import me.dablakbandit.bank.inventory.BankInventoriesManager;
-import me.dablakbandit.bank.inventory.BankInventoryHandler;
-import me.dablakbandit.bank.player.info.BankInfo;
-import me.dablakbandit.bank.player.info.BankItemsInfo;
-import me.dablakbandit.core.players.CorePlayers;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Consumer;
 
 public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	
@@ -38,7 +36,7 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 		addScrolls();
 		int size = descriptor.getSize();
 		addItems(size);
-		addTabs(size);
+		addTabsItems();
 		setItem(BankItemConfiguration.BANK_ITEM_BLANK, this::doNothing);
 	}
 	
@@ -145,20 +143,24 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 				if(inventorySlot > size){
 					break;
 				}
-				setItem(inventorySlot, (bi) -> getItemStack(bi, width, finalSlot), (pl, bi, inv, event) -> onClick(pl, bi, inv, event, finalSlot, width));
+				setItem(inventorySlot, (bi) -> getItemStack(bi, width, finalSlot), (pl, bi, inv, event) -> onClick(pl, bi, event, finalSlot, width));
 				slot++;
 			}
 		}
 	}
-	
-	private void addTabs(int size){
+
+	private void addTabsItems() {
 		if(!BankPluginConfiguration.BANK_ITEMS_TABS_ENABLED.get()){ return; }
 
 		Integer[] tabs = BankItemConfiguration.BANK_ITEM_TAB_NUMBER.getExtendValue("Tabs", Integer[].class);
+
+		// Determine if the player is able to scroll left or right based on tab count
+
+
 		for (int index = 0; index < tabs.length; index++) {
 			int slot = tabs[index];
-			int tabNumber = index + 1;
-			setItem(slot, (bi, i) -> createTab(bi, tabNumber), this::handleTab);
+			int tabIndex = index + 1;
+			setItem(slot, (bi, i) -> createTab(bi, tabIndex, tabs.length), this::handleTab);
 		}
 	}
 	
@@ -166,26 +168,53 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	public BankInfo getInvoker(CorePlayers pl){
 		return pl.getInfo(BankInfo.class);
 	}
-	
-	public ItemStack createTab(BankInfo bankInfo, int tab){
+
+	protected int determineTab(BankInfo bankInfo, int index, int tabsLength) {
+		BankItemsInfo itemsInfo = bankInfo.getItemsInfo();
+		int openTab = itemsInfo.getOpenTab();
+
+		int maxTab = Math.max(itemsInfo.getMaxTabNotEmpty() + 1, BankPluginConfiguration.BANK_ITEMS_TABS_MAX.get());
+		int half = (int) Math.ceil(tabsLength / 2.0);
+
+		int result;
+		if (openTab <= half) {
+			result = index;
+		} else if (openTab > maxTab - half) {
+			result = maxTab - tabsLength + index;
+		} else {
+			result = openTab - half + index;
+		}
+
+		return result;
+	}
+
+	public ItemStack createTab(BankInfo bankInfo, int index, int tabsLength) {
 		BankItemPath pathItem;
 		BankItemPath pathDescription = null;
 		BankItemsInfo itemsInfo = bankInfo.getItemsInfo();
-		
-		if(itemsInfo.getOpenTab() == tab){
+
+		int tab = determineTab(bankInfo, index, tabsLength);
+		if (itemsInfo.getOpenTab() == tab) {
 			pathItem = BankItemConfiguration.BANK_ITEM_TAB_CURRENT;
-		}else if(tab > itemsInfo.getTotalTabCount()){
+		} else if (index == 1 && tab != index) {
+			pathItem = BankItemConfiguration.BANK_ITEM_TAB_LEFT;
+		} else if (index == tabsLength && tab != index) {
+			pathItem = BankItemConfiguration.BANK_ITEM_TAB_RIGHT;
+		} else if (tab > itemsInfo.getTotalTabCount()) {
 			pathItem = BankItemConfiguration.BANK_ITEM_TAB_LOCKED;
-			pathDescription = BankItemConfiguration.BANK_ITEM_TAB_LOCKED;
 		}else{
 			pathItem = BankItemConfiguration.BANK_ITEM_TAB_NUMBER;
+		}
+		if (tab > itemsInfo.getTotalTabCount()) {
+			pathDescription = BankItemConfiguration.BANK_ITEM_TAB_LOCKED;
 		}
 		if(pathDescription == null){
 			pathDescription = pathItem;
 		}
+
 		ItemStack is = pathItem.get();
 		if(BankPluginConfiguration.BANK_ITEMS_TABS_AMOUNT_SET.get()){
-			is.setAmount(tab);
+			is.setAmount(Math.min(tab, is.getMaxStackSize()));
 		}
 		String name = pathDescription.getName();
 		if (BankPluginConfiguration.BANK_ITEMS_TABS_RENAME_ENABLED.get()) {
@@ -196,8 +225,8 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 		}
 		return replaceCloneNameLore(is, name, pathDescription.getLore(), "<tab>", "" + tab, "<items>", "" + itemsInfo.getBankItemsHandler().getTabSize(tab));
 	}
-	
-	public void onClick(CorePlayers pl, BankInfo bi, Inventory inv, InventoryClickEvent event, int slot, int width){
+
+	public void onClick(CorePlayers pl, BankInfo bi, InventoryClickEvent event, int slot, int width) {
 		event.setCancelled(true);
 		if(isHotbarSwap(event)){ return; }
 		ItemStack is = event.getCursor();
@@ -214,7 +243,7 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	
 	private void handleItemInput(CorePlayers pl, BankItemsInfo bi, ItemStack is, InventoryClickEvent event){
 		ItemStack i = bi.getBankItemsHandler().addBankItem(pl.getPlayer(), is, false);
-		event.setCursor(i);
+		event.getWhoClicked().setItemOnCursor(i);
 		pl.refreshInventory();
 		BankSoundConfiguration.INVENTORY_ITEMS_ITEM_ADD.play(pl);
 	}
@@ -227,7 +256,7 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 		if (item == null) {
 			if (BankPluginConfiguration.BANK_ITEMS_SLOTS_LOCKED_ENABLED.get() && finalSlot >= bi.getBankItemsHandler().getBankSlots(bi.getOpenTab())) {
 				if(BankPluginConfiguration.BANK_ITEMS_SLOTS_LOCKED_CLICK.get()){
-					if (bi.getBankItemsHandler().buySlots(1, pl)) {
+					if (bi.getBankItemsHandler().buySlots(pl, 1)) {
 						pl.refreshInventory();
 					}
 				}
@@ -247,7 +276,8 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	protected void handleTab(CorePlayers pl, BankInfo bi, Inventory inv, InventoryClickEvent event){
 		int rawSlot = event.getRawSlot();
 		List<Integer> tabs = Arrays.asList(BankItemConfiguration.BANK_ITEM_TAB_NUMBER.getExtendValue("Tabs", Integer[].class));
-		int tab = tabs.indexOf(rawSlot) + 1;
+		int tabIndex = tabs.indexOf(rawSlot) + 1;
+		int tab = determineTab(bi, tabIndex, tabs.size());
 		if(event.isRightClick()) {
 			if (BankPluginConfiguration.BANK_ITEMS_TABS_RENAME_ENABLED.get() && BankPermissionConfiguration.PERMISSION_TAB_RENAME.has(pl.getPlayer())){
 				handleTabRename(pl, bi, tab);
@@ -266,7 +296,7 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 		if(current == null){
 			current = " ";
 		}
-		pl.setOpenInventory(new AnvilInventory(BankLanguageConfiguration.ANVIL_ITEM_TAB_RENAME.get().replace("<i>", "" + current), current){
+		pl.setOpenInventory(new AnvilInventory(BankLanguageConfiguration.ANVIL_ITEM_TAB_RENAME.get().replace("<i>", current), current) {
 			@Override
 			public void cancel(CorePlayers pl){
 				pl.setOpenInventory(BankItemsInventory.this);
@@ -341,15 +371,11 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	}
 	
 	protected void ensureScrolled(BankItemsInfo info){
-		Integer[] tabs = BankItemConfiguration.BANK_ITEM_TAB_NUMBER.getExtendValue("Tabs", Integer[].class);
-		if(info.getOpenTab() <= 0 || info.getOpenTab() > tabs.length){
+		if (info.getOpenTab() <= 0) {
 			info.setOpenTab(1);
 		}
 
 		int width = BankItemConfiguration.BANK_ITEM_ITEMS.getExtendValue("Width", Integer.class);
-		int rows = BankItemConfiguration.BANK_ITEM_ITEMS.getExtendValue("Rows", Integer.class);
-
-		double per = width * rows;
 
 		int max = Math.max(0, (int) Math.ceil(info.getBankItemsHandler().getTabSize(info.getOpenTab()) / (double) width));
 		int current = info.getScrolled();

@@ -1,16 +1,15 @@
 package me.dablakbandit.bank.config;
 
-import me.dablakbandit.bank.config.path.impl.BankPermissionStringListPath;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.config.path.impl.BankDoublePermissionPath;
 import me.dablakbandit.bank.config.path.impl.BankIntegerPermissionPath;
 import me.dablakbandit.bank.config.path.impl.BankPermissionPath;
+import me.dablakbandit.bank.config.path.impl.BankPermissionStringListPath;
 import me.dablakbandit.core.config.comment.CommentAdvancedConfiguration;
 import me.dablakbandit.core.config.comment.annotation.Comment;
 import me.dablakbandit.core.config.comment.annotation.CommentArray;
 import me.dablakbandit.core.config.path.*;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class BankPermissionConfiguration extends CommentAdvancedConfiguration{
 	
@@ -46,7 +45,7 @@ public class BankPermissionConfiguration extends CommentAdvancedConfiguration{
 	@CommentArray({"Give a player the permission: bank.item.slot.merge.1000 for max 1000 merge size"})
 	public static final BankIntegerPermissionPath PERMISSION_SLOT_MERGE = new BankIntegerPermissionPath("bank.item.slot.merge");
 
-	@Comment( "Give a player the permission: bank.tabs.9 for 9 item tabs" )
+	@Comment("Give a player the permission: bank.tabs.12 for 12 item tabs")
 	public static final BankIntegerPermissionPath	PERMISSION_TABS				= new BankIntegerPermissionPath("bank.tabs.");
 	@Comment("Permission to rename tabs in items inventory")
 	public static final PermissionPath				PERMISSION_TAB_RENAME						= new PermissionPath("bank.item.tab.rename");

@@ -1,23 +1,22 @@
 package me.dablakbandit.bank.player.info;
 
-import java.util.*;
-
+import me.dablakbandit.bank.config.BankPermissionConfiguration;
+import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.config.path.impl.BankPermissionStringListPath;
 import me.dablakbandit.bank.implementations.def.ItemDefault;
 import me.dablakbandit.bank.implementations.def.ItemDefaultImplementation;
 import me.dablakbandit.bank.log.BankLog;
 import me.dablakbandit.bank.player.handler.BankItemsHandler;
 import me.dablakbandit.bank.player.info.item.BankItem;
+import me.dablakbandit.core.players.CorePlayers;
+import me.dablakbandit.core.players.info.JSONInfo;
+import me.dablakbandit.core.utils.json.strategy.Exclude;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
-import me.dablakbandit.bank.config.BankPermissionConfiguration;
-import me.dablakbandit.bank.config.BankPluginConfiguration;
-import me.dablakbandit.core.players.CorePlayers;
-import me.dablakbandit.core.players.info.JSONInfo;
-import me.dablakbandit.core.utils.json.strategy.Exclude;
+import java.util.*;
 
 public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInfo, BankDefaultInfo{
 
@@ -42,14 +41,16 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	
 	public BankItemsInfo(CorePlayers pl){
 		super(pl);
-		for(int i = 1; i <= 9; i++){
-			bankItemMap.computeIfAbsent(i, ArrayList::new);
-		}
 		this.bankItemsHandler = new BankItemsHandler(this);
 	}
 
-	public Map<Integer, List<BankItem>> getBankItemMap() {
-		return bankItemMap;
+	public Collection<List<BankItem>> getBankItems() {
+		return bankItemMap.values();
+	}
+
+	public List<BankItem> getTabBankItems(int tab) {
+		List<BankItem> bankItems = bankItemMap.computeIfAbsent(tab, ArrayList::new);
+		return bankItems;
 	}
 	
 	public Map<Integer, ItemStack> getTabItemMap(){
@@ -120,16 +121,17 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	public int getTotalTabCount(){
 		return totalTabCount;
 	}
+
+	public int getMaxTabNotEmpty() {
+		return bankItemMap.entrySet().stream().filter(e -> !e.getValue().isEmpty()).mapToInt(Map.Entry::getKey).max().orElse(1);
+	}
 	
 	@Override
 	public void jsonInit(){
-		for(int i = 1; i <= 9; i++){
-			bankItemMap.computeIfAbsent(i, ArrayList::new);
-		}
 		itemMap.values().forEach(l -> l.removeIf(is -> is == null || is.getType() == Material.AIR));
 		itemMap.keySet().removeIf(i -> itemMap.get(i).isEmpty());
 		for (Map.Entry<Integer, List<ItemStack>> entry : itemMap.entrySet()) {
-			List<BankItem> bankItems = bankItemMap.get(entry.getKey());
+			List<BankItem> bankItems = getTabBankItems(entry.getKey());
 			for (ItemStack item : entry.getValue()) {
 				bankItems.add(new BankItem(item));
 			}
@@ -139,7 +141,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	
 	@Override
 	public void jsonFinal(){
-		
+		bankItemMap.values().removeIf(List::isEmpty);
 	}
 
 	@Override
@@ -176,7 +178,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 				BankLog.debug("Permissions for " + pl.getName() + " tabs is: " + permissionsCount);
 			}
 		}
-		totalTabCount = Math.max(0, tabCount);
+		totalTabCount = Math.min(Math.max(0, tabCount), BankPluginConfiguration.BANK_ITEMS_TABS_MAX.get());
 		List<Integer> permissionSlotMerge = BankPermissionConfiguration.PERMISSION_SLOT_MERGE.getValue(permissions);
 		if (!permissionSlotMerge.isEmpty()) {
 			permissionMergeMax = Math.max(Collections.max(permissionSlotMerge), BankPluginConfiguration.BANK_ITEMS_SLOTS_MERGE_MAX.get());

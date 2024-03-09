@@ -1,27 +1,25 @@
 package me.dablakbandit.bank.config;
 
-import me.dablakbandit.bank.config.path.BankExtendedPath;
-import me.dablakbandit.bank.config.path.BankItemDelete;
-import me.dablakbandit.bank.config.path.impl.BankEmptyPath;
-import me.dablakbandit.bank.config.path.PathExtended;
-import me.dablakbandit.core.config.comment.annotation.Delete;
-import me.dablakbandit.core.config.comment.annotation.DeleteArray;
-import org.bukkit.ChatColor;
-import org.bukkit.DyeColor;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
-
 import me.dablakbandit.bank.BankPlugin;
+import me.dablakbandit.bank.config.path.BankExtendedPath;
 import me.dablakbandit.bank.config.path.BankItemBase;
+import me.dablakbandit.bank.config.path.BankItemDelete;
+import me.dablakbandit.bank.config.path.PathExtended;
+import me.dablakbandit.bank.config.path.impl.BankEmptyPath;
 import me.dablakbandit.bank.config.path.impl.BankItemPath;
 import me.dablakbandit.core.config.comment.CommentAdvancedConfiguration;
 import me.dablakbandit.core.config.comment.CommentConfiguration;
 import me.dablakbandit.core.config.comment.annotation.Comment;
 import me.dablakbandit.core.config.comment.annotation.CommentArray;
+import me.dablakbandit.core.config.comment.annotation.Delete;
 import me.dablakbandit.core.config.path.EmptyPath;
 import me.dablakbandit.core.config.path.Path;
 import me.dablakbandit.core.utils.ItemUtils;
+import org.bukkit.ChatColor;
+import org.bukkit.DyeColor;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -72,10 +70,15 @@ public class BankItemConfiguration extends CommentAdvancedConfiguration{
 	private static final Path			BANK								= new EmptyPath();
 	
 	public static final BankItemPath	BANK_ITEM_BACK						= new BankItemPath(0, red_stained, ChatColor.RED + "Back", ChatColor.RED + "Go back");
-	
-	@CommentArray({"Available: <tab>, <items>", ".Tabs: Inventory slots to show tabs in"})
+
+	@CommentArray({"Available: <tab>, <items>", ".Tabs: Inventory slots to show tabs in. If tabs are allowed to exceed 9 the first and last slot will be used for scrolling."})
 	@PathExtended(key = "Tabs", value = "45,46,47,48,49,50,51,52,53", classType = Integer[].class)
 	public static final BankItemPath	BANK_ITEM_TAB_NUMBER				= new BankItemPath(light_blue_stained, ChatColor.AQUA + "Tab <tab>", ChatColor.BLUE + "<items> Items");
+
+	@Comment("Slot is handled by BANK.ITEM.TAB.NUMBER")
+	public static final BankItemPath BANK_ITEM_TAB_LEFT = new BankItemPath(-1, cyan_stained, ChatColor.AQUA + "Tab <tab>", ChatColor.BLUE + "<items> Items");
+	@Comment("Slot is handled by BANK.ITEM.TAB.NUMBER")
+	public static final BankItemPath BANK_ITEM_TAB_RIGHT = new BankItemPath(-1, cyan_stained, ChatColor.AQUA + "Tab <tab>", ChatColor.BLUE + "<items> Items");
 	@Comment("Available: <tab>")
 	public static final BankItemPath	BANK_ITEM_TAB_LOCKED				= new BankItemPath(red_stained, ChatColor.AQUA + "Tab <tab>", ChatColor.RED + "Locked");
 	@Comment("Available: <tab>, <items>")

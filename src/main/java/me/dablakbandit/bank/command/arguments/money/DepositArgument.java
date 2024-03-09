@@ -1,15 +1,14 @@
 package me.dablakbandit.bank.command.arguments.money;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import me.dablakbandit.bank.command.base.BankEndArgument;
 import me.dablakbandit.bank.player.info.BankInfo;
 import me.dablakbandit.core.command.config.CommandConfiguration;
 import me.dablakbandit.core.players.CorePlayerManager;
 import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.vault.Eco;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class DepositArgument extends BankEndArgument{
 	
@@ -26,11 +25,12 @@ public class DepositArgument extends BankEndArgument{
 		}
 		if(!checkPlayer(s)){ return; }
 		try{
-			CorePlayers pl = CorePlayerManager.getInstance().getPlayer((Player)s);
+			Player player = (Player) s;
+			CorePlayers pl = CorePlayerManager.getInstance().getPlayer(player);
 			BankInfo bankInfo = pl.getInfo(BankInfo.class);
 			bankInfo.getPinInfo().checkPass(() -> {
 				try{
-					deposit(bankInfo, Double.parseDouble(args[0]));
+					deposit(player, bankInfo, Double.parseDouble(args[0]));
 				}catch(Exception ignored){
 				}
 			});
@@ -38,11 +38,11 @@ public class DepositArgument extends BankEndArgument{
 			e.printStackTrace();
 		}
 	}
-	
-	private void deposit(BankInfo bankInfo, double amount){
+
+	private void deposit(Player player, BankInfo bankInfo, double amount) {
 		if(Eco.getInstance().getEconomy() == null){ return; }
 		amount = Math.max(0, amount);
-		bankInfo.getMoneyInfo().deposit(bankInfo.getPlayers(), amount);
+		bankInfo.getMoneyInfo().deposit(player, bankInfo.getPlayers(), amount);
 	}
 	
 	@Override

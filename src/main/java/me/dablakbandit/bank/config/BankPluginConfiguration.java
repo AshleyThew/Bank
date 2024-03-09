@@ -1,20 +1,19 @@
 package me.dablakbandit.bank.config;
 
-import java.util.Arrays;
-
-import me.dablakbandit.bank.config.path.impl.BankSynchronizedDoubleNicePath;
-import me.dablakbandit.bank.implementations.blacklist.BlacklistMode;
-import org.bukkit.ChatColor;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.config.path.impl.BankLoansPaybackFailedPath;
+import me.dablakbandit.bank.config.path.impl.BankSynchronizedDoubleNicePath;
+import me.dablakbandit.bank.implementations.blacklist.BlacklistMode;
 import me.dablakbandit.bank.log.BankLogLevel;
 import me.dablakbandit.bank.save.type.SaveType;
 import me.dablakbandit.core.config.comment.CommentAdvancedConfiguration;
 import me.dablakbandit.core.config.comment.annotation.Comment;
 import me.dablakbandit.core.config.comment.annotation.CommentArray;
 import me.dablakbandit.core.config.path.*;
+import org.bukkit.ChatColor;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Arrays;
 
 public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	
@@ -70,6 +69,9 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	@Comment("Default amount of item tabs")
 	public static final IntegerPath					BANK_ITEMS_TABS_DEFAULT						= new IntegerPath(9);
 
+	@Comment("Maximum amount of item tabs")
+	public static final IntegerPath BANK_ITEMS_TABS_MAX = new IntegerPath(9);
+
 	@Comment("Combine permissions to calculate tabs (permissions.yml)")
 	public static final BooleanPath					BANK_ITEMS_TABS_PERMISSION_COMBINE			= new BooleanPath(false);
 	@Comment("Maximum amount of items able to be stored in a tab")
@@ -78,6 +80,8 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final BooleanPath					BANK_ITEMS_TABS_BUY_ENABLED					= new BooleanPath(false);
 	@Comment("Cost for each new tabs")
 	public static final IntegerPath					BANK_ITEMS_TABS_BUY_COST					= new IntegerPath(50);
+	@Comment("Maximum amount of bought tabs")
+	public static final IntegerPath BANK_ITEMS_TABS_BUY_MAX = new IntegerPath(9);
 	@Comment("Enable tab renaming")
 	public static final BooleanPath					BANK_ITEMS_TABS_RENAME_ENABLED				= new BooleanPath(false);
 	@Comment("Money cost for renaming a tab")

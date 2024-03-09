@@ -1,10 +1,6 @@
 package me.dablakbandit.bank.inventory.exp;
 
 import me.dablakbandit.bank.config.*;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import me.dablakbandit.bank.config.path.impl.BankItemPath;
 import me.dablakbandit.bank.inventory.AnvilInventory;
 import me.dablakbandit.bank.inventory.BankInventories;
@@ -15,6 +11,9 @@ import me.dablakbandit.bank.player.info.BankInfo;
 import me.dablakbandit.core.players.CorePlayerManager;
 import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.utils.EXPUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class BankExpInventory extends BankInventoryHandler<BankExpInfo>{
 	
@@ -147,9 +146,9 @@ public class BankExpInventory extends BankInventoryHandler<BankExpInfo>{
 			
 			@Override
 			public void onClick(CorePlayers from, String value){
-				int amount;
+				double amount;
 				try{
-					amount = Integer.parseInt(value);
+					amount = Double.parseDouble(value);
 				}catch(Exception e){
 					e.printStackTrace();
 					from.setOpenInventory(BankExpInventory.this);

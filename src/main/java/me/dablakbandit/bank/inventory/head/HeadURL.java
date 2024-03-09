@@ -1,18 +1,17 @@
 package me.dablakbandit.bank.inventory.head;
 
-import java.lang.reflect.Field;
-import java.util.Base64;
-import java.util.UUID;
-
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
+import me.dablakbandit.core.utils.ItemUtils;
+import me.dablakbandit.core.utils.NMSUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
-
-import me.dablakbandit.core.utils.ItemUtils;
-import me.dablakbandit.core.utils.NMSUtils;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Base64;
+import java.util.UUID;
 
 /**
  * The type Head url.
@@ -20,7 +19,7 @@ import me.dablakbandit.core.utils.NMSUtils;
 public class HeadURL{
 	
 	private static final HeadURL heads = new HeadURL();
-	
+
 	/**
 	 * Get instance head url.
 	 *
@@ -40,9 +39,11 @@ public class HeadURL{
 			clone = new ItemStack(m);
 		}
 	}
-	
-	private static final Field profile = NMSUtils.getFirstFieldOfType(NMSUtils.getOBCClass("inventory.CraftMetaSkull"), GameProfile.class);
-	
+
+	private static final Class<?> craftMetaSkull = NMSUtils.getOBCClass("inventory.CraftMetaSkull");
+	private static final Field profile = NMSUtils.getFirstFieldOfType(craftMetaSkull, GameProfile.class);
+	private static final Method setProfile = NMSUtils.getMethodSilent(craftMetaSkull, "setProfile", GameProfile.class);
+
 	public ItemStack get(String value){
 		if(value.startsWith("http://") || value.startsWith("https://")){
 			return getHeadUrl(value);
@@ -57,7 +58,11 @@ public class HeadURL{
 			GameProfile gp = new GameProfile(UUID.randomUUID(), "Skin");
 			gp.getProperties().clear();
 			gp.getProperties().put("textures", new Property("textures", hash));
-			profile.set(sm, gp);
+			if (setProfile != null) {
+				setProfile.invoke(sm, gp);
+			} else {
+				profile.set(sm, gp);
+			}
 			is.setItemMeta(sm);
 		}catch(Exception e){
 			e.printStackTrace();

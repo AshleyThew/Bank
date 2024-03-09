@@ -1,10 +1,6 @@
 package me.dablakbandit.bank.inventory.money;
 
 import me.dablakbandit.bank.config.*;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import me.dablakbandit.bank.config.path.impl.BankItemPath;
 import me.dablakbandit.bank.inventory.AnvilInventory;
 import me.dablakbandit.bank.inventory.BankInventories;
@@ -16,6 +12,9 @@ import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.players.CorePlayerManager;
 import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.vault.Eco;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo>{
 	
@@ -111,7 +110,7 @@ public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo>{
 					max = Eco.getInstance().getEconomy().getBalance(pl.getPlayer());
 				}
 				deposit = Math.min(max, deposit);
-				info.deposit(pl, deposit);
+				info.deposit(pl.getPlayer(), pl, deposit);
 				pl.setOpenInventory(BankMoneyInventory.this);
 			}
 		});
@@ -122,7 +121,7 @@ public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo>{
 		if(Eco.getInstance().getEconomy() != null){
 			deposit = Eco.getInstance().getEconomy().getBalance(pl.getPlayer());
 		}
-		info.deposit(pl, deposit);
+		info.deposit(pl.getPlayer(), pl, deposit);
 		pl.refreshInventory();
 	}
 	

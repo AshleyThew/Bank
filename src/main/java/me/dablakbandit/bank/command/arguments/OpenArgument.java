@@ -1,19 +1,22 @@
 package me.dablakbandit.bank.command.arguments;
 
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
-
 import me.dablakbandit.bank.command.base.BankEndArgument;
 import me.dablakbandit.bank.config.BankLanguageConfiguration;
 import me.dablakbandit.bank.inventory.BankInventories;
 import me.dablakbandit.bank.inventory.BankInventoriesManager;
 import me.dablakbandit.bank.player.info.BankInfo;
 import me.dablakbandit.core.command.config.CommandConfiguration;
+import me.dablakbandit.core.commands.tabcompleter.TabCompleter;
 import me.dablakbandit.core.players.CorePlayerManager;
 import me.dablakbandit.core.players.CorePlayers;
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
+
+import java.util.Collections;
+import java.util.List;
 
 public class OpenArgument extends BankEndArgument{
 	
@@ -46,7 +49,16 @@ public class OpenArgument extends BankEndArgument{
 	
 	@Override
 	public void init(){
-		
+		addTabCompleter(0, new TabCompleter() {
+			@Override
+			public List<String> onTabComplete(CommandSender commandSender, String s, String[] strings) {
+				if (!(commandSender instanceof ConsoleCommandSender)) {
+					return Collections.emptyList();
+				} else {
+					return TabCompleter.PLAYERS.onTabComplete(commandSender, s, strings);
+				}
+			}
+		});
 	}
 	
 }

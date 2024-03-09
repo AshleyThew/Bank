@@ -1,20 +1,21 @@
 package me.dablakbandit.bank.player.converter.old.base;
 
+import me.dablakbandit.bank.database.base.IInfoDatabase;
+import me.dablakbandit.bank.log.BankLog;
+import me.dablakbandit.bank.player.info.*;
+import me.dablakbandit.bank.player.info.item.BankItem;
+import me.dablakbandit.bank.player.loan.Loan;
+import me.dablakbandit.bank.save.loader.runner.SaveRunner;
+import me.dablakbandit.core.json.JSONObject;
+import me.dablakbandit.core.players.CorePlayers;
+import org.bukkit.Bukkit;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.bukkit.Bukkit;
-
-import me.dablakbandit.bank.database.base.IInfoDatabase;
-import me.dablakbandit.bank.log.BankLog;
-import me.dablakbandit.bank.player.info.*;
-import me.dablakbandit.bank.player.loan.Loan;
-import me.dablakbandit.bank.save.loader.runner.SaveRunner;
-import me.dablakbandit.core.json.JSONObject;
-import me.dablakbandit.core.players.CorePlayers;
+import java.util.Map;
 
 public abstract class SQLBaseLoader extends Loader{
 	
@@ -97,7 +98,9 @@ public abstract class SQLBaseLoader extends Loader{
 				pi.setPin(rs.getString("pin"));
 				ei.setExp(rs.getDouble("exp"));
 				bii.getTabItemMap().putAll(convertJSONToTabs(bii, rs.getString("tabs")));
-				bii.getBankItemMap().putAll(convertJSONToItems(pl, rs.getString("items")));
+				for (Map.Entry<Integer, List<BankItem>> entry : convertJSONToItems(pl, rs.getString("items")).entrySet()) {
+					bii.getTabBankItems(entry.getKey()).addAll(entry.getValue());
+				}
 				String bought = rs.getString("bought_slots_map");
 				if(bought != null && !bought.equals("0")){
 					JSONObject object = new JSONObject(bought);

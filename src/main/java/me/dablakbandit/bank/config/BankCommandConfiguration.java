@@ -1,10 +1,10 @@
 package me.dablakbandit.bank.config;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.core.command.config.CommandConfiguration;
 import me.dablakbandit.core.command.config.annotation.CommandBase;
+import me.dablakbandit.core.config.comment.annotation.Delete;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class BankCommandConfiguration extends CommandConfiguration{
 	
@@ -24,6 +24,10 @@ public class BankCommandConfiguration extends CommandConfiguration{
 	public static Command		BANK_ADMIN_BLOCK_REMOVE			= new Command("remove", "bank.admin.block.remove");
 	public static Command		BANK_ADMIN_DEBUG				= new Command("debug", "bank.admin.debug");
 	public static Command		BANK_ADMIN_DEBUG_ITEM			= new Command("item", "bank.admin.debug.item");
+	public static Command BANK_ADMIN_EXP = new Command("exp", "bank.admin.exp");
+	public static Command BANK_ADMIN_EXP_ADD = new Command("add", "bank.admin.exp.add", new String[0], new String[]{"<player> <amount>"});
+	public static Command BANK_ADMIN_EXP_BALANCE = new Command("balance", "bank.admin.exp.balance", new String[0], new String[]{"<player>"});
+	public static Command BANK_ADMIN_EXP_SUBTRACT = new Command("subtract", "bank.admin.exp.subtract", new String[0], new String[]{"<player> <amount>"});
 	public static Command		BANK_ADMIN_RESET				= new Command("reset", "bank.admin.reset", new String[0], new String[]{ "<name>" });
 	public static Command		BANK_ADMIN_FIX					= new Command("fix", "bank.admin.fix");
 	public static Command		BANK_ADMIN_FIX_USERNAMES		= new Command("usernames", "bank.admin.fix.usernames");
@@ -37,6 +41,10 @@ public class BankCommandConfiguration extends CommandConfiguration{
 	public static Command		BANK_ADMIN_PERMISSION_HISTORY	= new Command("history", "bank.admin.permission.history", new String[0], new String[]{ "<name>" });
 	public static Command		BANK_ADMIN_PERMISSION_UPDATE	= new Command("update", "bank.admin.permission.update", new String[0], new String[]{ "<name>" });
 	public static Command		BANK_ADMIN_LOOKUP				= new Command("lookup", "bank.admin.lookup", new String[0], new String[]{ "<name>" });
+	public static Command BANK_ADMIN_MONEY = new Command("money", "bank.admin.money");
+	public static Command BANK_ADMIN_MONEY_ADD = new Command("add", "bank.admin.money.add", new String[0], new String[]{"<player> <amount>"});
+	public static Command BANK_ADMIN_MONEY_BALANCE = new Command("balance", "bank.admin.money.balance", new String[0], new String[]{"<player>"});
+	public static Command BANK_ADMIN_MONEY_SUBTRACT = new Command("subtract", "bank.admin.money.subtract", new String[0], new String[]{"<player> <amount>"});
 	public static Command		BANK_ADMIN_OPEN					= new Command("open", "bank.admin.open", new String[0], new String[]{ "<player>" });
 	public static Command		BANK_ADMIN_FORCE				= new Command("force", "bank.admin.force");
 	public static Command		BANK_ADMIN_FORCE_OPEN			= new Command("open", "bank.admin.force.open", new String[0], new String[]{ "<player>" });
@@ -69,8 +77,9 @@ public class BankCommandConfiguration extends CommandConfiguration{
 	public static Command		BANK_MONEY_PAY					= new Command("pay", "bank.money.pay", new String[0], new String[]{ "<name> <amount>" });
 	public static Command		BANK_MONEY_WITHDRAW				= new Command("withdraw", "bank.money.withdraw", new String[0], new String[]{ "<amount>" });
 	public static Command		BANK_MONEY_WITHDRAW_ALL			= new Command("all", "bank.money.withdraw.all");
-	
-	public static Command		BANK_OPEN						= new Command("open", "bank.open.command", new String[0], new String[]{ "<player>" });
+
+	@Delete(".Info")
+	public static Command BANK_OPEN = new Command("open", "bank.open.command");
 	
 	public static Command		BANK_INFO						= new Command("info", "bank.info");
 	

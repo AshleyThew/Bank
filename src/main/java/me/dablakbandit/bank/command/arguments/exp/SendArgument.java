@@ -1,10 +1,5 @@
 package me.dablakbandit.bank.command.arguments.exp;
 
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import me.dablakbandit.bank.command.base.BankEndArgument;
 import me.dablakbandit.bank.config.BankLanguageConfiguration;
 import me.dablakbandit.bank.config.BankSoundConfiguration;
@@ -12,6 +7,10 @@ import me.dablakbandit.bank.player.info.BankInfo;
 import me.dablakbandit.core.command.config.CommandConfiguration;
 import me.dablakbandit.core.players.CorePlayerManager;
 import me.dablakbandit.core.players.CorePlayers;
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class SendArgument extends BankEndArgument{
 	
@@ -36,9 +35,9 @@ public class SendArgument extends BankEndArgument{
 			base.sendFormattedMessage(s, BankLanguageConfiguration.COMMAND_UNKNOWN_PLAYER.get().replaceAll("<player>", args[0]));
 			return;
 		}
-		int amount;
+		double amount;
 		try{
-			amount = Integer.parseInt(args[1]);
+			amount = Double.parseDouble(args[1]);
 		}catch(Exception e){
 			base.sendFormattedMessage(s, BankLanguageConfiguration.COMMAND_UNABLE_PARSE.get().replaceAll("<value>", args[1]));
 			return;

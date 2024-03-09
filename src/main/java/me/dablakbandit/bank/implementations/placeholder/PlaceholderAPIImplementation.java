@@ -1,6 +1,5 @@
 package me.dablakbandit.bank.implementations.placeholder;
 
-
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
@@ -15,7 +14,9 @@ import me.dablakbandit.core.players.CorePlayers;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-@SuppressWarnings("deprecation")
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class PlaceholderAPIImplementation extends BankImplementation{
 	
 	private static final PlaceholderAPIImplementation manager = new PlaceholderAPIImplementation();
@@ -25,7 +26,7 @@ public class PlaceholderAPIImplementation extends BankImplementation{
 	}
 	
 	private final BankPlaceHolderExpansion expansion = new BankPlaceHolderExpansion();
-	
+
 	private PlaceholderAPIImplementation(){
 	}
 	
@@ -46,7 +47,10 @@ public class PlaceholderAPIImplementation extends BankImplementation{
 	}
 	
 	public static class BankPlaceHolderExpansion extends PlaceholderExpansion{
-		
+
+		private final Pattern patternItemsCount = Pattern.compile("items_count_([A-Z_]+)(:\\d+)?(#\\d+)?");
+		;
+
 		@Override
 		public boolean persist(){
 			return true;
@@ -100,13 +104,17 @@ public class PlaceholderAPIImplementation extends BankImplementation{
 			}
 			if (holder.startsWith("items_count_")) {
 				try {
-					String item = holder.substring("items_count_".length());
-					String[] damageSplit = item.split(":");
-					String[] modelSplit = item.split("#");
-					Material material = Material.valueOf(damageSplit[0]);
-					Integer damage = damageSplit.length > 1 ? Integer.parseInt(damageSplit[1]) : null;
-					Integer model = modelSplit.length > 1 ? Integer.parseInt(modelSplit[1]) : null;
-					return String.valueOf(pl.getInfo(BankItemsInfo.class).getBankItemsHandler().countTotal(material, damage, model));
+
+					Matcher matcher = patternItemsCount.matcher(holder);
+					if (matcher.matches()) {
+						String matchMaterial = matcher.group(1);
+						String matchDamage = matcher.group(2);
+						String matchModel = matcher.group(3);
+						Material material = Material.valueOf(matchMaterial);
+						Integer damage = matchDamage != null ? Integer.parseInt(matchDamage.substring(1)) : null;
+						Integer model = matchModel != null ? Integer.parseInt(matchModel.substring(1)) : null;
+						return String.valueOf(pl.getInfo(BankItemsInfo.class).getBankItemsHandler().countTotal(material, damage, model));
+					}
 				} catch (Exception ignored) {
 				}
 			}

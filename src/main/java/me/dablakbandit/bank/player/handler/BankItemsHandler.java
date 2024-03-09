@@ -3,7 +3,6 @@ package me.dablakbandit.bank.player.handler;
 import me.dablakbandit.bank.config.BankPermissionConfiguration;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.implementations.blacklist.ItemBlacklistImplementation;
-import me.dablakbandit.bank.log.BankLog;
 import me.dablakbandit.bank.player.info.BankItemsInfo;
 import me.dablakbandit.bank.player.info.item.BankItem;
 import me.dablakbandit.core.players.CorePlayers;
@@ -16,7 +15,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -161,7 +162,7 @@ public class BankItemsHandler {
         if (BankPluginConfiguration.BANK_ITEMS_SLOTS_BUY_PER_TAB.get()) {
             return getTab(tab).size();
         }
-        return bankItemsInfo.getBankItemMap().values().stream().map(List::size).mapToInt(Integer::intValue).sum();
+        return bankItemsInfo.getBankItems().stream().map(List::size).mapToInt(Integer::intValue).sum();
     }
 
     public int getTabSize(int tab) {
@@ -213,7 +214,7 @@ public class BankItemsHandler {
     }
 
     public List<BankItem> getTab(int tab) {
-        return bankItemsInfo.getBankItemMap().get(tab);
+        return bankItemsInfo.getTabBankItems(tab);
     }
 
     private void removeBankItemAtInt(int slot, int tab) {
@@ -327,21 +328,6 @@ public class BankItemsHandler {
         }
     }
 
-    private ItemStack addIntoInventory(Player player, ItemStack add) {
-        if (add == null) {
-            return null;
-        }
-        Inventory inv = player.getInventory();
-        for (int i = 0; i < 36; i++) {
-            ItemStack inventoryItem = inv.getItem(i);
-            if (isEmpty(inventoryItem)) {
-                inv.setItem(i, add);
-                return null;
-            }
-        }
-        return add;
-    }
-
     private boolean takeBankItem(Player player, int tab, int slot, int take) {
         if (!BankPermissionConfiguration.PERMISSION_ITEMS_WITHDRAW.has(player)) {
             return false;
@@ -382,23 +368,14 @@ public class BankItemsHandler {
     public void sort(int tab, Comparator<BankItem> comparator) {
         List<BankItem> list = getTab(tab);
         list.sort(comparator);
-        bankItemsInfo.getBankItemMap().put(tab, list);
     }
 
     public long countTotal(Material material, Integer damage, Integer model) {
-        long count = 0;
-        for (List<BankItem> itemList : bankItemsInfo.getBankItemMap().values()) {
-            for (BankItem item : itemList) {
-                if (item.compares(material, damage, model)) {
-                    count += item.getAmount();
-                }
-            }
-        }
-        return count;
+        return bankItemsInfo.getBankItems().stream().flatMap(List::stream).filter(item -> item.compares(material, damage, model)).mapToLong(BankItem::getAmount).sum();
     }
 
     @SuppressWarnings("deprecation")
-    public boolean buySlots(int slots, CorePlayers pl) {
+    public boolean buySlots(CorePlayers pl, int slots) {
         if (slots == 0) {
             return false;
         }
@@ -458,7 +435,7 @@ public class BankItemsHandler {
     }
 
     public void incrementBuyTabs() {
-        if (bankItemsInfo.getTotalTabCount() + buyTabs < 9) {
+        if (bankItemsInfo.getBoughtTabs() + buyTabs < BankPluginConfiguration.BANK_ITEMS_TABS_BUY_MAX.get()) {
             this.buyTabs++;
         }
     }

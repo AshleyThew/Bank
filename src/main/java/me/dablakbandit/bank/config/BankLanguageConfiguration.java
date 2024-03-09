@@ -1,18 +1,17 @@
 package me.dablakbandit.bank.config;
 
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import me.dablakbandit.bank.BankPlugin;
-import me.dablakbandit.bank.config.path.impl.BankTranslatedStringPath;
 import me.dablakbandit.bank.config.path.impl.BankTranslatedStringListPath;
+import me.dablakbandit.bank.config.path.impl.BankTranslatedStringPath;
 import me.dablakbandit.core.config.comment.CommentAdvancedConfiguration;
 import me.dablakbandit.core.config.comment.annotation.Comment;
 import me.dablakbandit.core.config.comment.annotation.CommentArray;
 import me.dablakbandit.core.config.path.EmptyPath;
 import me.dablakbandit.core.config.path.Path;
 import me.dablakbandit.core.players.CorePlayers;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	
@@ -51,8 +50,24 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	public static final BankTranslatedStringPath	BANK_ADMIN_SAVED				= new BankTranslatedStringPath(ChatColor.GREEN + "Saved opened player.");
 	public static final BankTranslatedStringPath	BANK_ADMIN_INVENTORY_PREFIX		= new BankTranslatedStringPath(ChatColor.RED + "Admin");
 	@Comment("Available: <player>")
-	public static final BankTranslatedStringPath	BANK_ADMIN_PERMISSION_UPDATED	= new BankTranslatedStringPath(ChatColor.GREEN + "Updated permissions for <player>");
-	
+	public static final BankTranslatedStringPath BANK_ADMIN_PERMISSION_UPDATED = new BankTranslatedStringPath(ChatColor.GREEN + "Updated permissions for <player>.");
+	@Comment("Available: <player>")
+	public static final BankTranslatedStringPath BANK_ADMIN_PLAYER_LOCKED = new BankTranslatedStringPath(ChatColor.GREEN + "<player>'s account is locked.");
+	@Comment("Available: <player>, <money>")
+	public static final BankTranslatedStringPath BANK_ADMIN_MONEY_BALANCE = new BankTranslatedStringPath(ChatColor.GREEN + "<player> has $<money> in the bank.");
+	@Comment("Available: <player>, <amount>, <money>")
+	public static final BankTranslatedStringPath BANK_ADMIN_MONEY_ADD = new BankTranslatedStringPath(ChatColor.GREEN + "Added $<amount> to <player>, new balance $<money>.");
+	@Comment("Available: <player>, <amount>, <money>")
+	public static final BankTranslatedStringPath BANK_ADMIN_MONEY_SUBTRACT = new BankTranslatedStringPath(ChatColor.GREEN + "Subtracted $<amount> from <player>, new balance $<money>.");
+
+	@Comment("Available: <player>, <exp>")
+	public static final BankTranslatedStringPath BANK_ADMIN_EXP_BALANCE = new BankTranslatedStringPath(ChatColor.GREEN + "<player> has <exp> in the bank.");
+	@Comment("Available: <player>, <amount>, <exp>")
+	public static final BankTranslatedStringPath BANK_ADMIN_EXP_ADD = new BankTranslatedStringPath(ChatColor.GREEN + "Added <exp> exp to <player>, new balance <exp>.");
+	@Comment("Available: <player>, <amount>, <exp>")
+	public static final BankTranslatedStringPath BANK_ADMIN_EXP_SUBTRACT = new BankTranslatedStringPath(ChatColor.GREEN + "Subtracted <amount> exp from <player>, balance <exp>.");
+
+
 	@Comment("Available: <base>, <args>")
 	public static final BankTranslatedStringPath	COMMAND_TITLE_FORMAT			=
 		new BankTranslatedStringPath(ChatColor.GRAY + "[" + ChatColor.GREEN + "<base>" + ChatColor.AQUA + "<args>" + ChatColor.GRAY + "]");

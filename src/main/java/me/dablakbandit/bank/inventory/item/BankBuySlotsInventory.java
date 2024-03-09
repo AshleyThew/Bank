@@ -1,7 +1,5 @@
 package me.dablakbandit.bank.inventory.item;
 
-import org.bukkit.inventory.ItemStack;
-
 import me.dablakbandit.bank.config.BankItemConfiguration;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.config.BankSoundConfiguration;
@@ -12,6 +10,7 @@ import me.dablakbandit.bank.inventory.BankInventoryHandler;
 import me.dablakbandit.bank.player.info.BankInfo;
 import me.dablakbandit.bank.player.info.BankItemsInfo;
 import me.dablakbandit.core.players.CorePlayers;
+import org.bukkit.inventory.ItemStack;
 
 public class BankBuySlotsInventory extends BankInventoryHandler<BankItemsInfo>{
 	
@@ -42,7 +41,7 @@ public class BankBuySlotsInventory extends BankInventoryHandler<BankItemsInfo>{
 	}
 	
 	private void buy(CorePlayers pl, BankItemsInfo info){
-		if (info.getBankItemsHandler().buySlots(info.getBankItemsHandler().getBuySlots(), pl)) {
+		if (info.getBankItemsHandler().buySlots(pl, info.getBankItemsHandler().getBuySlots())) {
 			returnToItems(pl);
 			info.getBankItemsHandler().resetBuySlots();
 		}

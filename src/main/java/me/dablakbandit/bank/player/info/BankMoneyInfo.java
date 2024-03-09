@@ -1,21 +1,21 @@
 package me.dablakbandit.bank.player.info;
 
-import me.dablakbandit.bank.config.BankPermissionConfiguration;
-import me.dablakbandit.bank.log.BankLog;
-import me.dablakbandit.core.utils.json.strategy.Exclude;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.config.BankLanguageConfiguration;
+import me.dablakbandit.bank.config.BankPermissionConfiguration;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.config.BankSoundConfiguration;
+import me.dablakbandit.bank.log.BankLog;
 import me.dablakbandit.bank.utils.calculation.PaymentCalculator;
 import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.players.info.JSONInfo;
+import me.dablakbandit.core.utils.json.strategy.Exclude;
 import me.dablakbandit.core.vault.Eco;
 import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
@@ -117,20 +117,25 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo, BankDefaultInf
 		return false;
 	}
 
+
 	public PaymentCalculator getPaymentCalculator(double amount, boolean tax){
+		return getPaymentCalculator(amount, BankPluginConfiguration.BANK_MONEY_MAX.get(), tax);
+	}
+
+	public PaymentCalculator getPaymentCalculator(double amount, double max, boolean tax) {
 		amount = Math.max(0, amount);
-		if(BankPluginConfiguration.BANK_MONEY_FULL_DOLLARS.get()){
+		if (BankPluginConfiguration.BANK_MONEY_FULL_DOLLARS.get()) {
 			amount = Math.floor(amount);
 		}
 
-		if(tax) {
-			return new PaymentCalculator(amount, this.money, BankPluginConfiguration.BANK_MONEY_MAX.get(), BankPluginConfiguration.BANK_MONEY_DEPOSIT_TAX_PERCENT.get());
-		}else{
-			return new PaymentCalculator(amount, this.money, BankPluginConfiguration.BANK_MONEY_MAX.get(), 0);
+		if (tax) {
+			return new PaymentCalculator(amount, this.money, max, BankPluginConfiguration.BANK_MONEY_DEPOSIT_TAX_PERCENT.get());
+		} else {
+			return new PaymentCalculator(amount, this.money, max, 0);
 		}
 	}
-	
-	public void deposit(CorePlayers pl, double amount){
+
+	public void deposit(CommandSender sender, CorePlayers pl, double amount) {
 		amount = Math.max(0, amount);
 		if(BankPluginConfiguration.BANK_MONEY_FULL_DOLLARS.get()){
 			amount = Math.floor(amount);
@@ -148,14 +153,14 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo, BankDefaultInf
 		
 		if(amount == 0.0 || depositMoney(pl.getPlayer().getName(), amount, tax)){
 			if(amount != 0.0){
-				BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_DEPOSIT	.get().replaceAll("<money>", Format.formatMoney(amount))
+				BankLanguageConfiguration.sendFormattedMessage(sender, BankLanguageConfiguration.MESSAGE_MONEY_DEPOSIT.get().replaceAll("<money>", Format.formatMoney(amount))
 																													.replaceAll("<tax>", Format.formatMoney(tax)));
 			}
 			if(calculator.isFull()){
 				// player.sendMessage(LanguageConfiguration.MESSAGE_MONEY_IS_FULL.getMessage());
 			}
 		}else{
-			BankLanguageConfiguration.sendFormattedMessage(pl.getPlayer(), ChatColor.AQUA	+ "[Bank] " + ChatColor.RED
+			BankLanguageConfiguration.sendFormattedMessage(sender, ChatColor.AQUA + "[Bank] " + ChatColor.RED
 																			+ "There was a problem depositing all your money, please contact an administrator");
 		}
 	}
@@ -204,7 +209,9 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo, BankDefaultInf
 	
 	@Deprecated
 	public void addMoney(double omoney){
-		this.money += omoney;
+		PaymentCalculator paymentCalculator = getPaymentCalculator(omoney, Double.MAX_VALUE, false);
+		this.money = paymentCalculator.getCombined();
+		save(BankPluginConfiguration.BANK_SAVE_MONEY_DEPOSIT);
 	}
 	
 	public void send(CorePlayers to, double amount){
