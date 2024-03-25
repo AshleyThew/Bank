@@ -16,8 +16,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Arrays;
 
 public class BankPluginConfiguration extends CommentAdvancedConfiguration{
-	
-	private static final BankPluginConfiguration configuration = new BankPluginConfiguration(BankPlugin.getInstance());
+
+	private static BankPluginConfiguration configuration;
+
+	public static void load(BankPlugin plugin) {
+		configuration = new BankPluginConfiguration(plugin);
+		configuration.load();
+	}
 	
 	public static BankPluginConfiguration getInstance(){
 		return configuration;
@@ -397,9 +402,13 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final EnumPath<BankLogLevel>		BANK_LOG_HISCORE_LEVEL						= new EnumPath<>(BankLogLevel.class, BankLogLevel.LOW);
 	public static final EnumPath<BankLogLevel>		BANK_LOG_INTEREST_LEVEL						= new EnumPath<>(BankLogLevel.class, BankLogLevel.LOW);
 	public static final EnumPath<BankLogLevel>		BANK_LOG_LOAN_LEVEL							= new EnumPath<>(BankLogLevel.class, BankLogLevel.LOW);
+
+	@Comment("Enable '/baltop' (Premium, command_baltop.yml)")
+	public static final BooleanPath BANK_BAL_TOP_ENABLED = new BooleanPath(false);
 	
 	private BankPluginConfiguration(JavaPlugin plugin){
 		super(plugin, "config.yml");
 	}
-	
+
+
 }

@@ -83,26 +83,26 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo, BankDefaultInf
 		withdraw = Math.max(0, withdraw);
 
 		PaymentCalculator calculator = new PaymentCalculator(withdraw, 0, Double.MAX_VALUE, BankPluginConfiguration.BANK_MONEY_WITHDRAW_TAX_PERCENT.get());
-		withdraw = calculator.getCombined();
+		withdraw = calculator.getTotalCalculation();
 
-		boolean complete = withdrawMoney(pl.getPlayer().getName(), withdraw, calculator.getResult());
+		boolean complete = withdrawMoney(pl.getPlayer().getName(), withdraw, calculator.getCalculation());
 		if(complete){
 			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_WITHDRAW.get()
-					.replaceAll("<money>", Format.formatMoney(withdraw))
+					.replaceAll("<money>", Format.formatMoney(calculator.getCalculation()))
 					.replaceAll("<tax>", Format.formatMoney(calculator.getTax())));
 		}else{
 			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_NOT_ENOUGH.get().replaceAll("<money>", Format.formatMoney(money)));
 		}
 		return complete;
 	}
-	
-	private boolean withdrawMoney(String name, double total, double deposit){
+
+	private boolean withdrawMoney(String name, double total, double withdraw) {
 		if(Eco.getInstance().getEconomy() == null){
 			BankLog.debug(name + " withdraw transaction failed with error: Economy instance not set");
 			return false;
 		}
 		if(total <= money){
-			EconomyResponse er = Eco.getInstance().getEconomy().depositPlayer(name, deposit);
+			EconomyResponse er = Eco.getInstance().getEconomy().depositPlayer(name, withdraw);
 			if(!er.transactionSuccess()){
 				BankLog.debug(name + " withdraw transaction failed with error: " + er.errorMessage);
 				return false;
@@ -142,18 +142,17 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo, BankDefaultInf
 		}
 		
 		PaymentCalculator calculator = getPaymentCalculator(amount, true);
-		
-		amount = calculator.getCombined();
-		double tax = calculator.getTax();
-		
-		if(BankPluginConfiguration.BANK_MONEY_DEPOSIT_FULL.get()){
-			amount = Math.floor(amount);
-			tax = Math.floor(tax);
+
+		if (BankPluginConfiguration.BANK_MONEY_DEPOSIT_FULL.get()) {
+			calculator.floor();
 		}
+
+		amount = calculator.getTotalCalculation();
+		double tax = calculator.getTax();
 		
 		if(amount == 0.0 || depositMoney(pl.getPlayer().getName(), amount, tax)){
 			if(amount != 0.0){
-				BankLanguageConfiguration.sendFormattedMessage(sender, BankLanguageConfiguration.MESSAGE_MONEY_DEPOSIT.get().replaceAll("<money>", Format.formatMoney(amount))
+				BankLanguageConfiguration.sendFormattedMessage(sender, BankLanguageConfiguration.MESSAGE_MONEY_DEPOSIT.get().replaceAll("<money>", Format.formatMoney(calculator.getCalculation()))
 																													.replaceAll("<tax>", Format.formatMoney(tax)));
 			}
 			if(calculator.isFull()){
@@ -204,13 +203,13 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo, BankDefaultInf
 	
 	public double getMaxAdd(double amount){
 		PaymentCalculator calculator = getPaymentCalculator(amount, false);
-		return calculator.getResult();
+		return calculator.getCalculation();
 	}
 	
 	@Deprecated
 	public void addMoney(double omoney){
 		PaymentCalculator paymentCalculator = getPaymentCalculator(omoney, Double.MAX_VALUE, false);
-		this.money = paymentCalculator.getCombined();
+		this.money += paymentCalculator.getCalculation();
 		save(BankPluginConfiguration.BANK_SAVE_MONEY_DEPOSIT);
 	}
 	

@@ -1,18 +1,17 @@
 package me.dablakbandit.bank.command.arguments.admin.tax;
 
+import me.dablakbandit.bank.command.base.BankEndArgument;
+import me.dablakbandit.bank.config.BankLanguageConfiguration;
 import me.dablakbandit.bank.player.info.BankInfo;
 import me.dablakbandit.bank.utils.calculation.PaymentCalculator;
+import me.dablakbandit.core.command.config.CommandConfiguration;
+import me.dablakbandit.core.players.CorePlayerManager;
+import me.dablakbandit.core.players.CorePlayers;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import me.dablakbandit.bank.command.base.BankEndArgument;
-import me.dablakbandit.bank.config.BankLanguageConfiguration;
-import me.dablakbandit.core.command.config.CommandConfiguration;
-import me.dablakbandit.core.players.CorePlayerManager;
-import me.dablakbandit.core.players.CorePlayers;
 
 public class WithdrawArgument extends BankEndArgument{
 
@@ -44,7 +43,7 @@ public class WithdrawArgument extends BankEndArgument{
 			e.printStackTrace();
 		}
 		PaymentCalculator calculator = bankInfo.getMoneyInfo().getPaymentCalculator(amount, false);
-		amount = calculator.getResult();
+
 		//base.sendFormattedMessage(s, BankLanguageConfiguration.BANK_ADMIN_SLOTS_SET.get().replaceAll("<amount>", args[1]).replaceAll("<player>", args[0]));
 	}
 	

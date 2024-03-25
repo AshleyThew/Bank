@@ -12,8 +12,14 @@ import me.dablakbandit.core.config.path.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class BankPermissionConfiguration extends CommentAdvancedConfiguration{
-	
-	private static final BankPermissionConfiguration configuration = new BankPermissionConfiguration(BankPlugin.getInstance());
+
+	private static BankPermissionConfiguration configuration;
+
+
+	public static void load(BankPlugin plugin) {
+		configuration = new BankPermissionConfiguration(plugin);
+		configuration.load();
+	}
 	
 	public static BankPermissionConfiguration getInstance(){
 		return configuration;

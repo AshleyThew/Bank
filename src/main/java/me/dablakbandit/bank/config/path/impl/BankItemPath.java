@@ -1,27 +1,23 @@
 package me.dablakbandit.bank.config.path.impl;
 
+import me.dablakbandit.bank.config.path.BankExtendedPath;
+import me.dablakbandit.bank.inventory.head.PlayerHead;
+import me.dablakbandit.core.config.RawConfiguration;
+import me.dablakbandit.core.config.path.ItemPath;
+import me.dablakbandit.core.utils.ItemUtils;
+import me.dablakbandit.core.utils.NMSUtils;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import me.dablakbandit.bank.config.path.BankExtendedPath;
-import me.dablakbandit.bank.inventory.head.PlayerHead;
-import net.citizensnpcs.util.NMS;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import me.dablakbandit.core.config.RawConfiguration;
-import me.dablakbandit.core.config.path.ItemPath;
-import me.dablakbandit.core.utils.ItemUtils;
-import me.dablakbandit.core.utils.NMSUtils;
-import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.persistence.PersistentDataContainer;
 
 public class BankItemPath extends ItemPath implements BankExtendedPath {
 	
@@ -45,15 +41,15 @@ public class BankItemPath extends ItemPath implements BankExtendedPath {
 	}
 	
 	public BankItemPath(ItemStack def, String name){
-		this(-1, def, name);
+		this(-1, def.clone(), name);
 	}
 	
 	public BankItemPath(int slot, ItemStack def, String name){
-		this(slot, def, name, Collections.emptyList());
+		this(slot, def.clone(), name, Collections.emptyList());
 	}
 	
 	public BankItemPath(int slot, ItemStack def, int amount, String name){
-		this(slot, def, name, Collections.emptyList());
+		this(slot, def.clone(), name, Collections.emptyList());
 		def.setAmount(amount);
 	}
 	

@@ -14,8 +14,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
-	
-	private static final BankLanguageConfiguration configuration = new BankLanguageConfiguration(BankPlugin.getInstance());
+
+	private static BankLanguageConfiguration configuration;
+
+	public static void load(BankPlugin plugin) {
+		configuration = new BankLanguageConfiguration(plugin);
+		configuration.load();
+	}
 	
 	public static BankLanguageConfiguration getInstance(){
 		return configuration;
@@ -171,7 +176,17 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	
 	@Comment("Available: <gamemode>")
 	public static final BankTranslatedStringPath	MESSAGE_GAMEMODE_DISABLED		= new BankTranslatedStringPath(ChatColor.RED + "Bank disabled for <gamemode>.");
-	
+	@Comment("Available: <size>")
+	public static final BankTranslatedStringPath MESSAGE_BALTOP_ORDERING = new BankTranslatedStringPath(ChatColor.GOLD + "Ordering balances of " + ChatColor.RED + "<size>" + ChatColor.GOLD + " users, please wait...");
+	@Comment("Available: <command>, <next>, ")
+	public static final BankTranslatedStringListPath MESSAGE_BALTOP_HEADER = new BankTranslatedStringListPath(ChatColor.GOLD + "Top balances (<date>)",
+			ChatColor.YELLOW + "---- " + ChatColor.GOLD + "Balancetop " + ChatColor.YELLOW + "-- " + ChatColor.GOLD + "Page " + ChatColor.RED + "<page>" + ChatColor.GOLD + "/" + ChatColor.RED + "<max_page> " + ChatColor.YELLOW + "----",
+			ChatColor.GOLD + "Server Total: " + ChatColor.RED + "$<total>");
+	@Comment("Available: <index>, <name>, <amount>")
+	public static final BankTranslatedStringPath MESSAGE_BALTOP_FORMAT = new BankTranslatedStringPath(ChatColor.WHITE + "<index>. <name>: $<amount>");
+	@Comment("Available: <command>, <next>, <date>, <size>, <total>, <page>, <max_page>")
+	public static final BankTranslatedStringListPath MESSAGE_BALTOP_FOOTER = new BankTranslatedStringListPath(ChatColor.GOLD + "Type " + ChatColor.RED + "/<command> <next>" + ChatColor.GOLD + " to read the next page.");
+
 	public static final BankTranslatedStringPath	FORMAT_THOUSAND					= new BankTranslatedStringPath("K");
 	public static final BankTranslatedStringPath	FORMAT_MILLION					= new BankTranslatedStringPath("Million");
 	public static final BankTranslatedStringPath	FORMAT_BILLION					= new BankTranslatedStringPath("Billion");
@@ -232,5 +247,5 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	private BankLanguageConfiguration(JavaPlugin plugin){
 		super(plugin, "conf/language.yml");
 	}
-	
+
 }

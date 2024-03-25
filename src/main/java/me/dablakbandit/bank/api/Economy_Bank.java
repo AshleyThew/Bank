@@ -1,16 +1,20 @@
 package me.dablakbandit.bank.api;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.utils.format.Format;
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Economy_Bank extends AbstractEconomy{
-	
-	private static final Economy_Bank economy = new Economy_Bank(BankPlugin.getInstance());
+
+	private static Economy_Bank economy;
+
+	public static void setup(BankPlugin bankPlugin) {
+		economy = new Economy_Bank(bankPlugin);
+	}
 	
 	public static Economy_Bank getInstance(){
 		return economy;

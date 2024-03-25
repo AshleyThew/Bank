@@ -42,7 +42,7 @@ public class SubtractArgument extends BankEndArgument {
             double subtract = Math.min(Double.parseDouble(args[1]), expInfo.getExp());
             if (expInfo.subtractExp(subtract)) {
                 BankLanguageConfiguration.sendFormattedMessage(s, BankLanguageConfiguration.BANK_ADMIN_EXP_SUBTRACT.get()
-                        .replaceAll("<money>", Format.formatExp(expInfo.getExp()))
+                        .replaceAll("<exp>", Format.formatExp(expInfo.getExp()))
                         .replaceAll("<player>", args[0])
                         .replaceAll("<amount>", Format.formatExp(subtract)));
             }

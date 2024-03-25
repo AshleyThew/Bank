@@ -1,20 +1,24 @@
 package me.dablakbandit.bank.config;
 
-import me.dablakbandit.core.config.comment.annotation.CommentArray;
-import org.bukkit.plugin.Plugin;
-
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.core.config.comment.CommentAdvancedConfiguration;
+import me.dablakbandit.core.config.comment.annotation.CommentArray;
 import me.dablakbandit.core.config.inventory.InventoryConfiguration;
 import me.dablakbandit.core.config.inventory.annotation.InventoryBase;
 import me.dablakbandit.core.config.path.EmptyPath;
 import me.dablakbandit.core.config.path.InventoryDescriptionPath;
 import me.dablakbandit.core.config.path.Path;
+import org.bukkit.plugin.Plugin;
 
 
 public class BankInventoryConfiguration extends CommentAdvancedConfiguration{
-	
-	private static final BankInventoryConfiguration config = new BankInventoryConfiguration(BankPlugin.getInstance());
+
+	private static BankInventoryConfiguration config;
+
+	public static void load(BankPlugin bankPlugin) {
+		config = new BankInventoryConfiguration(bankPlugin);
+		config.load();
+	}
 	
 	public static BankInventoryConfiguration getInstance(){
 		return config;

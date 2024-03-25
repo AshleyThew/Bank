@@ -1,17 +1,21 @@
 package me.dablakbandit.bank.config;
 
-import org.bukkit.plugin.Plugin;
-
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.core.config.comment.CommentAdvancedConfiguration;
 import me.dablakbandit.core.config.comment.annotation.Comment;
 import me.dablakbandit.core.config.comment.annotation.CommentArray;
 import me.dablakbandit.core.config.path.BooleanPath;
 import me.dablakbandit.core.config.path.IntegerPath;
+import org.bukkit.plugin.Plugin;
 
 public class BankUpgradeConfiguration extends CommentAdvancedConfiguration{
-	
-	private static final BankUpgradeConfiguration config = new BankUpgradeConfiguration(BankPlugin.getInstance());
+
+	private static BankUpgradeConfiguration config;
+
+	public static void load(BankPlugin plugin) {
+		config = new BankUpgradeConfiguration(plugin);
+		config.load();
+	}
 	
 	public static BankUpgradeConfiguration getInstance(){
 		return config;

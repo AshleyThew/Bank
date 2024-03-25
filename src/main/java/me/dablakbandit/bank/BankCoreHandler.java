@@ -1,12 +1,5 @@
 package me.dablakbandit.bank;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-
-import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
-
 import me.dablakbandit.bank.command.BankCommand;
 import me.dablakbandit.bank.config.*;
 import me.dablakbandit.bank.database.BankDatabaseManager;
@@ -24,6 +17,12 @@ import me.dablakbandit.core.metrics.Metrics;
 import me.dablakbandit.core.players.CorePlayerManager;
 import me.dablakbandit.core.plugin.CoreHandler;
 import me.dablakbandit.core.updater.PluginUpdater;
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 /**
  * The Bank core handler.
@@ -43,7 +42,6 @@ public class BankCoreHandler extends CoreHandler implements Listener{
 	}
 	
 	private BankPlugin		plugin;
-	private final UpgradeManager	upgradeManager	= UpgradeManager.getInstance();
 	private boolean			upgraded		= false;
 	private boolean			firstInstall	= false;
 	
@@ -110,6 +108,7 @@ public class BankCoreHandler extends CoreHandler implements Listener{
 	 * @see UpgradeManager
 	 */
 	private boolean checkUpgrade(){
+		UpgradeManager upgradeManager = new UpgradeManager();
 		// Check for upgrade
 		if(upgradeManager.hasUpgrade()){
 			// Ensure owner has confirmed the upgrade process
@@ -133,7 +132,7 @@ public class BankCoreHandler extends CoreHandler implements Listener{
 	 * @see BankPluginConfiguration
 	 */
 	private void loadDatabase(){
-		BankDatabaseManager.getInstance().load(BankPluginConfiguration.BANK_SAVE_TYPE.get());
+		BankDatabaseManager.load(plugin, BankPluginConfiguration.BANK_SAVE_TYPE.get());
 	}
 	
 	/**
@@ -165,15 +164,16 @@ public class BankCoreHandler extends CoreHandler implements Listener{
 		moveConfigFile("sounds.yml");
 		moveConfigFile("inventories.yml");
 		moveConfigFile("items.yml");
-		BankPluginConfiguration.getInstance().load();
-		BankLanguageConfiguration.getInstance().load();
-		BankCommandConfiguration.getInstance().load();
-		BankItemConfiguration.getInstance().load();
-		BankInventoryConfiguration.getInstance().load();
-		BankPermissionConfiguration.getInstance().load();
-		BankItemBlacklistConfiguration.getInstance().load();
-		BankItemDefaultConfiguration.getInstance().load();
-		BankSoundConfiguration.getInstance().load();
+		BankPluginConfiguration.load(plugin);
+		BankLanguageConfiguration.load(plugin);
+		BankCommandConfiguration.load(plugin);
+		BalTopCommandConfiguration.load(plugin);
+		BankItemConfiguration.load(plugin);
+		BankInventoryConfiguration.load(plugin);
+		BankPermissionConfiguration.load(plugin);
+		BankItemBlacklistConfiguration.load(plugin);
+		BankItemDefaultConfiguration.load(plugin);
+		BankSoundConfiguration.load(plugin);
 	}
 
 	private void moveConfigFile(String fileName){
@@ -194,6 +194,7 @@ public class BankCoreHandler extends CoreHandler implements Listener{
 	 * Load bank command for the plugin.
 	 */
 	private void loadCommands(){
+		BankCommand.setup(plugin);
 		BankCommand.getInstance().load();
 	}
 	

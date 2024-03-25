@@ -1,15 +1,5 @@
 package me.dablakbandit.bank.upgrade;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.config.BankUpgradeConfiguration;
@@ -18,22 +8,26 @@ import me.dablakbandit.bank.player.converter.old.OldBankConverter;
 import me.dablakbandit.bank.save.type.SaveType;
 import me.dablakbandit.core.config.comment.CommentConfiguration;
 import me.dablakbandit.core.configuration.CoreConfiguration;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 
 public class UpgradeManager{
-	
-	private static final UpgradeManager manager = new UpgradeManager();
-	
-	public static UpgradeManager getInstance(){
-		return manager;
-	}
+
 	
 	private final int	latestUpgrade;
 	
 	private final File		backupFolder;
-	
-	private UpgradeManager(){
+
+	public UpgradeManager() {
 		latestUpgrade = Integer.parseInt(BankPlugin.getInstance().getDescription().getVersion().replaceAll("[^0-9]", ""));
-		BankUpgradeConfiguration.getInstance().load();
+		BankUpgradeConfiguration.load(BankPlugin.getInstance());
 		backupFolder = new File(BankPlugin.getInstance().getDataFolder(), "backup" + File.separator + new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date()));
 	}
 	

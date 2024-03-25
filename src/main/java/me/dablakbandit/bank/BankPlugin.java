@@ -4,10 +4,9 @@
 
 package me.dablakbandit.bank;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
 import me.dablakbandit.bank.log.BankLog;
 import me.dablakbandit.core.plugin.downloader.CorePluginDownloader;
+import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * The entry point to the bank plugin.

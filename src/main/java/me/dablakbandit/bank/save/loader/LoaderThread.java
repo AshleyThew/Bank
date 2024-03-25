@@ -1,12 +1,12 @@
 package me.dablakbandit.bank.save.loader;
 
+import me.dablakbandit.bank.config.BankPluginConfiguration;
+import me.dablakbandit.bank.log.BankLog;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import me.dablakbandit.bank.config.BankPluginConfiguration;
-import me.dablakbandit.bank.log.BankLog;
 
 public class LoaderThread implements Runnable{
 	
@@ -54,5 +54,9 @@ public class LoaderThread implements Runnable{
 	
 	public boolean getStop(){
 		return stop.get();
+	}
+
+	public int count() {
+		return runners.size();
 	}
 }

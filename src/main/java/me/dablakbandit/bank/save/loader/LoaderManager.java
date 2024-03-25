@@ -14,16 +14,17 @@ public class LoaderManager{
 	public static LoaderManager getInstance(){
 		return loaderManager;
 	}
-	
-	private final LoaderThread	loaderThread;
-	private final Thread		running;
+
+	private LoaderThread loaderThread;
+	private Thread running;
 	
 	private LoaderManager(){
-		running = new Thread(loaderThread = new LoaderThread());
-		running.setName("Bank - Loader Thread");
+
 	}
 	
 	public void start(){
+		running = new Thread(loaderThread = new LoaderThread());
+		running.setName("Bank - Loader Thread");
 		running.start();
 	}
 	
@@ -60,5 +61,9 @@ public class LoaderManager{
 	
 	public void runAsync(Runnable runnable){
 		loaderThread.add(runnable);
+	}
+
+	public LoaderThread getLoaderThread() {
+		return loaderThread;
 	}
 }

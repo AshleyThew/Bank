@@ -7,8 +7,13 @@ import me.dablakbandit.core.config.comment.annotation.Delete;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class BankCommandConfiguration extends CommandConfiguration{
-	
-	private static final BankCommandConfiguration config = new BankCommandConfiguration(BankPlugin.getInstance());
+
+	private static BankCommandConfiguration config;
+
+	public static void load(BankPlugin bankPlugin) {
+		config = new BankCommandConfiguration(bankPlugin);
+		config.load();
+	}
 	
 	public static BankCommandConfiguration getInstance(){
 		return config;

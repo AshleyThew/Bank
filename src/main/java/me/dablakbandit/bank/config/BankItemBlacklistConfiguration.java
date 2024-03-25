@@ -1,15 +1,19 @@
 package me.dablakbandit.bank.config;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.core.config.comment.CommentAdvancedConfiguration;
 import me.dablakbandit.core.config.comment.annotation.CommentArray;
 import me.dablakbandit.core.config.path.StringListPath;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class BankItemBlacklistConfiguration extends CommentAdvancedConfiguration{
-	
-	private static final BankItemBlacklistConfiguration configuration = new BankItemBlacklistConfiguration(BankPlugin.getInstance());
+
+	private static BankItemBlacklistConfiguration configuration;
+
+	public static void load(BankPlugin bankPlugin) {
+		configuration = new BankItemBlacklistConfiguration(bankPlugin);
+		configuration.load();
+	}
 	
 	public static BankItemBlacklistConfiguration getInstance(){
 		return configuration;

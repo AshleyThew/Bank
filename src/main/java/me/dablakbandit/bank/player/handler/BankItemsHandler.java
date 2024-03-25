@@ -376,6 +376,9 @@ public class BankItemsHandler {
 
     @SuppressWarnings("deprecation")
     public boolean buySlots(CorePlayers pl, int slots) {
+        if (BankPluginConfiguration.BANK_ITEMS_SLOTS_BUY_PER_TAB.get() && bankItemsInfo.getOpenTab() > bankItemsInfo.getTotalTabCount()) {
+            return false;
+        }
         if (slots == 0) {
             return false;
         }

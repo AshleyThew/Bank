@@ -1,16 +1,16 @@
 package me.dablakbandit.bank.database.sqlite;
 
-import java.sql.*;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.Date;
-
 import me.dablakbandit.bank.database.base.IInfoDatabase;
 import me.dablakbandit.bank.database.base.IInfoTypeDatabase;
 import me.dablakbandit.bank.player.info.BankDefaultInfo;
 import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.players.info.JSONInfo;
 import me.dablakbandit.core.utils.json.JSONParser;
+
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.*;
 
 public class BankInfoTypeSQLiteDatabase<T extends JSONInfo>extends IInfoTypeDatabase<T>{
 	

@@ -1,19 +1,23 @@
 package me.dablakbandit.bank.config;
 
-import org.bukkit.Sound;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.core.config.RawConfiguration;
 import me.dablakbandit.core.config.comment.CommentAdvancedConfiguration;
 import me.dablakbandit.core.config.path.Path;
 import me.dablakbandit.core.players.CorePlayers;
+import org.bukkit.Sound;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class BankSoundConfiguration extends CommentAdvancedConfiguration{
-	
-	private static final BankSoundConfiguration config = new BankSoundConfiguration(BankPlugin.getInstance());
+
+	private static BankSoundConfiguration config;
+
+	public static void load(BankPlugin plugin) {
+		config = new BankSoundConfiguration(plugin);
+		config.load();
+	}
 	
 	public static BankSoundConfiguration getInstance(){
 		return config;

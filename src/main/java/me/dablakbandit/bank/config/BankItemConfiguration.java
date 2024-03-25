@@ -29,8 +29,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class BankItemConfiguration extends CommentAdvancedConfiguration{
-	
-	private static final BankItemConfiguration config = new BankItemConfiguration(BankPlugin.getInstance());
+
+	private static BankItemConfiguration config;
+
+
+	public static void load(BankPlugin plugin) {
+		config = new BankItemConfiguration(plugin);
+		config.load();
+	}
 	
 	public static BankItemConfiguration getInstance(){
 		return config;

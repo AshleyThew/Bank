@@ -10,21 +10,27 @@ import me.dablakbandit.core.database.DatabaseManager;
 import me.dablakbandit.core.database.mysql.MySQLConfiguration;
 
 public class BankDatabaseManager{
-	
-	private static final BankDatabaseManager databaseManager = new BankDatabaseManager();
+
+	private static BankDatabaseManager databaseManager;
 	
 	public static BankDatabaseManager getInstance(){
 		return databaseManager;
 	}
+
+
+	private BankDatabaseManager(BankPlugin bankPlugin) {
+		mysqlConfiguration = new MySQLConfiguration(new Configuration(bankPlugin, "mysql.yml"));
+	}
+
+	public static void load(BankPlugin bankPlugin, SaveType saveType) {
+		databaseManager = new BankDatabaseManager(bankPlugin);
+		databaseManager.load(saveType);
+	}
 	
 	private BankDatabase		bankDatabase;
 	private final MySQLConfiguration	mysqlConfiguration;
-	
-	private BankDatabaseManager(){
-		mysqlConfiguration = new MySQLConfiguration(new Configuration(BankPlugin.getInstance(), "mysql.yml"));
-	}
-	
-	public void load(SaveType saveType){
+
+	public void load(SaveType saveType) {
 		if(bankDatabase != null){
 			bankDatabase.close();
 			bankDatabase = null;
