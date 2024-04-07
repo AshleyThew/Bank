@@ -153,9 +153,12 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 
 	@Comment("Storage of taxes taken from players")
 	public static final BankSynchronizedDoubleNicePath BANK_EXP_TAX_STORAGE						= new BankSynchronizedDoubleNicePath(0);
-
+	@Comment("Only able to deposit full $ (no decimal)")
+	public static final BooleanPath BANK_MONEY_DEPOSIT_FULL = new BooleanPath(false);
 	@Comment("Percentage to tax players when depositing, 0.01 = 1%")
 	public static final DoublePath					BANK_EXP_DEPOSIT_TAX_PERCENT				= new DoublePath(0);
+	@Comment("Only able to withdraw full $ (no decimal)")
+	public static final BooleanPath BANK_MONEY_WITHDRAW_FULL = new BooleanPath(false);
 	@Comment("Percentage to tax players when withdrawing, 0.01 = 1%")
 	public static final DoublePath					BANK_EXP_WITHDRAW_TAX_PERCENT				= new DoublePath(0);
 	@Comment("Enable bank exp interest")
@@ -199,8 +202,7 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 	public static final StringPath					BANK_MONEY_FORMAT_ROUND						= new StringPath("%,.0f");
 	@Comment("Show only full dollars")
 	public static final BooleanPath					BANK_MONEY_FULL_DOLLARS						= new BooleanPath(false);
-	@Comment("Only able to deposit full $ (no decimal)")
-	public static final BooleanPath					BANK_MONEY_DEPOSIT_FULL						= new BooleanPath(false);
+
 	@Comment("Enabled default money")
 	public static final BooleanPath					BANK_MONEY_DEFAULT_ENABLED					= new BooleanPath(false);
 	@Comment("Default amount of money to give new banks")
@@ -405,7 +407,9 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration{
 
 	@Comment("Enable '/baltop' (Premium, command_baltop.yml)")
 	public static final BooleanPath BANK_BAL_TOP_ENABLED = new BooleanPath(false);
-	
+	@Comment("Time in seconds to update baltop")
+	public static final IntegerPath BANK_BAL_TOP_UPDATE = new IntegerPath(120);
+
 	private BankPluginConfiguration(JavaPlugin plugin){
 		super(plugin, "config.yml");
 	}

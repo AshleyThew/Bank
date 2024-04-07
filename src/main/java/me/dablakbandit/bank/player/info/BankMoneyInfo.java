@@ -83,6 +83,9 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo, BankDefaultInf
 		withdraw = Math.max(0, withdraw);
 
 		PaymentCalculator calculator = new PaymentCalculator(withdraw, 0, Double.MAX_VALUE, BankPluginConfiguration.BANK_MONEY_WITHDRAW_TAX_PERCENT.get());
+		if (BankPluginConfiguration.BANK_MONEY_WITHDRAW_FULL.get()) {
+			calculator.floor();
+		}
 		withdraw = calculator.getTotalCalculation();
 
 		boolean complete = withdrawMoney(pl.getPlayer().getName(), withdraw, calculator.getCalculation());

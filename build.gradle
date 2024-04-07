@@ -78,7 +78,7 @@ dependencies {
 
 
 group = 'me.dablakbandit'
-version = '4.6.9-RELEASE'
+version = '4.7.0-RELEASE'
 description = 'bank'
 import org.apache.tools.ant.filters.ReplaceTokens
 
