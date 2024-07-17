@@ -1,16 +1,8 @@
 package me.dablakbandit.bank.player.converter.old.base;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import me.dablakbandit.bank.player.info.item.BankItem;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
 import me.dablakbandit.bank.log.BankLog;
 import me.dablakbandit.bank.player.info.BankItemsInfo;
+import me.dablakbandit.bank.player.info.item.BankItem;
 import me.dablakbandit.core.database.listener.SQLListener;
 import me.dablakbandit.core.json.JSONArray;
 import me.dablakbandit.core.json.JSONObject;
@@ -19,6 +11,13 @@ import me.dablakbandit.core.utils.ItemUtils;
 import me.dablakbandit.core.utils.Version;
 import me.dablakbandit.core.utils.itemutils.EnchantmentFixer;
 import me.dablakbandit.core.utils.jsonformatter.JSONFormatter;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class Loader extends SQLListener{
 	
@@ -194,44 +193,6 @@ public abstract class Loader extends SQLListener{
 		ItemUtils.getInstance().setTag(nmis, tag);
 		is = ItemUtils.getInstance().asBukkitCopy(nmis);
 		return is;
-	}
-	
-	protected final String convertItemsToJSON(Map<Integer, List<ItemStack>> items){
-		try{
-			JSONObject jo = new JSONObject();
-			for(Map.Entry<Integer, List<ItemStack>> e : items.entrySet()){
-				int page = e.getKey();
-				List<ItemStack> list = e.getValue();
-				JSONArray ja = new JSONArray();
-				for(ItemStack is : list){
-					try{
-						if(is != null && !is.getType().equals(Material.AIR)){
-							JSONObject jo1 = new JSONObject();
-							jo1.put("material", is.getType().name());
-							jo1.put("amount", is.getAmount());
-							jo1.put("durability", is.getDurability());
-							JSONObject jo2 = new JSONObject();
-							Object nmis = ItemUtils.getInstance().getNMSCopy(is);
-							Object tag = ItemUtils.getInstance().getTag(nmis);
-							if(tag != null){
-								ItemUtils.getInstance().convertCompoundTagToJSON(tag, jo2);
-								jo1.put("tag", jo2);
-							}
-							ja.put(jo1);
-						}
-					}catch(Exception e1){
-						e1.printStackTrace();
-					}
-				}
-				if(ja.length() > 0){
-					jo.put("" + page, ja);
-				}
-			}
-			if(jo.length() > 0){ return jo.toString(); }
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return null;
 	}
 	
 	protected Map<Integer, ItemStack> convertJSONToTabs(BankItemsInfo bii, String s){

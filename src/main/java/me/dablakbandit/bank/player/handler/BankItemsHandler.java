@@ -6,9 +6,7 @@ import me.dablakbandit.bank.implementations.blacklist.ItemBlacklistImplementatio
 import me.dablakbandit.bank.player.info.BankItemsInfo;
 import me.dablakbandit.bank.player.info.item.BankItem;
 import me.dablakbandit.core.players.CorePlayers;
-import me.dablakbandit.core.utils.ItemUtils;
 import me.dablakbandit.core.utils.Version;
-import me.dablakbandit.core.utils.itemutils.IItemUtils;
 import me.dablakbandit.core.vault.Eco;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -23,7 +21,6 @@ import java.util.function.Supplier;
 
 public class BankItemsHandler {
 
-    private static final IItemUtils itemUtils = ItemUtils.getInstance();
     private final BankItemsInfo bankItemsInfo;
 
     private int buySlots, buyTabs;
@@ -136,7 +133,7 @@ public class BankItemsHandler {
         if (from == null || to == null) {
             return false;
         }
-        if (!itemUtils.canMerge(from, to.getItemStack())) {
+        if (!from.isSimilar(to.getItemStack())) {
             return false;
         }
         int max = to.getMax(bankItemsInfo.getPermissionMergeMax());
@@ -147,7 +144,7 @@ public class BankItemsHandler {
         if (from == null || to == null) {
             return false;
         }
-        if (!itemUtils.canMerge(from.getItemStack(), to)) {
+        if (!from.getItemStack().isSimilar(to)) {
             return false;
         }
         int max = to.getMaxStackSize();

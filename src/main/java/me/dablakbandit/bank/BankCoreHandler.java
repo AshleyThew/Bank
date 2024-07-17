@@ -2,6 +2,7 @@ package me.dablakbandit.bank;
 
 import me.dablakbandit.bank.command.BankCommand;
 import me.dablakbandit.bank.config.*;
+import me.dablakbandit.bank.convert.BankVersion1_20_6Converter;
 import me.dablakbandit.bank.database.BankDatabaseManager;
 import me.dablakbandit.bank.implementations.BankImplementationManager;
 import me.dablakbandit.bank.implementations.placeholder.BankPlaceholderManager;
@@ -18,7 +19,9 @@ import me.dablakbandit.core.players.CorePlayerManager;
 import me.dablakbandit.core.plugin.CoreHandler;
 import me.dablakbandit.core.updater.PluginUpdater;
 import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerLoginEvent;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,6 +46,7 @@ public class BankCoreHandler extends CoreHandler implements Listener{
 	
 	private BankPlugin		plugin;
 	private boolean			upgraded		= false;
+	private boolean converting = false;
 	private boolean			firstInstall	= false;
 	
 	/**
@@ -108,7 +112,7 @@ public class BankCoreHandler extends CoreHandler implements Listener{
 	 * @see UpgradeManager
 	 */
 	private boolean checkUpgrade(){
-		UpgradeManager upgradeManager = new UpgradeManager();
+		UpgradeManager upgradeManager = UpgradeManager.getInstance();
 		// Check for upgrade
 		if(upgradeManager.hasUpgrade()){
 			// Ensure owner has confirmed the upgrade process
@@ -217,7 +221,21 @@ public class BankCoreHandler extends CoreHandler implements Listener{
 	public void onEnable(){
 		// If the upgrade process failed don't continue to enable
 		if(!upgraded){ return; }
-		
+
+
+		// Register listeners
+		Bukkit.getPluginManager().registerEvents(this, plugin);
+
+		if (UpgradeManager.getInstance().getPreviousVersion() <= 470) {
+			converting = true;
+			BankLog.info("Converting bank data to fix item types.");
+			BankVersion1_20_6Converter.getInstance().convert(Bukkit::shutdown);
+			return;
+		}
+
+		// Unset converting flag
+		converting = false;
+
 		// Handle first install
 		if(firstInstall){
 			handleFirstInstall();
@@ -295,6 +313,13 @@ public class BankCoreHandler extends CoreHandler implements Listener{
 			m.addCustomChart(new Metrics.SimplePie("save_type", () -> BankPluginConfiguration.BANK_SAVE_TYPE.get().name()));
 		}catch(Exception e){
 			e.printStackTrace();
+		}
+	}
+
+	@EventHandler
+	public void onPlayerJoin(PlayerLoginEvent event) {
+		if (converting) {
+			event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Bank converting, please wait.");
 		}
 	}
 	

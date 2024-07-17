@@ -1,9 +1,8 @@
 package me.dablakbandit.bank.inventory.head;
 
 import me.dablakbandit.bank.BankPlugin;
-import me.dablakbandit.bank.log.BankLog;
+import me.dablakbandit.bank.config.BankItemConfiguration;
 import me.dablakbandit.core.players.CorePlayers;
-import me.dablakbandit.core.utils.ItemUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -28,7 +27,7 @@ public class PlayerHead {
 
     private void setup(){
         if(headMaterial == null){
-            headMaterial = ItemUtils.getInstance().getMaterial("SKULL_ITEM", "PLAYER_SKULL", "PLAYER_HEAD");
+            headMaterial = BankItemConfiguration.getMaterial("SKULL_ITEM", "PLAYER_SKULL", "PLAYER_HEAD");
         }
         try{
             namespaceKey = new NamespacedKey(BankPlugin.getInstance(), "player-head");

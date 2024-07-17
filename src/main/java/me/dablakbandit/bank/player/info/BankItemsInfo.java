@@ -20,7 +20,6 @@ import java.util.*;
 
 public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInfo, BankDefaultInfo{
 
-
 	@Deprecated
 	private final Map<Integer, List<ItemStack>>	itemMap			= Collections.synchronizedMap(new HashMap<>());
 

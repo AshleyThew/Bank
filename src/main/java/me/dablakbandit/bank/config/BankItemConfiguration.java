@@ -14,7 +14,6 @@ import me.dablakbandit.core.config.comment.annotation.CommentArray;
 import me.dablakbandit.core.config.comment.annotation.Delete;
 import me.dablakbandit.core.config.path.EmptyPath;
 import me.dablakbandit.core.config.path.Path;
-import me.dablakbandit.core.utils.ItemUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -64,11 +63,24 @@ public class BankItemConfiguration extends CommentAdvancedConfiguration{
 		mat = Material.getMaterial("THIN_GLASS");
 		return mat;
 	}
-	
+
 	private static ItemStack getStained(String name){
-		Material m = ItemUtils.getInstance().getMaterial(name + "_STAINED_GLASS_PANE");
+		Material m = getMaterial(name + "_STAINED_GLASS_PANE");
 		if(m != null){ return new ItemStack(m, 1); }
 		return new ItemStack(stained, 1, (short)DyeColor.valueOf(name).ordinal());
+	}
+
+	public static Material getMaterial(String... possible) {
+		for (String var : possible) {
+			try {
+				Material m = Material.valueOf(var);
+				if (m != null) {
+					return m;
+				}
+			} catch (Exception var7) {
+			}
+		}
+		return null;
 	}
 
 	@SuppressWarnings({"rawtypes", "unused"})

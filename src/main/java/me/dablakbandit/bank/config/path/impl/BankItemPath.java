@@ -4,7 +4,6 @@ import me.dablakbandit.bank.config.path.BankExtendedPath;
 import me.dablakbandit.bank.inventory.head.PlayerHead;
 import me.dablakbandit.core.config.RawConfiguration;
 import me.dablakbandit.core.config.path.ItemPath;
-import me.dablakbandit.core.utils.ItemUtils;
 import me.dablakbandit.core.utils.NMSUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -171,15 +170,9 @@ public class BankItemPath extends ItemPath implements BankExtendedPath {
 			is.setItemMeta(im);
 		}
 		if(isSet(path, "Unbreakable")){
-			try{
-				Object nms = ItemUtils.getInstance().getNMSCopy(is);
-				Object ta = ItemUtils.getInstance().getTag(nms);
-				ItemUtils.getInstance().setUnbreakable(ta, true);
-				ItemUtils.getInstance().setTag(nms, ta);
-				is = ItemUtils.getInstance().asBukkitCopy(nms);
-			}catch(Exception e){
-				e.printStackTrace();
-			}
+			ItemMeta im = is.getItemMeta();
+			im.setUnbreakable(config.getBoolean(path + ".Unbreakable"));
+			is.setItemMeta(im);
 		}
 		if(isSet(path, "Enchant")){
 			try{

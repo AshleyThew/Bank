@@ -2,7 +2,7 @@ package me.dablakbandit.bank.inventory.head;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import me.dablakbandit.core.utils.ItemUtils;
+import me.dablakbandit.bank.config.BankItemConfiguration;
 import me.dablakbandit.core.utils.NMSUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -32,7 +32,7 @@ public class HeadURL{
 	private static ItemStack clone;
 	
 	private HeadURL(){
-		Material m = ItemUtils.getInstance().getMaterial("SKULL_ITEM", "PLAYER_SKULL", "PLAYER_HEAD");
+		Material m = BankItemConfiguration.getMaterial("SKULL_ITEM", "PLAYER_SKULL", "PLAYER_HEAD");
 		if(m.name().equals("SKULL_ITEM")){
 			clone = new ItemStack(m, 1, (short)3);
 		}else{

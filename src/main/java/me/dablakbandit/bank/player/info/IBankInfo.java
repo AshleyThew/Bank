@@ -7,6 +7,8 @@ import me.dablakbandit.core.players.info.CorePlayersInfo;
 import me.dablakbandit.core.players.info.JSONInfo;
 
 public abstract class IBankInfo extends CorePlayersInfo{
+
+	protected int version = 1;
 	
 	public IBankInfo(CorePlayers pl){
 		super(pl);

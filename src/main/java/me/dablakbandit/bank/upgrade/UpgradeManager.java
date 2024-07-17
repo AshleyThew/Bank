@@ -20,20 +20,52 @@ import java.util.Date;
 
 public class UpgradeManager{
 
-	
-	private final int	latestUpgrade;
-	
-	private final File		backupFolder;
+	private static UpgradeManager instance = new UpgradeManager();
+	private final int currentVersion;
+	private final int previousVersion;
+	private final File backupFolder;
 
-	public UpgradeManager() {
-		latestUpgrade = Integer.parseInt(BankPlugin.getInstance().getDescription().getVersion().replaceAll("[^0-9]", ""));
+	private UpgradeManager() {
+		currentVersion = Integer.parseInt(BankPlugin.getInstance().getDescription().getVersion().replaceAll("[^0-9]", ""));
+
 		BankUpgradeConfiguration.load(BankPlugin.getInstance());
+		previousVersion = BankUpgradeConfiguration.UPGRADE_VERSION.get();
 		backupFolder = new File(BankPlugin.getInstance().getDataFolder(), "backup" + File.separator + new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date()));
+		//get current minecraft version
+		int version = Integer.parseInt(Bukkit.getBukkitVersion().split("-")[0].replace(".", ""));
+		
+
+		if (previousVersion != 0 && previousVersion <= 470 && version >= 1205) {
+			BankLog.errorAlways("Bank needs to update itemstacks on a server version prior to 1.20.4");
+			BankLog.errorAlways("Please convert your database with an older server version.");
+			BankLog.errorAlways("If you have already done this please set UPGRADE.VERSION to 480 in the upgrade.yml");
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			System.exit(0);
+			Bukkit.shutdown();
+			//Disable plugin
+			Bukkit.getPluginManager().disablePlugin(BankPlugin.getInstance());
+		}
+	}
+
+	public static UpgradeManager getInstance() {
+		return instance;
+	}
+
+	public int getCurrentVersion() {
+		return currentVersion;
+	}
+
+	public int getPreviousVersion() {
+		return previousVersion;
 	}
 	
 	public boolean hasUpgrade(){
 		if(!new File(BankPlugin.getInstance().getDataFolder(), "config.yml").exists()){
-			BankUpgradeConfiguration.UPGRADE_VERSION.set(latestUpgrade);
+			BankUpgradeConfiguration.UPGRADE_VERSION.set(currentVersion);
 			return false;
 		}
 		return BankUpgradeConfiguration.UPGRADE_VERSION.get() == 0;
@@ -75,10 +107,11 @@ public class UpgradeManager{
 	
 	private void updateConfig(){
 		BankUpgradeConfiguration.getInstance().saveConfig();
-		BankUpgradeConfiguration.UPGRADE_VERSION.set(latestUpgrade);
+		BankUpgradeConfiguration.UPGRADE_VERSION.set(currentVersion);
 		BankUpgradeConfiguration.UPGRADE_CONFIRM.set(false);
 		BankUpgradeConfiguration.UPGRADE_CONVERSION_OLD.set(false);
 		BankUpgradeConfiguration.UPGRADE_CONVERSION_MYSQL.set(false);
+		BankUpgradeConfiguration.getInstance().saveConfig();
 	}
 	
 	private void oldUpgrade(){
