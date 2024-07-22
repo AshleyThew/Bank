@@ -31,9 +31,13 @@ public class UpgradeManager{
 		BankUpgradeConfiguration.load(BankPlugin.getInstance());
 		previousVersion = BankUpgradeConfiguration.UPGRADE_VERSION.get();
 		backupFolder = new File(BankPlugin.getInstance().getDataFolder(), "backup" + File.separator + new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date()));
-		//get current minecraft version
-		int version = Integer.parseInt(Bukkit.getBukkitVersion().split("-")[0].replace(".", ""));
-		
+
+		String bukkitVersion = Bukkit.getBukkitVersion().split("-")[0];
+		int fullstopCount = bukkitVersion.length() - bukkitVersion.replace(".", "").length();
+		int version = Integer.parseInt(bukkitVersion.replace(".", ""));
+		if (fullstopCount == 1) {
+			version *= 10;
+		}
 
 		if (previousVersion != 0 && previousVersion <= 470 && version >= 1205) {
 			BankLog.errorAlways("Bank needs to update itemstacks on a server version prior to 1.20.4");
