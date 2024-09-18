@@ -181,7 +181,7 @@ public class BankItemsHandler {
     public int getTotalSlots() {
         if (BankPluginConfiguration.BANK_ITEMS_TABS_ENABLED.get() && BankPluginConfiguration.BANK_ITEMS_SLOTS_BUY_PER_TAB.get()) {
             int t = 0;
-            for (int i = 1; i <= 9; i++) {
+            for (int i = 1; i <= bankItemsInfo.getTotalTabCount(); i++) {
                 t += getBankSlots(i);
             }
             return t;
@@ -193,7 +193,7 @@ public class BankItemsHandler {
     public int getTotalUsedSlots() {
         if (BankPluginConfiguration.BANK_ITEMS_TABS_ENABLED.get()) {
             int t = 0;
-            for (int tab = 1; tab <= 9; tab++) {
+            for (int tab = 1; tab <= bankItemsInfo.getTotalTabCount(); tab++) {
                 t += getTab(tab).size();
             }
             return t;

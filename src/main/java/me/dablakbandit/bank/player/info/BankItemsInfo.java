@@ -136,6 +136,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 			}
 		}
 		itemMap.clear();
+        bankItemMap.values().forEach(l -> l.removeIf(bi -> bi.getItemStack() == null || bi.getItemStack().getType() == Material.AIR));
 	}
 	
 	@Override

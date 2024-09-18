@@ -32,6 +32,9 @@ public class BankUpgradeConfiguration extends CommentAdvancedConfiguration{
 	
 	@CommentArray({ "IF USING MYSQL ON THE OLD PLUGIN AND WISH TO KEEP USING MYSQL SET THIS TO TRUE" })
 	public static final BooleanPath	UPGRADE_CONVERSION_MYSQL	= new BooleanPath(false);
+
+	@CommentArray({"ONLY ENABLE THIS IF YOU NEED TO CLEANUP THE DATA IN YOUR DATABASE(to cleanup)"})
+	public static final BooleanPath UPGRADE_DATABASE_CLEANUP = new BooleanPath(false);
 	
 	private BankUpgradeConfiguration(Plugin plugin){
 		super(plugin, "upgrade.yml");

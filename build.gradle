@@ -70,7 +70,7 @@ dependencies {
     testImplementation 'io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT'
     testImplementation 'org.awaitility:awaitility:4.2.1'
     testImplementation 'org.xerial:sqlite-jdbc:3.42.0.0'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.11.0'
     testRuntimeOnly("com.google.code.gson:gson") { version { strictly("2.10.1") } }
     testRuntimeOnly("org.yaml:snakeyaml") { version { strictly("2.2") } }
     testRuntimeOnly("com.google.guava:guava") { version { strictly("31.0.1-jre") } }
@@ -78,7 +78,7 @@ dependencies {
 
 
 group = 'me.dablakbandit'
-version = '4.8.0-RELEASE'
+version = '4.8.1-RELEASE'
 description = 'bank'
 import org.apache.tools.ant.filters.ReplaceTokens
 

@@ -231,6 +231,13 @@ public class BankCoreHandler extends CoreHandler implements Listener{
 			BankLog.info("Converting bank data to fix item types.");
 			BankVersion1_20_6Converter.getInstance().convert(Bukkit::shutdown);
 			return;
+		} else if (BankUpgradeConfiguration.UPGRADE_DATABASE_CLEANUP.get()) {
+			converting = true;
+			BankLog.info("Cleaning up database.");
+			BankUpgradeConfiguration.UPGRADE_DATABASE_CLEANUP.set(false);
+			BankUpgradeConfiguration.getInstance().saveConfig();
+			BankVersion1_20_6Converter.getInstance().convert(Bukkit::shutdown);
+			return;
 		}
 
 		// Unset converting flag
