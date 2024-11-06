@@ -7,6 +7,7 @@ import me.dablakbandit.bank.config.path.BankItemDelete;
 import me.dablakbandit.bank.config.path.PathExtended;
 import me.dablakbandit.bank.config.path.impl.BankEmptyPath;
 import me.dablakbandit.bank.config.path.impl.BankItemPath;
+import me.dablakbandit.bank.log.BankLog;
 import me.dablakbandit.core.config.comment.CommentAdvancedConfiguration;
 import me.dablakbandit.core.config.comment.CommentConfiguration;
 import me.dablakbandit.core.config.comment.annotation.Comment;
@@ -320,43 +321,49 @@ public class BankItemConfiguration extends CommentAdvancedConfiguration{
 	protected boolean loadPath(Field field, Path path) {
 		boolean save = super.loadPath(field, path);
 		if(path instanceof BankExtendedPath){
+			((BankExtendedPath) path).setFile(this.getConfig().getFile().getAbsolutePath());
 			PathExtended[] extendeds = field.getAnnotationsByType(PathExtended.class);
 			if (extendeds.length > 0) {
 				CommentConfiguration config = BankItemConfiguration.config.getConfig();
 				Map<String, Object> map = new HashMap<>();
 				for (PathExtended extend : extendeds) {
+					String pathKey = path.getActualPath() + "." + extend.key();
 					try {
-
-						String pathKey = path.getActualPath()+ "." + extend.key();
-					Object value = null;
-					if (Integer.class.equals(extend.classType())) {
-						value = Integer.valueOf(extend.value());
-						if(config.isSet(pathKey)){
-							value = config.getInt(pathKey);
-						}else{
-							config.set(pathKey, value);
-							save = true;
+						Object value = null;
+						if (Integer.class.equals(extend.classType())) {
+							value = Integer.valueOf(extend.value());
+							if (config.isSet(pathKey)) {
+								value = config.getInt(pathKey);
+							} else {
+								config.set(pathKey, value);
+								save = true;
+							}
+						} else if (Integer[].class.equals(extend.classType())) {
+							value = Arrays.stream(extend.value().split(",")).map(Integer::valueOf).collect(Collectors.toList());
+							if (config.isSet(pathKey)) {
+								value = config.getIntegerList(pathKey);
+							} else {
+								config.set(pathKey, value);
+								save = true;
+							}
+							value = ((List<Integer>) value).toArray(new Integer[0]);
 						}
-					} else if (Integer[].class.equals(extend.classType())) {
-						value = Arrays.stream(extend.value().split(",")).map(Integer::valueOf).collect(Collectors.toList());
-						if(config.isSet(pathKey)){
-							value = config.getIntegerList(pathKey);
-						}else{
-							config.set(pathKey, value);
-							save = true;
+						if (value != null) {
+							map.put(extend.key(), value);
 						}
-						value = ((List<Integer>)value).toArray(new Integer[0]);
-					}
-					if(value != null){
-						map.put(extend.key(), value);
-					}
 					}catch (Exception e){
+						BankLog.errorAlert("No extended value found for key " + pathKey + " in path " + path.getActualPath() + " in file " + this.getConfig().getFile().getAbsolutePath());
 						e.printStackTrace();
 					}
 				}
-				if(map.size() > 0){
+				if (!map.isEmpty()) {
 					((BankExtendedPath) path).setExtendedValues(map);
 				}
+			}
+		}
+		if (path instanceof BankItemPath) {
+			if (!((BankItemPath) path).isValidItem()) {
+				BankLog.errorAlert("Invalid item for " + path.getActualPath() + " in " + this.getConfig().getFile().getAbsolutePath());
 			}
 		}
 		return save;

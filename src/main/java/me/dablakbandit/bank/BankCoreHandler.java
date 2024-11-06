@@ -280,6 +280,7 @@ public class BankCoreHandler extends CoreHandler implements Listener{
 	 * Disable elements of the plugin.
 	 */
 	private void disable(){
+		BankLog.getAlerts().clear();
 		// Remove plugin commands
 		AbstractCommand.removePluginCommands(plugin);
 		
@@ -289,7 +290,7 @@ public class BankCoreHandler extends CoreHandler implements Listener{
 		AutoSaveManager.getInstance().disable();
 		// Disable converters
 		Converters.disable();
-		
+
 		// Notify console bank has disabled
 		BankLog.info(BankPluginConfiguration.BANK_LOG_PLUGIN_LEVEL, "Bank Disabled");
 	}
@@ -327,6 +328,9 @@ public class BankCoreHandler extends CoreHandler implements Listener{
 	public void onPlayerJoin(PlayerLoginEvent event) {
 		if (converting) {
 			event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Bank converting, please wait.");
+		}
+		if (event.getPlayer().isOp()) {
+			BankLog.getAlerts().forEach(event.getPlayer()::sendMessage);
 		}
 	}
 	

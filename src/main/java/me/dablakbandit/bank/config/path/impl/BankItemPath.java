@@ -2,6 +2,7 @@ package me.dablakbandit.bank.config.path.impl;
 
 import me.dablakbandit.bank.config.path.BankExtendedPath;
 import me.dablakbandit.bank.inventory.head.PlayerHead;
+import me.dablakbandit.bank.log.BankLog;
 import me.dablakbandit.core.config.RawConfiguration;
 import me.dablakbandit.core.config.path.ItemPath;
 import me.dablakbandit.core.utils.NMSUtils;
@@ -11,6 +12,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -188,6 +190,15 @@ public class BankItemPath extends ItemPath implements BankExtendedPath {
                 e.printStackTrace();
             }
         }
+
+        if (hideTooltipExists && isSet(path, "HideTooltip")) {
+            try {
+                setHideTooltip(is, config, path);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         if (isSet(path, "CustomModelData") && customExists) {
             try {
                 setCustomModelData(is, config, path);
@@ -217,6 +228,17 @@ public class BankItemPath extends ItemPath implements BankExtendedPath {
         }
     }
 
+    private static boolean hideTooltipExists = true;
+    private static Method hideTooltipMethod;
+
+    static {
+        try {
+            hideTooltipMethod = NMSUtils.getMethodSilent(ItemMeta.class, "setHideTooltip", boolean.class);
+            hideTooltipExists = hideTooltipMethod != null;
+        } catch (Exception ignored) {
+        }
+    }
+
     protected void setCustomModelData(ItemStack is, RawConfiguration config, String path) {
         ItemMeta im = is.getItemMeta();
         im.setCustomModelData(config.getInt(path + ".CustomModelData"));
@@ -229,6 +251,16 @@ public class BankItemPath extends ItemPath implements BankExtendedPath {
             im.addItemFlags(org.bukkit.inventory.ItemFlag.valueOf(flag));
         });
         is.setItemMeta(im);
+    }
+
+    protected void setHideTooltip(ItemStack is, RawConfiguration config, String path) {
+        try {
+            ItemMeta im = is.getItemMeta();
+            hideTooltipMethod.invoke(im, config.getBoolean(path + ".HideTooltip"));
+            is.setItemMeta(im);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -248,16 +280,36 @@ public class BankItemPath extends ItemPath implements BankExtendedPath {
         return null;
     }
 
+    private String file;
+
+    public String getFile() {
+        return file;
+    }
+
+    @Override
+    public void setFile(String file) {
+        this.file = file;
+    }
+
     public void setExtendedValues(Map<String, Object> extendedValues) {
         this.extendedValues = extendedValues;
     }
 
     @SuppressWarnings("unchecked")
     public <T> T getExtendValue(String key, Class<T> clazz) {
-        if (this.extendedValues == null) {
+        if (this.extendedValues == null || !this.extendedValues.containsKey(key)) {
+            BankLog.errorAlert("No extended value found for key " + key + " in path " + getActualPath() + " in file " + this.file);
             return null;
         }
         return (T) this.extendedValues.get(key);
+    }
+
+    public boolean isValidItem() {
+        try {
+            return get() != null;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private static ItemStack cloneAmount(ItemStack is, int amount) {

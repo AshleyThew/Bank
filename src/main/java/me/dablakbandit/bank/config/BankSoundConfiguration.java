@@ -26,16 +26,23 @@ public class BankSoundConfiguration extends CommentAdvancedConfiguration{
 	private static Sound levelup, anvil;
 	
 	static{
-		try{
-			levelup = Enum.valueOf(Sound.class, "ENTITY_PLAYER_LEVELUP");
-		}catch(Exception e){
-			levelup = Enum.valueOf(Sound.class, "LEVEL_UP");
-		}
-		
-		try{
-			anvil = Enum.valueOf(Sound.class, "BLOCK_ANVIL_LAND");
-		}catch(Exception e){
-			anvil = Enum.valueOf(Sound.class, "ANVIL_LAND");
+		// Check if sounds class is an enum
+
+		if (Sound.class.isEnum()) {
+			try {
+				levelup = Sound.valueOf("ENTITY_PLAYER_LEVELUP");
+			} catch (Exception e) {
+				levelup = Sound.valueOf("LEVEL_UP");
+			}
+
+			try {
+				anvil = Sound.valueOf("BLOCK_ANVIL_LAND");
+			} catch (Exception e) {
+				anvil = Sound.valueOf("ANVIL_LAND");
+			}
+		} else {
+			levelup = Sound.valueOf("ENTITY_PLAYER_LEVELUP");
+			anvil = Sound.valueOf("BLOCK_ANVIL_LAND");
 		}
 	}
 	

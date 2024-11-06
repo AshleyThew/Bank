@@ -1,13 +1,15 @@
 package me.dablakbandit.bank.log;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-
 import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.core.config.path.EnumPath;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class BankLog{
 	
@@ -43,6 +45,24 @@ public class BankLog{
 	public static void debug(String message){
 		// if(BankPluginConfiguration.CONSOLE_DEBUG.get()){
 		Bukkit.getConsoleSender().sendMessage(prefix + ChatColor.YELLOW + message);
+		// }
+	}
+
+	private static List<String> alerts = new ArrayList<>();
+
+	public static List<String> getAlerts() {
+		return alerts;
+	}
+
+	public static void errorAlert(String message) {
+		// if(BankPluginConfiguration.CONSOLE_ERROR.get()){
+		alerts.add(prefix + message);
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (player.isOp()) {
+				player.sendMessage(prefix + ChatColor.RED + message);
+			}
+		}
+		errorAlways(message);
 		// }
 	}
 	
