@@ -1,5 +1,15 @@
 package me.dablakbandit.bank.implementations.other;
 
+import me.dablakbandit.bank.BankPlugin;
+import me.dablakbandit.bank.config.BankPermissionConfiguration;
+import me.dablakbandit.bank.config.BankPluginConfiguration;
+import me.dablakbandit.bank.config.BankSoundConfiguration;
+import me.dablakbandit.bank.implementations.BankImplementation;
+import me.dablakbandit.bank.inventory.BankInventories;
+import me.dablakbandit.bank.inventory.BankInventoriesManager;
+import me.dablakbandit.bank.inventory.OpenTypes;
+import me.dablakbandit.core.players.CorePlayerManager;
+import me.dablakbandit.core.players.CorePlayers;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -8,17 +18,6 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import me.dablakbandit.bank.BankPlugin;
-import me.dablakbandit.bank.config.BankPermissionConfiguration;
-import me.dablakbandit.bank.config.BankPluginConfiguration;
-import me.dablakbandit.bank.config.BankSoundConfiguration;
-import me.dablakbandit.bank.implementations.BankImplementation;
-import me.dablakbandit.bank.inventory.BankInventories;
-import me.dablakbandit.bank.inventory.BankInventoriesManager;
-import me.dablakbandit.bank.log.BankLog;
-import me.dablakbandit.core.players.CorePlayerManager;
-import me.dablakbandit.core.players.CorePlayers;
 
 public class SignType extends BankImplementation implements Listener{
 	
@@ -57,14 +56,42 @@ public class SignType extends BankImplementation implements Listener{
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event){
 		if(event.getClickedBlock() == null){ return; }
-		if(isSign(event.getClickedBlock())){
-			event.setCancelled(true);
-			if(!BankPermissionConfiguration.PERMISSION_OPEN_SIGN.has(event.getPlayer())){ return; }
-			CorePlayers pl = CorePlayerManager.getInstance().getPlayer(event.getPlayer());
-			if(BankInventoriesManager.getInstance().open(pl, BankInventories.BANK_MAIN_MENU)){
-				BankSoundConfiguration.SIGN_OPEN.play(pl);
-			}
+		OpenTypes[] openType = getOpenType(event.getClickedBlock());
+		if (openType == null) {
+			return;
 		}
+		event.setCancelled(true);
+		if (!BankPermissionConfiguration.PERMISSION_OPEN_SIGN.has(event.getPlayer())) {
+			return;
+		}
+		CorePlayers pl = CorePlayerManager.getInstance().getPlayer(event.getPlayer());
+		BankInventories inventories = BankInventoriesManager.getInstance().getBankInventories(openType);
+		if (BankInventoriesManager.getInstance().open(pl, inventories, openType)) {
+			BankSoundConfiguration.SIGN_OPEN.play(pl);
+		}
+	}
+
+	public OpenTypes[] getOpenType(Block b) {
+		if (!isSign(b)) {
+			return null;
+		}
+		if (!BankPluginConfiguration.BANK_OPENTYPE_SUBSET_SIGN_ENABLED.get()) {
+			return OpenTypes.values();
+		}
+		Sign s = (Sign) b.getState();
+		if (s.getLine(1).isEmpty()) {
+			return OpenTypes.values();
+		}
+		String[] types = s.getLine(1).split(",");
+		OpenTypes[] openTypes = new OpenTypes[types.length];
+		for (int i = 0; i < types.length; i++) {
+			OpenTypes type = OpenTypes.getOpenType(types[i]);
+			if (type == null) {
+				return null;
+			}
+			openTypes[i] = type;
+		}
+		return openTypes;
 	}
 	
 	public boolean isSign(Block b){

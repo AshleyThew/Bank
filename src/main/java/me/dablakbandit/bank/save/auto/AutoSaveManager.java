@@ -32,9 +32,10 @@ public class AutoSaveManager{
 	}
 	
 	public void disable(){
-		if (task != null && !task.isCancelled()) {
+		if (task != null) {
 			task.cancel();
 		}
 		task = null;
 	}
+
 }

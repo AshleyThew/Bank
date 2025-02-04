@@ -26,6 +26,7 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 		return configuration;
 	}
 
+	// @formatter:off
 	@SuppressWarnings({"rawtypes", "unused"})
 	@CommentArray({ "Edit messages from the plugin here.", "Use <nl> for new lines" })
 	private static final Path						BANK							= new EmptyPath();
@@ -86,8 +87,8 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	public static final BankTranslatedStringPath	COMMAND_UNKNOWN_FORMAT			= new BankTranslatedStringPath(ChatColor.RED + "Unknown command /<base> <args>");
 	@Comment("Available: <player>")
 	public static final BankTranslatedStringPath	COMMAND_UNKNOWN_PLAYER			= new BankTranslatedStringPath(ChatColor.RED + "Unknown player <player>");
-	public static final BankTranslatedStringPath	COMMAND_NO_PERMISSION			=
-		new BankTranslatedStringPath(ChatColor.RED + "You do not have the permission to perform this command.");
+	public static final BankTranslatedStringPath	COMMAND_NO_PERMISSION			= new BankTranslatedStringPath(ChatColor.RED + "You do not have the permission to perform this command.");
+	public static final BankTranslatedStringPath 	COMMAND_NOT_AVAILABLE 			= new BankTranslatedStringPath(ChatColor.RED + "This command is not available.");
 	@Comment("Available: <value>")
 	public static final BankTranslatedStringPath	COMMAND_UNABLE_PARSE			= new BankTranslatedStringPath(ChatColor.RED + "Unable to parse <value>.");
 

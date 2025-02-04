@@ -2,10 +2,7 @@ package me.dablakbandit.bank.inventory.item;
 
 import me.dablakbandit.bank.config.*;
 import me.dablakbandit.bank.config.path.impl.BankItemPath;
-import me.dablakbandit.bank.inventory.AnvilInventory;
-import me.dablakbandit.bank.inventory.BankInventories;
-import me.dablakbandit.bank.inventory.BankInventoriesManager;
-import me.dablakbandit.bank.inventory.BankInventoryHandler;
+import me.dablakbandit.bank.inventory.*;
 import me.dablakbandit.bank.player.info.BankInfo;
 import me.dablakbandit.bank.player.info.BankItemsInfo;
 import me.dablakbandit.bank.player.info.item.BankItem;
@@ -39,12 +36,19 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 		addTabsItems();
 		setItem(BankItemConfiguration.BANK_ITEM_BLANK, this::doNothing);
 	}
+
+	public ItemStack getBack(BankItemPath path, BankInfo bankInfo) {
+		if (bankInfo.getOpenTypes().contains(OpenTypes.ALL) || bankInfo.getOpenTypes().contains(OpenTypes.MENU)) {
+			return path.get();
+		}
+		return BankItemConfiguration.BANK_ITEM_BLANK.get();
+	}
 	
 	private void addBack(){
 		if(BankPluginConfiguration.BANK_ITEMS_ONLY.get()){
 			setItem(BankItemConfiguration.BANK_ITEM_BACK.getSlot(), BankItemConfiguration.BANK_ITEM_BLANK);
 		}else{
-			setItem(BankItemConfiguration.BANK_ITEM_BACK, consumeSound(this::returnToMainMenu, BankSoundConfiguration.INVENTORY_GLOBAL_BACK));
+			setItem(BankItemConfiguration.BANK_ITEM_BACK, this::getBack, consumeSound(this::returnToMainMenu, BankSoundConfiguration.INVENTORY_GLOBAL_BACK));
 		}
 	}
 	

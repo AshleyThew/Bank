@@ -1,12 +1,12 @@
 package me.dablakbandit.bank.player.info;
 
+import me.dablakbandit.bank.inventory.OpenTypes;
 import me.dablakbandit.bank.save.loader.LoaderManager;
 import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.players.info.CorePlayersInfo;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class BankInfo extends CorePlayersInfo{
@@ -18,7 +18,9 @@ public class BankInfo extends CorePlayersInfo{
 	private BankPinInfo			pinInfo;
 	private BankPermissionInfo	permissionInfo;
 	private BankLoansInfo		loansInfo;
-	
+
+	private Set<OpenTypes> openTypes;
+
 	private final long				joined	= System.currentTimeMillis();
 	
 	public BankInfo(CorePlayers pl){
@@ -33,6 +35,7 @@ public class BankInfo extends CorePlayersInfo{
 		pl.addInfo(this.pinInfo = new BankPinInfo(pl));
 		pl.addInfo(this.permissionInfo = new BankPermissionInfo(pl));
 		pl.addInfo(this.loansInfo = new BankLoansInfo(pl));
+		this.openTypes = new HashSet<>();
 	}
 	
 	@Override
@@ -61,6 +64,15 @@ public class BankInfo extends CorePlayersInfo{
 	
 	public BankPermissionInfo getPermissionInfo(){
 		return permissionInfo;
+	}
+
+	public void setOpenTypes(OpenTypes... openTypes) {
+		this.openTypes.clear();
+		this.openTypes.addAll(Arrays.asList(openTypes));
+	}
+
+	public Set<OpenTypes> getOpenTypes() {
+		return openTypes;
 	}
 	
 	public boolean isLocked(boolean check){

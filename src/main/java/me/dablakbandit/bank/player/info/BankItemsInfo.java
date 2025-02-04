@@ -49,6 +49,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 
 	public List<BankItem> getTabBankItems(int tab) {
 		List<BankItem> bankItems = bankItemMap.computeIfAbsent(tab, ArrayList::new);
+		bankItems.removeIf(bi -> bi.getItemStack() == null || bi.getItemStack().getType() == Material.AIR);
 		return bankItems;
 	}
 	

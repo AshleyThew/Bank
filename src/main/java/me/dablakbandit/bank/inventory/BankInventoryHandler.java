@@ -1,25 +1,24 @@
 package me.dablakbandit.bank.inventory;
 
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
-
-import me.dablakbandit.bank.implementations.placeholder.BankPlaceholderManager;
-import me.dablakbandit.bank.inventory.head.PlayerHead;
-import me.dablakbandit.core.config.path.PermissionPath;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
 import me.dablakbandit.bank.config.BankSoundConfiguration;
 import me.dablakbandit.bank.config.path.impl.BankItemPath;
+import me.dablakbandit.bank.implementations.placeholder.BankPlaceholderManager;
+import me.dablakbandit.bank.inventory.head.PlayerHead;
 import me.dablakbandit.bank.player.info.BankPermissionInfo;
+import me.dablakbandit.core.config.path.PermissionPath;
 import me.dablakbandit.core.inventory.InventoryHandler;
 import me.dablakbandit.core.inventory.handler.ItemInfoHandler;
 import me.dablakbandit.core.inventory.handler.ItemInfoInventoryEventHandler;
 import me.dablakbandit.core.inventory.handler.ItemInfoInventoryHandler;
 import me.dablakbandit.core.players.CorePlayerManager;
 import me.dablakbandit.core.players.CorePlayers;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public abstract class BankInventoryHandler<T>extends InventoryHandler<T>{
 	
@@ -42,7 +41,7 @@ public abstract class BankInventoryHandler<T>extends InventoryHandler<T>{
 	public void setItem(BankItemPath path, Function<BankItemPath, ItemStack> supplier, ItemInfoInventoryEventHandler<T> handler){
 		consumeSlots(path, (slot) -> setItem(slot, (t) -> supplier.apply(path), handler));
 	}
-	
+
 	public void setItem(BankItemPath path, Function<BankItemPath, ItemStack> supplier, ItemInfoInventoryHandler<T> handler){
 		consumeSlots(path, (slot) -> setItem(slot, (t) -> supplier.apply(path), (a, b, c, d) -> handler.onClick(a, b, c)));
 	}

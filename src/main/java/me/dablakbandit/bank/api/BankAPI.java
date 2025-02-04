@@ -1,15 +1,10 @@
 package me.dablakbandit.bank.api;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.bukkit.entity.Player;
-
 import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.database.BankDatabaseManager;
 import me.dablakbandit.bank.inventory.BankInventories;
 import me.dablakbandit.bank.inventory.BankInventoriesManager;
+import me.dablakbandit.bank.inventory.OpenTypes;
 import me.dablakbandit.bank.player.info.BankExpInfo;
 import me.dablakbandit.bank.player.info.BankItemsInfo;
 import me.dablakbandit.bank.player.info.BankMoneyInfo;
@@ -18,6 +13,11 @@ import me.dablakbandit.bank.save.loader.runner.SaveRunner;
 import me.dablakbandit.core.players.CorePlayerManager;
 import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.players.info.CorePlayersInfo;
+import org.bukkit.entity.Player;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BankAPI{
 	
@@ -144,7 +144,7 @@ public class BankAPI{
 	*/
 	
 	public boolean openBank(Player player){
-		return BankInventoriesManager.getInstance().open(CorePlayerManager.getInstance().getPlayer(player), BankInventories.BANK_MAIN_MENU);
+		return BankInventoriesManager.getInstance().open(CorePlayerManager.getInstance().getPlayer(player), BankInventories.BANK_MAIN_MENU, OpenTypes.values());
 	}
 	
 	public double getOfflineMoney(String uuid){

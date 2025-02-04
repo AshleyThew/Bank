@@ -1,18 +1,19 @@
 package me.dablakbandit.bank.inventory.main;
 
-import java.util.function.Consumer;
-
-import org.bukkit.inventory.ItemStack;
-
 import me.dablakbandit.bank.config.BankItemConfiguration;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.config.BankSoundConfiguration;
 import me.dablakbandit.bank.config.path.impl.BankItemPath;
 import me.dablakbandit.bank.inventory.BankInventories;
 import me.dablakbandit.bank.inventory.BankInventoryHandler;
+import me.dablakbandit.bank.inventory.OpenTypes;
 import me.dablakbandit.bank.player.info.BankInfo;
 import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.players.CorePlayers;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 public class BankMainMenuInventory extends BankInventoryHandler<BankInfo>{
 	
@@ -37,7 +38,7 @@ public class BankMainMenuInventory extends BankInventoryHandler<BankInfo>{
 	
 	private void addMoney(){
 		if(!BankPluginConfiguration.BANK_MONEY_ENABLED.get()){ return; }
-		setItem(BankItemConfiguration.BANK_MAIN_MONEY, this::addMoneyItem, consumeSound(getMoney(), BankSoundConfiguration.INVENTORY_MENU_OPEN_MONEY));
+		setItem(BankItemConfiguration.BANK_MAIN_MONEY, (path, t) -> getItem(path, t, this::addMoneyItem, OpenTypes.MONEY), consumeSound(getMoney(), BankSoundConfiguration.INVENTORY_MENU_OPEN_MONEY));
 	}
 	
 	protected Consumer<CorePlayers> getMoney(){
@@ -50,7 +51,11 @@ public class BankMainMenuInventory extends BankInventoryHandler<BankInfo>{
 	
 	private void addItem(){
 		if(!BankPluginConfiguration.BANK_ITEMS_ENABLED.get()){ return; }
-		setItem(BankItemConfiguration.BANK_MAIN_ITEM, consumeSound(getItem(), BankSoundConfiguration.INVENTORY_MENU_OPEN_ITEMS));
+		setItem(BankItemConfiguration.BANK_MAIN_ITEM, (path, t) -> getItem(path, t, this::addItem, OpenTypes.ITEMS), consumeSound(getItem(), BankSoundConfiguration.INVENTORY_MENU_OPEN_ITEMS));
+	}
+
+	private ItemStack addItem(BankItemPath path, BankInfo bankInfo) {
+		return path.get();
 	}
 	
 	protected Consumer<CorePlayers> getItem(){
@@ -59,11 +64,18 @@ public class BankMainMenuInventory extends BankInventoryHandler<BankInfo>{
 	
 	private void addExp(){
 		if(!BankPluginConfiguration.BANK_EXP_ENABLED.get()){ return; }
-		setItem(BankItemConfiguration.BANK_MAIN_EXP, this::addExpItem, consumeSound(getExp(), BankSoundConfiguration.INVENTORY_MENU_OPEN_EXP));
+		setItem(BankItemConfiguration.BANK_MAIN_EXP, (path, t) -> getItem(path, t, this::addExpItem, OpenTypes.EXP), consumeSound(getExp(), BankSoundConfiguration.INVENTORY_MENU_OPEN_EXP));
 	}
 	
 	protected Consumer<CorePlayers> getExp(){
 		return BankInventories.BANK_EXP;
+	}
+
+	private ItemStack getItem(BankItemPath path, BankInfo bankInfo, BiFunction<BankItemPath, BankInfo, ItemStack> supplier, OpenTypes check) {
+		if (bankInfo.getOpenTypes().contains(OpenTypes.ALL) || bankInfo.getOpenTypes().contains(check)) {
+			return supplier.apply(path, bankInfo);
+		}
+		return BankItemConfiguration.BANK_ITEM_BLANK.get();
 	}
 	
 	private ItemStack addExpItem(BankItemPath path, BankInfo bankInfo){

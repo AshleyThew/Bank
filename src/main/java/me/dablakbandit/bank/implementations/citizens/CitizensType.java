@@ -1,14 +1,5 @@
 package me.dablakbandit.bank.implementations.citizens;
 
-import net.citizensnpcs.api.event.CitizensEnableEvent;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.plugin.Plugin;
-
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.config.BankPermissionConfiguration;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
@@ -16,14 +7,23 @@ import me.dablakbandit.bank.config.BankSoundConfiguration;
 import me.dablakbandit.bank.implementations.BankImplementation;
 import me.dablakbandit.bank.inventory.BankInventories;
 import me.dablakbandit.bank.inventory.BankInventoriesManager;
+import me.dablakbandit.bank.inventory.OpenTypes;
 import me.dablakbandit.bank.log.BankLog;
 import me.dablakbandit.core.players.CorePlayerManager;
 import me.dablakbandit.core.players.CorePlayers;
 import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.event.CitizensEnableEvent;
 import net.citizensnpcs.api.event.NPCClickEvent;
 import net.citizensnpcs.api.event.NPCLeftClickEvent;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import net.citizensnpcs.api.trait.TraitInfo;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
+import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.plugin.Plugin;
 
 public class CitizensType extends BankImplementation implements Listener{
 	
@@ -87,8 +87,15 @@ public class CitizensType extends BankImplementation implements Listener{
 		event.setCancelled(true);
 		Player player = event.getClicker();
 		if(!BankPermissionConfiguration.PERMISSION_OPEN_CITIZENS.has(player)){ return; }
+
+		OpenTypes[] open = new OpenTypes[]{OpenTypes.ALL};
+		if (BankPluginConfiguration.BANK_OPENTYPE_SUBSET_CITIZENS_ENABLED.get()) {
+			BankTrait trait = event.getNPC().getTrait(BankTrait.class);
+			open = trait.getTypes();
+		}
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer(player);
-		if(BankInventoriesManager.getInstance().open(pl, BankInventories.BANK_MAIN_MENU)){
+		BankInventories inventories = BankInventoriesManager.getInstance().getBankInventories(open);
+		if (BankInventoriesManager.getInstance().open(pl, inventories, open)) {
 			BankSoundConfiguration.CITIZENS_OPEN.play(pl);
 		}
 	}

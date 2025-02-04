@@ -1,17 +1,16 @@
 package me.dablakbandit.bank.database.sqlite;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLSyntaxErrorException;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 import me.dablakbandit.bank.database.base.IInfoDatabase;
 import me.dablakbandit.bank.database.base.IInfoTypeDatabase;
 import me.dablakbandit.bank.database.base.IUUIDDatabase;
 import me.dablakbandit.bank.database.base.PlayerLockDatabase;
 import me.dablakbandit.core.players.info.JSONInfo;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class BankInfoSQLiteDatabase extends IInfoDatabase{
 	
@@ -34,34 +33,26 @@ public class BankInfoSQLiteDatabase extends IInfoDatabase{
 	
 	@Override
 	public boolean columnExists(Connection connection, String db, String column){
-		List<String> columns = new ArrayList<>();
+		boolean exists = false;
 		try{
-			PreparedStatement ps = connection.prepareStatement("PRAGMA table_info(`" + db + "`);");
-			ResultSet rs = ps.executeQuery();
-			while(rs.next()){
-				columns.add(rs.getString(2));
-			}
+			ResultSet rs = connection.getMetaData().getColumns(null, null, db, column);
+			exists = rs.next();
 			rs.close();
-			ps.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		return columns.contains(column);
+		return exists;
 	}
-	
+
 	@Override
 	public boolean tableExists(Connection connection, String table){
 		boolean exists = false;
 		try{
-			PreparedStatement ps = connection.prepareStatement("PRAGMA table_info(`" + table + "`);");
-			ResultSet rs = ps.executeQuery();
-			exists = rs.next();
-			rs.close();
-			ps.close();
+			ResultSet rsTables = connection.getMetaData().getTables(null, null, table, null);
+			exists = rsTables.next();
+			rsTables.close();
 		}catch(Throwable ignored){
-			if(!(ignored instanceof SQLSyntaxErrorException)){
-				ignored.printStackTrace();
-			}
+			ignored.printStackTrace();
 		}
 		return exists;
 	}

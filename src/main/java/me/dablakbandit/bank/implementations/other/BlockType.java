@@ -1,5 +1,16 @@
 package me.dablakbandit.bank.implementations.other;
 
+import me.dablakbandit.bank.BankPlugin;
+import me.dablakbandit.bank.config.BankPermissionConfiguration;
+import me.dablakbandit.bank.config.BankPluginConfiguration;
+import me.dablakbandit.bank.config.BankSoundConfiguration;
+import me.dablakbandit.bank.implementations.BankImplementation;
+import me.dablakbandit.bank.inventory.BankInventories;
+import me.dablakbandit.bank.inventory.BankInventoriesManager;
+import me.dablakbandit.bank.inventory.OpenTypes;
+import me.dablakbandit.core.players.CorePlayerManager;
+import me.dablakbandit.core.players.CorePlayers;
+import me.dablakbandit.core.utils.location.LocationUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -8,18 +19,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import me.dablakbandit.bank.BankPlugin;
-import me.dablakbandit.bank.config.BankPermissionConfiguration;
-import me.dablakbandit.bank.config.BankPluginConfiguration;
-import me.dablakbandit.bank.config.BankSoundConfiguration;
-import me.dablakbandit.bank.implementations.BankImplementation;
-import me.dablakbandit.bank.inventory.BankInventories;
-import me.dablakbandit.bank.inventory.BankInventoriesManager;
-import me.dablakbandit.bank.log.BankLog;
-import me.dablakbandit.core.players.CorePlayerManager;
-import me.dablakbandit.core.players.CorePlayers;
-import me.dablakbandit.core.utils.location.LocationUtils;
 
 public class BlockType extends BankImplementation implements Listener{
 	
@@ -67,7 +66,7 @@ public class BlockType extends BankImplementation implements Listener{
 		event.setCancelled(true);
 		if(!BankPermissionConfiguration.PERMISSION_OPEN_BLOCK.has(event.getPlayer())){ return; }
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer(event.getPlayer());
-		if(BankInventoriesManager.getInstance().open(pl, BankInventories.BANK_MAIN_MENU)){
+		if (BankInventoriesManager.getInstance().open(pl, BankInventories.BANK_MAIN_MENU, OpenTypes.ALL)) {
 			BankSoundConfiguration.BLOCK_OPEN.play(pl);
 		}
 	}

@@ -1,18 +1,18 @@
 package me.dablakbandit.bank.command.arguments.admin.force;
 
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import me.dablakbandit.bank.command.base.BankEndArgument;
 import me.dablakbandit.bank.config.BankLanguageConfiguration;
 import me.dablakbandit.bank.inventory.BankInventories;
 import me.dablakbandit.bank.inventory.BankInventoriesManager;
+import me.dablakbandit.bank.inventory.OpenTypes;
 import me.dablakbandit.core.command.config.CommandConfiguration;
 import me.dablakbandit.core.commands.tabcompleter.TabCompleter;
 import me.dablakbandit.core.players.CorePlayerManager;
 import me.dablakbandit.core.players.CorePlayers;
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class OpenArgument extends BankEndArgument{
 	
@@ -36,7 +36,7 @@ public class OpenArgument extends BankEndArgument{
 	}
 	
 	private void open(CorePlayers open){
-		BankInventoriesManager.getInstance().open(open, BankInventories.BANK_MAIN_MENU);
+		BankInventoriesManager.getInstance().open(open, BankInventories.BANK_MAIN_MENU, OpenTypes.ALL);
 	}
 	
 	@Override

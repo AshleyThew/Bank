@@ -23,6 +23,7 @@ public class TestEnvironment {
         bankPlugin = (BankPlugin) MockBukkit.getMock().getPluginManager().loadPlugin(BankPlugin.class, new Object[0]);
         MockBukkit.getMock().getPluginManager().enablePlugin(corePlugin);
         MockBukkit.getMock().getPluginManager().enablePlugin(bankPlugin);
+        LoaderManager.getInstance().start();
     }
 
     public ServerMock getServer() {
