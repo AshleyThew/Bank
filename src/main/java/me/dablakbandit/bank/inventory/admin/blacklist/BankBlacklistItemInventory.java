@@ -1,8 +1,5 @@
 package me.dablakbandit.bank.inventory.admin.blacklist;
 
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import me.dablakbandit.bank.config.BankItemConfiguration;
 import me.dablakbandit.bank.config.path.impl.BankItemPath;
 import me.dablakbandit.bank.implementations.blacklist.ItemBlacklistImplementation;
@@ -10,13 +7,15 @@ import me.dablakbandit.bank.inventory.BankInventories;
 import me.dablakbandit.bank.inventory.BankInventoryHandler;
 import me.dablakbandit.bank.player.info.admin.BankAdminInfo;
 import me.dablakbandit.core.players.CorePlayers;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class BankBlacklistItemInventory extends BankInventoryHandler<BankAdminInfo>{
 	
 	@Override
 	public void init(){
 		int size = descriptor.getSize();
-		setAll(size, BankItemConfiguration.BANK_ITEM_BLANK);
+		setAll(size, BankItemConfiguration.BANK_ADMIN_ITEM_BLANK);
 		setItem(BankItemConfiguration.BANK_ITEM_BLACKLIST_BACK, BankInventories.BANK_ADMIN_BLACKLIST);
 		setItem(3, this::getData, this::toggleData);
 		setItem(5, this::getNBT, this::toggleNBT);

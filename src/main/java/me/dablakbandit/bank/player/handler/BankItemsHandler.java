@@ -1,5 +1,6 @@
 package me.dablakbandit.bank.player.handler;
 
+import me.dablakbandit.bank.config.BankItemBlacklistConfiguration;
 import me.dablakbandit.bank.config.BankPermissionConfiguration;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.implementations.blacklist.ItemBlacklistImplementation;
@@ -12,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -57,6 +59,9 @@ public class BankItemsHandler {
     protected void addToBank(Player player, int x, int z, boolean force) {
         Inventory inv = player.getInventory();
         for (int i = x; i < z; i++) {
+            if (BankItemBlacklistConfiguration.BLACKLISTED_PLAYER_SLOTS.get().contains(i)) {
+                continue;
+            }
             ItemStack is = inv.getItem(i);
             if (isEmpty(is)) {
                 continue;
@@ -95,10 +100,21 @@ public class BankItemsHandler {
         }
         int size = getTabSize(bankItemsInfo.getOpenTab());
         if (force || size < BankPluginConfiguration.BANK_ITEMS_TABS_SIZE_MAX.get()) {
-            if (force || getTotalBankSize(tab) < getBankSlots(tab)) {
-                getTab(tab).add(new BankItem(is));
-                bankItemsInfo.save(BankPluginConfiguration.BANK_SAVE_ITEM_DEPOSIT);
-                return null;
+            // Check if using per-tab slots or overall slots
+            if (BankPluginConfiguration.BANK_ITEMS_SLOTS_PER_TAB.get()) {
+                // Check slots for this specific tab
+                if (force || getTabSize(tab) < getBankSlots(tab)) {
+                    getTab(tab).add(new BankItem(is));
+                    bankItemsInfo.save(BankPluginConfiguration.BANK_SAVE_ITEM_DEPOSIT);
+                    return null;
+                }
+            } else {
+                // Check overall slots
+                if (force || getTotalBankSize(tab) < getBankSlots(tab)) {
+                    getTab(tab).add(new BankItem(is));
+                    bankItemsInfo.save(BankPluginConfiguration.BANK_SAVE_ITEM_DEPOSIT);
+                    return null;
+                }
             }
         }
         if (is.getAmount() != itemSize) {
@@ -280,6 +296,9 @@ public class BankItemsHandler {
             BankItem item = iterator.next();
             for (int i = x; i < z; i++) {
                 int finalI = i;
+                if (BankItemBlacklistConfiguration.BLACKLISTED_PLAYER_SLOTS.get().contains(finalI)) {
+                    continue;
+                }
                 if (removeItemTo(item, () -> inv.getItem(finalI), is -> inv.setItem(finalI, is))) {
                     taken = true;
                     if (item.getAmount() == 0) {
@@ -318,6 +337,9 @@ public class BankItemsHandler {
         Inventory inv = player.getInventory();
         for (int pSlot = 0; pSlot < 36; pSlot++) {
             int finalPSlot = pSlot;
+            if (BankItemBlacklistConfiguration.BLACKLISTED_PLAYER_SLOTS.get().contains(finalPSlot)) {
+                continue;
+            }
             removeItemTo(merge, () -> inv.getItem(finalPSlot), is -> inv.setItem(finalPSlot, is));
             if (merge.getAmount() == 0) {
                 break;
@@ -351,6 +373,9 @@ public class BankItemsHandler {
     }
 
     public boolean takeBankItemAt(Player player, int tab, int slot, int amount) {
+        if (!BankPermissionConfiguration.PERMISSION_ITEMS_WITHDRAW.has(player)) {
+            return false;
+        }
         boolean taken = takeBankItem(player, tab, slot, amount);
         if (taken) {
             bankItemsInfo.save(BankPluginConfiguration.BANK_SAVE_ITEM_WITHDRAW);
@@ -442,5 +467,23 @@ public class BankItemsHandler {
 
     public void decrementBuyTabs() {
         this.buyTabs = Math.max(0, this.buyTabs - 1);
+    }
+
+    public void swapBankItems(Player player, int openTab, int finalSlot, int playerSlot) {
+        PlayerInventory inventory = player.getInventory();
+        ItemStack item = inventory.getItem(playerSlot);
+        inventory.setItem(playerSlot, addBankItem(player, item, openTab, true));
+        if (!BankPermissionConfiguration.PERMISSION_ITEMS_WITHDRAW.has(player)) {
+            return;
+        }
+
+        BankItem bankItem = getBankItemAtSlot(finalSlot, openTab);
+        if (bankItem == null) {
+            return;
+        }
+        removeItemTo(bankItem, () -> inventory.getItem(playerSlot), is -> inventory.setItem(playerSlot, is));
+        if (bankItem.getAmount() == 0) {
+            removeBankItemAtInt(finalSlot, openTab);
+        }
     }
 }

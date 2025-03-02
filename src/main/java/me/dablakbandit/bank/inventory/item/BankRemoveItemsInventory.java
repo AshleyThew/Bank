@@ -12,9 +12,8 @@ public class BankRemoveItemsInventory extends BankInventoryHandler<BankInfo>{
 	
 	@Override
 	public void init(){
-		int size = descriptor.getSize();
-		setAll(size, BankItemConfiguration.BANK_ITEM_BLANK);
 		setItem(BankItemConfiguration.BANK_REMOVE_BACK, consumeSound(this::returnToItems, BankSoundConfiguration.INVENTORY_GLOBAL_BACK));
+		setItem(BankItemConfiguration.BANK_REMOVE_BLANK);
 		setItem(BankItemConfiguration.BANK_REMOVE_ALL, consumeSound(this::removeAll, BankSoundConfiguration.INVENTORY_ITEMS_REMOVE_ALL));
 		setItem(BankItemConfiguration.BANK_REMOVE_INVENTORY, consumeSound(this::removeInventory, BankSoundConfiguration.INVENTORY_ITEMS_REMOVE_INVENTORY));
 		setItem(BankItemConfiguration.BANK_REMOVE_HOTBAR, consumeSound(this::removeHotbar, BankSoundConfiguration.INVENTORY_ITEMS_REMOVE_HOTBAR));

@@ -27,6 +27,7 @@ public @interface BankItemBase{
 		"- <itemflag2>",
 		"CustomModelData: <integer> (1.14+ only!)",
 		"HideTooltip: <true/false> Hide tools from item (1.20.5+ only!)",
+		"ItemModel: <model> (1.21.2+ only!)",
 		"",
 		"~Example with all~",
 		"Blank:",
@@ -49,6 +50,7 @@ public @interface BankItemBase{
 		"  - \"HIDE_ENCHANTS\"",
 		"  CustomModelData: 69",
 		"  HideTooltip: true",
+		"  ItemModel: 'minecraft:cobblestone'",
 		"",
 	};
 	//@formatter:on

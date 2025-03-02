@@ -26,6 +26,7 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	@Override
 	public void init(){
 		addBack();
+		setItem(BankItemConfiguration.BANK_ITEM_BLANK);
 		addSlots();
 		addTabs();
 		addTrashcan();
@@ -34,7 +35,6 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 		int size = descriptor.getSize();
 		addItems(size);
 		addTabsItems();
-		setItem(BankItemConfiguration.BANK_ITEM_BLANK, this::doNothing);
 	}
 
 	public ItemStack getBack(BankItemPath path, BankInfo bankInfo) {
@@ -45,9 +45,7 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	}
 	
 	private void addBack(){
-		if(BankPluginConfiguration.BANK_ITEMS_ONLY.get()){
-			setItem(BankItemConfiguration.BANK_ITEM_BACK.getSlot(), BankItemConfiguration.BANK_ITEM_BLANK);
-		}else{
+		if (!BankPluginConfiguration.BANK_ITEMS_ONLY.get()) {
 			setItem(BankItemConfiguration.BANK_ITEM_BACK, this::getBack, consumeSound(this::returnToMainMenu, BankSoundConfiguration.INVENTORY_GLOBAL_BACK));
 		}
 	}
@@ -80,7 +78,7 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	}
 	
 	private ItemStack getTabs(BankItemPath path, BankInfo bankInfo){
-		return replaceNameLore(path, "<tabs>", "" + bankInfo.getItemsInfo().getTotalTabCount());
+		return replaceNameLore(path, "<tabs>", "" + bankInfo.getItemsInfo().getTotalTabCount(), "<bought_tabs>", "" + bankInfo.getItemsInfo().getBoughtTabs());
 	}
 	
 	protected void addTrashcan(){
@@ -232,7 +230,10 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 
 	public void onClick(CorePlayers pl, BankInfo bi, InventoryClickEvent event, int slot, int width) {
 		event.setCancelled(true);
-		if(isHotbarSwap(event)){ return; }
+		if (isHotbarSwap(event)) {
+			handleHotbarSwap(pl, bi.getItemsInfo(), event, slot, width);
+			return;
+		}
 		ItemStack is = event.getCursor();
 		if(is != null && is.getType() != Material.AIR){
 			handleItemInput(pl, bi.getItemsInfo(), is, event);
@@ -240,16 +241,34 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 			handleItemTake(pl, bi.getItemsInfo(), event, slot, width);
 		}
 	}
+
+	private void handleHotbarSwap(CorePlayers pl, BankItemsInfo bi, InventoryClickEvent event, int slot, int width) {
+		// Swap items if possible
+		int playerSlot = event.getHotbarButton();
+		if (playerSlot == -1) {
+			return;
+		}
+		if (BankItemBlacklistConfiguration.BLACKLISTED_PLAYER_SLOTS.get().contains(playerSlot)) {
+			return;
+		}
+		int finalSlot = slot + bi.getScrolled() * width;
+		bi.getBankItemsHandler().swapBankItems(pl.getPlayer(), bi.getOpenTab(), finalSlot, playerSlot);
+		pl.refreshInventory();
+	}
 	
 	private boolean isHotbarSwap(InventoryClickEvent event){
-		return event.getAction().equals(InventoryAction.HOTBAR_SWAP);
+		return event.getAction().equals(InventoryAction.HOTBAR_SWAP) || event.getAction().equals(InventoryAction.HOTBAR_MOVE_AND_READD);
 	}
 	
 	private void handleItemInput(CorePlayers pl, BankItemsInfo bi, ItemStack is, InventoryClickEvent event){
 		ItemStack i = bi.getBankItemsHandler().addBankItem(pl.getPlayer(), is, false);
 		event.getWhoClicked().setItemOnCursor(i);
 		pl.refreshInventory();
-		BankSoundConfiguration.INVENTORY_ITEMS_ITEM_ADD.play(pl);
+		if (i == null) {
+			BankSoundConfiguration.INVENTORY_ITEMS_ITEM_ADD.play(pl);
+		} else {
+			BankSoundConfiguration.INVENTORY_ITEMS_ITEM_FULL.play(pl);
+		}
 	}
 	
 	private void handleItemTake(CorePlayers pl, BankItemsInfo bi, InventoryClickEvent event, int slot, int width){

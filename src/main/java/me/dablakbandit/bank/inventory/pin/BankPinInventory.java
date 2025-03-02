@@ -1,18 +1,17 @@
 package me.dablakbandit.bank.inventory.pin;
 
-import java.util.*;
-
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
 import me.dablakbandit.bank.config.BankItemConfiguration;
 import me.dablakbandit.bank.config.BankSoundConfiguration;
 import me.dablakbandit.bank.config.path.impl.BankItemPath;
 import me.dablakbandit.bank.inventory.BankInventoryHandler;
 import me.dablakbandit.bank.player.info.BankInfo;
 import me.dablakbandit.core.players.CorePlayers;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.*;
 
 public abstract class BankPinInventory extends BankInventoryHandler<BankInfo>{
 	
@@ -41,9 +40,13 @@ public abstract class BankPinInventory extends BankInventoryHandler<BankInfo>{
 
 	@Override
 	public void init(){
-		int size = descriptor.getSize();
-		setAll(size, BankItemConfiguration.BANK_ITEM_BLANK);
 
+		if (BankItemConfiguration.BANK_PIN_NUMBER_BLANK.getSlots().length > 0) {
+			setItem(BankItemConfiguration.BANK_PIN_NUMBER_BLANK);
+		} else {
+			int size = descriptor.getSize();
+			setAll(size, BankItemConfiguration.BANK_PIN_NUMBER_BLANK);
+		}
 
 		for (int i = 0; i < progressPaths.size(); i++) {
 			int finalI = i;
@@ -51,7 +54,7 @@ public abstract class BankPinInventory extends BankInventoryHandler<BankInfo>{
 		}
 
 		pins = itemPaths.stream().mapToInt(BankItemPath::getSlot).boxed().toArray(Integer[]::new);
-		Arrays.stream(pins).forEach(pin -> setItem(pin, BankItemConfiguration.BANK_ITEM_BLANK, this::onClick));
+		Arrays.stream(pins).forEach(pin -> setItem(pin, BankItemConfiguration.BANK_ADMIN_ITEM_BLANK, this::onClick));
 		setItem(BankItemConfiguration.BANK_PIN_CLEAR, this::clear);
 		setItem(BankItemConfiguration.BANK_PIN_NUMBER_ZERO, this::getZero, this::onClick);
 	}
@@ -88,7 +91,6 @@ public abstract class BankPinInventory extends BankInventoryHandler<BankInfo>{
 		for(int index = 0; index < 9; index++){
 			int number = nums.get(index);
 			ItemStack is = getNumber(number);
-			// is.setAmount(number);
 			inv.setItem(pins[index], is);
 		}
 	}

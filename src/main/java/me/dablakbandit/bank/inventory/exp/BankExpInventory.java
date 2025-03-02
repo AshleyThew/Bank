@@ -16,9 +16,8 @@ public class BankExpInventory extends BankInventoryHandler<BankExpInfo>{
 	
 	@Override
 	public void init(){
-		int size = descriptor.getSize();
-		setAll(size, BankItemConfiguration.BANK_ITEM_BLANK);
 		addBack();
+		setItem(BankItemConfiguration.BANK_EXP_BLANK);
 		setItem(BankItemConfiguration.BANK_EXP_WITHDRAWALL, consumeSound(this::withdrawAll, BankSoundConfiguration.INVENTORY_EXP_WITHDRAW_ALL));
 		setItem(BankItemConfiguration.BANK_EXP_WITHDRAW, consumeSound(this::withdraw, BankSoundConfiguration.INVENTORY_EXP_WITHDRAW));
 		setItem(BankItemConfiguration.BANK_EXP_BALANCE, this::getBalance);
@@ -169,13 +168,11 @@ public class BankExpInventory extends BankInventoryHandler<BankExpInfo>{
 		if (bankInfo.getOpenTypes().contains(OpenTypes.ALL) || bankInfo.getOpenTypes().contains(OpenTypes.MENU)) {
 			return path.get();
 		}
-		return BankItemConfiguration.BANK_ITEM_BLANK.get();
+		return BankItemConfiguration.BANK_EXP_BLANK.get();
 	}
 	
 	private void addBack(){
-		if(BankPluginConfiguration.BANK_EXP_ONLY.get()){
-			setItem(BankItemConfiguration.BANK_EXP_BACK.getSlot(), BankItemConfiguration.BANK_ITEM_BLANK);
-		}else{
+		if (!BankPluginConfiguration.BANK_EXP_ONLY.get()) {
 			setItem(BankItemConfiguration.BANK_EXP_BACK, this::getBack, consumeSound(this::returnToMainMenu, BankSoundConfiguration.INVENTORY_GLOBAL_BACK));
 		}
 	}

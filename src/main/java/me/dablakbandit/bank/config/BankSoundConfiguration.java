@@ -45,7 +45,8 @@ public class BankSoundConfiguration extends CommentAdvancedConfiguration{
 			anvil = Sound.valueOf("BLOCK_ANVIL_LAND");
 		}
 	}
-	
+
+	//@formatter:off
 	public static final SoundsPath	GLOBAL_ERROR							= new SoundsPath(anvil);
 	
 	public static final SoundsPath	BLOCK_OPEN								= new SoundsPath(levelup);
@@ -76,7 +77,8 @@ public class BankSoundConfiguration extends CommentAdvancedConfiguration{
 	public static final SoundsPath	INVENTORY_ITEMS_SCROLL_UP				= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_ITEMS_ITEM_ADD				= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_ITEMS_ITEM_TAKE				= new SoundsPath(levelup);
-	
+	public static final SoundsPath  INVENTORY_ITEMS_ITEM_FULL 					= new SoundsPath(anvil);
+
 	public static final SoundsPath	INVENTORY_ITEMS_BUY_SLOTS_MINUS			= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_ITEMS_BUY_SLOTS_BUY			= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_ITEMS_BUY_SLOTS_ADD			= new SoundsPath(levelup);

@@ -1,7 +1,5 @@
 package me.dablakbandit.bank.inventory.pin;
 
-import java.util.function.Consumer;
-
 import me.dablakbandit.bank.config.BankItemConfiguration;
 import me.dablakbandit.bank.config.BankSoundConfiguration;
 import me.dablakbandit.bank.inventory.BankInventories;
@@ -10,15 +8,16 @@ import me.dablakbandit.bank.inventory.BankInventoryHandler;
 import me.dablakbandit.bank.player.info.BankInfo;
 import me.dablakbandit.core.players.CorePlayers;
 
+import java.util.function.Consumer;
+
 public class BankPinMenuInventory extends BankInventoryHandler<BankInfo>{
 	
 	@Override
 	public void init(){
-		int size = descriptor.getSize();
-		setAll(size, BankItemConfiguration.BANK_ITEM_BLANK);
 		setItem(BankItemConfiguration.BANK_PIN_BACK, consumeSound(this::returnToMainMenu, BankSoundConfiguration.INVENTORY_GLOBAL_BACK));
+		setItem(BankItemConfiguration.BANK_PIN_BLANK);
 		setItem(BankItemConfiguration.BANK_PIN_SET, consumeSound(getPinSet(), BankSoundConfiguration.INVENTORY_PIN_SET));
-		setItem(BankItemConfiguration.BANK_PIN_REMOVE, (item, bi) -> bi.getPinInfo().hasPin() ? item.get() : BankItemConfiguration.BANK_ITEM_BLANK.get(), this::removePin);
+		setItem(BankItemConfiguration.BANK_PIN_REMOVE, this::removePin);
 	}
 	
 	public void removePin(CorePlayers pl, BankInfo bankInfo){

@@ -73,6 +73,10 @@ public abstract class BankInventoryHandler<T>extends InventoryHandler<T>{
 	public void setItem(BankItemPath path, Runnable handler){
 		setItem(path, (pl) -> handler.run());
 	}
+
+	public void setItem(BankItemPath path) {
+		consumeSlots(path, (slot) -> setItem(slot, path));
+	}
 	
 	protected void consumeSlots(BankItemPath bankItemPath, Consumer<Integer> apply){
 		apply.accept(bankItemPath.getSlot());
@@ -80,7 +84,8 @@ public abstract class BankInventoryHandler<T>extends InventoryHandler<T>{
 			apply.accept(slot);
 		}
 	}
-	
+
+
 	public Consumer<CorePlayers> consumeSound(Consumer<CorePlayers> consumer, BankSoundConfiguration.SoundsPath sounds){
 		return (pl) -> {
 			consumer.accept(pl);

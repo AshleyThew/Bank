@@ -1,23 +1,22 @@
 package me.dablakbandit.bank.inventory.pin;
 
-import java.util.function.Consumer;
-
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
-
 import me.dablakbandit.bank.config.BankItemConfiguration;
 import me.dablakbandit.bank.config.BankSoundConfiguration;
 import me.dablakbandit.bank.inventory.BankInventories;
 import me.dablakbandit.bank.player.info.BankInfo;
 import me.dablakbandit.bank.player.info.BankPinInfo;
 import me.dablakbandit.core.players.CorePlayers;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
+
+import java.util.function.Consumer;
 
 public class BankPinSetInventory extends BankPinInventory{
 	
 	@Override
 	public void init(){
 		super.init();
-		setItem(BankItemConfiguration.BANK_PIN_BACK, getComplete());
+		setItem(BankItemConfiguration.BANK_PIN_NUMBER_BACK, getComplete());
 	}
 	
 	@Override

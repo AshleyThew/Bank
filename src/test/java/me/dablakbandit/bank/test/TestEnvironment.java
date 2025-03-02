@@ -1,12 +1,12 @@
 package me.dablakbandit.bank.test;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import be.seeseemelk.mockbukkit.plugin.PluginManagerMock;
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.save.loader.LoaderManager;
 import me.dablakbandit.core.CorePlugin;
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
+import org.mockbukkit.mockbukkit.entity.PlayerMock;
+import org.mockbukkit.mockbukkit.plugin.PluginManagerMock;
 
 import static org.awaitility.Awaitility.await;
 

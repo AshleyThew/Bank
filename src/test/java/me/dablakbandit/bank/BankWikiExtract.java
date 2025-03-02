@@ -33,6 +33,10 @@ public class BankWikiExtract {
         assertTrue(dataFolder.exists());
         File storage = new File(".", "wiki/");
 
+        if (!storage.exists()) {
+            storage.mkdirs();
+        }
+
         // list .yml in dataFolder
         File[] baseFiles = dataFolder.listFiles(pathname -> pathname.getName().endsWith(".yml"));
 
@@ -91,7 +95,7 @@ public class BankWikiExtract {
                         lines.add(line);
                         configSectionFound = true;
                         for (File file : files) {
-                            lines.add("* [" + file.getName() + "](config-" + file.getName().replace(".yml", ".md") + ")");
+                            lines.add("* [" + file.getName() + "](config-" + file.getName() + ")");
                         }
                     } else if (configSectionFound && !configSectionFinished) {
                         if (line.endsWith(":")) {
@@ -109,7 +113,7 @@ public class BankWikiExtract {
             if (!configSectionFound) {
                 lines.add("Config:");
                 for (File file : files) {
-                    lines.add("* [" + file.getName() + "](config-" + file.getName().replace(".yml", ".md") + ")");
+                    lines.add("* [" + file.getName() + "](config-" + file.getName() + ")");
                 }
             }
 

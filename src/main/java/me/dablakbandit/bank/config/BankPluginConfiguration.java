@@ -101,6 +101,8 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration {
 	public static final BooleanPath 				BANK_ITEMS_SLOTS_MERGE_ENABLED 				= new BooleanPath(false);
 	@Comment("Set the max stack count for merged items")
 	public static final IntegerPath 				BANK_ITEMS_SLOTS_MERGE_MAX 					= new IntegerPath(Integer.MAX_VALUE);
+	@Comment("Enable slots per tab instead of overall")
+	public static final BooleanPath 				BANK_ITEMS_SLOTS_PER_TAB = new BooleanPath(false);
 	@Comment("Set bought slots unique to each tab")
 	public static final BooleanPath					BANK_ITEMS_SLOTS_BUY_PER_TAB				= new BooleanPath(true);
 	@Comment("Enable buying of slots")
@@ -360,7 +362,7 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration {
 	public static final BooleanPath					BANK_LOANS_PAYBACK_ENABLED					= new BooleanPath(false);
 	@Comment("Sync timer with interest")
 	public static final BooleanPath					BANK_LOANS_PAYBACK_TIMER_SYNC_INTEREST		= new BooleanPath(false);
-	@Comment("Time in minutes to check payback")
+	@Comment("Time in seconds to check payback")
 	public static final IntegerPath					BANK_LOANS_PAYBACK_TIMER_TIME				= new IntegerPath(1800);
 	@Comment("Not modifiable unless the server is stopped")
 	public static final IntegerPath					BANK_LOANS_PAYBACK_TIMER_NEXT				= new IntegerPath(0);
@@ -389,7 +391,7 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration {
 	public static final BooleanPath					BANK_LOANS_INTEREST_OFFLINE_ENABLED			= new BooleanPath(false);
 	@Comment("Enable loan interest message")
 	public static final BooleanPath					BANK_LOANS_INTEREST_MESSAGE_ENABLED			= new BooleanPath(false);
-	@Comment("Time in minutes to add interest")
+	@Comment("Time in seconds to add interest")
 	public static final IntegerPath					BANK_LOANS_INTEREST_TIMER_TIME				= new IntegerPath(1800);
 	@Comment("Not modifiable unless the server is stopped")
 	public static final IntegerPath					BANK_LOANS_INTEREST_TIMER_NEXT				= new IntegerPath(0);

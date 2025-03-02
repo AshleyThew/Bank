@@ -19,8 +19,7 @@ public class BankMainMenuInventory extends BankInventoryHandler<BankInfo>{
 	
 	@Override
 	public void init(){
-		int size = descriptor.getSize();
-		setAll(size, BankItemConfiguration.BANK_ITEM_BLANK);
+		setItem(BankItemConfiguration.BANK_MAIN_BLANK);
 		addPin();
 		addMoney();
 		addItem();
@@ -75,7 +74,7 @@ public class BankMainMenuInventory extends BankInventoryHandler<BankInfo>{
 		if (bankInfo.getOpenTypes().contains(OpenTypes.ALL) || bankInfo.getOpenTypes().contains(check)) {
 			return supplier.apply(path, bankInfo);
 		}
-		return BankItemConfiguration.BANK_ITEM_BLANK.get();
+		return BankItemConfiguration.BANK_MAIN_BLANK.getExtendValue("Replace", Boolean.class) ? BankItemConfiguration.BANK_MAIN_BLANK.get() : null;
 	}
 	
 	private ItemStack addExpItem(BankItemPath path, BankInfo bankInfo){

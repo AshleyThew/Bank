@@ -1,7 +1,9 @@
 package me.dablakbandit.bank.config;
 
 import me.dablakbandit.bank.BankPlugin;
+import me.dablakbandit.bank.config.path.impl.BankIntegerListPath;
 import me.dablakbandit.core.config.comment.CommentAdvancedConfiguration;
+import me.dablakbandit.core.config.comment.annotation.Comment;
 import me.dablakbandit.core.config.comment.annotation.CommentArray;
 import me.dablakbandit.core.config.path.StringListPath;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -42,5 +44,8 @@ public class BankItemBlacklistConfiguration extends CommentAdvancedConfiguration
 	@CommentArray({ "Blacklist trash items that contain lore string.", "Accepts regex, eg: '(?i)hello' will match (Hello, hello)",
 			"I suggest using a website such as https://regex101.com/ to create regex's" })
 	public static final StringListPath	TRASH_BLACKLISTED_LORE	= new StringListPath("Example lore of item");
+
+	@Comment("Blacklist player inventory slots that items cannot be placed in")
+	public static final BankIntegerListPath BLACKLISTED_PLAYER_SLOTS = new BankIntegerListPath();
 	
 }

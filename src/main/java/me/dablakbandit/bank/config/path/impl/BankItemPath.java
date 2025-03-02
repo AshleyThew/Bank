@@ -44,6 +44,11 @@ public class BankItemPath extends ItemPath implements BankExtendedPath {
         this(-1, def.clone(), name);
     }
 
+    public BankItemPath(ItemStack def, String name, int[] slots) {
+        this(def, name);
+        this.slots = slots;
+    }
+
     public BankItemPath(int slot, ItemStack def, String name) {
         this(slot, def.clone(), name, Collections.emptyList());
     }
@@ -153,6 +158,8 @@ public class BankItemPath extends ItemPath implements BankExtendedPath {
         }
         if (isSet(path, "Slots")) {
             slots = config.getIntegerList(path + ".Slots").stream().mapToInt(i -> i).toArray();
+        } else {
+            slots = new int[0];
         }
         if (isSet(path, "PlayerHead") && config.getBoolean(path + ".PlayerHead")) {
             PlayerHead.getInstance().set(is);
@@ -199,6 +206,14 @@ public class BankItemPath extends ItemPath implements BankExtendedPath {
             }
         }
 
+        if (itemModelExists && isSet(path, "ItemModel")) {
+            try {
+                setItemModel(is, config, path);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         if (isSet(path, "CustomModelData") && customExists) {
             try {
                 setCustomModelData(is, config, path);
@@ -239,6 +254,21 @@ public class BankItemPath extends ItemPath implements BankExtendedPath {
         }
     }
 
+    private static boolean itemModelExists = true;
+    private static Method itemModelMethod;
+    private static Method namespacedKeyFromString;
+
+
+    static {
+        try {
+            Class classNamespacedKey = NMSUtils.getClassSilent("org.bukkit.NamespacedKey");
+            namespacedKeyFromString = NMSUtils.getMethodSilent(classNamespacedKey, "fromString", String.class);
+            itemModelMethod = NMSUtils.getMethodSilent(ItemMeta.class, "setItemModel", classNamespacedKey);
+            itemModelExists = itemModelMethod != null;
+        } catch (Exception ignored) {
+        }
+    }
+
     protected void setCustomModelData(ItemStack is, RawConfiguration config, String path) {
         ItemMeta im = is.getItemMeta();
         im.setCustomModelData(config.getInt(path + ".CustomModelData"));
@@ -263,6 +293,17 @@ public class BankItemPath extends ItemPath implements BankExtendedPath {
         }
     }
 
+    protected void setItemModel(ItemStack is, RawConfiguration config, String path) {
+        try {
+            ItemMeta im = is.getItemMeta();
+            Object key = namespacedKeyFromString.invoke(null, config.getString(path + ".ItemModel"));
+            itemModelMethod.invoke(im, key);
+            is.setItemMeta(im);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     protected Object setAs(RawConfiguration config, ItemStack itemStack) {
         super.setAs(config, itemStack);
@@ -276,6 +317,9 @@ public class BankItemPath extends ItemPath implements BankExtendedPath {
             if (im.hasLore()) {
                 config.set(path + ".Lore", im.getLore().stream().map(s -> s.replaceAll("§", "&")).collect(Collectors.toList()));
             }
+        }
+        if (slots.length > 0) {
+            config.set(path + ".Slots", Arrays.stream(slots).boxed().collect(Collectors.toList()));
         }
         return null;
     }
