@@ -17,13 +17,18 @@ import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInfo, BankDefaultInfo{
 
 	@Deprecated
 	private final Map<Integer, List<ItemStack>>	itemMap			= Collections.synchronizedMap(new HashMap<>());
 
+	@Deprecated
 	private final Map<Integer, List<BankItem>> bankItemMap = Collections.synchronizedMap(new HashMap<>());
+
+	private final Map<Integer, Map<Integer, BankItem>> bankItemSlotMap = Collections.synchronizedMap(new HashMap<>());
+
 	private final Map<Integer, ItemStack>		tabItemMap		= Collections.synchronizedMap(new HashMap<>());
 	private final Map<Integer, String>			tabNameMap		= Collections.synchronizedMap(new HashMap<>());
 	protected final Map<Integer, Integer>		boughtSlotsMap	= Collections.synchronizedMap(new HashMap<>());
@@ -44,14 +49,20 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	}
 
 	public Collection<List<BankItem>> getBankItems() {
-		return bankItemMap.values();
+		return bankItemSlotMap.values().stream().map(Map::values).map(ArrayList::new).collect(Collectors.toList());
 	}
 
-	public List<BankItem> getTabBankItems(int tab) {
-		List<BankItem> bankItems = bankItemMap.computeIfAbsent(tab, ArrayList::new);
-		bankItems.removeIf(bi -> bi.getItemStack() == null || bi.getItemStack().getType() == Material.AIR);
-		return bankItems;
+	public Map<Integer, BankItem> getTabBankItemsMap(int tab) {
+		return bankItemSlotMap.computeIfAbsent(tab, k -> Collections.synchronizedMap(new HashMap<>()));
 	}
+
+
+//	public List<BankItem> getTabBankItems(int tab) {
+//		Map<Integer, BankItem> slotMap = getTabBankItemsMap(tab);
+//		List<BankItem> bankItems = new ArrayList<>(slotMap.values());
+//		bankItems.removeIf(bi -> bi.getItemStack() == null || bi.getItemStack().getType() == Material.AIR);
+//		return bankItems;
+//	}
 	
 	public Map<Integer, ItemStack> getTabItemMap(){
 		return tabItemMap;
@@ -123,26 +134,48 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	}
 
 	public int getMaxTabNotEmpty() {
-		return bankItemMap.entrySet().stream().filter(e -> !e.getValue().isEmpty()).mapToInt(Map.Entry::getKey).max().orElse(1);
+		return bankItemSlotMap.entrySet().stream().filter(e -> !e.getValue().isEmpty()).mapToInt(Map.Entry::getKey).max().orElse(1);
 	}
 	
 	@Override
 	public void jsonInit(){
+		// Convert old list-based items to new slot-based items
+		for (Map.Entry<Integer, List<BankItem>> entry : bankItemMap.entrySet()) {
+			int tab = entry.getKey();
+			List<BankItem> items = entry.getValue();
+			Map<Integer, BankItem> slotMap = getTabBankItemsMap(tab);
+
+			// Assign consecutive slots for now, but these can be changed later
+			for (int i = 0; i < items.size(); i++) {
+				BankItem item = items.get(i);
+				if (item.getItemStack() != null && item.getItemStack().getType() != Material.AIR) {
+					slotMap.put(i, item);
+				}
+			}
+		}
+
+		// Handle legacy conversion
 		itemMap.values().forEach(l -> l.removeIf(is -> is == null || is.getType() == Material.AIR));
 		itemMap.keySet().removeIf(i -> itemMap.get(i).isEmpty());
 		for (Map.Entry<Integer, List<ItemStack>> entry : itemMap.entrySet()) {
-			List<BankItem> bankItems = getTabBankItems(entry.getKey());
-			for (ItemStack item : entry.getValue()) {
-				bankItems.add(new BankItem(item));
+			int tab = entry.getKey();
+			List<ItemStack> items = entry.getValue();
+			Map<Integer, BankItem> slotMap = getTabBankItemsMap(tab);
+
+			for (int i = 0; i < items.size(); i++) {
+				ItemStack item = items.get(i);
+				if (item != null && item.getType() != Material.AIR) {
+					slotMap.put(i, new BankItem(item));
+				}
 			}
 		}
 		itemMap.clear();
-        bankItemMap.values().forEach(l -> l.removeIf(bi -> bi.getItemStack() == null || bi.getItemStack().getType() == Material.AIR));
+		bankItemMap.clear(); // Clear the old lists since we're using maps now
 	}
 	
 	@Override
 	public void jsonFinal(){
-		bankItemMap.values().removeIf(List::isEmpty);
+		bankItemSlotMap.values().removeIf(Map::isEmpty);
 	}
 
 	@Override

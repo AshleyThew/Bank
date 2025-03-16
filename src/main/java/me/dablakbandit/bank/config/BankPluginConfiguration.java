@@ -128,6 +128,12 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration {
 	@Comment("Blacklist mode (blacklist/whitelist)")
 	public static final EnumPath<BlacklistMode> 	BANK_ITEMS_BLACKLIST_MODE					= new EnumPath<>(BlacklistMode.class, BlacklistMode.BLACKLIST);
 
+	@Comment("Enable hotbar swapping")
+	public static final BooleanPath					BANK_ITEMS_HOTBAR_SWAP_ENABLED				= new BooleanPath(true);
+
+	@Comment("Enable players to place items anywhere in the bank inventory")
+	public static final BooleanPath					BANK_ITEMS_ANYWHERE_ENABLED					= new BooleanPath(false);
+
 	@Comment("Enable bank pin")
 	public static final BooleanPath					BANK_PIN_ENABLED							= new BooleanPath(true);
 

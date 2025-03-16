@@ -116,7 +116,8 @@ public class BankItemConfiguration extends CommentAdvancedConfiguration{
 	public static final BankItemPath	BANK_ITEM_SORT						=
 		new BankItemPath(6, black_stained, ChatColor.AQUA + "Sort this tab", ChatColor.GREEN + "Sort item options");
 	
-	@Comment("Available: <used>, <available>, <total>")
+	@CommentArray({"Available: <used>, <available>, <total>", "Set Sized to true to show available slots as item amount"})
+	@PathExtended(key ="Sized", value = "true", classType = Boolean.class)
 	public static final BankItemPath	BANK_ITEM_SLOTS						=
 		new BankItemPath(	1, black_stained, ChatColor.AQUA + "Slots", ChatColor.GREEN + "Used Slots: <used>", ChatColor.GREEN + "Available Slots: <available>",
 							ChatColor.GREEN + "Total Slots: <total>", ChatColor.GREEN + "Click to buy more slots");

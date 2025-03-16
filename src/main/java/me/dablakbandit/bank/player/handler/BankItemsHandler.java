@@ -18,8 +18,10 @@ import org.bukkit.inventory.PlayerInventory;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class BankItemsHandler {
 
@@ -78,6 +80,81 @@ public class BankItemsHandler {
         return addBankItem(player, is, bankItemsInfo.getOpenTab(), force);
     }
 
+    public ItemStack addBankItemAtSlot(Player player, ItemStack is, int tab, int slot, boolean force) {
+        if (!BankPermissionConfiguration.PERMISSION_ITEMS_DEPOSIT.has(player)) {
+            return is;
+        }
+        if (isEmpty(is)) {
+            return is;
+        }
+        if (ItemBlacklistImplementation.getInstance().isBlacklisted(is)) {
+            return is;
+        }
+        if (!force && tab > bankItemsInfo.getTotalTabCount()) {
+            return is;
+        }
+
+        // Check if there's already an item in that slot
+        Map<Integer, BankItem> slotMap = bankItemsInfo.getTabBankItemsMap(tab);
+        BankItem existingItem = slotMap.get(slot);
+
+        // If an item exists in the slot
+        if (existingItem != null) {
+            // If items can be merged (same type)
+            if (canMerge(is, existingItem)) {
+                int max = existingItem.getMax(bankItemsInfo.getPermissionMergeMax());
+                int maxAdd = max - existingItem.getAmount();
+                int add = is.getAmount();
+
+                if (maxAdd >= add) {
+                    // Can fully merge
+                    existingItem.setAmount(existingItem.getAmount() + add);
+                    bankItemsInfo.save(BankPluginConfiguration.BANK_SAVE_ITEM_DEPOSIT);
+                    return null;
+                } else {
+                    // Partial merge
+                    existingItem.setAmount(max);
+                    is.setAmount(add - maxAdd);
+                    bankItemsInfo.save(BankPluginConfiguration.BANK_SAVE_ITEM_DEPOSIT);
+                    return is;
+                }
+            } else {
+                // Different items - swap them
+                ItemStack swappedItem = existingItem.getItemStack().clone();
+                swappedItem.setAmount(Math.min(swappedItem.getMaxStackSize(), existingItem.getAmount()));
+
+                // Replace existing item with new one
+                slotMap.put(slot, new BankItem(is));
+                bankItemsInfo.save(BankPluginConfiguration.BANK_SAVE_ITEM_DEPOSIT);
+                return swappedItem;
+            }
+        }
+
+        // No existing item in slot, check if we can add
+        int size = getTabSize(tab);
+        if (force || size < BankPluginConfiguration.BANK_ITEMS_TABS_SIZE_MAX.get()) {
+            // Check if using per-tab slots or overall slots
+            if (BankPluginConfiguration.BANK_ITEMS_SLOTS_PER_TAB.get()) {
+                // Check slots for this specific tab
+                if (force || size < getBankSlots(tab)) {
+                    // Create new BankItem and add it to the specific slot
+                    slotMap.put(slot, new BankItem(is));
+                    bankItemsInfo.save(BankPluginConfiguration.BANK_SAVE_ITEM_DEPOSIT);
+                    return null;
+                }
+            } else {
+                // Check overall slots
+                if (force || getTotalBankSize(tab) < getBankSlots(tab)) {
+                    // Create new BankItem and add it to the specific slot
+                    slotMap.put(slot, new BankItem(is));
+                    bankItemsInfo.save(BankPluginConfiguration.BANK_SAVE_ITEM_DEPOSIT);
+                    return null;
+                }
+            }
+        }
+        return is;
+    }
+
     public ItemStack addBankItem(Player player, ItemStack is, int tab, boolean force) {
         if (!BankPermissionConfiguration.PERMISSION_ITEMS_DEPOSIT.has(player)) {
             return is;
@@ -104,14 +181,16 @@ public class BankItemsHandler {
             if (BankPluginConfiguration.BANK_ITEMS_SLOTS_PER_TAB.get()) {
                 // Check slots for this specific tab
                 if (force || getTabSize(tab) < getBankSlots(tab)) {
-                    getTab(tab).add(new BankItem(is));
+                    Map<Integer, BankItem> itemMap = getTab(tab);
+                    itemMap.put(getNextSlot(itemMap), new BankItem(is));
                     bankItemsInfo.save(BankPluginConfiguration.BANK_SAVE_ITEM_DEPOSIT);
                     return null;
                 }
             } else {
                 // Check overall slots
                 if (force || getTotalBankSize(tab) < getBankSlots(tab)) {
-                    getTab(tab).add(new BankItem(is));
+                    Map<Integer, BankItem> itemMap = getTab(tab);
+                    itemMap.put(getNextSlot(itemMap), new BankItem(is));
                     bankItemsInfo.save(BankPluginConfiguration.BANK_SAVE_ITEM_DEPOSIT);
                     return null;
                 }
@@ -127,7 +206,8 @@ public class BankItemsHandler {
     protected ItemStack mergeBank(ItemStack is, int tab) {
         int add = is.getAmount();
 
-        for (BankItem bankItem : getTab(tab)) {
+        Map<Integer, BankItem> itemMap = getTab(tab);
+        for (BankItem bankItem : itemMap.values()) {
             if (!canMerge(is, bankItem)) {
                 continue;
             }
@@ -218,21 +298,34 @@ public class BankItemsHandler {
         }
     }
 
+    // Update the getBankItemAtSlot to use the slot-based approach
     public BankItem getBankItemAtSlot(int slot, int tab) {
-        List<BankItem> listItems = getTab(tab);
-        if (slot >= listItems.size()) {
-            return null;
+        Map<Integer, BankItem> slotMap = bankItemsInfo.getTabBankItemsMap(tab);
+        return slotMap.get(slot);
+    }
+
+    public Map<Integer, BankItem> getTab(int tab) {
+        return bankItemsInfo.getTabBankItemsMap(tab);
+    }
+
+    public int getTabMax(int tab) {
+        return getTab(tab).keySet().stream().mapToInt(Integer::intValue).max().orElse(0);
+    }
+
+    // After
+    public Integer getNextSlot(Map<Integer, BankItem> slotMap) {
+        for (int i = 0; i <= slotMap.size(); i++) {
+            if (!slotMap.containsKey(i)) {
+                return i;
+            }
         }
-        return listItems.get(slot);
+        return slotMap.size();
     }
 
-    public List<BankItem> getTab(int tab) {
-        return bankItemsInfo.getTabBankItems(tab);
-    }
-
+    // Update the removeBankItemAtInt method to use the slot-based approach
     private void removeBankItemAtInt(int slot, int tab) {
-        List<BankItem> listItems = getTab(tab);
-        listItems.remove(slot);
+        Map<Integer, BankItem> slotMap = bankItemsInfo.getTabBankItemsMap(tab);
+        slotMap.remove(slot);
     }
 
     public void removeBankToInventory(Player player) {
@@ -289,8 +382,8 @@ public class BankItemsHandler {
 
     protected boolean removeItemTo(Player player, int x, int z) {
         Inventory inv = player.getInventory();
-        List<BankItem> items = getTab(bankItemsInfo.getOpenTab());
-        Iterator<BankItem> iterator = items.iterator();
+        Map<Integer, BankItem> itemMap = getTab(bankItemsInfo.getOpenTab());
+        Iterator<BankItem> iterator = itemMap.values().iterator();
         boolean taken = false;
         while (iterator.hasNext()) {
             BankItem item = iterator.next();
@@ -315,8 +408,8 @@ public class BankItemsHandler {
         if (!Version.isAtleastNine()) {
             return false;
         }
-        List<BankItem> items = getTab(bankItemsInfo.getOpenTab());
-        Iterator<BankItem> it = items.iterator();
+        Map<Integer, BankItem> itemMap = getTab(bankItemsInfo.getOpenTab());
+        Iterator<BankItem> it = itemMap.values().iterator();
         boolean taken = false;
         while (it.hasNext()) {
             BankItem is = it.next();
@@ -388,8 +481,13 @@ public class BankItemsHandler {
     }
 
     public void sort(int tab, Comparator<BankItem> comparator) {
-        List<BankItem> list = getTab(tab);
-        list.sort(comparator);
+        Map<Integer, BankItem> itemMap = getTab(tab);
+        // sort and add back starting from 0
+        List<BankItem> sorted = itemMap.values().stream().sorted(comparator).collect(Collectors.toList());
+        itemMap.clear();
+        for (int i = 0; i < sorted.size(); i++) {
+            itemMap.put(i, sorted.get(i));
+        }
     }
 
     public long countTotal(Material material, Integer damage, Integer model) {
@@ -450,7 +548,6 @@ public class BankItemsHandler {
         return buySlots;
     }
 
-
     public void resetBuySlots() {
         this.buySlots = 0;
     }
@@ -470,17 +567,19 @@ public class BankItemsHandler {
     }
 
     public void swapBankItems(Player player, int openTab, int finalSlot, int playerSlot) {
+        BankItem bankItem = getBankItemAtSlot(finalSlot, openTab);
+
         PlayerInventory inventory = player.getInventory();
         ItemStack item = inventory.getItem(playerSlot);
-        inventory.setItem(playerSlot, addBankItem(player, item, openTab, true));
+        inventory.setItem(playerSlot, addBankItem(player, item, openTab, false));
         if (!BankPermissionConfiguration.PERMISSION_ITEMS_WITHDRAW.has(player)) {
             return;
         }
 
-        BankItem bankItem = getBankItemAtSlot(finalSlot, openTab);
         if (bankItem == null) {
             return;
         }
+
         removeItemTo(bankItem, () -> inventory.getItem(playerSlot), is -> inventory.setItem(playerSlot, is));
         if (bankItem.getAmount() == 0) {
             removeBankItemAtInt(finalSlot, openTab);

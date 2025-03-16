@@ -69,7 +69,11 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 		int used = itemsInfo.getBankItemsHandler().getTotalBankSize(itemsInfo.getOpenTab());
 		int total = itemsInfo.getBankItemsHandler().getBankSlots(itemsInfo.getOpenTab());
 		int available = total - used;
-		return replaceNameLore(path, "<used>", "" + used, "<available>", "" + available, "<total>", "" + total);
+		ItemStack itemStack = replaceNameLore(path, "<used>", "" + used, "<available>", "" + available, "<total>", "" + total);
+		if (path.getExtendValue("Sized", Boolean.class)) {
+			itemStack.setAmount(Math.max(1, available));
+		}
+		return itemStack;
 	}
 	
 	private void addTabs(){
@@ -231,12 +235,14 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	public void onClick(CorePlayers pl, BankInfo bi, InventoryClickEvent event, int slot, int width) {
 		event.setCancelled(true);
 		if (isHotbarSwap(event)) {
-			handleHotbarSwap(pl, bi.getItemsInfo(), event, slot, width);
+			if (BankPluginConfiguration.BANK_ITEMS_HOTBAR_SWAP_ENABLED.get()) {
+				handleHotbarSwap(pl, bi.getItemsInfo(), event, slot, width);
+			}
 			return;
 		}
 		ItemStack is = event.getCursor();
 		if(is != null && is.getType() != Material.AIR){
-			handleItemInput(pl, bi.getItemsInfo(), is, event);
+			handleItemInput(pl, bi.getItemsInfo(), is, event, slot, width);
 		}else{
 			handleItemTake(pl, bi.getItemsInfo(), event, slot, width);
 		}
@@ -259,12 +265,19 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 	private boolean isHotbarSwap(InventoryClickEvent event){
 		return event.getAction().equals(InventoryAction.HOTBAR_SWAP) || event.getAction().equals(InventoryAction.HOTBAR_MOVE_AND_READD);
 	}
-	
-	private void handleItemInput(CorePlayers pl, BankItemsInfo bi, ItemStack is, InventoryClickEvent event){
-		ItemStack i = bi.getBankItemsHandler().addBankItem(pl.getPlayer(), is, false);
-		event.getWhoClicked().setItemOnCursor(i);
+
+	private void handleItemInput(CorePlayers pl, BankItemsInfo bi, ItemStack is, InventoryClickEvent event, int slot, int width) {
+		int finalSlot = slot + bi.getScrolled() * width;
+
+		ItemStack result;
+		if (BankPluginConfiguration.BANK_ITEMS_ANYWHERE_ENABLED.get()) {
+			result = bi.getBankItemsHandler().addBankItemAtSlot(pl.getPlayer(), is, bi.getOpenTab(), finalSlot, false);
+		} else {
+			result = bi.getBankItemsHandler().addBankItem(pl.getPlayer(), is, bi.getOpenTab(), false);
+		}
+		event.getWhoClicked().setItemOnCursor(result);
 		pl.refreshInventory();
-		if (i == null) {
+		if (result == null) {
 			BankSoundConfiguration.INVENTORY_ITEMS_ITEM_ADD.play(pl);
 		} else {
 			BankSoundConfiguration.INVENTORY_ITEMS_ITEM_FULL.play(pl);
@@ -400,7 +413,7 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo>{
 
 		int width = BankItemConfiguration.BANK_ITEM_ITEMS.getExtendValue("Width", Integer.class);
 
-		int max = Math.max(0, (int) Math.ceil(info.getBankItemsHandler().getTabSize(info.getOpenTab()) / (double) width));
+		int max = Math.max(0, (int) Math.ceil(info.getBankItemsHandler().getTabMax(info.getOpenTab()) / (double) width));
 		int current = info.getScrolled();
 		int fixed = Math.min(max, current);
 		if(current != fixed){

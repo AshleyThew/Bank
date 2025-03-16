@@ -2,6 +2,7 @@ package me.dablakbandit.bank.player.converter.old.base;
 
 import me.dablakbandit.bank.database.base.IInfoDatabase;
 import me.dablakbandit.bank.log.BankLog;
+import me.dablakbandit.bank.player.handler.BankItemsHandler;
 import me.dablakbandit.bank.player.info.*;
 import me.dablakbandit.bank.player.info.item.BankItem;
 import me.dablakbandit.bank.player.loan.Loan;
@@ -98,8 +99,12 @@ public abstract class SQLBaseLoader extends Loader{
 				pi.setPin(rs.getString("pin"));
 				ei.setExp(rs.getDouble("exp"));
 				bii.getTabItemMap().putAll(convertJSONToTabs(bii, rs.getString("tabs")));
+				BankItemsHandler itemsHandler = bii.getBankItemsHandler();
 				for (Map.Entry<Integer, List<BankItem>> entry : convertJSONToItems(pl, rs.getString("items")).entrySet()) {
-					bii.getTabBankItems(entry.getKey()).addAll(entry.getValue());
+					Map<Integer, BankItem> itemsMap = bii.getTabBankItemsMap(entry.getKey());
+					for (BankItem bankItem : entry.getValue()) {
+						itemsMap.put(itemsHandler.getNextSlot(itemsMap), bankItem);
+					}
 				}
 				String bought = rs.getString("bought_slots_map");
 				if(bought != null && !bought.equals("0")){
