@@ -321,11 +321,17 @@ public class BankItemsHandler {
         }
         return slotMap.size();
     }
-
-    // Update the removeBankItemAtInt method to use the slot-based approach
     private void removeBankItemAtInt(int slot, int tab) {
         Map<Integer, BankItem> slotMap = bankItemsInfo.getTabBankItemsMap(tab);
         slotMap.remove(slot);
+        if (!BankPluginConfiguration.BANK_ITEMS_ANYWHERE_ENABLED.get()) {
+            // Shift all items down
+            List<Integer> keysToShift = slotMap.keySet().stream().filter(i -> i > slot).sorted().collect(Collectors.toList());
+            for (int i : keysToShift) {
+                BankItem item = slotMap.remove(i);
+                slotMap.put(i - 1, item);
+            }
+        }
     }
 
     public void removeBankToInventory(Player player) {
