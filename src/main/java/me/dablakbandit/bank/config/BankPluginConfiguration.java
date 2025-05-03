@@ -193,6 +193,8 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration {
 	public static final BooleanPath					BANK_EXP_INTEREST_TIMER_SYNC_ENABLED		= new BooleanPath(false);
 	@CommentArray({"Set sync seed for servers", "Both servers require the same seed number for this to work!", "You can use a website like https://currentmillis.com/ to seed this number if you want payouts at certain times."})
 	public static final LongPath					BANK_EXP_INTEREST_TIMER_SYNC_SEED			= new LongPath(0);
+	@Comment("Maximum number of exp transactions to keep in history")
+	public static final IntegerPath					BANK_EXP_TRANSACTION_MAX_HISTORY			= new IntegerPath(100);
 
 	@Comment("Enable bank money")
 	public static final BooleanPath					BANK_MONEY_ENABLED							= new BooleanPath(true);
@@ -224,6 +226,8 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration {
 	public static final BooleanPath					BANK_MONEY_ONLY								= new BooleanPath(false);
 	@Comment("Set max money in bank")
 	public static final DoubleNicePath				BANK_MONEY_MAX								= new DoubleNicePath(Double.MAX_VALUE);
+	@Comment("Maximum number of money transactions to keep in history")
+	public static final IntegerPath					BANK_MONEY_TRANSACTION_MAX_HISTORY			= new IntegerPath(100);
 	@Comment("Premium version")
 	public static EmptyPath							BANK_MONEY_INTEREST							= new EmptyPath();
 	@Comment("Enable bank money interest")

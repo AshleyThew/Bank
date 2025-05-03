@@ -24,6 +24,7 @@ public class BankExpInventory extends BankInventoryHandler<BankExpInfo>{
 		setItem(BankItemConfiguration.BANK_EXP_DEPOSIT, consumeSound(this::deposit, BankSoundConfiguration.INVENTORY_EXP_DEPOSIT));
 		setItem(BankItemConfiguration.BANK_EXP_DEPOSITALL, consumeSound(this::depositAll, BankSoundConfiguration.INVENTORY_EXP_DEPOSIT_ALL));
 		setItem(BankItemConfiguration.BANK_EXP_SEND, consumePermissions(BankPermissionConfiguration.PERMISSION_INVENTORY_EXP_SEND, consumeSound(this::sendExp, BankSoundConfiguration.EXP_SEND_OTHER)));
+		setItem(BankItemConfiguration.BANK_EXP_HISTORY_OPEN, consumeSound((pl, info) -> BankInventoriesManager.getInstance().open(pl, BankInventories.BANK_EXP_HISTORY), BankSoundConfiguration.INVENTORY_MENU_OPEN_EXP));
 	}
 	
 	private ItemStack getBalance(BankItemPath path, BankExpInfo info){

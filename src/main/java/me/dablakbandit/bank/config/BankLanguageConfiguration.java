@@ -188,6 +188,31 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	@Comment("Available: <command>, <next>, <date>, <size>, <total>, <page>, <max_page>")
 	public static final BankTranslatedStringListPath MESSAGE_BALTOP_FOOTER = new BankTranslatedStringListPath(ChatColor.GOLD + "Type " + ChatColor.RED + "/<command> <next>" + ChatColor.GOLD + " to read the next page.");
 
+	@Comment("Transaction: Money deposit. Available: <amount>")
+	public static final BankTranslatedStringPath TRANSACTION_MONEY_DEPOSIT = new BankTranslatedStringPath("Deposited $<amount> to your bank.");
+	@Comment("Transaction: Money withdrawal. Available: <amount>")
+	public static final BankTranslatedStringPath TRANSACTION_MONEY_WITHDRAWAL = new BankTranslatedStringPath("Withdrew $<amount> from your bank.");
+	@Comment("Transaction: Money sent to. Available: <amount>, <name>")
+	public static final BankTranslatedStringPath TRANSACTION_MONEY_SEND_TO = new BankTranslatedStringPath("Sent $<amount> to <name>.");
+	@Comment("Transaction: Money received from. Available: <amount>, <name>")
+	public static final BankTranslatedStringPath TRANSACTION_MONEY_RECEIVE_FROM = new BankTranslatedStringPath("Received $<amount> from <param>.");
+	@Comment("Transaction: Money interest. Available: <amount>")
+	public static final BankTranslatedStringPath TRANSACTION_MONEY_INTEREST = new BankTranslatedStringPath("Gained $<amount> in interest.");
+	@Comment("Transaction: Money tax. Available: <amount>, <desc>")
+	public static final BankTranslatedStringPath TRANSACTION_MONEY_TAX = new BankTranslatedStringPath("Paid $<amount> in tax.");
+	@Comment("Transaction: EXP deposit. Available: <amount>")
+	public static final BankTranslatedStringPath TRANSACTION_EXP_DEPOSIT = new BankTranslatedStringPath("Deposited <amount> exp to your bank.");
+	@Comment("Transaction: EXP withdrawal. Available: <amount>")
+	public static final BankTranslatedStringPath TRANSACTION_EXP_WITHDRAWAL = new BankTranslatedStringPath("Withdrew <amount> exp from your bank.");
+	@Comment("Transaction: EXP sent to. Available: <amount>, <name>")
+	public static final BankTranslatedStringPath TRANSACTION_EXP_SEND_TO = new BankTranslatedStringPath("Sent <amount> exp to <param>.");
+	@Comment("Transaction: EXP received from. Available: <amount>, <name>")
+	public static final BankTranslatedStringPath TRANSACTION_EXP_RECEIVE_FROM = new BankTranslatedStringPath("Received <amount> exp from <param>.");
+	@Comment("Transaction: EXP interest. Available: <amount>")
+	public static final BankTranslatedStringPath TRANSACTION_EXP_INTEREST = new BankTranslatedStringPath("Gained <amount> exp in interest.");
+	@Comment("Transaction: EXP tax. Available: <amount>, <desc>")
+	public static final BankTranslatedStringPath TRANSACTION_EXP_TAX = new BankTranslatedStringPath("Paid <amount> exp in tax.");
+
 	public static final BankTranslatedStringPath	FORMAT_THOUSAND					= new BankTranslatedStringPath("K");
 	public static final BankTranslatedStringPath	FORMAT_MILLION					= new BankTranslatedStringPath("Million");
 	public static final BankTranslatedStringPath	FORMAT_BILLION					= new BankTranslatedStringPath("Billion");

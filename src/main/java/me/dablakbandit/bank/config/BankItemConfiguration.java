@@ -219,6 +219,22 @@ public class BankItemConfiguration extends CommentAdvancedConfiguration{
 		new BankItemPath(6, green_stained, ChatColor.AQUA + "Click to deposit all exp", ChatColor.GREEN + "Deposits all exp");
 	public static final BankItemPath	BANK_EXP_SEND						=
 		new BankItemPath(8, green_stained, ChatColor.AQUA + "Send exp", ChatColor.GREEN + "Send exp to another player.");
+	public static final BankItemPath	BANK_EXP_HISTORY_OPEN				= new BankItemPath(7, light_blue_stained, ChatColor.AQUA + "View Exp History", ChatColor.GREEN + "Click to view your exp transactions");
+	public static final BankItemPath	BANK_EXP_HISTORY_DEPOSIT			= new BankItemPath(10, green_stained, "");
+	public static final BankItemPath	BANK_EXP_HISTORY_WITHDRAW			= new BankItemPath(11, red_stained, "");
+	public static final BankItemPath	BANK_EXP_HISTORY_SEND				= new BankItemPath(12, cyan_stained, "");
+	public static final BankItemPath	BANK_EXP_HISTORY_RECEIVE			= new BankItemPath(13, green_stained, "");
+	public static final BankItemPath	BANK_EXP_HISTORY_INTEREST			= new BankItemPath(14, yellow_stained, "");
+	public static final BankItemPath	BANK_EXP_HISTORY_TAX				= new BankItemPath(15, red_stained, "");
+
+	// --- Exp History Inventory Items ---
+	@CommentArray({".Slots: amount of transactions to show", ".Start: Start slot for showing history"})
+	@PathExtended(key = "Slots", value = "45", classType = Integer.class)
+	@PathExtended(key = "Start", value = "9", classType = Integer.class)
+	public static final BankEmptyPath	BANK_EXP_HISTORY_LIST				= new BankEmptyPath();
+	public static final BankItemPath	BANK_EXP_HISTORY_SCROLL_UP			= new BankItemPath(7, black_stained, ChatColor.AQUA + "Scroll Up", ChatColor.GREEN + "Scrolls up the history");
+	public static final BankItemPath	BANK_EXP_HISTORY_SCROLL_DOWN		= new BankItemPath(8, black_stained, ChatColor.AQUA + "Scroll Down", ChatColor.GREEN + "Scrolls down the history");
+	public static final BankItemPath	BANK_EXP_HISTORY_BACK				= new BankItemPath(0, red_stained, ChatColor.RED + "Back", ChatColor.RED + "Go back");
 	
 	@Comment("Available: <money>")
 	public static final BankItemPath	BANK_MONEY_BALANCE					=
@@ -236,6 +252,22 @@ public class BankItemConfiguration extends CommentAdvancedConfiguration{
 		new BankItemPath(6, green_stained, ChatColor.AQUA + "Click to deposit all money", ChatColor.GREEN + "Deposits all money");
 	public static final BankItemPath	BANK_MONEY_SEND						=
 		new BankItemPath(8, green_stained, ChatColor.AQUA + "Send money", ChatColor.GREEN + "Send money to another player.");
+	public static final BankItemPath	BANK_MONEY_HISTORY_OPEN				= new BankItemPath(7, light_blue_stained, ChatColor.AQUA + "View Money History", ChatColor.GREEN + "Click to view your money transactions");
+	public static final BankItemPath	BANK_MONEY_HISTORY_DEPOSIT			= new BankItemPath(10, green_stained, "");
+	public static final BankItemPath	BANK_MONEY_HISTORY_WITHDRAW			= new BankItemPath(11, red_stained, "");
+	public static final BankItemPath	BANK_MONEY_HISTORY_SEND				= new BankItemPath(12, cyan_stained, "");
+	public static final BankItemPath	BANK_MONEY_HISTORY_RECEIVE			= new BankItemPath(13, green_stained, "");
+	public static final BankItemPath	BANK_MONEY_HISTORY_INTEREST			= new BankItemPath(14, yellow_stained, "");
+	public static final BankItemPath	BANK_MONEY_HISTORY_TAX				= new BankItemPath(15, red_stained, "");
+
+	// --- Money History Inventory Items ---
+	@CommentArray({".Slots: amount of transactions to show", ".Start: Start slot for showing history"})
+	@PathExtended(key = "Slots", value = "45", classType = Integer.class)
+	@PathExtended(key = "Start", value = "9", classType = Integer.class)
+	public static final BankEmptyPath	BANK_MONEY_HISTORY_LIST				= new BankEmptyPath();
+	public static final BankItemPath	BANK_MONEY_HISTORY_SCROLL_UP		= new BankItemPath(7, black_stained, ChatColor.AQUA + "Scroll Up", ChatColor.GREEN + "Scrolls up the history");
+	public static final BankItemPath	BANK_MONEY_HISTORY_SCROLL_DOWN		= new BankItemPath(8, black_stained, ChatColor.AQUA + "Scroll Down", ChatColor.GREEN + "Scrolls down the history");
+	public static final BankItemPath	BANK_MONEY_HISTORY_BACK				= new BankItemPath(0, red_stained, ChatColor.RED + "Back", ChatColor.RED + "Go back");
 
 	public static final BankItemPath	BANK_PIN_BLANK						= new BankItemPath(black_stained, " ", new int[]{ 1, 2, 3, 5, 6, 7, 8});
 	public static final BankItemPath	BANK_PIN_BACK						= new BankItemPath(0, red_stained, ChatColor.RED + "Back", ChatColor.RED + "Go back");

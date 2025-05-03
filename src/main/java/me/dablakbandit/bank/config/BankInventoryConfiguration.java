@@ -46,6 +46,8 @@ public class BankInventoryConfiguration extends CommentAdvancedConfiguration{
 	public static final InventoryDescriptionPath	BANK_PIN_MENU					= new InventoryDescriptionPath(9, "Bank Pin", "bank.open.pin");
 	public static final InventoryDescriptionPath	BANK_PIN_SET					= new InventoryDescriptionPath(54, "Bank Pin Set", "bank.pin.set");
 	public static final InventoryDescriptionPath	BANK_PIN_ENTER					= new InventoryDescriptionPath(54, "Bank Pin Enter");
+	public static final InventoryDescriptionPath	BANK_MONEY_HISTORY				= new InventoryDescriptionPath(54, "Bank Money History", "bank.money.history");
+	public static final InventoryDescriptionPath	BANK_EXP_HISTORY				= new InventoryDescriptionPath(54, "Bank Exp History", "bank.exp.history");
 	
 	public static final InventoryDescriptionPath	BANK_LOANS						= new InventoryDescriptionPath(9, "Bank Loans", "bank.open.loans");
 	public static final InventoryDescriptionPath	BANK_LOAN_VIEW					= new InventoryDescriptionPath(9, "Bank View Loan", "bank.open.loans.view");
