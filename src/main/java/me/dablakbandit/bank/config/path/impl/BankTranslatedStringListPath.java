@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 
 import me.dablakbandit.core.config.RawConfiguration;
 import me.dablakbandit.core.config.path.ListPath;
+import me.dablakbandit.bank.utils.format.BankColorUtil;
 
 public class BankTranslatedStringListPath extends ListPath<String>{
 	
@@ -20,8 +21,9 @@ public class BankTranslatedStringListPath extends ListPath<String>{
 		super(new ArrayList<>(Arrays.asList(def)));
 	}
 	
+	@Override
 	protected List<String> get(RawConfiguration config, String path){
-		return config.getStringList(path).stream().map(s -> ChatColor.translateAlternateColorCodes('&', s)).collect(Collectors.toList());
+		return config.getStringList(path).stream().map(BankColorUtil::hex).collect(Collectors.toList());
 	}
 	
 	protected Object setAs(List<String> list){

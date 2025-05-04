@@ -32,7 +32,7 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration {
 	@SuppressWarnings({"rawtypes", "unused"})
 	@Comment("Edit the plugin here")
 	private static final Path						BANK										= new EmptyPath();
-	@Comment("SaveType of the plugin: SQLITE, MYSQL")
+	@CommentArray({"SaveType of the plugin: SQLITE, MYSQL, MONGODB", "MONGODB requires the MongoDB loader plugin https://dev.bukkit.org/projects/mongodb-loader"})
 	public static final EnumPath<SaveType>			BANK_SAVE_TYPE								= new EnumPath<>(SaveType.class, SaveType.SQLITE);
 	@CommentArray({ "Use time lock instead of traditional sql lock", "Make sure to set to the same value on each server!" })
 	public static final BooleanPath					BANK_SAVE_LOCK_TIME							= new BooleanPath(false);

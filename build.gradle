@@ -73,6 +73,9 @@ dependencies {
         exclude group: '*', module: '*'
     }
 
+    compileOnly(platform("org.mongodb:mongodb-driver-bom:5.4.0"))
+    compileOnly("org.mongodb:mongodb-driver-sync")
+
     testImplementation 'org.mockbukkit.mockbukkit:mockbukkit-v1.21:4.34.0'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     testImplementation('me.dablakbandit:core:0.6.4') {
@@ -90,7 +93,7 @@ dependencies {
 
 
 group = 'me.dablakbandit'
-version = '4.8.8-RELEASE'
+version = '4.9.0-RELEASE'
 description = 'bank'
 import org.apache.tools.ant.filters.ReplaceTokens
 

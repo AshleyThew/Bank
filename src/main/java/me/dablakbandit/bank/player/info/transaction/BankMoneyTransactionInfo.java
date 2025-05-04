@@ -5,6 +5,8 @@ import me.dablakbandit.bank.player.info.IBankInfo;
 import me.dablakbandit.core.players.CorePlayers;
 import me.dablakbandit.core.players.info.JSONInfo;
 import me.dablakbandit.core.utils.json.strategy.Exclude;
+import me.dablakbandit.bank.database.BankDatabaseManager;
+import me.dablakbandit.bank.save.loader.LoaderManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +33,18 @@ public class BankMoneyTransactionInfo extends IBankInfo implements JSONInfo {
 		if (transactions.size() > maxTransactions) {
 			transactions = transactions.subList(0, maxTransactions);
 		}
+		// Async DB insert
+		CorePlayers pl = getPlayers();
+		LoaderManager.getInstance().runAsync(() -> {
+			BankDatabaseManager.getInstance().getInfoDatabase().getMoneyTransactionDatabase()
+				.insertTransaction(
+					pl.getUUIDString(),
+					transaction.getType().name(),
+					transaction.getAmount(),
+					transaction.getDescription().name(),
+					transaction.getDescriptionParam()
+				);
+		});
 	}
 
 	public List<Transaction> getTransactions() {

@@ -25,7 +25,7 @@ public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo>{
 		setItem(BankItemConfiguration.BANK_MONEY_DEPOSIT, consumeSound(this::deposit, BankSoundConfiguration.INVENTORY_MONEY_DEPOSIT));
 		setItem(BankItemConfiguration.BANK_MONEY_DEPOSITALL, consumeSound(this::depositAll, BankSoundConfiguration.INVENTORY_MONEY_DEPOSIT_ALL));
 		setItem(BankItemConfiguration.BANK_MONEY_SEND, consumePermissions(BankPermissionConfiguration.PERMISSION_INVENTORY_MONEY_SEND, consumeSound(this::sendMoney, BankSoundConfiguration.MONEY_SEND_OTHER)));
-		setItem(BankItemConfiguration.BANK_MONEY_HISTORY_OPEN, consumeSound( (pl, info) -> BankInventoriesManager.getInstance().open(pl, BankInventories.BANK_MONEY_HISTORY), BankSoundConfiguration.INVENTORY_MENU_OPEN_MONEY));
+		setItem(BankItemConfiguration.BANK_MONEY_HISTORY_OPEN, consumeSound((pl, info) -> openHistory(pl, info), BankSoundConfiguration.INVENTORY_MENU_OPEN_MONEY));
 	}
 	
 	private ItemStack getBalance(BankItemPath path, BankMoneyInfo info){
@@ -199,6 +199,10 @@ public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo>{
 	
 	protected void returnToMainMenu(CorePlayers pl){
 		BankInventoriesManager.getInstance().open(pl, BankInventories.BANK_MAIN_MENU);
+	}
+	
+	protected void openHistory(CorePlayers pl, BankMoneyInfo info) {
+		BankInventoriesManager.getInstance().open(pl, BankInventories.BANK_MONEY_HISTORY);
 	}
 	
 	@Override

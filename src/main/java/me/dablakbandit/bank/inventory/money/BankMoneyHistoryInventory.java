@@ -65,7 +65,7 @@ public class BankMoneyHistoryInventory extends BankInventoryHandler<BankMoneyInf
 		setItem(BankItemConfiguration.BANK_MONEY_HISTORY_BACK, consumeSound(this::returnToMoney, BankSoundConfiguration.INVENTORY_GLOBAL_BACK));
 	}
 
-	private void returnToMoney(CorePlayers pl) {
+	protected void returnToMoney(CorePlayers pl) {
 		BankInventoriesManager.getInstance().open(pl, BankInventories.BANK_MONEY);
 	}
 

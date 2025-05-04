@@ -2,5 +2,5 @@ name: Bank
 main: me.dablakbandit.bank.BankPlugin
 author: Dablakbandit
 version: "@0.0@"
-softdepend: [Core, Vault, Bankcraft, ChestBank, MysqlEconomyBank, Citizens, Skript, MVdWPlaceholderAPI, PlaceholderAPI, HeadDatabase, TimeIsMoney]
+softdepend: [ Core, Vault, Bankcraft, ChestBank, MysqlEconomyBank, Citizens, Skript, MVdWPlaceholderAPI, PlaceholderAPI, HeadDatabase, TimeIsMoney, MongoDBLoader ]
 api-version: 1.13

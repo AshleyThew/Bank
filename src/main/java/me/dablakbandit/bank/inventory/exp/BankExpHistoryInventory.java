@@ -56,7 +56,7 @@ public class BankExpHistoryInventory extends BankInventoryHandler<BankExpInfo> {
         setItem(BankItemConfiguration.BANK_EXP_HISTORY_BACK, consumeSound(this::returnToExp, BankSoundConfiguration.INVENTORY_GLOBAL_BACK));
     }
 
-    private void returnToExp(CorePlayers pl) {
+    protected void returnToExp(CorePlayers pl) {
         BankInventoriesManager.getInstance().open(pl, BankInventories.BANK_EXP);
     }
 

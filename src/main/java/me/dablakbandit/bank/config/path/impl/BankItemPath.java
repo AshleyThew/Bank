@@ -3,12 +3,11 @@ package me.dablakbandit.bank.config.path.impl;
 import me.dablakbandit.bank.config.path.BankExtendedPath;
 import me.dablakbandit.bank.inventory.head.PlayerHead;
 import me.dablakbandit.bank.log.BankLog;
+import me.dablakbandit.bank.utils.format.BankColorUtil;
 import me.dablakbandit.core.config.RawConfiguration;
 import me.dablakbandit.core.config.path.ItemPath;
 import me.dablakbandit.core.utils.NMSUtils;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -165,13 +164,13 @@ public class BankItemPath extends ItemPath implements BankExtendedPath {
             PlayerHead.getInstance().set(is);
         }
         if (isSet(path, "Name")) {
-            name = ChatColor.translateAlternateColorCodes('&', config.getString(path + ".Name"));
+            name = BankColorUtil.hex(config.getString(path + ".Name"));
             ItemMeta im = is.getItemMeta();
             im.setDisplayName(name);
             is.setItemMeta(im);
         }
         if (isSet(path, "Lore")) {
-            lore = config.getStringList(path + ".Lore").stream().map(s -> ChatColor.translateAlternateColorCodes('&', s)).collect(Collectors.toList());
+            lore = config.getStringList(path + ".Lore").stream().map(BankColorUtil::hex).collect(Collectors.toList());
             ItemMeta im = is.getItemMeta();
             im.setLore(lore);
             is.setItemMeta(im);
@@ -184,7 +183,7 @@ public class BankItemPath extends ItemPath implements BankExtendedPath {
         if (isSet(path, "Enchant")) {
             try {
                 ItemMeta im = is.getItemMeta();
-                im.addEnchant(Enchantment.getByName(config.getString(path + ".Enchant")), 1, true);
+                im.addEnchant(org.bukkit.enchantments.Enchantment.getByName(config.getString(path + ".Enchant")), 1, true);
                 is.setItemMeta(im);
             } catch (Exception e) {
                 e.printStackTrace();
