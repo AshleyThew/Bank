@@ -1,6 +1,6 @@
 package me.dablakbandit.bank.command.arguments;
 
-import me.dablakbandit.bank.command.base.BankDefaultArgument;
+import me.dablakbandit.bank.command.base.BankAdvancedArgument;
 import me.dablakbandit.bank.config.BankLanguageConfiguration;
 import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.inventory.BankInventories;
@@ -20,14 +20,14 @@ import org.bukkit.entity.Player;
 import java.util.Collections;
 import java.util.List;
 
-public class OpenArgument extends BankDefaultArgument {
-	
-	public OpenArgument(CommandConfiguration.Command command){
+public class OpenArgument extends BankAdvancedArgument {
+
+	public OpenArgument(CommandConfiguration.Command command) {
 		super(command);
 	}
 
 
-	public boolean onCommand(CommandSender s, Command cmd, String label, String[] args, String[] original) {
+	public void onArgument(CommandSender s, Command cmd, String label, String[] args, String[] original) {
 		if (s instanceof ConsoleCommandSender) {
 			if (args.length == 0) {
 				this.base.sendArguments(s, cmd, original, this.arguments.entrySet());
@@ -36,7 +36,7 @@ public class OpenArgument extends BankDefaultArgument {
 				CorePlayers pl = CorePlayerManager.getInstance().getPlayer(player);
 				if (pl == null) {
 					BankLanguageConfiguration.sendFormattedMessage(s, BankLanguageConfiguration.COMMAND_UNKNOWN_PLAYER.get().replace("<player>", args[0]));
-					return false;
+					return;
 				}
 				OpenTypes[] values = OpenTypes.values();
 				if (BankPluginConfiguration.BANK_OPENTYPE_SUBSET_COMMAND_ENABLED.get() && args.length > 1) {
@@ -50,7 +50,7 @@ public class OpenArgument extends BankDefaultArgument {
 							values[i] = OpenTypes.valueOf(newArgs[i].toUpperCase());
 						} catch (IllegalArgumentException e) {
 							BankLanguageConfiguration.sendFormattedMessage(s, "Invalid subset: " + newArgs[i]);
-							return true;
+							return;
 						}
 					}
 				}
@@ -58,16 +58,16 @@ public class OpenArgument extends BankDefaultArgument {
 				OpenTypes[] finalValues = values;
 				BankInventories inventories = BankInventoriesManager.getInstance().getBankInventories(finalValues);
 				bankInfo.getPinInfo().checkPass(() -> BankInventoriesManager.getInstance().open(pl, inventories, finalValues));
-				return true;
+				return;
 			}
 		}
 		if (!checkPlayer(s)) {
-			return false;
+			return;
 		}
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer((Player) s);
 		BankInfo bankInfo = pl.getInfo(BankInfo.class);
 		bankInfo.getPinInfo().checkPass(() -> BankInventoriesManager.getInstance().open(pl, BankInventories.BANK_MAIN_MENU, OpenTypes.ALL));
-		return true;
+		return;
 	}
 
 	@Override
