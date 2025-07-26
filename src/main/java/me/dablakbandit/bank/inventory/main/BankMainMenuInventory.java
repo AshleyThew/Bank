@@ -15,75 +15,83 @@ import org.bukkit.inventory.ItemStack;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
-public class BankMainMenuInventory extends BankInventoryHandler<BankInfo>{
-	
+public class BankMainMenuInventory extends BankInventoryHandler<BankInfo> {
+
 	@Override
-	public void init(){
+	public void init() {
 		setItem(BankItemConfiguration.BANK_MAIN_BLANK);
 		addPin();
 		addMoney();
 		addItem();
 		addExp();
 	}
-	
-	private void addPin(){
-		if(!BankPluginConfiguration.BANK_PIN_ENABLED.get()){ return; }
+
+	private void addPin() {
+		if (!BankPluginConfiguration.BANK_PIN_ENABLED.get()) {
+			return;
+		}
 		setItem(BankItemConfiguration.BANK_MAIN_PIN, consumeSound(getPin(), BankSoundConfiguration.INVENTORY_MENU_OPEN_PIN));
 	}
-	
-	protected Consumer<CorePlayers> getPin(){
+
+	protected Consumer<CorePlayers> getPin() {
 		return BankInventories.BANK_PIN_MENU;
 	}
-	
-	private void addMoney(){
-		if(!BankPluginConfiguration.BANK_MONEY_ENABLED.get()){ return; }
+
+	private void addMoney() {
+		if (!BankPluginConfiguration.BANK_MONEY_ENABLED.get()) {
+			return;
+		}
 		setItem(BankItemConfiguration.BANK_MAIN_MONEY, (path, t) -> getItem(path, t, this::addMoneyItem, OpenTypes.MONEY), consumeSound(getMoney(), BankSoundConfiguration.INVENTORY_MENU_OPEN_MONEY));
 	}
-	
-	protected Consumer<CorePlayers> getMoney(){
+
+	protected Consumer<CorePlayers> getMoney() {
 		return BankInventories.BANK_MONEY;
 	}
-	
-	private ItemStack addMoneyItem(BankItemPath path, BankInfo bankInfo){
+
+	private ItemStack addMoneyItem(BankItemPath path, BankInfo bankInfo) {
 		return replaceNameLore(path, "<money>", Format.formatMoney(bankInfo.getMoneyInfo().getMoney()));
 	}
-	
-	private void addItem(){
-		if(!BankPluginConfiguration.BANK_ITEMS_ENABLED.get()){ return; }
+
+	private void addItem() {
+		if (!BankPluginConfiguration.BANK_ITEMS_ENABLED.get()) {
+			return;
+		}
 		setItem(BankItemConfiguration.BANK_MAIN_ITEM, (path, t) -> getItem(path, t, this::addItem, OpenTypes.ITEMS), consumeSound(getItem(), BankSoundConfiguration.INVENTORY_MENU_OPEN_ITEMS));
 	}
 
 	private ItemStack addItem(BankItemPath path, BankInfo bankInfo) {
 		return path.get();
 	}
-	
-	protected Consumer<CorePlayers> getItem(){
+
+	protected Consumer<CorePlayers> getItem() {
 		return BankInventories.BANK_ITEMS;
 	}
-	
-	private void addExp(){
-		if(!BankPluginConfiguration.BANK_EXP_ENABLED.get()){ return; }
+
+	private void addExp() {
+		if (!BankPluginConfiguration.BANK_EXP_ENABLED.get()) {
+			return;
+		}
 		setItem(BankItemConfiguration.BANK_MAIN_EXP, (path, t) -> getItem(path, t, this::addExpItem, OpenTypes.EXP), consumeSound(getExp(), BankSoundConfiguration.INVENTORY_MENU_OPEN_EXP));
 	}
-	
-	protected Consumer<CorePlayers> getExp(){
+
+	protected Consumer<CorePlayers> getExp() {
 		return BankInventories.BANK_EXP;
 	}
 
-	private ItemStack getItem(BankItemPath path, BankInfo bankInfo, BiFunction<BankItemPath, BankInfo, ItemStack> supplier, OpenTypes check) {
-		if (bankInfo.getOpenTypes().contains(OpenTypes.ALL) || bankInfo.getOpenTypes().contains(check)) {
+	protected ItemStack getItem(BankItemPath path, BankInfo bankInfo, BiFunction<BankItemPath, BankInfo, ItemStack> supplier, OpenTypes check) {
+		if (containsAnyOpenType(bankInfo, OpenTypes.ALL, check)) {
 			return supplier.apply(path, bankInfo);
 		}
 		return BankItemConfiguration.BANK_MAIN_BLANK.getExtendValue("Replace", Boolean.class) ? BankItemConfiguration.BANK_MAIN_BLANK.get() : null;
 	}
-	
-	private ItemStack addExpItem(BankItemPath path, BankInfo bankInfo){
-		return replaceNameLore(path, "<exp>", "" + (int)Math.floor(bankInfo.getExpInfo().getExp()));
+
+	private ItemStack addExpItem(BankItemPath path, BankInfo bankInfo) {
+		return replaceNameLore(path, "<exp>", "" + (int) Math.floor(bankInfo.getExpInfo().getExp()));
 	}
-	
+
 	@Override
-	public BankInfo getInvoker(CorePlayers pl){
+	public BankInfo getInvoker(CorePlayers pl) {
 		return pl.getInfo(BankInfo.class);
 	}
-	
+
 }

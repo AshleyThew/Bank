@@ -3,7 +3,9 @@ package me.dablakbandit.bank.inventory;
 import me.dablakbandit.bank.config.BankSoundConfiguration;
 import me.dablakbandit.bank.config.path.impl.BankItemPath;
 import me.dablakbandit.bank.implementations.placeholder.BankPlaceholderManager;
+import me.dablakbandit.bank.inventory.admin.BankAdminInventory;
 import me.dablakbandit.bank.inventory.head.PlayerHead;
+import me.dablakbandit.bank.player.info.BankInfo;
 import me.dablakbandit.bank.player.info.BankPermissionInfo;
 import me.dablakbandit.bank.utils.format.BankColorUtil;
 import me.dablakbandit.core.config.path.PermissionPath;
@@ -17,6 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -130,5 +133,12 @@ public abstract class BankInventoryHandler<T> extends InventoryHandler<T> {
 		for (ItemStack itemStack : inventory.getContents()) {
 			PlayerHead.getInstance().replace(pl, itemStack);
 		}
+	}
+
+	protected boolean containsAnyOpenType(BankInfo bankInfo, OpenTypes... openTypes) {
+		if (this instanceof BankAdminInventory) {
+			return true;
+		}
+		return Arrays.stream(openTypes).anyMatch(bankInfo.getOpenTypes()::contains);
 	}
 }

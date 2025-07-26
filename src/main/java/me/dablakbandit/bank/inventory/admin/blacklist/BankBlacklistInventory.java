@@ -1,26 +1,26 @@
 package me.dablakbandit.bank.inventory.admin.blacklist;
 
-import me.dablakbandit.bank.config.BankPluginConfiguration;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-
 import me.dablakbandit.bank.config.BankItemConfiguration;
+import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.implementations.blacklist.BlacklistedItem;
 import me.dablakbandit.bank.implementations.blacklist.ItemBlacklistImplementation;
 import me.dablakbandit.bank.inventory.BankInventories;
 import me.dablakbandit.bank.inventory.BankInventoriesManager;
 import me.dablakbandit.bank.inventory.BankInventoryHandler;
+import me.dablakbandit.bank.inventory.admin.BankAdminInventory;
 import me.dablakbandit.bank.player.info.admin.BankAdminInfo;
 import me.dablakbandit.core.players.CorePlayers;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public class BankBlacklistInventory extends BankInventoryHandler<CorePlayers>{
-	
-	private final ItemBlacklistImplementation	implementation	= ItemBlacklistImplementation.getInstance();
-	private int							scrolled;
+public class BankBlacklistInventory extends BankInventoryHandler<CorePlayers> implements BankAdminInventory {
+
+	private final ItemBlacklistImplementation implementation = ItemBlacklistImplementation.getInstance();
+	private int scrolled;
 
 	@Override
 	protected boolean open(CorePlayers pl, Player player, int size, String title) {
@@ -38,67 +38,71 @@ public class BankBlacklistInventory extends BankInventoryHandler<CorePlayers>{
 	}
 
 	@Override
-	public void init(){
+	public void init() {
 		addInfo();
 		addScrolls();
 		int size = descriptor.getSize();
 		addItems(size);
 	}
-	
-	private void addInfo(){
+
+	private void addInfo() {
 		ItemStack is = clone(BankItemConfiguration.BANK_ITEM_BLANK.get(), "Click an item in your inventory to add");
-		for(int i = 0; i < 9; i++){
+		for (int i = 0; i < 9; i++) {
 			setItem(i, () -> is);
 		}
 	}
-	
-	private void addScrolls(){
+
+	private void addScrolls() {
 		setItem(BankItemConfiguration.BANK_ITEM_BLACKLIST_SCROLL_UP, (pl) -> addScroll(pl, -1));
 		setItem(BankItemConfiguration.BANK_ITEM_BLACKLIST_SCROLL_DOWN, (pl) -> addScroll(pl, 1));
 	}
-	
-	private void addScroll(CorePlayers pl, int add){
+
+	private void addScroll(CorePlayers pl, int add) {
 		this.scrolled = Math.max(0, this.scrolled + add);
 		pl.refreshInventory();
 	}
-	
-	private void addItems(int size){
+
+	private void addItems(int size) {
 		int show = BankItemConfiguration.BANK_ITEM_BLACKLIST_ITEMS.getExtendValue("Slots", Integer.class);
 		int start = BankItemConfiguration.BANK_ITEM_BLACKLIST_ITEMS.getExtendValue("Start", Integer.class);
-		for(int item = 0; item < show; item++){
+		for (int item = 0; item < show; item++) {
 			int slot = item + start;
-			if(slot > size){
+			if (slot > size) {
 				break;
 			}
 			int finalItem = item;
 			setItem(slot, (pl, i) -> getItemStack(pl, finalItem), (pl, t, inventory, event) -> onClick(pl, finalItem, event));
 		}
 	}
-	
+
 	@Override
-	public CorePlayers getInvoker(CorePlayers pl){
+	public CorePlayers getInvoker(CorePlayers pl) {
 		return pl;
 	}
-	
-	public void onClick(CorePlayers pl, int slot, InventoryClickEvent event){
+
+	public void onClick(CorePlayers pl, int slot, InventoryClickEvent event) {
 		BankAdminInfo adminInfo = pl.getInfo(BankAdminInfo.class);
 		List<BlacklistedItem> blacklisted = implementation.getBlacklisted(adminInfo.getBlacklistType());
-		if(slot >= blacklisted.size()){ return; }
-		if(event.isRightClick()){
+		if (slot >= blacklisted.size()) {
+			return;
+		}
+		if (event.isRightClick()) {
 			blacklisted.remove(slot);
 			pl.refreshInventory();
-		}else{
+		} else {
 			BlacklistedItem item = blacklisted.get(slot);
 			adminInfo.setItem(item);
 			BankInventoriesManager.getInstance().openBypass(pl, BankInventories.BANK_ADMIN_BLACKLIST_ITEM);
 		}
 	}
-	
-	private ItemStack getItemStack(CorePlayers pl, int slot){
+
+	private ItemStack getItemStack(CorePlayers pl, int slot) {
 		BankAdminInfo adminInfo = pl.getInfo(BankAdminInfo.class);
 		int get = scrolled * 9 + slot;
 		List<BlacklistedItem> blacklisted = implementation.getBlacklisted(adminInfo.getBlacklistType());
-		if(get >= blacklisted.size()){ return null; }
+		if (get >= blacklisted.size()) {
+			return null;
+		}
 		BlacklistedItem item = blacklisted.get(get);
 		ItemStack is = item.getItemStack();
 		return add(is.clone(), "Match Data: " + item.isMatchData(), "Match NBT: " + item.isMatchNBT(), "Left click to edit", "Right click to remove");

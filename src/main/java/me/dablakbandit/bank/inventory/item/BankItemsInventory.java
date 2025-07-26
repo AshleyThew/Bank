@@ -39,7 +39,7 @@ public class BankItemsInventory extends BankInventoryHandler<BankInfo> {
 	}
 
 	public ItemStack getBack(BankItemPath path, BankInfo bankInfo) {
-		if (bankInfo.getOpenTypes().contains(OpenTypes.ALL) || bankInfo.getOpenTypes().contains(OpenTypes.MENU)) {
+		if (containsAnyOpenType(bankInfo, OpenTypes.ALL, OpenTypes.MENU)) {
 			return path.get();
 		}
 		return BankItemConfiguration.BANK_ITEM_BLANK.get();

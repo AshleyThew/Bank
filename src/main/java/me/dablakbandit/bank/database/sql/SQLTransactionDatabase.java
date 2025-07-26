@@ -17,7 +17,14 @@ public abstract class SQLTransactionDatabase extends SQLListener implements ITra
 	@Override
 	public void setup(Connection con) {
 		try {
-			con.createStatement().execute("CREATE TABLE IF NOT EXISTS " + tableName + " (id INTEGER PRIMARY KEY AUTOINCREMENT, uuid VARCHAR(36), type VARCHAR(16), amount DOUBLE, description VARCHAR(255), extra VARCHAR(255), timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
+			String dbProduct = con.getMetaData().getDatabaseProductName().toLowerCase();
+			String createTableSql;
+			if (dbProduct.contains("sqlite")) {
+				createTableSql = "CREATE TABLE IF NOT EXISTS " + tableName + " (id INTEGER PRIMARY KEY AUTOINCREMENT, uuid VARCHAR(36), type VARCHAR(16), amount DOUBLE, description VARCHAR(255), extra VARCHAR(255), timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP)";
+			} else {
+				createTableSql = "CREATE TABLE IF NOT EXISTS " + tableName + " (id INT PRIMARY KEY AUTO_INCREMENT, uuid VARCHAR(36), type VARCHAR(16), amount DOUBLE, description VARCHAR(255), extra VARCHAR(255), timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP)";
+			}
+			con.createStatement().execute(createTableSql);
 			insertTransaction = con.prepareStatement("INSERT INTO " + tableName + " (uuid, type, amount, description, extra) VALUES (?, ?, ?, ?, ?)");
 		} catch (Exception e) {
 			e.printStackTrace();
