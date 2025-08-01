@@ -19,43 +19,47 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class SignType extends BankImplementation implements Listener{
-	
+public class SignType extends BankImplementation implements Listener {
+
 	private static final SignType citizensType = new SignType();
-	
-	public static SignType getInstance(){
+
+	public static SignType getInstance() {
 		return citizensType;
 	}
-	
-	private SignType(){
-		
+
+	private SignType() {
+
 	}
-	
+
 	@Override
-	public void load(){
+	public void load() {
 	}
-	
+
 	@Override
-	public void enable(){
+	public void enable() {
 		Bukkit.getPluginManager().registerEvents(this, BankPlugin.getInstance());
 	}
-	
+
 	@Override
-	public void disable(){
+	public void disable() {
 		HandlerList.unregisterAll(this);
 	}
-	
+
 	@EventHandler
-	public void onSignChange(SignChangeEvent event){
-		if(event.getLine(0).equalsIgnoreCase("[bank]")){
-			if(!BankPermissionConfiguration.PERMISSION_SIGN_PLACE.has(event.getPlayer())){ return; }
+	public void onSignChange(SignChangeEvent event) {
+		if (event.getLine(0).equalsIgnoreCase("[bank]")) {
+			if (!BankPermissionConfiguration.PERMISSION_SIGN_PLACE.has(event.getPlayer())) {
+				return;
+			}
 			event.setLine(0, BankPluginConfiguration.BANK_TYPE_SIGN_TEXT.get());
 		}
 	}
-	
+
 	@EventHandler
-	public void onPlayerInteract(PlayerInteractEvent event){
-		if(event.getClickedBlock() == null){ return; }
+	public void onPlayerInteract(PlayerInteractEvent event) {
+		if (event.getClickedBlock() == null) {
+			return;
+		}
 		OpenTypes[] openType = getOpenType(event.getClickedBlock());
 		if (openType == null) {
 			return;
@@ -93,11 +97,13 @@ public class SignType extends BankImplementation implements Listener{
 		}
 		return openTypes;
 	}
-	
-	public boolean isSign(Block b){
-		if(!b.getType().name().contains("SIGN") || !(b.getState() instanceof Sign)){ return false; }
-		Sign s = (Sign)b.getState();
-		if(BankPluginConfiguration.BANK_TYPE_SIGN_TEXT.hasChangedDefault() && s.getLine(0).equals(BankPluginConfiguration.BANK_TYPE_SIGN_TEXT.getDefault())){
+
+	public boolean isSign(Block b) {
+		if (!b.getType().name().contains("SIGN") || !(b.getState() instanceof Sign)) {
+			return false;
+		}
+		Sign s = (Sign) b.getState();
+		if (BankPluginConfiguration.BANK_TYPE_SIGN_TEXT.hasChangedDefault() && s.getLine(0).equals(BankPluginConfiguration.BANK_TYPE_SIGN_TEXT.getDefault())) {
 			s.setLine(0, BankPluginConfiguration.BANK_TYPE_SIGN_TEXT.get());
 			return true;
 		}

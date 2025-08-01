@@ -10,12 +10,12 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 @TraitName("bank-trait")
-public class BankTrait extends Trait{
+public class BankTrait extends Trait {
 
 
 	private OpenTypes[] types = new OpenTypes[0];
 
-	public BankTrait(){
+	public BankTrait() {
 		super("bank-trait");
 	}
 

@@ -20,51 +20,57 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class BlockType extends BankImplementation implements Listener{
-	
+public class BlockType extends BankImplementation implements Listener {
+
 	private static final BlockType citizensType = new BlockType();
-	
-	public static BlockType getInstance(){
+
+	public static BlockType getInstance() {
 		return citizensType;
 	}
-	
-	private BlockType(){
-		
+
+	private BlockType() {
+
 	}
-	
+
 	@Override
-	public void load(){
+	public void load() {
 	}
-	
+
 	@Override
-	public void enable(){
+	public void enable() {
 		Bukkit.getPluginManager().registerEvents(this, BankPlugin.getInstance());
 	}
-	
+
 	@Override
-	public void disable(){
+	public void disable() {
 		HandlerList.unregisterAll(this);
 	}
-	
-	public boolean isBlock(Location loc){
+
+	public boolean isBlock(Location loc) {
 		return BankPluginConfiguration.BANK_TYPE_BLOCK_LOCATIONS.get().contains(LocationUtils.locationToBasic(loc));
 	}
-	
-	public void addBlock(Location location){
+
+	public void addBlock(Location location) {
 		BankPluginConfiguration.BANK_TYPE_BLOCK_LOCATIONS.add(LocationUtils.locationToBasic(location));
 	}
-	
-	public void removeBlock(Location location){
+
+	public void removeBlock(Location location) {
 		BankPluginConfiguration.BANK_TYPE_BLOCK_LOCATIONS.remove(LocationUtils.locationToBasic(location));
 	}
-	
+
 	@EventHandler
-	public void onPlayerInteract(PlayerInteractEvent event){
+	public void onPlayerInteract(PlayerInteractEvent event) {
 		Block b = event.getClickedBlock();
-		if(b == null || b.getType() == Material.AIR){ return; }
-		if(!isBlock(b.getLocation())){ return; }
+		if (b == null || b.getType() == Material.AIR) {
+			return;
+		}
+		if (!isBlock(b.getLocation())) {
+			return;
+		}
 		event.setCancelled(true);
-		if(!BankPermissionConfiguration.PERMISSION_OPEN_BLOCK.has(event.getPlayer())){ return; }
+		if (!BankPermissionConfiguration.PERMISSION_OPEN_BLOCK.has(event.getPlayer())) {
+			return;
+		}
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer(event.getPlayer());
 		if (BankInventoriesManager.getInstance().open(pl, BankInventories.BANK_MAIN_MENU, OpenTypes.ALL)) {
 			BankSoundConfiguration.BLOCK_OPEN.play(pl);

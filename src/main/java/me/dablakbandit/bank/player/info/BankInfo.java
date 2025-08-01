@@ -1,5 +1,6 @@
 package me.dablakbandit.bank.player.info;
 
+import me.dablakbandit.bank.implementations.cheque.TempCheque;
 import me.dablakbandit.bank.inventory.OpenTypes;
 import me.dablakbandit.bank.player.info.transaction.BankExpTransactionInfo;
 import me.dablakbandit.bank.player.info.transaction.BankMoneyTransactionInfo;
@@ -22,6 +23,8 @@ public class BankInfo extends CorePlayersInfo {
 	private BankLoansInfo loansInfo;
 	private BankMoneyTransactionInfo moneyTransactionInfo;
 	private BankExpTransactionInfo expTransactionInfo;
+
+	private TempCheque tempCheque;
 
 	private Set<OpenTypes> openTypes;
 
@@ -78,6 +81,14 @@ public class BankInfo extends CorePlayersInfo {
 
 	public BankExpTransactionInfo getExpTransactionInfo() {
 		return expTransactionInfo;
+	}
+
+	public TempCheque getTempCheque() {
+		return tempCheque;
+	}
+
+	public void setTempCheque(TempCheque tempCheque) {
+		this.tempCheque = tempCheque;
 	}
 
 	public void setOpenTypes(OpenTypes... openTypes) {

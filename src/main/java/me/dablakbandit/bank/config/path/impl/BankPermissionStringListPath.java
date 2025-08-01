@@ -1,13 +1,5 @@
 package me.dablakbandit.bank.config.path.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.bukkit.ChatColor;
-
 import me.dablakbandit.core.config.RawConfiguration;
 import me.dablakbandit.core.config.path.ListPath;
 import org.bukkit.permissions.Permissible;
@@ -16,25 +8,32 @@ import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 
-public class BankPermissionStringListPath extends ListPath<String>{
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+public class BankPermissionStringListPath extends ListPath<String> {
 
 
-	private PathPermissible permissible = new PathPermissible();
-	public BankPermissionStringListPath(List<String> def){
+	private final PathPermissible permissible = new PathPermissible();
+
+	public BankPermissionStringListPath(List<String> def) {
 		super(def);
 	}
 
-	public BankPermissionStringListPath(String... def){
+	public BankPermissionStringListPath(String... def) {
 		super(new ArrayList<>(Arrays.asList(def)));
 	}
-	
-	protected List<String> get(RawConfiguration config, String path){
+
+	protected List<String> get(RawConfiguration config, String path) {
 		List<String> list = config.getStringList(path);
 		permissible.setAttachmentInfo(list);
 		return list;
 	}
-	
-	protected Object setAs(List<String> list){
+
+	protected Object setAs(List<String> list) {
 		permissible.setAttachmentInfo(list);
 		return list;
 	}
@@ -43,7 +42,7 @@ public class BankPermissionStringListPath extends ListPath<String>{
 		return permissible;
 	}
 
-	public class PathPermissible implements Permissible{
+	public class PathPermissible implements Permissible {
 
 		private Set<PermissionAttachmentInfo> attachmentInfo;
 

@@ -5,12 +5,12 @@ import me.dablakbandit.core.command.config.CommandConfiguration;
 
 public class ExpArgument extends BankDefaultArgument {
 
-    public ExpArgument(CommandConfiguration.Command command) {
-        super(command);
-    }
+	public ExpArgument(CommandConfiguration.Command command) {
+		super(command);
+	}
 
-    @Override
-    public void init() {
+	@Override
+	public void init() {
 
-    }
+	}
 }

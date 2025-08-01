@@ -15,11 +15,11 @@ public class BankCommand extends ABankCommand {
 		command = new BankCommand(bankPlugin, BankCommandConfiguration.getInstance(), BANK);
 	}
 
-	public static BankCommand getInstance(){
+	public static BankCommand getInstance() {
 		return command;
 	}
-	
-	protected BankCommand(Plugin plugin, CommandConfiguration config, CommandConfiguration.Command base){
+
+	protected BankCommand(Plugin plugin, CommandConfiguration config, CommandConfiguration.Command base) {
 		super(plugin, config, base);
 	}
 

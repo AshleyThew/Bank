@@ -18,9 +18,9 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
-public class UpgradeManager{
+public class UpgradeManager {
 
-	private static UpgradeManager instance = new UpgradeManager();
+	private static final UpgradeManager instance = new UpgradeManager();
 	private final int currentVersion;
 	private final int previousVersion;
 	private final File backupFolder;
@@ -66,50 +66,50 @@ public class UpgradeManager{
 	public int getPreviousVersion() {
 		return previousVersion;
 	}
-	
-	public boolean hasUpgrade(){
-		if(!new File(BankPlugin.getInstance().getDataFolder(), "config.yml").exists()){
+
+	public boolean hasUpgrade() {
+		if (!new File(BankPlugin.getInstance().getDataFolder(), "config.yml").exists()) {
 			BankUpgradeConfiguration.UPGRADE_VERSION.set(currentVersion);
 			return false;
 		}
 		return BankUpgradeConfiguration.UPGRADE_VERSION.get() == 0;
 	}
-	
-	public boolean confirmUpgrade(){
+
+	public boolean confirmUpgrade() {
 		return BankUpgradeConfiguration.UPGRADE_CONFIRM.get();
 	}
-	
-	public void printUpgradeAndShutdown(){
+
+	public void printUpgradeAndShutdown() {
 		BankLog.errorAlways("--=---=--=---=--=---=--=---=--");
 		BankLog.errorAlways(" Bank plugin needs an upgrade");
 		BankLog.errorAlways(" Please edit the upgrade.yml");
 		BankLog.errorAlways("--=---=--=---=--=---=--=---=--");
-		try{
+		try {
 			Thread.sleep(10000);
-		}catch(InterruptedException e){
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		Bukkit.shutdown();
 	}
-	
-	public void upgrade(){
+
+	public void upgrade() {
 		int old = BankUpgradeConfiguration.UPGRADE_VERSION.get();
 		boolean completed = false;
-		if(old == 0){
+		if (old == 0) {
 			oldUpgrade();
-		}else{
+		} else {
 			copyFiles(".yml", "upgrade.yml");
 			copyFiles(".db");
 			completed = true;
 		}
-		if(!completed){
+		if (!completed) {
 			System.exit(0);
 			return;
 		}
 		updateConfig();
 	}
-	
-	private void updateConfig(){
+
+	private void updateConfig() {
 		BankUpgradeConfiguration.getInstance().saveConfig();
 		BankUpgradeConfiguration.UPGRADE_VERSION.set(currentVersion);
 		BankUpgradeConfiguration.UPGRADE_CONFIRM.set(false);
@@ -117,11 +117,11 @@ public class UpgradeManager{
 		BankUpgradeConfiguration.UPGRADE_CONVERSION_MYSQL.set(false);
 		BankUpgradeConfiguration.getInstance().saveConfig();
 	}
-	
-	private void oldUpgrade(){
+
+	private void oldUpgrade() {
 		SaveType to = SaveType.SQLITE;
 		boolean completed = true;
-		if(BankUpgradeConfiguration.UPGRADE_CONVERSION_OLD.get()){
+		if (BankUpgradeConfiguration.UPGRADE_CONVERSION_OLD.get()) {
 			FileConfiguration configuration = new CoreConfiguration(BankPlugin.getInstance(), "config.yml").getConfig();
 			completed = OldBankConverter.getInstance().convert(configuration.getString("SaveType", "SQLLITE"), to);
 		}
@@ -134,45 +134,51 @@ public class UpgradeManager{
 		BankPluginConfiguration.BANK_SAVE_TYPE.set(to);
 		updateConfig();
 	}
-	
-	private void moveFiles(String extension, String... ignored){
+
+	private void moveFiles(String extension, String... ignored) {
 		Arrays.stream(BankPlugin.getInstance().getDataFolder().listFiles()).filter(file -> filter(file, extension, ignored)).forEach(this::tryMoveFile);
 	}
-	
-	private void copyFiles(String extension, String... ignored){
+
+	private void copyFiles(String extension, String... ignored) {
 		Arrays.stream(BankPlugin.getInstance().getDataFolder().listFiles()).filter(file -> filter(file, extension, ignored)).forEach(this::tryCopyFile);
 	}
-	
-	private boolean filter(File file, String extension, String... ignored){
-		for(String ignore : ignored){
-			if(file.getName().equalsIgnoreCase(ignore)){ return false; }
+
+	private boolean filter(File file, String extension, String... ignored) {
+		for (String ignore : ignored) {
+			if (file.getName().equalsIgnoreCase(ignore)) {
+				return false;
+			}
 		}
 		return file.getName().endsWith(extension);
 	}
-	
-	private void tryMoveFile(File file){
-		if(!file.isFile()){ return; }
+
+	private void tryMoveFile(File file) {
+		if (!file.isFile()) {
+			return;
+		}
 		moveToBackupFolder(file, false);
 	}
-	
-	private void tryCopyFile(File file){
-		if(!file.isFile()){ return; }
+
+	private void tryCopyFile(File file) {
+		if (!file.isFile()) {
+			return;
+		}
 		moveToBackupFolder(file, true);
 	}
-	
-	private void moveToBackupFolder(File file, boolean copy){
-		try{
-			if(!backupFolder.exists()){
+
+	private void moveToBackupFolder(File file, boolean copy) {
+		try {
+			if (!backupFolder.exists()) {
 				backupFolder.mkdirs();
 			}
-			if(copy){
+			if (copy) {
 				Files.copy(file.toPath(), new File(backupFolder, file.getName()).toPath());
-			}else{
+			} else {
 				Files.move(file.toPath(), new File(backupFolder, file.getName()).toPath());
 			}
-		}catch(IOException e){
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

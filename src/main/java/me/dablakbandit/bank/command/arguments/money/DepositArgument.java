@@ -10,43 +10,49 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class DepositArgument extends BankEndArgument{
-	
-	public DepositArgument(CommandConfiguration.Command command){
+public class DepositArgument extends BankEndArgument {
+
+	public DepositArgument(CommandConfiguration.Command command) {
 		super(command);
 	}
-	
+
 	@Override
-	protected void onArgument(CommandSender s, Command cmd, String label, String[] args, String[] original){
-		if(checkArguments(s, cmd, label, args, original)){ return; }
-		if(args.length == 0){
+	protected void onArgument(CommandSender s, Command cmd, String label, String[] args, String[] original) {
+		if (checkArguments(s, cmd, label, args, original)) {
+			return;
+		}
+		if (args.length == 0) {
 			base.sendArguments(s, cmd, args, original, arguments.entrySet());
 			return;
 		}
-		if(!checkPlayer(s)){ return; }
-		try{
+		if (!checkPlayer(s)) {
+			return;
+		}
+		try {
 			Player player = (Player) s;
 			CorePlayers pl = CorePlayerManager.getInstance().getPlayer(player);
 			BankInfo bankInfo = pl.getInfo(BankInfo.class);
 			bankInfo.getPinInfo().checkPass(() -> {
-				try{
+				try {
 					deposit(player, bankInfo, Double.parseDouble(args[0]));
-				}catch(Exception ignored){
+				} catch (Exception ignored) {
 				}
 			});
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void deposit(Player player, BankInfo bankInfo, double amount) {
-		if(Eco.getInstance().getEconomy() == null){ return; }
+		if (Eco.getInstance().getEconomy() == null) {
+			return;
+		}
 		amount = Math.max(0, amount);
 		bankInfo.getMoneyInfo().deposit(player, bankInfo.getPlayers(), amount);
 	}
-	
+
 	@Override
-	public void init(){
+	public void init() {
 		addBlank("<amount>");
 	}
 }

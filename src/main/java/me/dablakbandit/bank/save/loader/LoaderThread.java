@@ -8,51 +8,51 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class LoaderThread implements Runnable{
-	
-	private final AtomicBoolean		stop	= new AtomicBoolean(false);
+public class LoaderThread implements Runnable {
 
-	public void terminate(){
+	private final AtomicBoolean stop = new AtomicBoolean(false);
+
+	public void terminate() {
 		stop.set(true);
 	}
-	
+
 	private final List<Runnable> runners = Collections.synchronizedList(new ArrayList<>());
-	
-	public boolean finished(){
+
+	public boolean finished() {
 		return stop.get() && runners.size() == 0;
 	}
-	
-	public void add(Runnable run){
+
+	public void add(Runnable run) {
 		runners.add(run);
 	}
-	
-	public void run(){
-		while(!stop.get()){
+
+	public void run() {
+		while (!stop.get()) {
 			runRunners();
-			try{
+			try {
 				Thread.sleep(10);
-			}catch(Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		BankLog.info(BankPluginConfiguration.BANK_LOG_PLUGIN_LEVEL, "Loader thread stopped");
 	}
-	
-	public synchronized void runRunners(){
-		while(runners.size() != 0){
+
+	public synchronized void runRunners() {
+		while (runners.size() != 0) {
 			Runnable run = null;
-			try{
+			try {
 				run = runners.get(0);
 				run.run();
-			}catch(Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
-			}finally{
+			} finally {
 				runners.remove(run);
 			}
 		}
 	}
-	
-	public boolean getStop(){
+
+	public boolean getStop() {
 		return stop.get();
 	}
 

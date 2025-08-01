@@ -13,33 +13,33 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 
-public class BankInventoriesManager{
-	
-	private static final BankInventoriesManager	inventoryHandler	= new BankInventoriesManager();
-	private static final PlayerChecks			playerChecks		= PlayerChecks.getInstance();
-	
-	public static BankInventoriesManager getInstance(){
+public class BankInventoriesManager {
+
+	private static final BankInventoriesManager inventoryHandler = new BankInventoriesManager();
+	private static final PlayerChecks playerChecks = PlayerChecks.getInstance();
+
+	public static BankInventoriesManager getInstance() {
 		return inventoryHandler;
 	}
-	
-	private InventoryHandlers								handlers;
-	private final Map<BankInventories, InventoryHandler<?>>	handlerMap	= new EnumMap<>(BankInventories.class);
-	
-	private BankInventoriesManager(){
-		
+
+	private InventoryHandlers handlers;
+	private final Map<BankInventories, InventoryHandler<?>> handlerMap = new EnumMap<>(BankInventories.class);
+
+	private BankInventoriesManager() {
+
 	}
-	
-	public void load(){
+
+	public void load() {
 		handlers = InventoryHandlers.createHandlers(BankInventories.class, BankInventories::getInventory);
 		Arrays.stream(BankInventories.values()).forEach((i) -> handlerMap.put(i, handlers.createInventory(i)));
 	}
 
 	public boolean open(CorePlayers pl, final BankInventories inventories) {
-		if(playerChecks.checkWorldDisabled(pl.getPlayer())){
+		if (playerChecks.checkWorldDisabled(pl.getPlayer())) {
 			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_WORLD_DISABLED.get());
 			return false;
 		}
-		if(playerChecks.checkGamemodeDisabled(pl.getPlayer())){
+		if (playerChecks.checkGamemodeDisabled(pl.getPlayer())) {
 			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_WORLD_DISABLED.get());
 			return false;
 		}
@@ -48,7 +48,9 @@ public class BankInventoriesManager{
 			return false;
 		}
 		InventoryHandler<?> handler = handlerMap.get(checkedInventories);
-		if(!handler.hasPermission(pl.getPlayer())){ return false; }
+		if (!handler.hasPermission(pl.getPlayer())) {
+			return false;
+		}
 		BankInfo bankInfo = pl.getInfo(BankInfo.class);
 		if (bankInfo.isLocked(true, () -> open(pl, inventories))) {
 			return false;
@@ -80,23 +82,27 @@ public class BankInventoriesManager{
 		bankInfo.setOpenTypes(openTypes);
 		return open(pl, inventories);
 	}
-	
-	public boolean openBypass(CorePlayers pl, BankInventories inventories){
+
+	public boolean openBypass(CorePlayers pl, BankInventories inventories) {
 		InventoryHandler<?> handler = handlerMap.get(inventories);
-		if(!handler.hasPermission(pl.getPlayer())){ return false; }
+		if (!handler.hasPermission(pl.getPlayer())) {
+			return false;
+		}
 		pl.setOpenInventory(handler);
 		return true;
 	}
 
 	private BankInventories checkOnlys(CorePlayers pl, BankInventories inventories) {
-		if(inventories != BankInventories.BANK_MAIN_MENU){ return inventories; }
-		if(BankPluginConfiguration.BANK_MONEY_ONLY.get()){
+		if (inventories != BankInventories.BANK_MAIN_MENU) {
+			return inventories;
+		}
+		if (BankPluginConfiguration.BANK_MONEY_ONLY.get()) {
 			inventories = BankInventories.BANK_MONEY;
-		}else if(BankPluginConfiguration.BANK_EXP_ONLY.get()){
+		} else if (BankPluginConfiguration.BANK_EXP_ONLY.get()) {
 			inventories = BankInventories.BANK_EXP;
-		}else if(BankPluginConfiguration.BANK_ITEMS_ONLY.get()){
+		} else if (BankPluginConfiguration.BANK_ITEMS_ONLY.get()) {
 			inventories = BankInventories.BANK_ITEMS;
-		}else{
+		} else {
 			inventories = checkPin(pl, inventories);
 		}
 		return inventories;
@@ -111,8 +117,10 @@ public class BankInventoriesManager{
 	}
 
 	private BankInventories checkPin(CorePlayers pl, BankInventories inventories) {
-		if(!BankPluginConfiguration.BANK_PIN_ENABLED.get()){ return inventories; }
-		if(!pl.getInfo(BankPinInfo.class).hasPassed()){
+		if (!BankPluginConfiguration.BANK_PIN_ENABLED.get()) {
+			return inventories;
+		}
+		if (!pl.getInfo(BankPinInfo.class).hasPassed()) {
 			BankInventories finalInventories = inventories;
 			pl.getInfo(BankPinInfo.class).setAfter(() -> open(pl, finalInventories));
 			inventories = BankInventories.BANK_PIN_ENTER;

@@ -21,6 +21,8 @@ public interface IInfoDatabase {
 
 	ITransactionDatabase getExpTransactionDatabase();
 
+	IChequeDatabase getChequeDatabase();
+
 	List<String> getDistinctUUIDS();
 
 	void fixMissingUsernames();

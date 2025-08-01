@@ -10,15 +10,17 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class AllArgument extends BankEndArgument{
-	
-	public AllArgument(CommandConfiguration.Command command){
+public class AllArgument extends BankEndArgument {
+
+	public AllArgument(CommandConfiguration.Command command) {
 		super(command);
 	}
-	
+
 	@Override
-	protected void onArgument(CommandSender s, Command cmd, String label, String[] args, String[] original){
-		if(!checkPlayer(s)){ return; }
+	protected void onArgument(CommandSender s, Command cmd, String label, String[] args, String[] original) {
+		if (!checkPlayer(s)) {
+			return;
+		}
 		Player player = (Player) s;
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer(player);
 		BankInfo bankInfo = pl.getInfo(BankInfo.class);
@@ -26,7 +28,9 @@ public class AllArgument extends BankEndArgument{
 	}
 
 	private void depositAll(Player player, BankInfo bankInfo) {
-		if(Eco.getInstance().getEconomy() == null){ return; }
+		if (Eco.getInstance().getEconomy() == null) {
+			return;
+		}
 		double deposit = Math.max(0, Eco.getInstance().getEconomy().getBalance(bankInfo.getPlayers().getPlayer()));
 		bankInfo.getMoneyInfo().deposit(player, bankInfo.getPlayers(), deposit);
 	}

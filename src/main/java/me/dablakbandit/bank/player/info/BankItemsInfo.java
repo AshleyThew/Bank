@@ -19,31 +19,31 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInfo, BankDefaultInfo{
+public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInfo, BankDefaultInfo {
 
 	@Deprecated
-	private final Map<Integer, List<ItemStack>>	itemMap			= Collections.synchronizedMap(new HashMap<>());
+	private final Map<Integer, List<ItemStack>> itemMap = Collections.synchronizedMap(new HashMap<>());
 
 	@Deprecated
 	private final Map<Integer, List<BankItem>> bankItemMap = Collections.synchronizedMap(new HashMap<>());
 
 	private final Map<Integer, Map<Integer, BankItem>> bankItemSlotMap = Collections.synchronizedMap(new HashMap<>());
 
-	private final Map<Integer, ItemStack>		tabItemMap		= Collections.synchronizedMap(new HashMap<>());
-	private final Map<Integer, String>			tabNameMap		= Collections.synchronizedMap(new HashMap<>());
-	protected final Map<Integer, Integer>		boughtSlotsMap	= Collections.synchronizedMap(new HashMap<>());
-	private int									openTab			= 1;
-	private int									scrolled		= 0;
-	private int									boughtTabs;
-	private int									commandSlots, permissionSlots;
+	private final Map<Integer, ItemStack> tabItemMap = Collections.synchronizedMap(new HashMap<>());
+	private final Map<Integer, String> tabNameMap = Collections.synchronizedMap(new HashMap<>());
+	protected final Map<Integer, Integer> boughtSlotsMap = Collections.synchronizedMap(new HashMap<>());
+	private int openTab = 1;
+	private int scrolled = 0;
+	private int boughtTabs;
+	private int commandSlots, permissionSlots;
 
 	private int permissionMergeMax;
 	@Exclude
 	private int totalTabCount;
 	@Exclude
 	private final BankItemsHandler bankItemsHandler;
-	
-	public BankItemsInfo(CorePlayers pl){
+
+	public BankItemsInfo(CorePlayers pl) {
 		super(pl);
 		this.bankItemsHandler = new BankItemsHandler(this);
 	}
@@ -63,8 +63,8 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 //		bankItems.removeIf(bi -> bi.getItemStack() == null || bi.getItemStack().getType() == Material.AIR);
 //		return bankItems;
 //	}
-	
-	public Map<Integer, ItemStack> getTabItemMap(){
+
+	public Map<Integer, ItemStack> getTabItemMap() {
 		return tabItemMap;
 	}
 
@@ -72,52 +72,52 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 		return tabNameMap;
 	}
 
-	public int getOpenTab(){
+	public int getOpenTab() {
 		return openTab;
 	}
-	
-	public void setOpenTab(int openTab){
+
+	public void setOpenTab(int openTab) {
 		this.openTab = openTab;
 	}
-	
-	public int getScrolled(){
+
+	public int getScrolled() {
 		return scrolled;
 	}
-	
-	public void addScrolled(int add){
+
+	public void addScrolled(int add) {
 		this.scrolled = Math.max(0, this.scrolled + add);
 	}
-	
-	public void setScrolled(int scrolled){
+
+	public void setScrolled(int scrolled) {
 		this.scrolled = Math.max(0, scrolled);
 	}
-	
-	public int getBoughtTabs(){
+
+	public int getBoughtTabs() {
 		return boughtTabs;
 	}
-	
-	public void setBoughtTabs(int boughtTabs){
+
+	public void setBoughtTabs(int boughtTabs) {
 		this.boughtTabs = boughtTabs;
 	}
-	
-	public int getCommandSlots(){
+
+	public int getCommandSlots() {
 		return commandSlots;
 	}
-	
-	public void addCommandSlots(int commandSlots){
+
+	public void addCommandSlots(int commandSlots) {
 		this.commandSlots += commandSlots;
 	}
-	
-	public void setCommandSlots(int commandSlots){
+
+	public void setCommandSlots(int commandSlots) {
 		this.commandSlots = commandSlots;
 	}
-	
-	public int getPermissionSlots(){
+
+	public int getPermissionSlots() {
 		return permissionSlots;
 	}
-	
+
 	@Deprecated
-	public void setPermissionSlots(int permissionSlots){
+	public void setPermissionSlots(int permissionSlots) {
 		this.permissionSlots = permissionSlots;
 	}
 
@@ -125,20 +125,20 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 		return permissionMergeMax;
 	}
 
-	public Map<Integer, Integer> getBoughtSlotsMap(){
+	public Map<Integer, Integer> getBoughtSlotsMap() {
 		return boughtSlotsMap;
 	}
-	
-	public int getTotalTabCount(){
+
+	public int getTotalTabCount() {
 		return totalTabCount;
 	}
 
 	public int getMaxTabNotEmpty() {
 		return bankItemSlotMap.entrySet().stream().filter(e -> !e.getValue().isEmpty()).mapToInt(Map.Entry::getKey).max().orElse(1);
 	}
-	
+
 	@Override
-	public void jsonInit(){
+	public void jsonInit() {
 		// Convert old list-based items to new slot-based items
 		for (Map.Entry<Integer, List<BankItem>> entry : bankItemMap.entrySet()) {
 			int tab = entry.getKey();
@@ -171,17 +171,28 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 		}
 		itemMap.clear();
 		bankItemMap.clear(); // Clear the old lists since we're using maps now
+
+		// Clean up empty slots
+		for (Map<Integer, BankItem> value : bankItemSlotMap.values()) {
+			value.values().removeIf(bi -> bi.getItemStack() == null || bi.getItemStack().getType() == Material.AIR);
+		}
+		// Cleanup empty tabs
+		bankItemSlotMap.entrySet().removeIf(entry -> entry.getValue().isEmpty());
+
+		//Cleanup empty tab items and names
+		tabItemMap.values().removeIf(itemStack -> itemStack == null || itemStack.getType() == Material.AIR);
+		tabNameMap.values().removeIf(Objects::isNull);
 	}
-	
+
 	@Override
-	public void jsonFinal(){
+	public void jsonFinal() {
 		bankItemSlotMap.values().removeIf(Map::isEmpty);
 	}
 
 	@Override
-	public void checkPermissions(Permissible permissible, boolean debug){
+	public void checkPermissions(Permissible permissible, boolean debug) {
 		Collection<PermissionAttachmentInfo> permissions = permissible.getEffectivePermissions();
-		if(!(permissible instanceof BankPermissionStringListPath.PathPermissible)) {
+		if (!(permissible instanceof BankPermissionStringListPath.PathPermissible)) {
 			List<Integer> maxList = BankPermissionConfiguration.PERMISSION_SLOTS.getValue(permissions);
 			if (!maxList.isEmpty()) {
 				if (BankPluginConfiguration.BANK_ITEMS_SLOTS_PERMISSION_COMBINE.get()) {
@@ -192,23 +203,23 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 			} else {
 				permissionSlots = 0;
 			}
-			if(debug){
+			if (debug) {
 				BankLog.debug("Permissions for " + pl.getName() + " slots is: " + permissionSlots);
 			}
 		}
 		int tabCount = BankPluginConfiguration.BANK_ITEMS_TABS_DEFAULT.get() + boughtTabs;
-		if(BankPluginConfiguration.BANK_ITEMS_TABS_PERMISSION_ENABLED.get()){
+		if (BankPluginConfiguration.BANK_ITEMS_TABS_PERMISSION_ENABLED.get()) {
 			int permissionsCount = 0;
 			List<Integer> tabsList = BankPermissionConfiguration.PERMISSION_TABS.getValue(permissions);
-			if(BankPluginConfiguration.BANK_ITEMS_TABS_PERMISSION_COMBINE.get()){
+			if (BankPluginConfiguration.BANK_ITEMS_TABS_PERMISSION_COMBINE.get()) {
 				permissionsCount = tabsList.stream().reduce(0, Integer::sum);
-			}else{
-				for(int tab : tabsList){
+			} else {
+				for (int tab : tabsList) {
 					permissionsCount = Math.max(permissionsCount, tab);
 				}
 			}
 			tabCount = Math.max(tabCount, permissionsCount + boughtTabs);
-			if(debug){
+			if (debug) {
 				BankLog.debug("Permissions for " + pl.getName() + " tabs is: " + permissionsCount);
 			}
 		}
@@ -223,7 +234,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 
 	@Override
 	public void initDefault() {
-		if(pl.getPlayer() != null && BankPluginConfiguration.BANK_ITEMS_DEFAULT_ENABLED.get()){
+		if (pl.getPlayer() != null && BankPluginConfiguration.BANK_ITEMS_DEFAULT_ENABLED.get()) {
 			for (ItemDefault itemDefault : ItemDefaultImplementation.getInstance().getDefault()) {
 				bankItemsHandler.addBankItem(pl.getPlayer(), itemDefault.getItemStack(), true);
 			}

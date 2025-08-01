@@ -24,8 +24,7 @@ public class BankPluginTest {
     @Test
     void pluginLoadEnabled() {
         assertTrue(true);
-        await().until(() -> BankDatabaseManager.getInstance().getBankDatabase().getDatabase().getConnection() != null);
-        assertNotNull(BankDatabaseManager.getInstance().getBankDatabase().getDatabase().getConnection());
+        await().until(() -> BankDatabaseManager.getInstance().getBankDatabase().isConnected());
         BankPluginConfiguration.BANK_EXP_INTEREST_ENABLED.set(true);
         assertTrue(BankPluginConfiguration.BANK_EXP_INTEREST_ENABLED.get());
     }
@@ -33,8 +32,7 @@ public class BankPluginTest {
     @Test
     void pluginLoadEnabled2() {
         assertTrue(true);
-        await().until(() -> BankDatabaseManager.getInstance().getBankDatabase().getDatabase().getConnection() != null);
-        assertNotNull(BankDatabaseManager.getInstance().getBankDatabase().getDatabase().getConnection());
+        await().until(() -> BankDatabaseManager.getInstance().getBankDatabase().isConnected());
         BankPluginConfiguration.BANK_EXP_INTEREST_ENABLED.set(true);
         assertTrue(BankPluginConfiguration.BANK_EXP_INTEREST_ENABLED.get());
         PlayerMock playerMock = testEnvironment.getServer().addPlayer();

@@ -14,34 +14,34 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class OpenArgument extends BankEndArgument{
-	
-	public OpenArgument(CommandConfiguration.Command command){
+public class OpenArgument extends BankEndArgument {
+
+	public OpenArgument(CommandConfiguration.Command command) {
 		super(command);
 	}
-	
+
 	@Override
-	protected void onArgument(CommandSender s, Command cmd, String label, String[] args, String[] original){
-		if(args.length == 0){
+	protected void onArgument(CommandSender s, Command cmd, String label, String[] args, String[] original) {
+		if (args.length == 0) {
 			base.sendArguments(s, cmd, args, original, arguments.entrySet());
 			return;
 		}
 		Player player = Bukkit.getPlayerExact(args[0]);
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer(player);
-		if(pl == null){
+		if (pl == null) {
 			base.sendFormattedMessage(s, BankLanguageConfiguration.COMMAND_UNKNOWN_PLAYER.get().replaceAll("<player>", args[0]));
 			return;
 		}
 		open(pl);
 	}
-	
-	private void open(CorePlayers open){
+
+	private void open(CorePlayers open) {
 		BankInventoriesManager.getInstance().open(open, BankInventories.BANK_MAIN_MENU, OpenTypes.ALL);
 	}
-	
+
 	@Override
-	public void init(){
+	public void init() {
 		addTabCompleter(0, TabCompleter.PLAYERS);
 	}
-	
+
 }

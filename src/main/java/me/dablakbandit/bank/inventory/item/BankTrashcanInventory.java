@@ -8,20 +8,20 @@ import me.dablakbandit.bank.inventory.BankInventoryHandler;
 import me.dablakbandit.bank.player.info.BankInfo;
 import me.dablakbandit.core.players.CorePlayers;
 
-public class BankTrashcanInventory extends BankInventoryHandler<BankInfo>{
-	
+public class BankTrashcanInventory extends BankInventoryHandler<BankInfo> {
+
 	@Override
-	public void init(){
+	public void init() {
 		setItem(BankItemConfiguration.BANK_TRASHCAN_BACK, consumeSound(this::returnToItems, BankSoundConfiguration.INVENTORY_GLOBAL_BACK));
 	}
-	
-	protected void returnToItems(CorePlayers pl){
+
+	protected void returnToItems(CorePlayers pl) {
 		BankInventoriesManager.getInstance().open(pl, BankInventories.BANK_ITEMS);
 	}
-	
+
 	@Override
-	public BankInfo getInvoker(CorePlayers pl){
+	public BankInfo getInvoker(CorePlayers pl) {
 		return pl.getInfo(BankInfo.class);
 	}
-	
+
 }

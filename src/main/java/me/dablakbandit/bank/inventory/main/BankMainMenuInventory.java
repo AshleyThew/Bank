@@ -24,6 +24,7 @@ public class BankMainMenuInventory extends BankInventoryHandler<BankInfo> {
 		addMoney();
 		addItem();
 		addExp();
+		addCheques();
 	}
 
 	private void addPin() {
@@ -87,6 +88,22 @@ public class BankMainMenuInventory extends BankInventoryHandler<BankInfo> {
 
 	private ItemStack addExpItem(BankItemPath path, BankInfo bankInfo) {
 		return replaceNameLore(path, "<exp>", "" + (int) Math.floor(bankInfo.getExpInfo().getExp()));
+	}
+
+	private void addCheques() {
+		if (!BankPluginConfiguration.BANK_CHEQUES_ENABLED.get()) {
+			return;
+		}
+		setItem(BankItemConfiguration.BANK_MAIN_CHEQUES, (path, t) -> getItem(path, t, this::addChequesItem, OpenTypes.CHEQUES), consumeSound(getCheques(), BankSoundConfiguration.INVENTORY_MENU_OPEN_CHEQUES));
+	}
+
+	private ItemStack addChequesItem(BankItemPath path, BankInfo bankInfo) {
+		return path.get();
+	}
+
+	@SuppressWarnings("SameReturnValue")
+	protected Consumer<CorePlayers> getCheques() {
+		return BankInventories.BANK_CHEQUE_MENU;
 	}
 
 	@Override

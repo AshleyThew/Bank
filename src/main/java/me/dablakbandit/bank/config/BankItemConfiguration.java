@@ -28,47 +28,50 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class BankItemConfiguration extends CommentAdvancedConfiguration{
+public class BankItemConfiguration extends CommentAdvancedConfiguration {
 
 	private static BankItemConfiguration config;
-
 
 	public static void load(BankPlugin plugin) {
 		config = new BankItemConfiguration(plugin);
 		config.load();
 	}
-	
-	public static BankItemConfiguration getInstance(){
+
+	public static BankItemConfiguration getInstance() {
 		return config;
 	}
-	
-	private BankItemConfiguration(Plugin plugin){
+
+	private BankItemConfiguration(Plugin plugin) {
 		super(plugin, "conf/items.yml");
 		CommentConfiguration.addCommentSupplier(BankItemBase.class, BankItemBase::value);
 		CommentConfiguration.addDeleteSupplier(BankItemDelete.class, BankItemDelete::value);
 	}
-	
-	private static final Material	stained				= getStainedMaterial();
-	
-	private static final ItemStack	black_stained		= getStained("BLACK");
-	private static final ItemStack	red_stained			= getStained("RED");
-	private static final ItemStack	green_stained		= getStained("GREEN");
-	private static final ItemStack	light_blue_stained	= getStained("LIGHT_BLUE");
-	private static final ItemStack	orange_stained		= getStained("ORANGE");
-	private static final ItemStack	cyan_stained		= getStained("CYAN");
-	private static final ItemStack	yellow_stained		= getStained("YELLOW");
-	
-	private static Material getStainedMaterial(){
+
+	private static final Material stained = getStainedMaterial();
+
+	private static final ItemStack black_stained = getStained("BLACK");
+	private static final ItemStack red_stained = getStained("RED");
+	private static final ItemStack green_stained = getStained("GREEN");
+	private static final ItemStack light_blue_stained = getStained("LIGHT_BLUE");
+	private static final ItemStack orange_stained = getStained("ORANGE");
+	private static final ItemStack cyan_stained = getStained("CYAN");
+	private static final ItemStack yellow_stained = getStained("YELLOW");
+
+	private static Material getStainedMaterial() {
 		Material mat = Material.getMaterial("STAINED_GLASS_PANE");
-		if(mat != null){ return mat; }
+		if (mat != null) {
+			return mat;
+		}
 		mat = Material.getMaterial("THIN_GLASS");
 		return mat;
 	}
 
-	private static ItemStack getStained(String name){
+	private static ItemStack getStained(String name) {
 		Material m = getMaterial(name + "_STAINED_GLASS_PANE");
-		if(m != null){ return new ItemStack(m, 1); }
-		return new ItemStack(stained, 1, (short)DyeColor.valueOf(name).ordinal());
+		if (m != null) {
+			return new ItemStack(m, 1);
+		}
+		return new ItemStack(stained, 1, (short) DyeColor.valueOf(name).ordinal());
 	}
 
 	public static Material getMaterial(String... possible) {
@@ -202,6 +205,8 @@ public class BankItemConfiguration extends CommentAdvancedConfiguration{
 		new BankItemPath(5, yellow_stained, ChatColor.AQUA + "<exp> exp", ChatColor.GREEN + "Your current amount of exp");
 	public static final BankItemPath	BANK_MAIN_LOANS						=
 		new BankItemPath(6, light_blue_stained, ChatColor.AQUA + "Loans", ChatColor.GREEN + "Click to take and view current loans");
+	public static final BankItemPath	BANK_MAIN_CHEQUES					=
+		new BankItemPath(7, orange_stained, ChatColor.AQUA + "Cheque", ChatColor.GREEN + "Click to create cheques");
 	
 	@Comment("Available: <exp>")
 	public static final BankItemPath	BANK_EXP_BALANCE					=
@@ -277,6 +282,59 @@ public class BankItemConfiguration extends CommentAdvancedConfiguration{
 	@CommentArray({ "Each pin slot is randomized except for Zero", "Available: <number>" })
 	@BankItemDelete
 	public static final BankEmptyPath	BANK_PIN_NUMBER						= new BankEmptyPath();
+
+	@Comment("Cheque GUI Items")
+	public static final BankItemPath	BANK_CHEQUE_MENU_BLANK					= new BankItemPath(black_stained, " ", new int[]{ 1, 2, 4, 6, 7, 8});
+	public static final BankItemPath	BANK_CHEQUE_MENU_BACK					= new BankItemPath(0, red_stained, ChatColor.RED + "Back", ChatColor.RED + "Go back");
+	public static final BankItemPath	BANK_CHEQUE_MENU_CREATE					= new BankItemPath(3, green_stained, ChatColor.GREEN + "Create Cheque", ChatColor.GREEN + "Click to create a new cheque");
+	@Comment("Available: <cost>")
+	public static final BankItemPath	BANK_CHEQUE_MENU_BOOK					= new BankItemPath(5, Material.BOOK, ChatColor.GOLD + "Get Cheque Book", ChatColor.GREEN + "Click to get a cheque book", ChatColor.GRAY + "Cost: <cost>");
+	public static final BankItemPath	BANK_CHEQUE_CREATE_BLANK			= new BankItemPath(black_stained, " ", new int[]{ 1, 3, 5, 7, 8});
+	public static final BankItemPath	BANK_CHEQUE_CREATE_BACK				= new BankItemPath(0, red_stained, ChatColor.RED + "Back", ChatColor.RED + "Go back");
+	@CommentArray({ "Available: <amount>, <recipient>, <cost>, <total>" })
+	public static final BankItemPath	BANK_CHEQUE_CREATE_AMOUNT			= new BankItemPath(2, Material.SUNFLOWER, ChatColor.GREEN + "Amount: $<amount>", ChatColor.GREEN + "Click to set the amount");
+	@CommentArray({ "Available: <amount>, <recipient>, <cost>, <total>" })
+	public static final BankItemPath	BANK_CHEQUE_CREATE_RECIPIENT		= new BankItemPath(4, Material.BOOK, ChatColor.GREEN + "Recipient: <recipient>", ChatColor.GREEN + "Click to set the recipient");
+	@CommentArray({ "Available: <amount>, <recipient>, <cost>, <total>" })
+	public static final BankItemPath	BANK_CHEQUE_CREATE_CONFIRM			= new BankItemPath(6, Material.PAPER, ChatColor.GREEN + "Confirm", ChatColor.GREEN + "Click to confirm the cheque creation", ChatColor.GRAY + "Total cost: $<total>");
+
+	@Comment("Cheque Item Configuration")
+	@CommentArray({ 
+		"Configure the physical cheque item that players receive",
+		"Available placeholders: <amount>, <issuer>, <recipient>, <issue-date>, <cheque-id>",
+		"Note: The cheque ID is stored securely and not visible in lore"
+	})
+	public static final BankItemPath	BANK_CHEQUE_ITEM					= new BankItemPath(Material.PAPER, 
+		ChatColor.GOLD + "Bank Cheque", 
+		ChatColor.GRAY + "Amount: " + ChatColor.GREEN + "<amount>",
+		ChatColor.GRAY + "Issued by: " + ChatColor.YELLOW + "<issuer>", 
+		ChatColor.GRAY + "Made out to: " + ChatColor.YELLOW + "<recipient>", 
+		ChatColor.GRAY + "Issue Date: " + ChatColor.WHITE + "<issue-date>", 
+		ChatColor.GRAY + "Cheque ID: " + ChatColor.WHITE + "<cheque-id>", 
+		"", 
+		ChatColor.DARK_GRAY + "Right-click to redeem");
+
+	@Comment("Cheque Book Item Configuration")
+	@CommentArray({ 
+		"Configure the cheque book item that players can purchase and use",
+		"Variables: <uses> - remaining uses, <max-uses> - maximum uses"
+	})
+	public static final BankItemPath	BANK_CHEQUE_BOOK_ITEM				= new BankItemPath(Material.BOOK, 
+		ChatColor.GOLD + "Cheque Book", 
+		ChatColor.GRAY + "Right-click to open", 
+		ChatColor.GRAY + "Create cheques from your bank account",
+		ChatColor.GRAY + "Uses remaining: " + ChatColor.WHITE + "<uses>/<max-uses>");
+
+	@Comment("Cheque Book Item Configuration (Unlimited Uses)")
+	@CommentArray({ 
+		"Configure the cheque book item when unlimited uses are enabled (BANK_CHEQUES_BOOK_USES_ENABLED = false)"
+	})
+	public static final BankItemPath	BANK_CHEQUE_BOOK_ITEM_UNLIMITED		= new BankItemPath(Material.BOOK, 
+		ChatColor.GOLD + "Cheque Book", 
+		ChatColor.GRAY + "Right-click to open", 
+		ChatColor.GRAY + "Create cheques from your bank account",
+		ChatColor.GRAY + "Uses: " + ChatColor.GREEN + "Unlimited");
+
 	@CommentArray({"To disable set .Slots to [-1] like:", ".Slots:", "- -1"})
 	public static final BankItemPath	BANK_PIN_NUMBER_BLANK				= new BankItemPath(black_stained, " ");
 	public static final BankItemPath	BANK_PIN_NUMBER_BACK				= new BankItemPath(0, red_stained, ChatColor.RED + "Back", ChatColor.RED + "Go back");

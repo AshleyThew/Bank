@@ -67,7 +67,6 @@ public class OpenArgument extends BankAdvancedArgument {
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer((Player) s);
 		BankInfo bankInfo = pl.getInfo(BankInfo.class);
 		bankInfo.getPinInfo().checkPass(() -> BankInventoriesManager.getInstance().open(pl, BankInventories.BANK_MAIN_MENU, OpenTypes.ALL));
-		return;
 	}
 
 	@Override

@@ -6,9 +6,9 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Repeatable(PathExtendedRepeat.class)
 public @interface PathExtended {
-    String key() default "";
+	String key() default "";
 
-    String value() default "";
+	String value() default "";
 
-    Class<?> classType();
+	Class<?> classType();
 }

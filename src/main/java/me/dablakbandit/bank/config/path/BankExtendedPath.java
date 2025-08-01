@@ -4,9 +4,9 @@ import java.util.Map;
 
 public interface BankExtendedPath {
 
-    void setFile(String file);
+	void setFile(String file);
 
-    void setExtendedValues(Map<String, Object> extendedValues);
+	void setExtendedValues(Map<String, Object> extendedValues);
 
-    <T> T getExtendValue(String key, Class<T> clazz);
+	<T> T getExtendValue(String key, Class<T> clazz);
 }

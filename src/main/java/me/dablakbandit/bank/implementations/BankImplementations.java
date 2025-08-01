@@ -2,6 +2,7 @@ package me.dablakbandit.bank.implementations;
 
 import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.implementations.blacklist.ItemBlacklistImplementation;
+import me.dablakbandit.bank.implementations.cheque.ChequeImplementation;
 import me.dablakbandit.bank.implementations.citizens.CitizensType;
 import me.dablakbandit.bank.implementations.def.ItemDefaultImplementation;
 import me.dablakbandit.bank.implementations.headdb.HeadDBImplementation;
@@ -20,7 +21,7 @@ import org.apache.commons.lang.WordUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.util.function.Supplier;
 
-public enum BankImplementations{
+public enum BankImplementations {
 	//@formatter:off
 	LOCK(LockType.class, BankPluginConfiguration.BANK_SAVE_LOCK_TIME),
 	CITIZENS(CitizensType.class, BankPluginConfiguration.BANK_TYPE_CITIZENS_ENABLED),
@@ -33,25 +34,28 @@ public enum BankImplementations{
 	ITEM_BLACKLIST(ItemBlacklistImplementation.class, BankPluginConfiguration.BANK_ITEMS_BLACKLIST_ENABLED),
 	ITEM_DEFAULT(ItemDefaultImplementation.class, BankPluginConfiguration.BANK_ITEMS_DEFAULT_ENABLED),
 	HEADDB(HeadDBImplementation.class, null),
-	
+	CHEQUE(ChequeImplementation.class, BankPluginConfiguration.BANK_CHEQUES_ENABLED),
+
     //@formatter:on
 	;
-	
-	private BankImplementation							object;
-	private final Class<? extends BankImplementation>	supplier;
-	private final Supplier<Boolean>						booleanPath;
-	private boolean										loaded;
-	
-	BankImplementations(Class<? extends BankImplementation> supplier, BooleanPath booleanPath){
+
+	private BankImplementation object;
+	private final Class<? extends BankImplementation> supplier;
+	private final Supplier<Boolean> booleanPath;
+	private boolean loaded;
+
+	BankImplementations(Class<? extends BankImplementation> supplier, BooleanPath booleanPath) {
 		this.supplier = supplier;
 		this.booleanPath = booleanPath;
 	}
-	
-	public void load(){
-		if(booleanPath != null && !booleanPath.get()){ return; }
-		try{
-			object = (BankImplementation)NMSUtils.getMethod(supplier, "getInstance").invoke(null);
-		}catch(IllegalAccessException | InvocationTargetException e){
+
+	public void load() {
+		if (booleanPath != null && !booleanPath.get()) {
+			return;
+		}
+		try {
+			object = (BankImplementation) NMSUtils.getMethod(supplier, "getInstance").invoke(null);
+		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 			return;
 		} catch (Exception e) {
@@ -61,32 +65,36 @@ public enum BankImplementations{
 				throw e;
 			}
 		}
-		try{
+		try {
 			object.load();
 			BankLog.info(BankPluginConfiguration.BANK_LOG_PLUGIN_LEVEL, WordUtils.capitalize(name().toLowerCase().replace("_", " ")) + " loaded");
 			loaded = true;
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void enable(){
-		if(!loaded){ return; }
-		try{
+
+	public void enable() {
+		if (!loaded) {
+			return;
+		}
+		try {
 			object.enable();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void disable(){
-		if(!loaded){ return; }
-		try{
+
+	public void disable() {
+		if (!loaded) {
+			return;
+		}
+		try {
 			object.disable();
 			loaded = false;
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

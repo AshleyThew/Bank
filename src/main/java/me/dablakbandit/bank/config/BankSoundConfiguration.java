@@ -10,7 +10,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class BankSoundConfiguration extends CommentAdvancedConfiguration{
+public class BankSoundConfiguration extends CommentAdvancedConfiguration {
 
 	private static BankSoundConfiguration config;
 
@@ -18,14 +18,14 @@ public class BankSoundConfiguration extends CommentAdvancedConfiguration{
 		config = new BankSoundConfiguration(plugin);
 		config.load();
 	}
-	
-	public static BankSoundConfiguration getInstance(){
+
+	public static BankSoundConfiguration getInstance() {
 		return config;
 	}
-	
+
 	private static Sound levelup, anvil;
-	
-	static{
+
+	static {
 		// Check if sounds class is an enum
 
 		if (Sound.class.isEnum()) {
@@ -93,6 +93,8 @@ public class BankSoundConfiguration extends CommentAdvancedConfiguration{
 	public static final SoundsPath	INVENTORY_MENU_OPEN_EXP					= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_MENU_OPEN_LOANS				= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_MENU_OPEN_LOAN_VIEW			= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_MENU_OPEN_MAIN				= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_MENU_OPEN_CHEQUES				= new SoundsPath(levelup);
 	
 	public static final SoundsPath	INVENTORY_EXP_WITHDRAW					= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_EXP_WITHDRAW_ALL				= new SoundsPath(levelup);
@@ -125,7 +127,10 @@ public class BankSoundConfiguration extends CommentAdvancedConfiguration{
 	public static final SoundsPath	INVENTORY_ITEMS_TABITEMPICKER_UP		= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_ITEMS_TABITEMPICKER_DOWN		= new SoundsPath(levelup);
 	public static final SoundsPath	INVENTORY_ITEMS_TABITEMPICKER_SELECT	= new SoundsPath(levelup);
-	
+
+	public static final SoundsPath	INVENTORY_ITEMS_CHEQUE_OPEN_CREATE		= new SoundsPath(levelup);
+	public static final SoundsPath	INVENTORY_ITEMS_CHEQUE_BUY_BOOK			= new SoundsPath(levelup);
+
 	public static final SoundsPath	MONEY_SEND_OTHER						= new SoundsPath(levelup);
 	public static final SoundsPath	MONEY_SEND_RECEIVE						= new SoundsPath(levelup);
 	

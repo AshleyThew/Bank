@@ -1,11 +1,11 @@
 package me.dablakbandit.bank.utils.calculation;
 
 public class PaymentCalculator {
-	
-	private final double	current, max, taxRate;
+
+	private final double current, max, taxRate;
 
 	private double calculation, tax;
-	private boolean			full;
+	private boolean full;
 
 	public PaymentCalculator(double calculation, double current, double max, double taxRate) {
 		this.calculation = Math.max(0, calculation);
@@ -14,27 +14,27 @@ public class PaymentCalculator {
 		this.taxRate = Math.max(0, taxRate);
 		calculate();
 	}
-	
-	private void calculate(){
+
+	private void calculate() {
 		if (this.calculation < 0.0 || this.current > this.max) {
 			this.calculation = 0.0;
 			this.full = true;
 			return;
 		}
 		double newAmount = this.current + this.calculation;
-		
+
 		// If overflow or over max
-		if(newAmount < 0.0 || newAmount >= this.max){
+		if (newAmount < 0.0 || newAmount >= this.max) {
 			double tempDeposit = Math.max(0, this.max - this.current);
 			double tempTax = tempDeposit * this.taxRate;
-			
+
 			double maxDeposit = tempDeposit + tempTax;
 			// Attempting to full bank
 			if (maxDeposit <= this.calculation) {
 				this.calculation = tempDeposit;
 				this.tax = tempTax;
 				return;
-			}else{
+			} else {
 				this.calculation = tempDeposit;
 			}
 		}
@@ -45,16 +45,16 @@ public class PaymentCalculator {
 	public double getCalculation() {
 		return calculation;
 	}
-	
-	public double getTax(){
+
+	public double getTax() {
 		return tax;
 	}
 
 	public double getTotalCalculation() {
 		return calculation + tax;
 	}
-	
-	public boolean isFull(){
+
+	public boolean isFull() {
 		return full;
 	}
 

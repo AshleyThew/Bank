@@ -12,16 +12,16 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class BankItemsPlayerHandler extends PlayerInventoryHandler{
+public class BankItemsPlayerHandler extends PlayerInventoryHandler {
 	@Override
-	public void parseClick(CorePlayers pl, Inventory clicked, Inventory top, InventoryClickEvent event){
+	public void parseClick(CorePlayers pl, Inventory clicked, Inventory top, InventoryClickEvent event) {
 		if (BankItemBlacklistConfiguration.BLACKLISTED_PLAYER_SLOTS.get().contains(event.getSlot())) {
 			event.setCancelled(true);
 			return;
 		}
 		ItemStack is = event.getCurrentItem();
-		if(is != null && !is.getType().equals(Material.AIR)){
-			if(event.isShiftClick()){
+		if (is != null && !is.getType().equals(Material.AIR)) {
+			if (event.isShiftClick()) {
 				BankItemsInfo info = pl.getInfo(BankItemsInfo.class);
 				event.setCancelled(true);
 				ItemStack remaining = info.getBankItemsHandler().addBankItem(pl.getPlayer(), is, false);
@@ -34,15 +34,15 @@ public class BankItemsPlayerHandler extends PlayerInventoryHandler{
 				}
 				pl.refreshInventory();
 			}
-		}else{
-			if(event.getAction().equals(InventoryAction.COLLECT_TO_CURSOR)){
+		} else {
+			if (event.getAction().equals(InventoryAction.COLLECT_TO_CURSOR)) {
 				event.setCancelled(true);
 			}
 		}
 	}
-	
+
 	@Override
-	public void parseInventoryDrag(CorePlayers corePlayers, Inventory clicked, Inventory top, InventoryDragEvent event){
+	public void parseInventoryDrag(CorePlayers corePlayers, Inventory clicked, Inventory top, InventoryDragEvent event) {
 		event.setCancelled(true);
 	}
 }

@@ -91,6 +91,10 @@ public class BankCommandConfiguration extends CommandConfiguration {
 	public static Command		BANK_MONEY_WITHDRAW				= new Command("withdraw", "bank.money.withdraw", new String[0], new String[]{ "<amount>" });
 	public static Command		BANK_MONEY_WITHDRAW_ALL			= new Command("all", "bank.money.withdraw.all");
 
+	public static Command		BANK_CHEQUE						= new Command("cheque", "bank.cheque");
+	public static Command		BANK_CHEQUE_CREATE				= new Command("create", "bank.cheque.create", new String[0], new String[]{ "<amount> [player]" });
+	public static Command		BANK_CHEQUE_BOOK				= new Command("book", "bank.cheque.book");
+
 	@Delete(".Info")
 	public static Command		BANK_OPEN						= new Command("open", "bank.open.command");
 	@Comment("Enable command advanced in config.yml")

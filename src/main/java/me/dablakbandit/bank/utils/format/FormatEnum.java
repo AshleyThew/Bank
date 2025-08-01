@@ -1,14 +1,14 @@
 package me.dablakbandit.bank.utils.format;
 
+import me.dablakbandit.bank.config.BankLanguageConfiguration;
+import me.dablakbandit.core.config.path.TranslatedStringPath;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import me.dablakbandit.bank.config.BankLanguageConfiguration;
-import me.dablakbandit.core.config.path.TranslatedStringPath;
-
-public enum FormatEnum{
+public enum FormatEnum {
 	//@formatter:off
     THOUSAND(BankLanguageConfiguration.FORMAT_THOUSAND),
     MILLION(BankLanguageConfiguration.FORMAT_MILLION),
@@ -52,32 +52,34 @@ public enum FormatEnum{
     QUADRAGINTILLION(BankLanguageConfiguration.FORMAT_QUADRAGINTILLION),
     //@formatter:on
 	;
-	
-	private final TranslatedStringPath	namePath;
-	private final double					amount;
-	
-	FormatEnum(TranslatedStringPath namePath){
+
+	private final TranslatedStringPath namePath;
+	private final double amount;
+
+	FormatEnum(TranslatedStringPath namePath) {
 		this.namePath = namePath;
 		StringBuilder base = new StringBuilder("1");
-		for(int i = 0; i <= this.ordinal(); i++){
+		for (int i = 0; i <= this.ordinal(); i++) {
 			base.append("000");
 		}
 		base.append(".0");
 		amount = Double.parseDouble(base.toString());
 	}
-	
+
 	private static final List<FormatEnum> reversed = Arrays.asList(values());
-	
-	static{
+
+	static {
 		Collections.reverse(reversed);
 	}
-	
-	public static String formatNormal(String normalFormat, String roundFormat, double amount, boolean round, boolean thousand){
-		for(FormatEnum formatMoney : reversed){
-			if(formatMoney == THOUSAND && !thousand){
+
+	public static String formatNormal(String normalFormat, String roundFormat, double amount, boolean round, boolean thousand) {
+		for (FormatEnum formatMoney : reversed) {
+			if (formatMoney == THOUSAND && !thousand) {
 				continue;
 			}
-			if(amount >= formatMoney.amount){ return String.format(Locale.ROOT, normalFormat + " " + formatMoney.namePath.get(), amount / formatMoney.amount); }
+			if (amount >= formatMoney.amount) {
+				return String.format(Locale.ROOT, normalFormat + " " + formatMoney.namePath.get(), amount / formatMoney.amount);
+			}
 		}
 		return String.format(Locale.ROOT, round ? roundFormat : normalFormat, round ? Math.floor(amount) : amount);
 	}

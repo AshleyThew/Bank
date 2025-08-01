@@ -2,28 +2,28 @@ package me.dablakbandit.bank.implementations;
 
 import java.util.Arrays;
 
-public class BankImplementationManager{
-	
+public class BankImplementationManager {
+
 	private static final BankImplementationManager typeManager = new BankImplementationManager();
-	
-	public static BankImplementationManager getInstance(){
+
+	public static BankImplementationManager getInstance() {
 		return typeManager;
 	}
-	
-	private BankImplementationManager(){
-		
+
+	private BankImplementationManager() {
+
 	}
-	
-	public void load(){
+
+	public void load() {
 		Arrays.stream(BankImplementations.values()).forEach(BankImplementations::load);
 	}
-	
-	public void enable(){
+
+	public void enable() {
 		Arrays.stream(BankImplementations.values()).forEach(BankImplementations::enable);
 	}
-	
-	public void disable(){
+
+	public void disable() {
 		Arrays.stream(BankImplementations.values()).forEach(BankImplementations::disable);
 	}
-	
+
 }

@@ -42,6 +42,8 @@ public abstract class SQLInfoDatabase extends SQLListener implements IInfoDataba
 
 	public abstract SQLTransactionDatabase getExpTransactionDatabase();
 
+	public abstract SQLChequeDatabase getChequeDatabase();
+
 	public abstract List<String> getDistinctUUIDS();
 
 	public void init(Database database) {

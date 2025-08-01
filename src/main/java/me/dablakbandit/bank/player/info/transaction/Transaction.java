@@ -7,11 +7,11 @@ import java.util.Date;
  */
 public class Transaction {
 
-	private TransactionType type;
-	private double amount;
-	private long timestamp;
-	private TransactionDescription description;
-	private String descriptionParam; // Optional parameter for formatting
+	private final TransactionType type;
+	private final double amount;
+	private final long timestamp;
+	private final TransactionDescription description;
+	private final String descriptionParam; // Optional parameter for formatting
 
 	public Transaction(TransactionType type, double amount, TransactionDescription description) {
 		this(type, amount, description, null);

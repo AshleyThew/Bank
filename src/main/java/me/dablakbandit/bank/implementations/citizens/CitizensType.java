@@ -25,68 +25,72 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-public class CitizensType extends BankImplementation implements Listener{
-	
+public class CitizensType extends BankImplementation implements Listener {
+
 	private static final CitizensType citizensType = new CitizensType();
-	
-	public static CitizensType getInstance(){
+
+	public static CitizensType getInstance() {
 		return citizensType;
 	}
-	
-	private CitizensType(){
-		
+
+	private CitizensType() {
+
 	}
-	
+
 	@Override
-	public void load(){
-		
+	public void load() {
+
 	}
-	
+
 	private TraitInfo traitInfo;
-	
+
 	@Override
-	public void enable(){
+	public void enable() {
 		Plugin plugin = Bukkit.getPluginManager().getPlugin("Citizens");
-		if(plugin != null && plugin.isEnabled()){
+		if (plugin != null && plugin.isEnabled()) {
 			register();
 		}
 		Bukkit.getPluginManager().registerEvents(this, BankPlugin.getInstance());
 	}
 
-    private void register(){
-        if(traitInfo == null){
-            traitInfo = TraitInfo.create(BankTrait.class);
-        }
-        if(CitizensAPI.hasImplementation()){
-            try{
-                CitizensAPI.getTraitFactory().registerTrait(traitInfo);
-            }catch(IllegalArgumentException e){
+	private void register() {
+		if (traitInfo == null) {
+			traitInfo = TraitInfo.create(BankTrait.class);
+		}
+		if (CitizensAPI.hasImplementation()) {
+			try {
+				CitizensAPI.getTraitFactory().registerTrait(traitInfo);
+			} catch (IllegalArgumentException e) {
 
-            }
-        }
-    }
-	
+			}
+		}
+	}
+
 	@Override
-	public void disable(){
+	public void disable() {
 		HandlerList.unregisterAll(this);
-		if(traitInfo != null){
-			if(CitizensAPI.hasImplementation()){
+		if (traitInfo != null) {
+			if (CitizensAPI.hasImplementation()) {
 				CitizensAPI.getTraitFactory().deregisterTrait(traitInfo);
 			}
 		}
 		BankLog.info(BankPluginConfiguration.BANK_LOG_PLUGIN_LEVEL, "Citizens disabled");
 	}
-	
+
 	@EventHandler
-	public void onNPCLeftClick(NPCLeftClickEvent event){
+	public void onNPCLeftClick(NPCLeftClickEvent event) {
 		onNPCClick(event);
 	}
-	
-	public void onNPCClick(NPCClickEvent event){
-		if(!event.getNPC().hasTrait(BankTrait.class)){ return; }
+
+	public void onNPCClick(NPCClickEvent event) {
+		if (!event.getNPC().hasTrait(BankTrait.class)) {
+			return;
+		}
 		event.setCancelled(true);
 		Player player = event.getClicker();
-		if(!BankPermissionConfiguration.PERMISSION_OPEN_CITIZENS.has(player)){ return; }
+		if (!BankPermissionConfiguration.PERMISSION_OPEN_CITIZENS.has(player)) {
+			return;
+		}
 
 		OpenTypes[] open = new OpenTypes[]{OpenTypes.ALL};
 		if (BankPluginConfiguration.BANK_OPENTYPE_SUBSET_CITIZENS_ENABLED.get()) {
@@ -99,22 +103,24 @@ public class CitizensType extends BankImplementation implements Listener{
 			BankSoundConfiguration.CITIZENS_OPEN.play(pl);
 		}
 	}
-	
+
 	@EventHandler
-	public void onNPCRightClick(NPCRightClickEvent event){
+	public void onNPCRightClick(NPCRightClickEvent event) {
 		onNPCClick(event);
 	}
-	
+
 	@EventHandler
-	public void onPluginEnable(PluginEnableEvent event){
-		if(traitInfo != null){ return; }
-		if(event.getPlugin().getName().equals("Citizens")){
+	public void onPluginEnable(PluginEnableEvent event) {
+		if (traitInfo != null) {
+			return;
+		}
+		if (event.getPlugin().getName().equals("Citizens")) {
 			register();
 		}
 	}
 
-    @EventHandler
-    public void onCitizensEnable(CitizensEnableEvent ev) {
-        register();
-    }
+	@EventHandler
+	public void onCitizensEnable(CitizensEnableEvent ev) {
+		register();
+	}
 }

@@ -4,14 +4,14 @@ import org.bukkit.inventory.ItemStack;
 
 public class ItemDefault {
 
-    private ItemStack itemStack;
+	private final ItemStack itemStack;
 
 
-    public ItemDefault(ItemStack itemStack) {
-        this.itemStack = itemStack;
-    }
+	public ItemDefault(ItemStack itemStack) {
+		this.itemStack = itemStack;
+	}
 
-    public ItemStack getItemStack() {
-        return itemStack;
-    }
+	public ItemStack getItemStack() {
+		return itemStack;
+	}
 }

@@ -1,5 +1,5 @@
 package me.dablakbandit.bank.implementations.blacklist;
 
-public enum BlacklistType{
+public enum BlacklistType {
 	NORMAL, TRASH
 }

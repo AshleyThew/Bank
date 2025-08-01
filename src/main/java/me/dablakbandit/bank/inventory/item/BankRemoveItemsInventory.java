@@ -8,39 +8,39 @@ import me.dablakbandit.bank.inventory.BankInventoryHandler;
 import me.dablakbandit.bank.player.info.BankInfo;
 import me.dablakbandit.core.players.CorePlayers;
 
-public class BankRemoveItemsInventory extends BankInventoryHandler<BankInfo>{
-	
+public class BankRemoveItemsInventory extends BankInventoryHandler<BankInfo> {
+
 	@Override
-	public void init(){
+	public void init() {
 		setItem(BankItemConfiguration.BANK_REMOVE_BACK, consumeSound(this::returnToItems, BankSoundConfiguration.INVENTORY_GLOBAL_BACK));
 		setItem(BankItemConfiguration.BANK_REMOVE_BLANK);
 		setItem(BankItemConfiguration.BANK_REMOVE_ALL, consumeSound(this::removeAll, BankSoundConfiguration.INVENTORY_ITEMS_REMOVE_ALL));
 		setItem(BankItemConfiguration.BANK_REMOVE_INVENTORY, consumeSound(this::removeInventory, BankSoundConfiguration.INVENTORY_ITEMS_REMOVE_INVENTORY));
 		setItem(BankItemConfiguration.BANK_REMOVE_HOTBAR, consumeSound(this::removeHotbar, BankSoundConfiguration.INVENTORY_ITEMS_REMOVE_HOTBAR));
 	}
-	
-	private void removeAll(CorePlayers pl, BankInfo bankInfo){
+
+	private void removeAll(CorePlayers pl, BankInfo bankInfo) {
 		bankInfo.getItemsInfo().getBankItemsHandler().removeAllBankToInventory(pl.getPlayer());
 		returnToItems(pl);
 	}
-	
-	private void removeInventory(CorePlayers pl, BankInfo bankInfo){
+
+	private void removeInventory(CorePlayers pl, BankInfo bankInfo) {
 		bankInfo.getItemsInfo().getBankItemsHandler().removeBankToInventory(pl.getPlayer());
 		returnToItems(pl);
 	}
-	
-	private void removeHotbar(CorePlayers pl, BankInfo bankInfo){
+
+	private void removeHotbar(CorePlayers pl, BankInfo bankInfo) {
 		bankInfo.getItemsInfo().getBankItemsHandler().removeBankToHotbar(pl.getPlayer());
 		returnToItems(pl);
 	}
-	
-	protected void returnToItems(CorePlayers pl){
+
+	protected void returnToItems(CorePlayers pl) {
 		BankInventoriesManager.getInstance().open(pl, BankInventories.BANK_ITEMS);
 	}
-	
+
 	@Override
-	public BankInfo getInvoker(CorePlayers pl){
+	public BankInfo getInvoker(CorePlayers pl) {
 		return pl.getInfo(BankInfo.class);
 	}
-	
+
 }

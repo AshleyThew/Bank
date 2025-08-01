@@ -1,6 +1,9 @@
 package me.dablakbandit.bank.inventory.money;
 
 import me.dablakbandit.bank.config.BankItemConfiguration;
+import me.dablakbandit.bank.config.BankSoundConfiguration;
+import me.dablakbandit.bank.inventory.BankInventories;
+import me.dablakbandit.bank.inventory.BankInventoriesManager;
 import me.dablakbandit.bank.inventory.BankInventoryHandler;
 import me.dablakbandit.bank.player.info.BankInfo;
 import me.dablakbandit.bank.player.info.BankMoneyInfo;
@@ -13,12 +16,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
-
-import me.dablakbandit.bank.inventory.BankInventoriesManager;
-import me.dablakbandit.bank.inventory.BankInventories;
-import me.dablakbandit.bank.config.BankSoundConfiguration;
 
 public class BankMoneyHistoryInventory extends BankInventoryHandler<BankMoneyInfo> {
 

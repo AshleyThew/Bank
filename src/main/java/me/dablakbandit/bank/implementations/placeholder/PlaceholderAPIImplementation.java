@@ -17,75 +17,78 @@ import org.bukkit.entity.Player;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PlaceholderAPIImplementation extends BankImplementation{
-	
+public class PlaceholderAPIImplementation extends BankImplementation {
+
 	private static final PlaceholderAPIImplementation manager = new PlaceholderAPIImplementation();
-	
-	public static PlaceholderAPIImplementation getInstance(){
+
+	public static PlaceholderAPIImplementation getInstance() {
 		return manager;
 	}
-	
+
 	private final BankPlaceHolderExpansion expansion = new BankPlaceHolderExpansion();
 
-	private PlaceholderAPIImplementation(){
+	private PlaceholderAPIImplementation() {
 	}
-	
+
 	@Override
-	public void load(){
-		
+	public void load() {
+
 	}
-	
+
 	@Override
-	public void enable(){
+	public void enable() {
 		BankLog.info(BankPluginConfiguration.BANK_LOG_PLUGIN_LEVEL, "Enabled placeholderapi expansion");
 		expansion.register();
 	}
-	
+
 	@Override
-	public void disable(){
-		
+	public void disable() {
+
 	}
-	
-	public static class BankPlaceHolderExpansion extends PlaceholderExpansion{
+
+	public static class BankPlaceHolderExpansion extends PlaceholderExpansion {
 
 		private final Pattern patternItemsCount = Pattern.compile("items_count_([A-Z_]+)(:\\d+)?(#\\d+)?");
-		;
 
 		@Override
-		public boolean persist(){
+		public boolean persist() {
 			return true;
 		}
-		
+
 		@Override
-		public boolean canRegister(){
+		public boolean canRegister() {
 			return true;
 		}
-		
+
 		@Override
-		public String getIdentifier(){
+		public String getIdentifier() {
 			return BankPluginConfiguration.BANK_IMPLEMENTATION_PLACEHOLDER_PREFIX.get();
 		}
-		
+
 		@Override
-		public String getAuthor(){
+		public String getAuthor() {
 			return "Dablakbandit";
 		}
-		
+
 		@Override
-		public String getVersion(){
+		public String getVersion() {
 			return BankPlugin.getInstance().getDescription().getVersion();
 		}
-		
+
 		@Override
-		public String onPlaceholderRequest(Player player, String holder){
+		public String onPlaceholderRequest(Player player, String holder) {
 			CorePlayers pl = CorePlayerManager.getInstance().getPlayer(player);
-			if(pl == null){ return null; }
-			switch(holder){
-			case "money":{
-				BankMoneyInfo info = pl.getInfo(BankMoneyInfo.class);
-				if(info == null){ return ""; }
-				return Format.formatMoney(info.getMoney());
+			if (pl == null) {
+				return null;
 			}
+			switch (holder) {
+				case "money": {
+					BankMoneyInfo info = pl.getInfo(BankMoneyInfo.class);
+					if (info == null) {
+						return "";
+					}
+					return Format.formatMoney(info.getMoney());
+				}
 				case "raw_money": {
 					BankMoneyInfo info = pl.getInfo(BankMoneyInfo.class);
 					if (info == null) {
@@ -93,11 +96,13 @@ public class PlaceholderAPIImplementation extends BankImplementation{
 					}
 					return Format.round(info.getMoney(), 2);
 				}
-			case "exp":{
-				BankExpInfo info = pl.getInfo(BankExpInfo.class);
-				if(info == null){ return ""; }
-				return Format.formatExp(info.getExp());
-			}
+				case "exp": {
+					BankExpInfo info = pl.getInfo(BankExpInfo.class);
+					if (info == null) {
+						return "";
+					}
+					return Format.formatExp(info.getExp());
+				}
 				case "raw_exp": {
 					BankExpInfo info = pl.getInfo(BankExpInfo.class);
 					if (info == null) {
@@ -105,16 +110,20 @@ public class PlaceholderAPIImplementation extends BankImplementation{
 					}
 					return Format.round(info.getExp(), 2);
 				}
-			case "slots":{
-				BankItemsInfo info = pl.getInfo(BankItemsInfo.class);
-				if(info == null){ return ""; }
-				return "" + info.getBankItemsHandler().getTotalSlots();
-			}
-			case "used_slots":{
-				BankItemsInfo info = pl.getInfo(BankItemsInfo.class);
-				if(info == null){ return ""; }
-				return "" + info.getBankItemsHandler().getTotalUsedSlots();
-			}
+				case "slots": {
+					BankItemsInfo info = pl.getInfo(BankItemsInfo.class);
+					if (info == null) {
+						return "";
+					}
+					return "" + info.getBankItemsHandler().getTotalSlots();
+				}
+				case "used_slots": {
+					BankItemsInfo info = pl.getInfo(BankItemsInfo.class);
+					if (info == null) {
+						return "";
+					}
+					return "" + info.getBankItemsHandler().getTotalUsedSlots();
+				}
 			}
 			if (holder.startsWith("items_count_")) {
 				try {

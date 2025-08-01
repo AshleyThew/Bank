@@ -31,6 +31,7 @@ public class BankInfoSQLiteDatabase extends SQLInfoDatabase {
 	private static final UUIDSQLiteDatabase uuidsqLiteDatabase = new UUIDSQLiteDatabase();
 	private static final MoneyTransactionDatabase moneyTransactionDatabase = new MoneyTransactionDatabase();
 	private static final ExpTransactionDatabase expTransactionDatabase = new ExpTransactionDatabase();
+	private static final ChequeSQLiteDatabase chequeSQLiteDatabase = new ChequeSQLiteDatabase();
 
 	@Override
 	public boolean columnExists(Connection connection, String db, String column) {
@@ -133,6 +134,11 @@ public class BankInfoSQLiteDatabase extends SQLInfoDatabase {
 	@Override
 	public SQLTransactionDatabase getExpTransactionDatabase() {
 		return expTransactionDatabase;
+	}
+
+	@Override
+	public SQLChequeDatabase getChequeDatabase() {
+		return chequeSQLiteDatabase;
 	}
 
 	@SuppressWarnings("unchecked")

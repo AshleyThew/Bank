@@ -62,6 +62,7 @@ public class BankDatabaseManager {
 					database.addListener(sqlInfoDatabase);
 					database.addListener(sqlInfoDatabase.getMoneyTransactionDatabase());
 					database.addListener(sqlInfoDatabase.getExpTransactionDatabase());
+					database.addListener(sqlInfoDatabase.getChequeDatabase());
 				}
 				break;
 		}

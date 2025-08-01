@@ -8,7 +8,7 @@ import me.dablakbandit.core.config.path.BooleanPath;
 import me.dablakbandit.core.config.path.IntegerPath;
 import org.bukkit.plugin.Plugin;
 
-public class BankUpgradeConfiguration extends CommentAdvancedConfiguration{
+public class BankUpgradeConfiguration extends CommentAdvancedConfiguration {
 
 	private static BankUpgradeConfiguration config;
 
@@ -16,30 +16,30 @@ public class BankUpgradeConfiguration extends CommentAdvancedConfiguration{
 		config = new BankUpgradeConfiguration(plugin);
 		config.load();
 	}
-	
-	public static BankUpgradeConfiguration getInstance(){
+
+	public static BankUpgradeConfiguration getInstance() {
 		return config;
 	}
-	
+
 	@Comment("No upgrade needed at this time")
-	public static final BooleanPath	UPGRADE_CONFIRM				= new BooleanPath(false);
-	
+	public static final BooleanPath UPGRADE_CONFIRM = new BooleanPath(false);
+
 	@Comment("DO NOT TOUCH, THIS WILL TRIGGER AN UPGRADE")
-	public static final IntegerPath	UPGRADE_VERSION				= new IntegerPath(0);
-	
-	@CommentArray({ "SET THIS ONLY TO TRUE IF UPGRADING FROM BEFORE 4.1.0", "THIS WILL TRIGGER A CONVERSION, WHICH MAY TAKE SOME TIME", "MAKE SURE TO BACKUP OLD BANK DATA" })
-	public static final BooleanPath	UPGRADE_CONVERSION_OLD		= new BooleanPath(false);
-	
-	@CommentArray({ "IF USING MYSQL ON THE OLD PLUGIN AND WISH TO KEEP USING MYSQL SET THIS TO TRUE" })
-	public static final BooleanPath	UPGRADE_CONVERSION_MYSQL	= new BooleanPath(false);
+	public static final IntegerPath UPGRADE_VERSION = new IntegerPath(0);
+
+	@CommentArray({"SET THIS ONLY TO TRUE IF UPGRADING FROM BEFORE 4.1.0", "THIS WILL TRIGGER A CONVERSION, WHICH MAY TAKE SOME TIME", "MAKE SURE TO BACKUP OLD BANK DATA"})
+	public static final BooleanPath UPGRADE_CONVERSION_OLD = new BooleanPath(false);
+
+	@CommentArray({"IF USING MYSQL ON THE OLD PLUGIN AND WISH TO KEEP USING MYSQL SET THIS TO TRUE"})
+	public static final BooleanPath UPGRADE_CONVERSION_MYSQL = new BooleanPath(false);
 
 	@CommentArray({"ONLY ENABLE THIS IF YOU NEED TO CLEANUP THE DATA IN YOUR DATABASE(to cleanup)"})
 	public static final BooleanPath UPGRADE_DATABASE_CLEANUP = new BooleanPath(false);
-	
-	private BankUpgradeConfiguration(Plugin plugin){
+
+	private BankUpgradeConfiguration(Plugin plugin) {
 		super(plugin, "upgrade.yml");
 	}
-	
+
 	//@formatter:off
 	public void notifyUpgrade(){
 		getConfig().setComment(UPGRADE_CONFIRM.getPath(), 

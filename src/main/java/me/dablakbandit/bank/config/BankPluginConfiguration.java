@@ -137,6 +137,23 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration {
 	@Comment("Enable bank pin")
 	public static final BooleanPath					BANK_PIN_ENABLED							= new BooleanPath(true);
 
+	@Comment("Enable bank cheques")
+	public static final BooleanPath					BANK_CHEQUES_ENABLED						= new BooleanPath(true);
+	@Comment("Minimum amount for cheques")
+	public static final DoublePath					BANK_CHEQUES_MINIMUM_AMOUNT					= new DoublePath(1.0);
+	@Comment("Maximum amount for cheques")
+	public static final DoublePath					BANK_CHEQUES_MAXIMUM_AMOUNT					= new DoublePath(Double.MAX_VALUE);
+	@Comment("Enable cheque book item")
+	public static final BooleanPath					BANK_CHEQUES_BOOK_ENABLED					= new BooleanPath(true);
+	@Comment("Cost to create a cheque book")
+	public static final DoublePath					BANK_CHEQUES_BOOK_COST						= new DoublePath(50.0);
+	@Comment("Cost to create a cheque")
+	public static final DoublePath					BANK_CHEQUES_CREATE_COST					= new DoublePath(0.0);
+	@Comment("Enable limited uses for cheque books")
+	public static final BooleanPath					BANK_CHEQUES_BOOK_USES_ENABLED				= new BooleanPath(false);
+	@Comment("Number of cheques that can be created from a single cheque book before it's consumed")
+	public static final IntegerPath					BANK_CHEQUES_BOOK_USES_AMOUNT				= new IntegerPath(10);
+
 	@Comment("Enable bank exp")
 	public static final BooleanPath					BANK_EXP_ENABLED							= new BooleanPath(true);
 	@Comment("Set bank mode to exp only")

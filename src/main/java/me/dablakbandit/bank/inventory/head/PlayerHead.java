@@ -13,71 +13,71 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class PlayerHead {
 
-    private static PlayerHead instance = new PlayerHead();
-    public static PlayerHead getInstance() {
-        return instance;
-    }
-    
-    private PlayerHead(){
-        
-    }
+	private static final PlayerHead instance = new PlayerHead();
 
-    private Material headMaterial;
-    private Object namespaceKey;
+	public static PlayerHead getInstance() {
+		return instance;
+	}
 
-    private void setup(){
-        if(headMaterial == null){
-            headMaterial = BankItemConfiguration.getMaterial("SKULL_ITEM", "PLAYER_SKULL", "PLAYER_HEAD");
-        }
-        try{
-            namespaceKey = new NamespacedKey(BankPlugin.getInstance(), "player-head");
-        }catch (Exception e){
-            return;
-        }
-    }
+	private PlayerHead() {
 
-    public void set(ItemStack itemStack){
-        setup();
-        if(namespaceKey == null){
-            return;
-        }
+	}
 
-        if(itemStack != null && itemStack.hasItemMeta()){
-            itemStack.setType(headMaterial);
-            ItemMeta itemMeta = itemStack.getItemMeta();
-            try{
-                PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
-                persistentDataContainer.set(((NamespacedKey) namespaceKey), PersistentDataType.STRING, "true");
-                itemStack.setItemMeta(itemMeta);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-    }
-    
-    public void replace(CorePlayers pl, ItemStack itemStack){
-        if(namespaceKey == null){
-            return;
-        }
-        checkKey(pl, itemStack);
-    }
+	private Material headMaterial;
+	private Object namespaceKey;
 
-    private void checkKey(CorePlayers pl, ItemStack itemStack){
-        if(itemStack != null && itemStack.getType() == headMaterial && itemStack.hasItemMeta()){
-            ItemMeta itemMeta = itemStack.getItemMeta();
-            try{
-                PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
-                if (persistentDataContainer.has(((NamespacedKey) namespaceKey), PersistentDataType.STRING)) {
-                    String value = persistentDataContainer.get(((NamespacedKey) namespaceKey), PersistentDataType.STRING);
-                    if(value.equalsIgnoreCase("true")){
-                        SkullMeta skullMeta = (SkullMeta) itemMeta;
-                        skullMeta.setOwningPlayer(pl.getPlayer());
-                        itemStack.setItemMeta(skullMeta);
-                    }
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-    }
+	private void setup() {
+		if (headMaterial == null) {
+			headMaterial = BankItemConfiguration.getMaterial("SKULL_ITEM", "PLAYER_SKULL", "PLAYER_HEAD");
+		}
+		try {
+			namespaceKey = new NamespacedKey(BankPlugin.getInstance(), "player-head");
+		} catch (Exception e) {
+		}
+	}
+
+	public void set(ItemStack itemStack) {
+		setup();
+		if (namespaceKey == null) {
+			return;
+		}
+
+		if (itemStack != null && itemStack.hasItemMeta()) {
+			itemStack.setType(headMaterial);
+			ItemMeta itemMeta = itemStack.getItemMeta();
+			try {
+				PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
+				persistentDataContainer.set(((NamespacedKey) namespaceKey), PersistentDataType.STRING, "true");
+				itemStack.setItemMeta(itemMeta);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void replace(CorePlayers pl, ItemStack itemStack) {
+		if (namespaceKey == null) {
+			return;
+		}
+		checkKey(pl, itemStack);
+	}
+
+	private void checkKey(CorePlayers pl, ItemStack itemStack) {
+		if (itemStack != null && itemStack.getType() == headMaterial && itemStack.hasItemMeta()) {
+			ItemMeta itemMeta = itemStack.getItemMeta();
+			try {
+				PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
+				if (persistentDataContainer.has(((NamespacedKey) namespaceKey), PersistentDataType.STRING)) {
+					String value = persistentDataContainer.get(((NamespacedKey) namespaceKey), PersistentDataType.STRING);
+					if (value.equalsIgnoreCase("true")) {
+						SkullMeta skullMeta = (SkullMeta) itemMeta;
+						skullMeta.setOwningPlayer(pl.getPlayer());
+						itemStack.setItemMeta(skullMeta);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

@@ -1,32 +1,31 @@
 package me.dablakbandit.bank.player;
 
-import org.bukkit.entity.Player;
-
 import me.dablakbandit.bank.config.BankPluginConfiguration;
 import me.dablakbandit.bank.player.info.BankPermissionInfo;
 import me.dablakbandit.core.players.CorePlayerManager;
+import org.bukkit.entity.Player;
 
-public class PlayerChecks{
-	
+public class PlayerChecks {
+
 	public static final PlayerChecks playerChecks = new PlayerChecks();
-	
-	public static PlayerChecks getInstance(){
+
+	public static PlayerChecks getInstance() {
 		return playerChecks;
 	}
-	
-	private PlayerChecks(){
-		
+
+	private PlayerChecks() {
+
 	}
-	
-	public boolean checkGamemodeDisabled(Player player){
+
+	public boolean checkGamemodeDisabled(Player player) {
 		return BankPluginConfiguration.BANK_DISABLE_GAMEMODES.get().contains(player.getGameMode().name());
 	}
-	
-	public boolean checkWorldDisabled(Player player){
+
+	public boolean checkWorldDisabled(Player player) {
 		return BankPluginConfiguration.BANK_DISABLE_WORLDS.get().contains(player.getWorld().getName());
 	}
-	
-	public boolean checkPermissionInfo(Player player, String permission, boolean print){
+
+	public boolean checkPermissionInfo(Player player, String permission, boolean print) {
 		return CorePlayerManager.getInstance().getPlayer(player).getInfo(BankPermissionInfo.class).checkPermission(permission, print);
 	}
 }

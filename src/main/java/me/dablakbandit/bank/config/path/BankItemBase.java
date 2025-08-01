@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface BankItemBase{
+public @interface BankItemBase {
 	//@formatter:off
 	String[] value() default {
 		"This config file handles all gui items for this plugin allowing all items to be dynamically changed",

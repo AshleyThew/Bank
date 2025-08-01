@@ -13,7 +13,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
+public class BankLanguageConfiguration extends CommentAdvancedConfiguration {
 
 	private static BankLanguageConfiguration configuration;
 
@@ -21,8 +21,8 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 		configuration = new BankLanguageConfiguration(plugin);
 		configuration.load();
 	}
-	
-	public static BankLanguageConfiguration getInstance(){
+
+	public static BankLanguageConfiguration getInstance() {
 		return configuration;
 	}
 
@@ -101,6 +101,11 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	public static final BankTranslatedStringPath	ANVIL_MONEY_DEPOSIT				= new BankTranslatedStringPath("Deposit");
 	public static final BankTranslatedStringPath	ANVIL_MONEY_SEND_NAME			= new BankTranslatedStringPath("Enter Player Name");
 	public static final BankTranslatedStringPath	ANVIL_MONEY_SEND_AMOUNT			= new BankTranslatedStringPath("Enter Amount");
+	public static final BankTranslatedStringPath	ANVIL_LOAN_TAKE_OUT				= new BankTranslatedStringPath("Amount");
+	public static final BankTranslatedStringPath	ANVIL_LOAN_PAYBACK_SET			= new BankTranslatedStringPath("Payback");
+	public static final BankTranslatedStringPath	ANVIL_LOAN_PAYBACK_AMOUNT		= new BankTranslatedStringPath("Payback");
+	public static final BankTranslatedStringPath	ANVIL_CHEQUE_RECIPIENT			= new BankTranslatedStringPath("Enter Recipient Name");
+	public static final BankTranslatedStringPath	ANVIL_CHEQUE_AMOUNT				= new BankTranslatedStringPath("Enter Amount");
 	
 	@Comment("Available: <message>")
 	public static final BankTranslatedStringPath	MESSAGE_FORMAT					=
@@ -160,29 +165,23 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 				ChatColor.AQUA + " Money interest in <bank_interest_money_minutes> minutes (<bank_interest_money_seconds> seconds)",
 				ChatColor.AQUA + " Exp interest in <bank_interest_exp_minutes> minutes (<bank_interest_exp_seconds> seconds)");
 	//@formatter:on
-	
-	public static final BankTranslatedStringPath	MESSAGE_TOP_MONEY_BORDER		=
-		new BankTranslatedStringPath(ChatColor.GREEN + "-----------------------------------------------------");
+
+	public static final BankTranslatedStringPath MESSAGE_TOP_MONEY_BORDER = new BankTranslatedStringPath(ChatColor.GREEN + "-----------------------------------------------------");
 	@Comment("Available: <number>, <name>, <amount>")
-	public static final BankTranslatedStringPath	MESSAGE_TOP_MONEY_INFO			=
-		new BankTranslatedStringPath(ChatColor.GRAY + "<number>. " + ChatColor.GREEN + "<name>: " + ChatColor.GOLD + "$<amount>");
-	
-	public static final BankTranslatedStringPath	MESSAGE_TOP_EXP_BORDER			=
-		new BankTranslatedStringPath(ChatColor.GREEN + "-----------------------------------------------------");
+	public static final BankTranslatedStringPath MESSAGE_TOP_MONEY_INFO = new BankTranslatedStringPath(ChatColor.GRAY + "<number>. " + ChatColor.GREEN + "<name>: " + ChatColor.GOLD + "$<amount>");
+
+	public static final BankTranslatedStringPath MESSAGE_TOP_EXP_BORDER = new BankTranslatedStringPath(ChatColor.GREEN + "-----------------------------------------------------");
 	@Comment("Available: <number>, <name>, <amount>")
-	public static final BankTranslatedStringPath	MESSAGE_TOP_EXP_INFO			=
-		new BankTranslatedStringPath(ChatColor.GRAY + "<number>. " + ChatColor.GREEN + "<name>: " + ChatColor.GOLD + "$<amount>");
-	
-	public static final BankTranslatedStringPath	MESSAGE_WORLD_DISABLED			= new BankTranslatedStringPath(ChatColor.RED + "Bank disabled in this world.");
-	
+	public static final BankTranslatedStringPath MESSAGE_TOP_EXP_INFO = new BankTranslatedStringPath(ChatColor.GRAY + "<number>. " + ChatColor.GREEN + "<name>: " + ChatColor.GOLD + "$<amount>");
+
+	public static final BankTranslatedStringPath MESSAGE_WORLD_DISABLED = new BankTranslatedStringPath(ChatColor.RED + "Bank disabled in this world.");
+
 	@Comment("Available: <gamemode>")
-	public static final BankTranslatedStringPath	MESSAGE_GAMEMODE_DISABLED		= new BankTranslatedStringPath(ChatColor.RED + "Bank disabled for <gamemode>.");
+	public static final BankTranslatedStringPath MESSAGE_GAMEMODE_DISABLED = new BankTranslatedStringPath(ChatColor.RED + "Bank disabled for <gamemode>.");
 	@Comment("Available: <size>")
 	public static final BankTranslatedStringPath MESSAGE_BALTOP_ORDERING = new BankTranslatedStringPath(ChatColor.GOLD + "Ordering balances of " + ChatColor.RED + "<size>" + ChatColor.GOLD + " users, please wait...");
 	@Comment("Available: <command>, <next>, ")
-	public static final BankTranslatedStringListPath MESSAGE_BALTOP_HEADER = new BankTranslatedStringListPath(ChatColor.GOLD + "Top balances (<date>)",
-			ChatColor.YELLOW + "---- " + ChatColor.GOLD + "Balancetop " + ChatColor.YELLOW + "-- " + ChatColor.GOLD + "Page " + ChatColor.RED + "<page>" + ChatColor.GOLD + "/" + ChatColor.RED + "<max_page> " + ChatColor.YELLOW + "----",
-			ChatColor.GOLD + "Server Total: " + ChatColor.RED + "$<total>");
+	public static final BankTranslatedStringListPath MESSAGE_BALTOP_HEADER = new BankTranslatedStringListPath(ChatColor.GOLD + "Top balances (<date>)", ChatColor.YELLOW + "---- " + ChatColor.GOLD + "Balancetop " + ChatColor.YELLOW + "-- " + ChatColor.GOLD + "Page " + ChatColor.RED + "<page>" + ChatColor.GOLD + "/" + ChatColor.RED + "<max_page> " + ChatColor.YELLOW + "----", ChatColor.GOLD + "Server Total: " + ChatColor.RED + "$<total>");
 	@Comment("Available: <index>, <name>, <amount>")
 	public static final BankTranslatedStringPath MESSAGE_BALTOP_FORMAT = new BankTranslatedStringPath(ChatColor.WHITE + "<index>. <name>: $<amount>");
 	@Comment("Available: <command>, <next>, <date>, <size>, <total>, <page>, <max_page>")
@@ -213,64 +212,116 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration{
 	@Comment("Transaction: EXP tax. Available: <amount>, <desc>")
 	public static final BankTranslatedStringPath TRANSACTION_EXP_TAX = new BankTranslatedStringPath("Paid <amount> exp in tax.");
 
-	public static final BankTranslatedStringPath	FORMAT_THOUSAND					= new BankTranslatedStringPath("K");
-	public static final BankTranslatedStringPath	FORMAT_MILLION					= new BankTranslatedStringPath("Million");
-	public static final BankTranslatedStringPath	FORMAT_BILLION					= new BankTranslatedStringPath("Billion");
-	public static final BankTranslatedStringPath	FORMAT_TRILLION					= new BankTranslatedStringPath("Trillion");
-	public static final BankTranslatedStringPath	FORMAT_QUADRILLION				= new BankTranslatedStringPath("Quadrillion");
-	public static final BankTranslatedStringPath	FORMAT_QUINTILLION				= new BankTranslatedStringPath("Quintillion");
-	public static final BankTranslatedStringPath	FORMAT_SEXTILLION				= new BankTranslatedStringPath("Sextillion");
-	public static final BankTranslatedStringPath	FORMAT_SEPTILLION				= new BankTranslatedStringPath("Septillion");
-	public static final BankTranslatedStringPath	FORMAT_OCTILLION				= new BankTranslatedStringPath("Octillion");
-	public static final BankTranslatedStringPath	FORMAT_NONILLION				= new BankTranslatedStringPath("Nonillion");
-	public static final BankTranslatedStringPath	FORMAT_DECILLION				= new BankTranslatedStringPath("Decillion");
-	public static final BankTranslatedStringPath	FORMAT_UNDECILLION				= new BankTranslatedStringPath("Undecillion");
-	public static final BankTranslatedStringPath	FORMAT_DUODECILLION				= new BankTranslatedStringPath("Duodecillion");
-	public static final BankTranslatedStringPath	FORMAT_TREDECILLION				= new BankTranslatedStringPath("Tredecillion");
-	public static final BankTranslatedStringPath	FORMAT_QUATTUORDECILLION		= new BankTranslatedStringPath("Quattuordecillion");
-	public static final BankTranslatedStringPath	FORMAT_QUINQUADECILLION			= new BankTranslatedStringPath("Quinquadecillion");
-	public static final BankTranslatedStringPath	FORMAT_SEDECILLION				= new BankTranslatedStringPath("Sedecillion");
-	public static final BankTranslatedStringPath	FORMAT_SEPTENDECILLION			= new BankTranslatedStringPath("Septendecillion");
-	public static final BankTranslatedStringPath	FORMAT_OCTODECILLION			= new BankTranslatedStringPath("Octodecillion");
-	public static final BankTranslatedStringPath	FORMAT_NOVENDECILLION			= new BankTranslatedStringPath("Novendecillion");
-	public static final BankTranslatedStringPath	FORMAT_VIGINTILLION				= new BankTranslatedStringPath("Vigintillion");
-	public static final BankTranslatedStringPath	FORMAT_UNVIGINTILLION			= new BankTranslatedStringPath("Unvigintillion");
-	public static final BankTranslatedStringPath	FORMAT_DUOVIGINTILLION			= new BankTranslatedStringPath("Duovigintillion");
-	public static final BankTranslatedStringPath	FORMAT_TRESVIGINTILLION			= new BankTranslatedStringPath("Tresvegintillion");
-	public static final BankTranslatedStringPath	FORMAT_QUATTUORVIGINTILLION		= new BankTranslatedStringPath("Quattuorvigintillion");
-	public static final BankTranslatedStringPath	FORMAT_QUINQUAVIGINTILLION		= new BankTranslatedStringPath("Quinquavigintillion");
-	public static final BankTranslatedStringPath	FORMAT_SESVIGINTILLION			= new BankTranslatedStringPath("Sesvigintillion");
-	public static final BankTranslatedStringPath	FORMAT_SEPTEMVIGINTILLION		= new BankTranslatedStringPath("Septemvigintillion");
-	public static final BankTranslatedStringPath	FORMAT_OCTOVIGINTILLION			= new BankTranslatedStringPath("Octovigintillion");
-	public static final BankTranslatedStringPath	FORMAT_NOVEMVIGINTILLION		= new BankTranslatedStringPath("Novemvigintillion");
-	public static final BankTranslatedStringPath	FORMAT_TRIGINTILLION			= new BankTranslatedStringPath("Trigintillion");
-	public static final BankTranslatedStringPath	FORMAT_UNTRIGINTILLION			= new BankTranslatedStringPath("Untrigintillion");
-	public static final BankTranslatedStringPath	FORMAT_DUOTRIGINTILLION			= new BankTranslatedStringPath("Duotrigintillion");
-	public static final BankTranslatedStringPath	FORMAT_TRESTRIGINTILLION		= new BankTranslatedStringPath("Trestrigintillion");
-	public static final BankTranslatedStringPath	FORMAT_QUATTUORTRIGINTILLION	= new BankTranslatedStringPath("Quattuortrigintillion");
-	public static final BankTranslatedStringPath	FORMAT_QUINQUATRIGINTILLION		= new BankTranslatedStringPath("Quinquatrigintillion");
-	public static final BankTranslatedStringPath	FORMAT_SESTRIGINTILLION			= new BankTranslatedStringPath("Sestrigintillion");
-	public static final BankTranslatedStringPath	FORMAT_OCTOTRIGINTILLION		= new BankTranslatedStringPath("Octotrigintillion");
-	public static final BankTranslatedStringPath	FORMAT_NOVENTRIGINTILLION		= new BankTranslatedStringPath("Noventrigintillion");
-	public static final BankTranslatedStringPath	FORMAT_QUADRAGINTILLION			= new BankTranslatedStringPath("Quadragintillion");
-	
-	public static void sendMessage(CommandSender sender, String message){
-		for(String splitMessage : message.split("\n")){
+	public static final BankTranslatedStringPath FORMAT_THOUSAND = new BankTranslatedStringPath("K");
+	public static final BankTranslatedStringPath FORMAT_MILLION = new BankTranslatedStringPath("Million");
+	public static final BankTranslatedStringPath FORMAT_BILLION = new BankTranslatedStringPath("Billion");
+	public static final BankTranslatedStringPath FORMAT_TRILLION = new BankTranslatedStringPath("Trillion");
+	public static final BankTranslatedStringPath FORMAT_QUADRILLION = new BankTranslatedStringPath("Quadrillion");
+	public static final BankTranslatedStringPath FORMAT_QUINTILLION = new BankTranslatedStringPath("Quintillion");
+	public static final BankTranslatedStringPath FORMAT_SEXTILLION = new BankTranslatedStringPath("Sextillion");
+	public static final BankTranslatedStringPath FORMAT_SEPTILLION = new BankTranslatedStringPath("Septillion");
+	public static final BankTranslatedStringPath FORMAT_OCTILLION = new BankTranslatedStringPath("Octillion");
+	public static final BankTranslatedStringPath FORMAT_NONILLION = new BankTranslatedStringPath("Nonillion");
+	public static final BankTranslatedStringPath FORMAT_DECILLION = new BankTranslatedStringPath("Decillion");
+	public static final BankTranslatedStringPath FORMAT_UNDECILLION = new BankTranslatedStringPath("Undecillion");
+	public static final BankTranslatedStringPath FORMAT_DUODECILLION = new BankTranslatedStringPath("Duodecillion");
+	public static final BankTranslatedStringPath FORMAT_TREDECILLION = new BankTranslatedStringPath("Tredecillion");
+	public static final BankTranslatedStringPath FORMAT_QUATTUORDECILLION = new BankTranslatedStringPath("Quattuordecillion");
+	public static final BankTranslatedStringPath FORMAT_QUINQUADECILLION = new BankTranslatedStringPath("Quinquadecillion");
+	public static final BankTranslatedStringPath FORMAT_SEDECILLION = new BankTranslatedStringPath("Sedecillion");
+	public static final BankTranslatedStringPath FORMAT_SEPTENDECILLION = new BankTranslatedStringPath("Septendecillion");
+	public static final BankTranslatedStringPath FORMAT_OCTODECILLION = new BankTranslatedStringPath("Octodecillion");
+	public static final BankTranslatedStringPath FORMAT_NOVENDECILLION = new BankTranslatedStringPath("Novendecillion");
+	public static final BankTranslatedStringPath FORMAT_VIGINTILLION = new BankTranslatedStringPath("Vigintillion");
+	public static final BankTranslatedStringPath FORMAT_UNVIGINTILLION = new BankTranslatedStringPath("Unvigintillion");
+	public static final BankTranslatedStringPath FORMAT_DUOVIGINTILLION = new BankTranslatedStringPath("Duovigintillion");
+	public static final BankTranslatedStringPath FORMAT_TRESVIGINTILLION = new BankTranslatedStringPath("Tresvegintillion");
+	public static final BankTranslatedStringPath FORMAT_QUATTUORVIGINTILLION = new BankTranslatedStringPath("Quattuorvigintillion");
+	public static final BankTranslatedStringPath FORMAT_QUINQUAVIGINTILLION = new BankTranslatedStringPath("Quinquavigintillion");
+	public static final BankTranslatedStringPath FORMAT_SESVIGINTILLION = new BankTranslatedStringPath("Sesvigintillion");
+	public static final BankTranslatedStringPath FORMAT_SEPTEMVIGINTILLION = new BankTranslatedStringPath("Septemvigintillion");
+	public static final BankTranslatedStringPath FORMAT_OCTOVIGINTILLION = new BankTranslatedStringPath("Octovigintillion");
+	public static final BankTranslatedStringPath FORMAT_NOVEMVIGINTILLION = new BankTranslatedStringPath("Novemvigintillion");
+	public static final BankTranslatedStringPath FORMAT_TRIGINTILLION = new BankTranslatedStringPath("Trigintillion");
+	public static final BankTranslatedStringPath FORMAT_UNTRIGINTILLION = new BankTranslatedStringPath("Untrigintillion");
+	public static final BankTranslatedStringPath FORMAT_DUOTRIGINTILLION = new BankTranslatedStringPath("Duotrigintillion");
+	public static final BankTranslatedStringPath FORMAT_TRESTRIGINTILLION = new BankTranslatedStringPath("Trestrigintillion");
+	public static final BankTranslatedStringPath FORMAT_QUATTUORTRIGINTILLION = new BankTranslatedStringPath("Quattuortrigintillion");
+	public static final BankTranslatedStringPath FORMAT_QUINQUATRIGINTILLION = new BankTranslatedStringPath("Quinquatrigintillion");
+	public static final BankTranslatedStringPath FORMAT_SESTRIGINTILLION = new BankTranslatedStringPath("Sestrigintillion");
+	public static final BankTranslatedStringPath FORMAT_OCTOTRIGINTILLION = new BankTranslatedStringPath("Octotrigintillion");
+	public static final BankTranslatedStringPath FORMAT_NOVENTRIGINTILLION = new BankTranslatedStringPath("Noventrigintillion");
+	public static final BankTranslatedStringPath FORMAT_QUADRAGINTILLION = new BankTranslatedStringPath("Quadragintillion");
+
+	@Comment("Anvil prompt message for creating cheques")
+	public static final BankTranslatedStringPath ANVIL_MESSAGE_CHEQUE_CREATE = new BankTranslatedStringPath("Create Cheque - Amount Player");
+
+	@Comment("Invalid input for cheque creation")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_INVALID_INPUT = new BankTranslatedStringPath(ChatColor.RED + "Invalid input. Please enter valid amount.");
+	@Comment("Invalid amount format entered")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_INVALID_AMOUNT = new BankTranslatedStringPath(ChatColor.RED + "Invalid amount format.");
+	@Comment("Amount below minimum threshold")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_AMOUNT_TOO_LOW = new BankTranslatedStringPath(ChatColor.RED + "Amount is too low.");
+	@Comment("Amount above maximum threshold")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_AMOUNT_TOO_HIGH = new BankTranslatedStringPath(ChatColor.RED + "Amount is too high.");
+	@Comment("Recipient player not found")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_RECIPIENT_NOT_FOUND = new BankTranslatedStringPath(ChatColor.RED + "Player not found.");
+	@Comment("Not enough money to create cheque")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_INSUFFICIENT_FUNDS = new BankTranslatedStringPath(ChatColor.RED + "Insufficient funds.");
+	@Comment("Failed to create cheque")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_CREATION_FAILED = new BankTranslatedStringPath(ChatColor.RED + "Failed to create cheque.");
+	@Comment("Not enough money to buy cheque book")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_BOOK_INSUFFICIENT_FUNDS = new BankTranslatedStringPath(ChatColor.RED + "Insufficient funds to purchase cheque book.");
+	@Comment("Cheque book purchased successfully")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_BOOK_PURCHASED = new BankTranslatedStringPath(ChatColor.GREEN + "Cheque book purchased!");
+	@Comment("Invalid cheque item")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_INVALID = new BankTranslatedStringPath(ChatColor.RED + "Invalid cheque.");
+	@Comment("Cheque system is disabled")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_DISABLED = new BankTranslatedStringPath(ChatColor.RED + "Cheques are disabled.");
+	@Comment("Invalid cheque data or corrupted")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_INVALID_DATA = new BankTranslatedStringPath(ChatColor.RED + "Invalid cheque data.");
+	@Comment("Available: {amount}")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_AMOUNT_TOO_LOW_WITH_MIN = new BankTranslatedStringPath(ChatColor.RED + "Minimum cheque amount is {amount}");
+	@Comment("Available: {amount}")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_AMOUNT_TOO_HIGH_WITH_MAX = new BankTranslatedStringPath(ChatColor.RED + "Maximum cheque amount is {amount}");
+	@Comment("Cheque creation failed but money was refunded")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_CREATION_FAILED_REFUND = new BankTranslatedStringPath(ChatColor.RED + "Failed to create cheque - money refunded.");
+	@Comment("Available: {amount}, {recipient}")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_CREATED_SUCCESS = new BankTranslatedStringPath(ChatColor.GREEN + "Created cheque for {amount} made out to {recipient}");
+	@Comment("Cheque no longer exists in database")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_NOT_EXISTS = new BankTranslatedStringPath(ChatColor.RED + "This cheque no longer exists or has been invalidated.");
+	@Comment("Cheque has already been redeemed")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_ALREADY_REDEEMED = new BankTranslatedStringPath(ChatColor.RED + "This cheque has already been redeemed.");
+	@Comment("Cheque is not made out to this player")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_NOT_FOR_YOU = new BankTranslatedStringPath(ChatColor.RED + "This cheque is not made out to you.");
+	@Comment("Available: {amount}")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_REDEEMED_SUCCESS = new BankTranslatedStringPath(ChatColor.GREEN + "Successfully redeemed cheque for ${amount}");
+	@Comment("Cheque already redeemed or invalid")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_ALREADY_REDEEMED_OR_INVALID = new BankTranslatedStringPath(ChatColor.RED + "This cheque has already been redeemed or is no longer valid.");
+	@Comment("Player needs a cheque book to create cheques")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_BOOK_REQUIRED = new BankTranslatedStringPath(ChatColor.RED + "You need a cheque book to create cheques.");
+	@Comment("Cheque book has no uses remaining")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_BOOK_NO_USES = new BankTranslatedStringPath(ChatColor.RED + "Your cheque book has no uses remaining.");
+	@Comment("Cheque book has been consumed after last use")
+	public static final BankTranslatedStringPath MESSAGE_CHEQUE_BOOK_CONSUMED = new BankTranslatedStringPath(ChatColor.YELLOW + "Your cheque book has been consumed after the last use.");
+
+	public static void sendMessage(CommandSender sender, String message) {
+		for (String splitMessage : message.split("\n")) {
 			sender.sendMessage(splitMessage);
 		}
 	}
-	
-	public static void sendFormattedMessage(CommandSender sender, String message){
+
+	public static void sendFormattedMessage(CommandSender sender, String message) {
 		sendMessage(sender, MESSAGE_FORMAT.get().replace("<message>", message));
 	}
-	
-	public static void sendFormattedMessage(CorePlayers pl, String message){
-		if(pl.getPlayer() != null){
+
+	public static void sendFormattedMessage(CorePlayers pl, String message) {
+		if (pl.getPlayer() != null) {
 			sendMessage(pl.getPlayer(), MESSAGE_FORMAT.get().replace("<message>", message));
 		}
 	}
-	
-	private BankLanguageConfiguration(JavaPlugin plugin){
+
+	private BankLanguageConfiguration(JavaPlugin plugin) {
 		super(plugin, "conf/language.yml");
 	}
 

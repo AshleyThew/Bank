@@ -27,8 +27,7 @@ public class BankWikiExtract {
     @Test
     void pluginLoadEnabled() {
         assertTrue(true);
-        await().until(() -> BankDatabaseManager.getInstance().getBankDatabase().getDatabase().getConnection() != null);
-        assertNotNull(BankDatabaseManager.getInstance().getBankDatabase().getDatabase().getConnection());
+        await().until(() -> BankDatabaseManager.getInstance().getBankDatabase().isConnected());
         File dataFolder = BankPlugin.getInstance().getDataFolder();
         assertTrue(dataFolder.exists());
         File storage = new File(".", "wiki/");
@@ -52,17 +51,18 @@ public class BankWikiExtract {
         // Sort by file name
         files.sort((o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()));
 
-
         for (File yaml : files) {
             File wikiFile = new File(storage, "config-" + yaml.getName() + ".md");
             System.out.println("Writing to " + wikiFile.getName());
             // real yaml file and output to wikiFile
 
             try (FileReader fileReader = new FileReader(yaml);
-                 FileWriter fileWriter = new FileWriter(wikiFile)) {
+                    FileWriter fileWriter = new FileWriter(wikiFile)) {
 
                 // Write opening triple backticks
-                fileWriter.write("Generated with bank v" + testEnvironment.getBankPlugin().getPluginMeta().getVersion() + "\n");
+                fileWriter.write(
+                        "Generated with bank v"
+                                + BankPlugin.getInstance().getDescription().getVersion() + "\n");
                 fileWriter.write("```\n");
 
                 // Copy YAML file content as plain text
@@ -90,7 +90,8 @@ public class BankWikiExtract {
             try (BufferedReader reader = new BufferedReader(new FileReader(sideBar))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    System.out.println(line + " " + configSectionFound + " " + configSectionFinished + " " + line.endsWith(":"));
+                    System.out.println(
+                            line + " " + configSectionFound + " " + configSectionFinished + " " + line.endsWith(":"));
                     if (!configSectionFound && line.startsWith("Configs:")) {
                         lines.add(line);
                         configSectionFound = true;

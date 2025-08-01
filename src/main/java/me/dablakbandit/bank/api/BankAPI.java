@@ -19,60 +19,62 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BankAPI{
-	
+public class BankAPI {
+
 	public static final BankAPI api = new BankAPI();
-	
+
 	@SuppressWarnings("SameReturnValue")
-	public static BankAPI getInstance(){
+	public static BankAPI getInstance() {
 		return api;
 	}
-	
+
 	private static final BankDatabaseManager bankDatabaseManager = BankDatabaseManager.getInstance();
-	
-	private BankAPI(){
+
+	private BankAPI() {
 	}
-	
-	public int getSlots(Player player){
+
+	public int getSlots(Player player) {
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer(player);
 		BankItemsInfo bif = pl.getInfo(BankItemsInfo.class);
 		return bif.getBankItemsHandler().getBankSlots(bif.getOpenTab());
 	}
-	
-	public int getSlots(String uuid){
+
+	public int getSlots(String uuid) {
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer(uuid);
-		if(pl != null){
+		if (pl != null) {
 			BankItemsInfo bif = pl.getInfo(BankItemsInfo.class);
 			return bif.getBankItemsHandler().getBankSlots(bif.getOpenTab());
 		}
 		pl = new CorePlayers(uuid);
 		return getAndLoad(pl, new BankItemsInfo(pl)).getBankItemsHandler().getBankSlots() + BankPluginConfiguration.BANK_ITEMS_SLOTS_DEFAULT.get();
 	}
-	
-	protected <T extends CorePlayersInfo> T getAndLoad(CorePlayers pl, T t){
+
+	protected <T extends CorePlayersInfo> T getAndLoad(CorePlayers pl, T t) {
 		pl.addInfo(t);
 		new LoadSingleRunner(pl).run();
 		return t;
 	}
-	
-	public double getExp(Player player){
+
+	public double getExp(Player player) {
 		return CorePlayerManager.getInstance().getPlayer(player).getInfo(BankExpInfo.class).getExp();
 	}
-	
-	public double getExp(String uuid){
+
+	public double getExp(String uuid) {
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer(uuid);
-		if(pl != null){ return pl.getInfo(BankExpInfo.class).getExp(); }
+		if (pl != null) {
+			return pl.getInfo(BankExpInfo.class).getExp();
+		}
 		pl = new CorePlayers(uuid);
 		return getAndLoad(pl, new BankExpInfo(pl)).getExp();
 	}
-	
-	public void setExp(Player player, double amount){
+
+	public void setExp(Player player, double amount) {
 		CorePlayerManager.getInstance().getPlayer(player).getInfo(BankExpInfo.class).setExp(amount);
 	}
-	
-	public void setExp(String uuid, double amount){
+
+	public void setExp(String uuid, double amount) {
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer(uuid);
-		if(pl != null){
+		if (pl != null) {
 			pl.getInfo(BankExpInfo.class).setExp(amount);
 			return;
 		}
@@ -89,37 +91,39 @@ public class BankAPI{
 	public Map<String, Double> getExp(int offset, int amount){
 		return BankCoreHandler.getInstance().getSaveType().getLoader().getExp(offset, amount);
 	}*/
-	
-	public double getMoney(Player player){
+
+	public double getMoney(Player player) {
 		return CorePlayerManager.getInstance().getPlayer(player).getInfo(BankMoneyInfo.class).getMoney();
 	}
-	
-	public String getUsername(String uuid){
+
+	public String getUsername(String uuid) {
 		return bankDatabaseManager.getInfoDatabase().getUUIDDatabase().getUsername(uuid);
 	}
-	
-	public Map<String, String> getUsernames(Collection<String> col){
+
+	public Map<String, String> getUsernames(Collection<String> col) {
 		Map<String, String> names = new HashMap<>();
-		for(String s : col){
+		for (String s : col) {
 			names.put(s, getUsername(s));
 		}
 		return names;
 	}
-	
-	public double getMoney(String uuid){
+
+	public double getMoney(String uuid) {
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer(uuid);
-		if(pl != null){ return pl.getInfo(BankMoneyInfo.class).getMoney(); }
+		if (pl != null) {
+			return pl.getInfo(BankMoneyInfo.class).getMoney();
+		}
 		pl = new CorePlayers(uuid);
 		return getAndLoad(pl, new BankMoneyInfo(pl)).getMoney();
 	}
-	
-	public void setMoney(Player player, double amount){
+
+	public void setMoney(Player player, double amount) {
 		CorePlayerManager.getInstance().getPlayer(player).getInfo(BankMoneyInfo.class).setMoney(amount);
 	}
-	
-	public void setMoney(String uuid, double amount){
+
+	public void setMoney(String uuid, double amount) {
 		CorePlayers pl = CorePlayerManager.getInstance().getPlayer(uuid);
-		if(pl != null){
+		if (pl != null) {
 			pl.getInfo(BankMoneyInfo.class).setMoney(amount);
 			return;
 		}
@@ -142,47 +146,47 @@ public class BankAPI{
 	}
 	
 	*/
-	
-	public boolean openBank(Player player){
+
+	public boolean openBank(Player player) {
 		return BankInventoriesManager.getInstance().open(CorePlayerManager.getInstance().getPlayer(player), BankInventories.BANK_MAIN_MENU, OpenTypes.values());
 	}
-	
-	public double getOfflineMoney(String uuid){
+
+	public double getOfflineMoney(String uuid) {
 		CorePlayers pl = new CorePlayers(uuid);
 		return getAndLoad(pl, new BankMoneyInfo(pl)).getOfflineMoney();
 	}
-	
-	public void setOfflineMoney(String uuid, double d){
+
+	public void setOfflineMoney(String uuid, double d) {
 		CorePlayers pl = new CorePlayers(uuid);
 		getAndLoad(pl, new BankMoneyInfo(pl)).setOfflineMoney(d);
 		new SaveRunner(pl, false).run();
 	}
-	
-	public double getOfflineExp(String uuid){
+
+	public double getOfflineExp(String uuid) {
 		CorePlayers pl = new CorePlayers(uuid);
 		return getAndLoad(pl, new BankExpInfo(pl)).getOfflineExp();
 	}
-	
-	public void setOfflineExp(String uuid, double d){
+
+	public void setOfflineExp(String uuid, double d) {
 		CorePlayers pl = new CorePlayers(uuid);
 		getAndLoad(pl, new BankExpInfo(pl)).setOfflineExp(d);
 		new SaveRunner(pl, false).run();
 	}
-	
-	public String getUUID(String name){
+
+	public String getUUID(String name) {
 		return bankDatabaseManager.getInfoDatabase().getUUIDDatabase().getUUID(name);
 	}
-	
-	public boolean exists(String uuid){
+
+	public boolean exists(String uuid) {
 		return bankDatabaseManager.getInfoDatabase().playerExists(uuid);
 	}
-	
-	public boolean isOnline(String uuid){
+
+	public boolean isOnline(String uuid) {
 		return CorePlayerManager.getInstance().getPlayer(uuid) != null;
 	}
-	
-	public boolean isLocked(String uuid){
+
+	public boolean isLocked(String uuid) {
 		return BankDatabaseManager.getInstance().getInfoDatabase().getPlayerLockDatabase().isLocked(uuid);
 	}
-	
+
 }
