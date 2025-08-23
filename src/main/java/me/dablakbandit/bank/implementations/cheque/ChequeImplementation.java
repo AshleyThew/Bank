@@ -12,6 +12,7 @@ import me.dablakbandit.bank.utils.format.Format;
 import me.dablakbandit.core.players.CorePlayers;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -286,6 +287,7 @@ public class ChequeImplementation extends BankImplementation {
 					if (dbCheque.isRedeemed()) {
 						BankLanguageConfiguration.sendFormattedMessage(redeemer, BankLanguageConfiguration.MESSAGE_CHEQUE_ALREADY_REDEEMED.get());
 					} else {
+						redeemer.getPlayer().getInventory().addItem(chequeItem);
 						BankLanguageConfiguration.sendFormattedMessage(redeemer, BankLanguageConfiguration.MESSAGE_CHEQUE_NOT_FOR_YOU.get());
 					}
 					return;
@@ -455,5 +457,6 @@ public class ChequeImplementation extends BankImplementation {
 
 	@Override
 	public void disable() {
+		HandlerList.unregisterAll(ChequeItemListener.getInstance());
 	}
 }
