@@ -40,7 +40,7 @@ public class BankInventoriesManager {
 			return false;
 		}
 		if (playerChecks.checkGamemodeDisabled(pl.getPlayer())) {
-			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_WORLD_DISABLED.get());
+			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_GAMEMODE_DISABLED.get().replace("<gamemode>", pl.getPlayer().getGameMode().name().toLowerCase()));
 			return false;
 		}
 		BankInventories checkedInventories = checkOnlys(pl, inventories);

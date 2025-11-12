@@ -18,8 +18,10 @@ public class BankBlacklistItemInventory extends BankInventoryHandler<BankAdminIn
 		int size = descriptor.getSize();
 		setAll(size, BankItemConfiguration.BANK_ADMIN_ITEM_BLANK);
 		setItem(BankItemConfiguration.BANK_ITEM_BLACKLIST_BACK, BankInventories.BANK_ADMIN_BLACKLIST);
+		setItem(2, (invoker) -> invoker.getItem().getItemStack());
 		setItem(3, this::getData, this::toggleData);
 		setItem(5, this::getNBT, this::toggleNBT);
+		setItem(7, this::getCustomModelData, this::toggleCustomModelData);
 	}
 
 	private ItemStack getNBT(BankAdminInfo info) {
@@ -35,7 +37,15 @@ public class BankBlacklistItemInventory extends BankInventoryHandler<BankAdminIn
 		if (info.getItem().isMatchData()) {
 			item = BankItemConfiguration.BANK_ITEM_BLACKLIST_GREEN;
 		}
-		return clone(item.get(), item.getName().replaceAll("<name>", "Match Data"));
+		return clone(item.get(), item.getName().replaceAll("<name>", "Match Durability"));
+	}
+
+	private ItemStack getCustomModelData(BankAdminInfo info) {
+		BankItemPath item = BankItemConfiguration.BANK_ITEM_BLACKLIST_RED;
+		if (info.getItem().isMatchModelData()) {
+			item = BankItemConfiguration.BANK_ITEM_BLACKLIST_GREEN;
+		}
+		return clone(item.get(), item.getName().replaceAll("<name>", "Match Custom Model Data"));
 	}
 
 	private void toggleNBT(CorePlayers pl, BankAdminInfo info) {
@@ -45,6 +55,11 @@ public class BankBlacklistItemInventory extends BankInventoryHandler<BankAdminIn
 
 	private void toggleData(CorePlayers pl, BankAdminInfo info) {
 		info.getItem().toggleMatchData();
+		pl.refreshInventory();
+	}
+
+	private void toggleCustomModelData(CorePlayers pl, BankAdminInfo info) {
+		info.getItem().toggleMatchModelData();
 		pl.refreshInventory();
 	}
 

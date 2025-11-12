@@ -183,7 +183,7 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo, BankDefaultInf
 			}
 			BankPluginConfiguration.BANK_MONEY_TAX_STORAGE.addValue(tax);
 			if (calculator.isFull()) {
-				// player.sendMessage(LanguageConfiguration.MESSAGE_MONEY_IS_FULL.getMessage());
+				BankLanguageConfiguration.sendFormattedMessage(sender, BankLanguageConfiguration.MESSAGE_MONEY_STORAGE_FULL.get().replaceAll("<max>", Format.formatMoney(calculator.getMax())));
 			}
 		} else {
 			BankLanguageConfiguration.sendFormattedMessage(sender, ChatColor.AQUA + "[Bank] " + ChatColor.RED + "There was a problem depositing all your money, please contact an administrator");

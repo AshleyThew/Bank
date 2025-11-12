@@ -58,6 +58,10 @@ public class PaymentCalculator {
 		return full;
 	}
 
+	public double getMax() {
+		return max;
+	}
+
 	public void floor() {
 		this.calculation = Math.floor(this.calculation);
 		this.tax = Math.floor(this.tax);

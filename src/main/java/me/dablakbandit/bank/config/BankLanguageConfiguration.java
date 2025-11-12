@@ -125,7 +125,9 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration {
 	public static final BankTranslatedStringPath	MESSAGE_MONEY_RECEIVED			= new BankTranslatedStringPath(ChatColor.GREEN + "Received $<money> from <name>");
 	@Comment("Available: <amount>")
 	public static final BankTranslatedStringPath	MESSAGE_MONEY_INTEREST_GAINED	= new BankTranslatedStringPath(ChatColor.GREEN + "You gained $<amount> in interest");
-	
+	@Comment("Available: <max>")
+	public static final BankTranslatedStringPath	MESSAGE_MONEY_STORAGE_FULL	= new BankTranslatedStringPath(ChatColor.GREEN + "Your bank money storage is full <max>");
+
 	@Comment("Available: <exp>, <tax>")
 	public static final BankTranslatedStringPath	MESSAGE_EXP_DEPOSIT				= new BankTranslatedStringPath(ChatColor.GREEN + "You have deposited <exp> exp to the bank.");
 	@Comment("Available: <exp>, <tax>")
@@ -140,6 +142,8 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration {
 	public static final BankTranslatedStringPath	MESSAGE_EXP_RECEIVED			= new BankTranslatedStringPath(ChatColor.GREEN + "Received <exp> from <name>");
 	@Comment("Available: <amount>")
 	public static final BankTranslatedStringPath	MESSAGE_EXP_INTEREST_GAINED		= new BankTranslatedStringPath(ChatColor.GREEN + "You gained <amount> in exp interest");
+	@Comment("Available: <max>")
+	public static final BankTranslatedStringPath	MESSAGE_EXP_STORAGE_FULL		= new BankTranslatedStringPath(ChatColor.GREEN + "Your bank exp storage is full <max>");
 	
 	@Comment("Available: <permission>")
 	public static final BankTranslatedStringPath	MESSAGE_PERMISSION_REQUIREMENT	= new BankTranslatedStringPath(ChatColor.RED + "You require permission: <permission> to do that.");
@@ -317,7 +321,7 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration {
 
 	public static void sendFormattedMessage(CorePlayers pl, String message) {
 		if (pl.getPlayer() != null) {
-			sendMessage(pl.getPlayer(), MESSAGE_FORMAT.get().replace("<message>", message));
+			sendFormattedMessage(pl.getPlayer(), message);
 		}
 	}
 

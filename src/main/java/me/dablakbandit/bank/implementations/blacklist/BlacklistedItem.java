@@ -1,10 +1,22 @@
 package me.dablakbandit.bank.implementations.blacklist;
 
+import me.dablakbandit.core.utils.NMSUtils;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class BlacklistedItem {
 
-	private boolean matchData, matchNBT;
+	private static boolean hasCustomModelData = false;
+
+	static {
+		try {
+			hasCustomModelData = NMSUtils.getMethod(ItemMeta.class, "getCustomModelData") != null;
+		} catch (Exception e) {
+
+		}
+	}
+
+	private boolean matchData, matchNBT, matchModelData;
 	private final ItemStack itemStack;
 
 	public BlacklistedItem(ItemStack itemStack) {
@@ -19,7 +31,25 @@ public class BlacklistedItem {
 		if (matchData && itemStack.getDurability() != is.getDurability()) {
 			return false;
 		}
-		return itemStack.isSimilar(is);
+		if (matchModelData && hasCustomModelData && !customModelDataEquals(is)) {
+			return false;
+		}
+		if (matchNBT) {
+			return itemStack.isSimilar(is);
+		}
+		return true;
+	}
+
+	private boolean customModelDataEquals(ItemStack is) {
+		ItemMeta im1 = itemStack.getItemMeta();
+		ItemMeta im2 = is.getItemMeta();
+		if (im1 == null || im2 == null) {
+			return false;
+		}
+		if (!im1.hasCustomModelData() || !im2.hasCustomModelData()) {
+			return false;
+		}
+		return im1.getCustomModelData() == im2.getCustomModelData();
 	}
 
 	public ItemStack getItemStack() {
@@ -34,10 +64,6 @@ public class BlacklistedItem {
 		this.matchData = !matchData;
 	}
 
-	public void setMatchData(boolean matchData) {
-		this.matchData = matchData;
-	}
-
 	public boolean isMatchNBT() {
 		return matchNBT;
 	}
@@ -46,8 +72,12 @@ public class BlacklistedItem {
 		this.matchNBT = !matchNBT;
 	}
 
-	public void setMatchNBT(boolean matchNBT) {
-		this.matchNBT = matchNBT;
+	public boolean isMatchModelData() {
+		return matchModelData;
+	}
+
+	public void toggleMatchModelData() {
+		this.matchModelData = !matchModelData;
 	}
 
 }

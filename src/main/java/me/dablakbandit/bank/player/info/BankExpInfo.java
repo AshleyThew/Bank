@@ -141,6 +141,7 @@ public class BankExpInfo extends IBankInfo implements JSONInfo, BankDefaultInfo,
 			}
 		}
 		if (calculator.isFull()) {
+			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_STORAGE_FULL.get().replaceAll("<max>", Format.formatMoney(calculator.getMax())));
 			// player.sendMessage(LanguageConfiguration.MESSAGE_EXP_IS_FULL.getMessage());
 		}
 	}
