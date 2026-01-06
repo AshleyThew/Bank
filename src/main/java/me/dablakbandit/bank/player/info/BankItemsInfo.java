@@ -186,7 +186,11 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 
 	@Override
 	public void jsonFinal() {
-		bankItemSlotMap.values().removeIf(Map::isEmpty);
+		new ArrayList<>(bankItemSlotMap.entrySet()).forEach(entry -> {
+			if (entry.getValue().isEmpty()) {
+				bankItemSlotMap.remove(entry.getKey());
+			}
+		});
 	}
 
 	@Override
