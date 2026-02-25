@@ -259,8 +259,8 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo, BankDefaultInf
 			toInfo.recordReceiveTransaction(amount, pl.getPlayer().getName());
 
 			String formatted = Format.formatMoney(amount);
-			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_SENT.get().replaceAll("<money>", formatted).replaceAll("<n>", to.getPlayer().getName()));
-			BankLanguageConfiguration.sendFormattedMessage(to, BankLanguageConfiguration.MESSAGE_MONEY_RECEIVED.get().replaceAll("<money>", formatted).replaceAll("<n>", pl.getPlayer().getName()));
+			BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_MONEY_SENT.get().replaceAll("<money>", formatted).replaceAll("<name>", to.getPlayer().getName()));
+			BankLanguageConfiguration.sendFormattedMessage(to, BankLanguageConfiguration.MESSAGE_MONEY_RECEIVED.get().replaceAll("<money>", formatted).replaceAll("<name>", pl.getPlayer().getName()));
 		}
 	}
 

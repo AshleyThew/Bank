@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import me.dablakbandit.bank.config.BankLanguageConfiguration;
 
 public class BankExpHistoryInventory extends BankInventoryHandler<BankExpInfo> {
 
@@ -94,7 +95,8 @@ public class BankExpHistoryInventory extends BankInventoryHandler<BankExpInfo> {
 		if (get >= transactions.size()) return null;
 		Transaction tx = transactions.get(get);
 		ItemStack is = getTransactionTypeItem(tx.getType());
-		String date = new java.text.SimpleDateFormat("HH:mm MMM dd, yyyy").format(tx.getDate());
+		String dateFormat = BankLanguageConfiguration.EXP_HISTORY_DATE_FORMAT.get();
+		String date = new java.text.SimpleDateFormat(dateFormat).format(tx.getDate());
 		long deltaMillis = System.currentTimeMillis() - tx.getDate().getTime();
 		String delta = formatTimeDelta(deltaMillis);
 		String param = tx.getDescriptionParam() != null ? tx.getDescriptionParam() : "";
@@ -103,15 +105,30 @@ public class BankExpHistoryInventory extends BankInventoryHandler<BankExpInfo> {
 		return clone(is, ChatColor.AQUA + desc, ChatColor.GRAY + date + ChatColor.DARK_GRAY + " (" + delta + ")");
 	}
 
-	private String formatTimeDelta(long deltaMillis) {
-		long seconds = deltaMillis / 1000;
-		long minutes = seconds / 60;
-		long hours = minutes / 60;
-		long days = hours / 24;
-		if (days > 0) return days + "d ago";
-		if (hours > 0) return hours + "h ago";
-		return minutes + "m ago";
-	}
+	   private String formatTimeDelta(long deltaMillis) {
+		   long seconds = deltaMillis / 1000;
+		   long minutes = seconds / 60;
+		   long hours = minutes / 60;
+		   long days = hours / 24;
+		   long remHours = hours % 24;
+		   long remMinutes = minutes % 60;
+		   if (days > 0) {
+			   String format = BankLanguageConfiguration.EXP_HISTORY_DELTA_DAYS.get();
+			   return format.replace("<days>", String.valueOf(days))
+							.replace("<hours>", String.valueOf(remHours))
+							.replace("<minutes>", String.valueOf(remMinutes));
+		   }
+		   if (hours > 0) {
+			   String format = BankLanguageConfiguration.EXP_HISTORY_DELTA_HOURS.get();
+			   return format.replace("<days>", String.valueOf(days))
+							.replace("<hours>", String.valueOf(hours))
+							.replace("<minutes>", String.valueOf(remMinutes));
+		   }
+		   String format = BankLanguageConfiguration.EXP_HISTORY_DELTA_MINUTES.get();
+		   return format.replace("<days>", String.valueOf(days))
+						.replace("<hours>", String.valueOf(hours))
+						.replace("<minutes>", String.valueOf(minutes));
+	   }
 
 	private ItemStack getTransactionTypeItem(TransactionType type) {
 		switch (type) {

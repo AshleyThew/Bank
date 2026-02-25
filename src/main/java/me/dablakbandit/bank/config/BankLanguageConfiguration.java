@@ -216,6 +216,24 @@ public class BankLanguageConfiguration extends CommentAdvancedConfiguration {
 	@Comment("Transaction: EXP tax. Available: <amount>, <desc>")
 	public static final BankTranslatedStringPath TRANSACTION_EXP_TAX = new BankTranslatedStringPath("Paid <amount> exp in tax.");
 
+	@Comment("Date format for EXP history entries")
+	public static final BankTranslatedStringPath EXP_HISTORY_DATE_FORMAT = new BankTranslatedStringPath("HH:mm MMM dd, yyyy");
+	@Comment("Delta format for days ago, e.g. '2d ago'. Available: <days>, <hours>, <minutes>")
+	public static final BankTranslatedStringPath EXP_HISTORY_DELTA_DAYS = new BankTranslatedStringPath("<days>d ago");
+	@Comment("Delta format for hours ago, e.g. '3h ago'. Available: <days>, <hours>, <minutes>")
+	public static final BankTranslatedStringPath EXP_HISTORY_DELTA_HOURS = new BankTranslatedStringPath("<hours>h ago");
+	@Comment("Delta format for minutes ago, e.g. '15m ago'. Available: <days>, <hours>, <minutes>")
+	public static final BankTranslatedStringPath EXP_HISTORY_DELTA_MINUTES = new BankTranslatedStringPath("<minutes>m ago");
+
+	@Comment("Date format for MONEY history entries")
+	public static final BankTranslatedStringPath MONEY_HISTORY_DATE_FORMAT = new BankTranslatedStringPath("HH:mm MMM dd, yyyy");
+	@Comment("Delta format for days ago, e.g. '2d ago'. Available: <days>, <hours>, <minutes>")
+	public static final BankTranslatedStringPath MONEY_HISTORY_DELTA_DAYS = new BankTranslatedStringPath("<days>d ago");
+	@Comment("Delta format for hours ago, e.g. '3h ago'. Available: <days>, <hours>, <minutes>")
+	public static final BankTranslatedStringPath MONEY_HISTORY_DELTA_HOURS = new BankTranslatedStringPath("<hours>h ago");
+	@Comment("Delta format for minutes ago, e.g. '15m ago'. Available: <days>, <hours>, <minutes>")
+	public static final BankTranslatedStringPath MONEY_HISTORY_DELTA_MINUTES = new BankTranslatedStringPath("<minutes>m ago");
+
 	public static final BankTranslatedStringPath FORMAT_THOUSAND = new BankTranslatedStringPath("K");
 	public static final BankTranslatedStringPath FORMAT_MILLION = new BankTranslatedStringPath("Million");
 	public static final BankTranslatedStringPath FORMAT_BILLION = new BankTranslatedStringPath("Billion");
