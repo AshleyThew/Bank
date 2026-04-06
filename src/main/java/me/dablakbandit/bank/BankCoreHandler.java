@@ -232,7 +232,7 @@ public class BankCoreHandler extends CoreHandler implements Listener {
 		// Register listeners
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 
-		if (UpgradeManager.getInstance().getPreviousVersion() <= 470) {
+		if (UpgradeManager.getInstance().getPreviousVersion() > 0 && UpgradeManager.getInstance().getPreviousVersion() <= 470) {
 			converting = true;
 			BankLog.info("Converting bank data to fix item types.");
 			BankVersion1_20_6Converter.getInstance().convert(Bukkit::shutdown);
