@@ -16,7 +16,6 @@ import me.dablakbandit.bank.upgrade.UpgradeManager;
 import me.dablakbandit.core.commands.AbstractCommand;
 import me.dablakbandit.core.metrics.Metrics;
 import me.dablakbandit.core.players.CorePlayerManager;
-import me.dablakbandit.core.plugin.CoreHandler;
 import me.dablakbandit.core.updater.PluginUpdater;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -31,7 +30,7 @@ import java.nio.file.Files;
  * The Bank core handler.
  * Replacement of Bank plugin main package, used to load, enable and disable plugin elements.
  */
-public class BankCoreHandler extends CoreHandler implements Listener {
+public class BankCoreHandler implements Listener {
 
 	private static final BankCoreHandler main = new BankCoreHandler();
 

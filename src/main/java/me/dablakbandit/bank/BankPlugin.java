@@ -4,16 +4,13 @@
 
 package me.dablakbandit.bank;
 
-import me.dablakbandit.bank.log.BankLog;
-import me.dablakbandit.core.plugin.downloader.CorePluginDownloader;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import me.dablakbandit.bank.log.BankLog;
 
 /**
  * The entry point to the bank plugin.
- * Ensures core plugin is downloaded before continuing,
- * Else errors print to console.
- *
- * @see me.dablakbandit.core.plugin.downloader.CorePluginDownloader
  */
 public class BankPlugin extends JavaPlugin {
 
@@ -36,11 +33,13 @@ public class BankPlugin extends JavaPlugin {
 		// Assign instance
 		main = this;
 
-		// Check if the core plugin exists
-		if (CorePluginDownloader.ensureCorePlugin()) {
+		// Check if the core plugin is loaded
+		if (Bukkit.getPluginManager().getPlugin("Core") != null) {
 			// Assign and load handler
 			handler = BankCoreHandler.getInstance();
 			handler.onLoad();
+		} else {
+			printError();
 		}
 	}
 
@@ -48,7 +47,6 @@ public class BankPlugin extends JavaPlugin {
 	 * Plugin enabling.
 	 */
 	public void onEnable() {
-		// Enable handler if assigned
 		if (handler != null) {
 			handler.onEnable();
 		}
@@ -58,17 +56,11 @@ public class BankPlugin extends JavaPlugin {
 	 * Plugin disabling.
 	 */
 	public void onDisable() {
-		// Disable handler if assigned else print error
 		if (handler != null) {
 			handler.onDisable();
-		} else {
-			printError();
 		}
 	}
 
-	/**
-	 * Print error to console when core plugin is missing.
-	 */
 	private void printError() {
 		for (int i = 0; i < 5; i++) {
 			BankLog.errorAlways("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
@@ -83,5 +75,4 @@ public class BankPlugin extends JavaPlugin {
 			BankLog.errorAlways("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
 		}
 	}
-
 }

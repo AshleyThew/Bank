@@ -52,8 +52,6 @@ repositories {
 
 dependencies {
 
-    implementation 'me.dablakbandit:core-plugin-downloader:0.0.1'
-
     compileOnly 'org.spigotmc:spigot:1.16.4-R0.1-SNAPSHOT'
 //    compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
 //    compileOnly 'com.mojang:authlib:3.13.56'
