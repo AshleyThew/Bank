@@ -11,10 +11,10 @@ import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 
 public class BankLoansInfo extends IBankInfo implements JSONInfo, PermissionsInfo {
@@ -24,7 +24,7 @@ public class BankLoansInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	@Exclude
 	private Loan tempLoan;
 
-	private final List<Loan> loans = Collections.synchronizedList(new ArrayList<>());
+	private final List<Loan> loans = new CopyOnWriteArrayList<>();
 	private double loanMax, loanInterest;
 
 	public BankLoansInfo(CorePlayers pl) {

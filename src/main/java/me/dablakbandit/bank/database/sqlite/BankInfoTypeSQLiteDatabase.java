@@ -1,5 +1,6 @@
 package me.dablakbandit.bank.database.sqlite;
 
+import com.google.gson.JsonObject;
 import me.dablakbandit.bank.database.sql.SQLInfoDatabase;
 import me.dablakbandit.bank.database.sql.SQLInfoTypeDatabase;
 import me.dablakbandit.bank.player.info.BankDefaultInfo;
@@ -14,7 +15,7 @@ import java.util.Date;
 
 public class BankInfoTypeSQLiteDatabase<T extends JSONInfo> extends SQLInfoTypeDatabase<T> {
 
-	private PreparedStatement getPlayerInfo, insertPlayerInfo, updatePlayerInfo, expire;
+	private PreparedStatement getPlayerInfo, upsertPlayerInfo, expire;
 	private PreparedStatement getModified, getDistinctUUIDS;
 
 	public BankInfoTypeSQLiteDatabase(SQLInfoDatabase infoDatabase, Class<T> typeClass, String database) {
@@ -27,8 +28,7 @@ public class BankInfoTypeSQLiteDatabase<T extends JSONInfo> extends SQLInfoTypeD
 			Statement statement = con.createStatement();
 			statement.execute("CREATE TABLE IF NOT EXISTS `" + database + "`( `uuid` VARCHAR(36) NOT NULL, `value` LONGTEXT NOT NULL, `last_modified` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (`uuid`));");
 			getPlayerInfo = con.prepareStatement("SELECT * FROM `" + database + "` WHERE `uuid` = ?;");
-			insertPlayerInfo = con.prepareStatement("INSERT INTO `" + database + "` (`uuid`, `value`) VALUES (?,?);");
-			updatePlayerInfo = con.prepareStatement("UPDATE `" + database + "` SET `value` = ?, `last_modified` = ? WHERE `uuid` = ?;");
+			upsertPlayerInfo = con.prepareStatement("INSERT INTO `" + database + "` (`uuid`, `value`, `last_modified`) VALUES (?,?,?) ON CONFLICT(`uuid`) DO UPDATE SET `value` = excluded.`value`, `last_modified` = excluded.`last_modified`");
 			expire = con.prepareStatement("DELETE FROM `" + database + "` WHERE `last_modified` < ?;");
 			getModified = con.prepareStatement("SELECT * FROM `" + database + "` WHERE `last_modified` > ?;");
 			getDistinctUUIDS = con.prepareStatement("SELECT DISTINCT(`uuid`) FROM `" + database + "`;");
@@ -47,27 +47,16 @@ public class BankInfoTypeSQLiteDatabase<T extends JSONInfo> extends SQLInfoTypeD
 	@Override
 	public void savePlayer(CorePlayers pl, T t, long time) {
 		try {
-			String value = t.toJson().toString();
-			boolean exists;
-			synchronized (getPlayerInfo) {
-				getPlayerInfo.setString(1, pl.getUUIDString());
-				ResultSet rs = getPlayerInfo.executeQuery();
-				exists = rs.next();
-				rs.close();
+			JsonObject json = t.toJson();
+			if (json == null) {
+				return;
 			}
-			if (exists) {
-				synchronized (updatePlayerInfo) {
-					updatePlayerInfo.setString(1, value);
-					updatePlayerInfo.setTimestamp(2, new Timestamp(new Date().getTime()));
-					updatePlayerInfo.setString(3, pl.getUUIDString());
-					updatePlayerInfo.execute();
-				}
-			} else {
-				synchronized (insertPlayerInfo) {
-					insertPlayerInfo.setString(1, pl.getUUIDString());
-					insertPlayerInfo.setString(2, value);
-					insertPlayerInfo.execute();
-				}
+			String value = json.toString();
+			synchronized (upsertPlayerInfo) {
+				upsertPlayerInfo.setString(1, pl.getUUIDString());
+				upsertPlayerInfo.setString(2, value);
+				upsertPlayerInfo.setTimestamp(3, new Timestamp(time));
+				upsertPlayerInfo.execute();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

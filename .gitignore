@@ -4,3 +4,6 @@ build/
 lib/
 gradlew
 gradlew.bat
+.dev-server/
+.github
+scripts/

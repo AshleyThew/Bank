@@ -12,6 +12,8 @@ import java.util.concurrent.CompletableFuture;
 public abstract class SQLChequeDatabase extends SQLListener implements IChequeDatabase {
 
 	private static final String TABLE_NAME = "bank_cheques";
+	private static final int SQLITE_BUSY_RETRIES = 5;
+	private static final long SQLITE_BUSY_RETRY_DELAY_MS = 25L;
 
 	private PreparedStatement insertCheque;
 	private PreparedStatement selectCheque;
@@ -65,7 +67,7 @@ public abstract class SQLChequeDatabase extends SQLListener implements IChequeDa
 					insertCheque.setDouble(4, cheque.getAmount());
 					insertCheque.setLong(5, cheque.getIssueTime());
 
-					return insertCheque.executeUpdate() > 0;
+					return executeUpdateWithBusyRetry(insertCheque) > 0;
 				}
 			} catch (SQLException e) {
 				BankLog.error("Error storing cheque: " + e.getMessage());
@@ -123,7 +125,7 @@ public abstract class SQLChequeDatabase extends SQLListener implements IChequeDa
 					updateRedeemed.setLong(2, System.currentTimeMillis());
 					updateRedeemed.setString(3, chequeId);
 
-					return updateRedeemed.executeUpdate() > 0;
+					return executeUpdateWithBusyRetry(updateRedeemed) > 0;
 				}
 			} catch (SQLException e) {
 				BankLog.error("Error marking cheque as redeemed: " + e.getMessage());
@@ -213,5 +215,28 @@ public abstract class SQLChequeDatabase extends SQLListener implements IChequeDa
 	@Override
 	public void close() {
 		closeStatements();
+	}
+
+	private int executeUpdateWithBusyRetry(PreparedStatement statement) throws SQLException {
+		for (int i = 0; i <= SQLITE_BUSY_RETRIES; i++) {
+			try {
+				return statement.executeUpdate();
+			} catch (SQLException e) {
+				if (!isSqliteBusy(e) || i == SQLITE_BUSY_RETRIES) {
+					throw e;
+				}
+				try {
+					Thread.sleep(SQLITE_BUSY_RETRY_DELAY_MS * (i + 1));
+				} catch (InterruptedException ie) {
+					Thread.currentThread().interrupt();
+					throw new SQLException("Interrupted while retrying sqlite busy cheque update", ie);
+				}
+			}
+		}
+		throw new SQLException("Retry loop exhausted without result");
+	}
+
+	private boolean isSqliteBusy(SQLException e) {
+		return e.getMessage() != null && e.getMessage().contains("SQLITE_BUSY");
 	}
 }

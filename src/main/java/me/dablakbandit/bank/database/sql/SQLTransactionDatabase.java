@@ -5,8 +5,12 @@ import me.dablakbandit.core.database.listener.SQLListener;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public abstract class SQLTransactionDatabase extends SQLListener implements ITransactionDatabase {
+	private static final int SQLITE_BUSY_RETRIES = 5;
+	private static final long SQLITE_BUSY_RETRY_DELAY_MS = 25L;
+
 	private PreparedStatement insertTransaction;
 	private final String tableName;
 
@@ -39,11 +43,34 @@ public abstract class SQLTransactionDatabase extends SQLListener implements ITra
 				insertTransaction.setDouble(3, amount);
 				insertTransaction.setString(4, description);
 				insertTransaction.setString(5, extra);
-				insertTransaction.execute();
+				executeWithBusyRetry(insertTransaction);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void executeWithBusyRetry(PreparedStatement statement) throws SQLException {
+		for (int i = 0; i <= SQLITE_BUSY_RETRIES; i++) {
+			try {
+				statement.execute();
+				return;
+			} catch (SQLException e) {
+				if (!isSqliteBusy(e) || i == SQLITE_BUSY_RETRIES) {
+					throw e;
+				}
+				try {
+					Thread.sleep(SQLITE_BUSY_RETRY_DELAY_MS * (i + 1));
+				} catch (InterruptedException ie) {
+					Thread.currentThread().interrupt();
+					throw new SQLException("Interrupted while retrying sqlite busy transaction insert", ie);
+				}
+			}
+		}
+	}
+
+	private boolean isSqliteBusy(SQLException e) {
+		return e.getMessage() != null && e.getMessage().contains("SQLITE_BUSY");
 	}
 
 	public void close(Connection connection) {

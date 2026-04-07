@@ -6,8 +6,12 @@ import me.dablakbandit.core.database.listener.SQLListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public abstract class SQLUUIDDatabase extends SQLListener implements IUUIDDatabase {
+	private static final int SQLITE_BUSY_RETRIES = 5;
+	private static final long SQLITE_BUSY_RETRY_DELAY_MS = 25L;
+
 	protected PreparedStatement list_uuid, list_name, delete_uuid, delete_name, savename;
 
 	@Override
@@ -32,16 +36,16 @@ public abstract class SQLUUIDDatabase extends SQLListener implements IUUIDDataba
 		try {
 			synchronized (delete_uuid) {
 				delete_uuid.setString(1, uuid);
-				delete_uuid.execute();
+				executeWithBusyRetry(delete_uuid);
 			}
 			synchronized (delete_name) {
 				delete_name.setString(1, username);
-				delete_name.execute();
+				executeWithBusyRetry(delete_name);
 			}
 			synchronized (savename) {
 				savename.setString(1, username);
 				savename.setString(2, uuid);
-				savename.execute();
+				executeWithBusyRetry(savename);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -82,5 +86,28 @@ public abstract class SQLUUIDDatabase extends SQLListener implements IUUIDDataba
 			e.printStackTrace();
 		}
 		return uuid;
+	}
+
+	private void executeWithBusyRetry(PreparedStatement statement) throws SQLException {
+		for (int i = 0; i <= SQLITE_BUSY_RETRIES; i++) {
+			try {
+				statement.execute();
+				return;
+			} catch (SQLException e) {
+				if (!isSqliteBusy(e) || i == SQLITE_BUSY_RETRIES) {
+					throw e;
+				}
+				try {
+					Thread.sleep(SQLITE_BUSY_RETRY_DELAY_MS * (i + 1));
+				} catch (InterruptedException ie) {
+					Thread.currentThread().interrupt();
+					throw new SQLException("Interrupted while retrying sqlite busy uuid update", ie);
+				}
+			}
+		}
+	}
+
+	private boolean isSqliteBusy(SQLException e) {
+		return e.getMessage() != null && e.getMessage().contains("SQLITE_BUSY");
 	}
 }

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SQLPlayerLockDatabase extends SQLListener implements IPlayerLockDatabase {
+	private static final int SQLITE_BUSY_RETRIES = 5;
+	private static final long SQLITE_BUSY_RETRY_DELAY_MS = 25L;
 
 	public SQLPlayerLockDatabase() {
 
@@ -107,7 +109,7 @@ public class SQLPlayerLockDatabase extends SQLListener implements IPlayerLockDat
 				synchronized (addLocked) {
 					addLocked.setString(1, uuid);
 					addLocked.setBoolean(2, set);
-					addLocked.execute();
+					executeWithBusyRetry(addLocked);
 				}
 				ret = false;
 			}
@@ -129,7 +131,7 @@ public class SQLPlayerLockDatabase extends SQLListener implements IPlayerLockDat
 			} else {
 				addTimeLocked.setString(1, uuid);
 				addTimeLocked.setTimestamp(2, new Timestamp(System.currentTimeMillis() + 600000));
-				addTimeLocked.execute();
+				executeWithBusyRetry(addTimeLocked);
 				ret = false;
 			}
 			rs.close();
@@ -151,7 +153,7 @@ public class SQLPlayerLockDatabase extends SQLListener implements IPlayerLockDat
 		try {
 			setLocked.setBoolean(1, locked);
 			setLocked.setString(2, pl.getUUIDString());
-			setLocked.execute();
+			executeWithBusyRetry(setLocked);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -162,7 +164,7 @@ public class SQLPlayerLockDatabase extends SQLListener implements IPlayerLockDat
 			long timestamp = System.currentTimeMillis() + (locked ? 600000 : 0);
 			setTimeLocked.setTimestamp(1, new Timestamp(timestamp));
 			setTimeLocked.setString(2, pl.getUUIDString());
-			setTimeLocked.execute();
+			executeWithBusyRetry(setTimeLocked);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -193,8 +195,8 @@ public class SQLPlayerLockDatabase extends SQLListener implements IPlayerLockDat
 	protected synchronized List<String> getTimeUnlocked() {
 		List<String> locked = new ArrayList<>();
 		try {
-			ResultSet rs = getTimeUnlocked.executeQuery();
 			getTimeUnlocked.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+			ResultSet rs = getTimeUnlocked.executeQuery();
 			while (rs.next()) {
 				locked.add(rs.getString(1));
 			}
@@ -208,5 +210,28 @@ public class SQLPlayerLockDatabase extends SQLListener implements IPlayerLockDat
 	@Override
 	public void close(Connection connection) {
 		closeStatements();
+	}
+
+	private void executeWithBusyRetry(PreparedStatement statement) throws SQLException {
+		for (int i = 0; i <= SQLITE_BUSY_RETRIES; i++) {
+			try {
+				statement.execute();
+				return;
+			} catch (SQLException e) {
+				if (!isSqliteBusy(e) || i == SQLITE_BUSY_RETRIES) {
+					throw e;
+				}
+				try {
+					Thread.sleep(SQLITE_BUSY_RETRY_DELAY_MS * (i + 1));
+				} catch (InterruptedException ie) {
+					Thread.currentThread().interrupt();
+					throw new SQLException("Interrupted while retrying sqlite busy player lock update", ie);
+				}
+			}
+		}
+	}
+
+	private boolean isSqliteBusy(SQLException e) {
+		return e.getMessage() != null && e.getMessage().contains("SQLITE_BUSY");
 	}
 }

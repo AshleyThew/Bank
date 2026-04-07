@@ -17,21 +17,22 @@ import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInfo, BankDefaultInfo {
 
 	@Deprecated
-	private final Map<Integer, List<ItemStack>> itemMap = Collections.synchronizedMap(new HashMap<>());
+	private final Map<Integer, List<ItemStack>> itemMap = new ConcurrentHashMap<>();
 
 	@Deprecated
-	private final Map<Integer, List<BankItem>> bankItemMap = Collections.synchronizedMap(new HashMap<>());
+	private final Map<Integer, List<BankItem>> bankItemMap = new ConcurrentHashMap<>();
 
-	private final Map<Integer, Map<Integer, BankItem>> bankItemSlotMap = Collections.synchronizedMap(new HashMap<>());
+	private final Map<Integer, Map<Integer, BankItem>> bankItemSlotMap = new ConcurrentHashMap<>();
 
-	private final Map<Integer, ItemStack> tabItemMap = Collections.synchronizedMap(new HashMap<>());
-	private final Map<Integer, String> tabNameMap = Collections.synchronizedMap(new HashMap<>());
-	protected final Map<Integer, Integer> boughtSlotsMap = Collections.synchronizedMap(new HashMap<>());
+	private final Map<Integer, ItemStack> tabItemMap = new ConcurrentHashMap<>();
+	private final Map<Integer, String> tabNameMap = new ConcurrentHashMap<>();
+	protected final Map<Integer, Integer> boughtSlotsMap = new ConcurrentHashMap<>();
 	private int openTab = 1;
 	private int scrolled = 0;
 	private int boughtTabs;
@@ -53,7 +54,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	}
 
 	public Map<Integer, BankItem> getTabBankItemsMap(int tab) {
-		return bankItemSlotMap.computeIfAbsent(tab, k -> Collections.synchronizedMap(new HashMap<>()));
+		return bankItemSlotMap.computeIfAbsent(tab, k -> new ConcurrentHashMap<>());
 	}
 
 

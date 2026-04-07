@@ -9,16 +9,16 @@ import me.dablakbandit.core.players.info.JSONInfo;
 import me.dablakbandit.core.utils.json.strategy.Exclude;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Stores transaction history for money
  */
 public class BankMoneyTransactionInfo extends IBankInfo implements JSONInfo {
 
-	private List<Transaction> transactions = Collections.synchronizedList(new ArrayList<>());
+	private final List<Transaction> transactions = new CopyOnWriteArrayList<>();
 
 	@Exclude
 	private int scrolled = 0;
@@ -31,7 +31,9 @@ public class BankMoneyTransactionInfo extends IBankInfo implements JSONInfo {
 		transactions.add(0, transaction);
 		int maxTransactions = BankPluginConfiguration.BANK_MONEY_TRANSACTION_MAX_HISTORY.get();
 		if (transactions.size() > maxTransactions) {
-			transactions = transactions.subList(0, maxTransactions);
+			while (transactions.size() > maxTransactions) {
+				transactions.remove(transactions.size() - 1);
+			}
 		}
 		// Async DB insert
 		CorePlayers pl = getPlayers();
