@@ -17,8 +17,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Stores transaction history for experience
  */
 public class BankExpTransactionInfo extends IBankInfo implements JSONInfo {
-
-	private final List<Transaction> transactions = new CopyOnWriteArrayList<>();
+	
+	private final CopyOnWriteArrayList<Transaction> transactions = new CopyOnWriteArrayList<>();
 
 	@Exclude
 	private int scrolled = 0;

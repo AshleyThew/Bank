@@ -27,12 +27,12 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 
 	@Deprecated
 	private final Map<Integer, List<BankItem>> bankItemMap = new ConcurrentHashMap<>();
+	
+	private final ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, BankItem>> bankItemSlotMap = new ConcurrentHashMap<>();
 
-	private final Map<Integer, Map<Integer, BankItem>> bankItemSlotMap = new ConcurrentHashMap<>();
-
-	private final Map<Integer, ItemStack> tabItemMap = new ConcurrentHashMap<>();
-	private final Map<Integer, String> tabNameMap = new ConcurrentHashMap<>();
-	protected final Map<Integer, Integer> boughtSlotsMap = new ConcurrentHashMap<>();
+	private final ConcurrentHashMap<Integer, ItemStack> tabItemMap = new ConcurrentHashMap<>();
+	private final ConcurrentHashMap<Integer, String> tabNameMap = new ConcurrentHashMap<>();
+	protected final ConcurrentHashMap<Integer, Integer> boughtSlotsMap = new ConcurrentHashMap<>();
 	private int openTab = 1;
 	private int scrolled = 0;
 	private int boughtTabs;
@@ -53,7 +53,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 		return bankItemSlotMap.values().stream().map(Map::values).map(ArrayList::new).collect(Collectors.toList());
 	}
 
-	public Map<Integer, BankItem> getTabBankItemsMap(int tab) {
+	public ConcurrentHashMap<Integer, BankItem> getTabBankItemsMap(int tab) {
 		return bankItemSlotMap.computeIfAbsent(tab, k -> new ConcurrentHashMap<>());
 	}
 
@@ -65,11 +65,11 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 //		return bankItems;
 //	}
 
-	public Map<Integer, ItemStack> getTabItemMap() {
+	public ConcurrentHashMap<Integer, ItemStack> getTabItemMap() {
 		return tabItemMap;
 	}
 
-	public Map<Integer, String> getTabNameMap() {
+	public ConcurrentHashMap<Integer, String> getTabNameMap() {
 		return tabNameMap;
 	}
 
@@ -126,7 +126,7 @@ public class BankItemsInfo extends IBankInfo implements JSONInfo, PermissionsInf
 		return permissionMergeMax;
 	}
 
-	public Map<Integer, Integer> getBoughtSlotsMap() {
+	public ConcurrentHashMap<Integer, Integer> getBoughtSlotsMap() {
 		return boughtSlotsMap;
 	}
 

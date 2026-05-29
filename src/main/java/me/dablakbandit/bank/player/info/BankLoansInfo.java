@@ -24,7 +24,7 @@ public class BankLoansInfo extends IBankInfo implements JSONInfo, PermissionsInf
 	@Exclude
 	private Loan tempLoan;
 
-	private final List<Loan> loans = new CopyOnWriteArrayList<>();
+	private final CopyOnWriteArrayList<Loan> loans = new CopyOnWriteArrayList<>();
 	private double loanMax, loanInterest;
 
 	public BankLoansInfo(CorePlayers pl) {
