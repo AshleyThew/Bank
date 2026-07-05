@@ -59,6 +59,7 @@ public abstract class AnvilInventory extends OpenInventory {
 		returned = false;
 		AnvilUtil.open(player, message, () -> {
 			player.getOpenInventory().setItem(0, clone(BankItemConfiguration.BANK_ANVIL_INPUT.get(), input));
+			clearRepairCost(player);
 			exp = EXPUtils.getExp(player);
 		});
 		return true;
@@ -66,13 +67,14 @@ public abstract class AnvilInventory extends OpenInventory {
 
 	@Override
 	public void set(CorePlayers pl, Player player, Inventory inv) {
-
+		clearRepairCost(player);
 	}
 
 	@Override
 	public void parseClick(CorePlayers pl, Player player, Inventory inv, Inventory top, InventoryClickEvent event) {
 		event.setCancelled(true);
 		event.setResult(Event.Result.DENY);
+		clearRepairCost(player);
 		if (returned) {
 			return;
 		}
@@ -112,6 +114,14 @@ public abstract class AnvilInventory extends OpenInventory {
 	@Override
 	public void parseInventoryDrag(CorePlayers pl, Player player, Inventory inv, Inventory top, InventoryDragEvent event) {
 		event.setCancelled(true);
+		clearRepairCost(player);
+	}
+
+	private void clearRepairCost(Player player) {
+		Inventory top = player.getOpenInventory().getTopInventory();
+		if (top instanceof org.bukkit.inventory.AnvilInventory) {
+			((org.bukkit.inventory.AnvilInventory) top).setRepairCost(0);
+		}
 	}
 
 }

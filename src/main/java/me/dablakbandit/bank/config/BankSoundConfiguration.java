@@ -10,6 +10,12 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 public class BankSoundConfiguration extends CommentAdvancedConfiguration {
 
 	private static BankSoundConfiguration config;
@@ -26,24 +32,130 @@ public class BankSoundConfiguration extends CommentAdvancedConfiguration {
 	private static Sound levelup, anvil;
 
 	static {
-		// Check if sounds class is an enum
+		levelup = resolveSound("ENTITY_PLAYER_LEVELUP", "LEVEL_UP");
+		anvil = resolveSound("BLOCK_ANVIL_LAND", "ANVIL_LAND");
 
-		if (Sound.class.isEnum()) {
-			try {
-				levelup = Sound.valueOf("ENTITY_PLAYER_LEVELUP");
-			} catch (Exception e) {
-				levelup = Sound.valueOf("LEVEL_UP");
-			}
-
-			try {
-				anvil = Sound.valueOf("BLOCK_ANVIL_LAND");
-			} catch (Exception e) {
-				anvil = Sound.valueOf("ANVIL_LAND");
-			}
-		} else {
-			levelup = Sound.valueOf("ENTITY_PLAYER_LEVELUP");
-			anvil = Sound.valueOf("BLOCK_ANVIL_LAND");
+		if (levelup == null) {
+			levelup = findAnySound();
 		}
+		if (anvil == null) {
+			anvil = levelup != null ? levelup : findAnySound();
+		}
+	}
+
+	private static Sound resolveSound(String... candidates) {
+		for (String candidate : candidates) {
+			for (String lookup : buildLookupCandidates(candidate)) {
+				Sound resolved = resolveSoundSingle(lookup);
+				if (resolved != null) {
+					return resolved;
+				}
+			}
+		}
+		return null;
+	}
+
+	private static List<String> buildLookupCandidates(String value) {
+		List<String> candidates = new ArrayList<>();
+		if (value == null) {
+			return candidates;
+		}
+
+		String trimmed = value.trim();
+		if (trimmed.isEmpty()) {
+			return candidates;
+		}
+
+		String upper = trimmed.toUpperCase(Locale.ROOT);
+		candidates.add(upper);
+		if (!trimmed.equals(upper)) {
+			candidates.add(trimmed);
+		}
+
+		if (trimmed.contains(":")) {
+			String keyPart = trimmed.substring(trimmed.lastIndexOf(':') + 1);
+			String keyUpper = keyPart.toUpperCase(Locale.ROOT);
+			candidates.add(keyUpper);
+			if (!keyPart.equals(keyUpper)) {
+				candidates.add(keyPart);
+			}
+		}
+
+		String normalized = upper.replace('-', '_').replace(' ', '_').replace('.', '_');
+		if (!normalized.equals(upper)) {
+			candidates.add(normalized);
+		}
+
+		return candidates;
+	}
+
+	private static Sound resolveSoundSingle(String value) {
+		if (value == null || value.isEmpty()) {
+			return null;
+		}
+
+		try {
+			Method method = Sound.class.getMethod("valueOf", String.class);
+			Object resolved = method.invoke(null, value);
+			if (resolved instanceof Sound) {
+				return (Sound) resolved;
+			}
+		} catch (Exception ignored) {
+		}
+
+		try {
+			Field field = Sound.class.getField(value);
+			Object resolved = field.get(null);
+			if (resolved instanceof Sound) {
+				return (Sound) resolved;
+			}
+		} catch (Exception ignored) {
+		}
+
+		return null;
+	}
+
+	private static Sound findAnySound() {
+		try {
+			for (Field field : Sound.class.getFields()) {
+				Object resolved = field.get(null);
+				if (resolved instanceof Sound) {
+					return (Sound) resolved;
+				}
+			}
+		} catch (Exception ignored) {
+		}
+		return null;
+	}
+
+	private static String serializeSound(Sound sound) {
+		if (sound == null) {
+			return "";
+		}
+
+		try {
+			Method nameMethod = sound.getClass().getMethod("name");
+			Object name = nameMethod.invoke(sound);
+			if (name instanceof String && !((String) name).isEmpty()) {
+				return (String) name;
+			}
+		} catch (Exception ignored) {
+		}
+
+		try {
+			Method getKeyMethod = sound.getClass().getMethod("getKey");
+			Object namespacedKey = getKeyMethod.invoke(sound);
+			if (namespacedKey != null) {
+				Method keyMethod = namespacedKey.getClass().getMethod("getKey");
+				Object key = keyMethod.invoke(namespacedKey);
+				if (key instanceof String && !((String) key).isEmpty()) {
+					return ((String) key).toUpperCase(Locale.ROOT);
+				}
+			}
+		} catch (Exception ignored) {
+		}
+
+		return sound.toString();
 	}
 
 	//@formatter:off
@@ -196,7 +308,7 @@ public class BankSoundConfiguration extends CommentAdvancedConfiguration {
 		
 		private void set(FileConfiguration config, String path){
 			config.set(path + ".Enabled", enabled);
-			config.set(path + ".Sound", sound.name());
+			config.set(path + ".Sound", serializeSound(sound));
 			config.set(path + ".Pitch", pitch);
 			config.set(path + ".Volume", volume);
 		}
@@ -207,7 +319,7 @@ public class BankSoundConfiguration extends CommentAdvancedConfiguration {
 			}
 			if(config.isSet(path + ".Sound")){
 				try{
-					sound = Sound.valueOf(config.getString(path + ".Sound").toUpperCase());
+					sound = resolveSound(config.getString(path + ".Sound"));
 				}catch(Exception e){
 					e.printStackTrace();
 				}

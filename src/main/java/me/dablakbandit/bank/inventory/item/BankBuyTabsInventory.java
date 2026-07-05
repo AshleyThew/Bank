@@ -34,7 +34,7 @@ public class BankBuyTabsInventory extends BankInventoryHandler<BankItemsInfo> {
 	}
 
 	private ItemStack getBuy(BankItemPath path, BankItemsInfo bankInfo) {
-		int cost = bankInfo.getBankItemsHandler().getBuyTabs() * BankPluginConfiguration.BANK_ITEMS_TABS_BUY_COST.get();
+		long cost = Math.round(bankInfo.getBankItemsHandler().getBuyTabsCost());
 		// ChatColor.GREEN + "Used Slots: <used>", ChatColor.GREEN + "Available Slots: <available>", ChatColor.GREEN + "Total Slots: <total>",
 		return replaceNameLore(path, "<tabs>", "" + bankInfo.getBankItemsHandler().getBuyTabs(), "<cost>", "" + cost);
 	}

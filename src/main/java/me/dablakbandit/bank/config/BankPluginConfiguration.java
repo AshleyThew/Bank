@@ -2,6 +2,7 @@ package me.dablakbandit.bank.config;
 
 import me.dablakbandit.bank.BankPlugin;
 import me.dablakbandit.bank.config.path.impl.BankLoansPaybackFailedPath;
+import me.dablakbandit.bank.config.path.impl.BankIntegerMapPath;
 import me.dablakbandit.bank.config.path.impl.BankSynchronizedDoubleNicePath;
 import me.dablakbandit.bank.implementations.blacklist.BlacklistMode;
 import me.dablakbandit.bank.log.BankLogLevel;
@@ -83,7 +84,9 @@ public class BankPluginConfiguration extends CommentAdvancedConfiguration {
 	public static final IntegerPath					BANK_ITEMS_TABS_SIZE_MAX					= new IntegerPath(Integer.MAX_VALUE);
 	@Comment("Enable buying of tabs")
 	public static final BooleanPath					BANK_ITEMS_TABS_BUY_ENABLED					= new BooleanPath(false);
-	@Comment("Cost for each new tabs")
+	@CommentArray({"Cost per tab/page when buying tabs", "Keys are page numbers and values are prices.", "Example", "Costs:", "  1: 0", "  2: 1500", "  3: 4000", "  4: 9000", "  5: 15000", "  6: 21000", "  7: 30000", "Nearest lower key is used: with keys 1, 5, 20 then tabs 7 -> 5, tabs 15 -> 5, tabs 21 -> 20."})
+	public static final BankIntegerMapPath			BANK_ITEMS_TABS_BUY_COSTS					= new BankIntegerMapPath(new BankIntegerMapPath.IntegerMap());
+	@Comment("Legacy flat cost for each new tab if the tier list is empty")
 	public static final IntegerPath					BANK_ITEMS_TABS_BUY_COST					= new IntegerPath(50);
 	@Comment("Maximum amount of bought tabs")
 	public static final IntegerPath 				BANK_ITEMS_TABS_BUY_MAX 					= new IntegerPath(9);

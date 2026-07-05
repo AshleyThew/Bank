@@ -42,7 +42,7 @@ public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo> {
 	}
 
 	private void withdraw(CorePlayers pl, BankMoneyInfo info) {
-		pl.setOpenInventory(new AnvilInventory(BankLanguageConfiguration.ANVIL_MONEY_WTIHDRAW.get(), Format.round(info.getMoney(), 2)) {
+		pl.setOpenInventory(new AnvilInventory(BankLanguageConfiguration.ANVIL_MONEY_WTIHDRAW.get(), getDefaultWithdrawInput(info.getMoney())) {
 			@Override
 			public void cancel(CorePlayers pl) {
 				pl.setOpenInventory(BankMoneyInventory.this);
@@ -81,7 +81,7 @@ public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo> {
 		if (Eco.getInstance().getEconomy() != null) {
 			balance = Eco.getInstance().getEconomy().getBalance(pl.getPlayer());
 		}
-		pl.setOpenInventory(new AnvilInventory(BankLanguageConfiguration.ANVIL_MONEY_DEPOSIT.get(), Format.round(balance, 2)) {
+		pl.setOpenInventory(new AnvilInventory(BankLanguageConfiguration.ANVIL_MONEY_DEPOSIT.get(), getDefaultDepositInput(balance)) {
 			@Override
 			public void cancel(CorePlayers pl) {
 				pl.setOpenInventory(BankMoneyInventory.this);
@@ -120,6 +120,20 @@ public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo> {
 		}
 		info.deposit(pl.getPlayer(), pl, deposit);
 		pl.refreshInventory();
+	}
+
+	private String getDefaultWithdrawInput(double value) {
+		if (BankPluginConfiguration.BANK_MONEY_WITHDRAW_FULL.get()) {
+			return Format.round(Math.floor(value), 0);
+		}
+		return Format.round(value, 2);
+	}
+
+	private String getDefaultDepositInput(double value) {
+		if (BankPluginConfiguration.BANK_MONEY_DEPOSIT_FULL.get()) {
+			return Format.round(Math.floor(value), 0);
+		}
+		return Format.round(value, 2);
 	}
 
 	private void sendMoney(CorePlayers pl, BankMoneyInfo info) {

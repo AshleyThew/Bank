@@ -526,7 +526,7 @@ public class BankItemsHandler {
 		if (buyTabs == 0) {
 			return false;
 		}
-		double cost = buyTabs * BankPluginConfiguration.BANK_ITEMS_TABS_BUY_COST.get();
+		double cost = getBuyTabsCost(buyTabs);
 		if (Eco.getInstance().getEconomy().has(pl.getName(), cost) && Eco.getInstance().getEconomy().withdrawPlayer(pl.getName(), cost).transactionSuccess()) {
 			// player.sendMessage(LanguageConfiguration.MESSAGE_SLOTS_BOUGHT.getMessage().replace("<i>", "" + buy_slot_amount).replace("<p>", Format.formatMoney(d)));
 			bankItemsInfo.setBoughtTabs(bankItemsInfo.getBoughtTabs() + buyTabs);
@@ -539,6 +539,29 @@ public class BankItemsHandler {
 			// player.sendMessage(LanguageConfiguration.MESSAGE_SLOTS_FAILED.getMessage());
 		}
 		return false;
+	}
+
+	public double getBuyTabsCost() {
+		return getBuyTabsCost(buyTabs);
+	}
+
+	public double getBuyTabsCost(int tabs) {
+		if (tabs <= 0) {
+			return 0;
+		}
+		me.dablakbandit.bank.config.path.impl.BankIntegerMapPath.IntegerMap costs = BankPluginConfiguration.BANK_ITEMS_TABS_BUY_COSTS.get();
+		if (costs.getMap().isEmpty()) {
+			return tabs * BankPluginConfiguration.BANK_ITEMS_TABS_BUY_COST.get();
+		}
+		int currentTabs = bankItemsInfo.getTotalTabCount();
+		if (currentTabs <= 0) {
+			currentTabs = BankPluginConfiguration.BANK_ITEMS_TABS_DEFAULT.get() + bankItemsInfo.getBoughtTabs();
+		}
+		double totalCost = 0;
+		for (int i = 1; i <= tabs; i++) {
+			totalCost += costs.getFloorValue(currentTabs + i);
+		}
+		return totalCost;
 	}
 
 	public void incrementBuySlots() {
