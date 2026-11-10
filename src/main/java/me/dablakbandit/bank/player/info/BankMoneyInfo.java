@@ -154,7 +154,10 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo, BankDefaultInf
 	}
 
 	public void deposit(CommandSender sender, CorePlayers pl, double amount) {
-		amount = Math.max(0, amount);
+		// Economies such as EssentialsX hold balances at higher precision than a double, so the double
+		// a player's balance arrives as can turn back into a decimal a fraction above what they hold,
+		// which the economy rejects ("Loan was not permitted!"). Deal in whole cents instead.
+		amount = PaymentCalculator.toCents(amount);
 		if (BankPluginConfiguration.BANK_MONEY_FULL_DOLLARS.get()) {
 			amount = Math.floor(amount);
 		}
@@ -165,13 +168,25 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo, BankDefaultInf
 			calculator.floor();
 		}
 
-		amount = calculator.getTotalCalculation();
-		double actualDeposit = calculator.getCalculation();
 		double tax = calculator.getTax();
+		// Tax maths can overshoot the offered amount by a rounding step
+		amount = Math.min(calculator.getTotalCalculation(), amount);
 
-		if (amount == 0.0 || depositMoney(pl.getPlayer().getName(), amount, tax)) {
+		double withdrawn = amount == 0.0 ? 0.0 : withdrawForDeposit(pl.getPlayer().getName(), amount);
+		if (withdrawn >= 0) {
+			if (withdrawn < amount) {
+				tax = tax * withdrawn / amount;
+			}
+			amount = withdrawn;
+			double actualDeposit = amount - tax;
 			if (amount != 0.0) {
-				BankLanguageConfiguration.sendFormattedMessage(sender, BankLanguageConfiguration.MESSAGE_MONEY_DEPOSIT.get().replaceAll("<money>", Format.formatMoney(calculator.getCalculation())).replaceAll("<tax>", Format.formatMoney(tax)));
+				money += actualDeposit;
+				// if(BankPluginConfiguration.LOGS_ENABLED.get() && BankPluginConfiguration.LOGS_MONEY.get()){
+				// log(name + " deposited: " + format(d) + ", new amount: " + format(money));
+				// }
+				save(BankPluginConfiguration.BANK_SAVE_MONEY_DEPOSIT);
+
+				BankLanguageConfiguration.sendFormattedMessage(sender, BankLanguageConfiguration.MESSAGE_MONEY_DEPOSIT.get().replaceAll("<money>", Format.formatMoney(actualDeposit)).replaceAll("<tax>", Format.formatMoney(tax)));
 
 				// Record the deposit transaction
 				recordDepositTransaction(actualDeposit);
@@ -190,23 +205,31 @@ public class BankMoneyInfo extends IBankInfo implements JSONInfo, BankDefaultInf
 		}
 	}
 
+	/**
+	 * Takes the deposit from the player's wallet.
+	 *
+	 * @return the amount actually taken, or -1 if the economy refused
+	 */
 	@SuppressWarnings("deprecation")
-	private boolean depositMoney(String name, double amount, double tax) {
+	private double withdrawForDeposit(String name, double amount) {
 		if (Eco.getInstance().getEconomy() == null) {
 			BankLog.debug(name + " deposit transaction failed with error: Economy instance not set");
-			return false;
+			return -1;
 		}
 		EconomyResponse er = Eco.getInstance().getEconomy().withdrawPlayer(name, amount);
-		if (!er.transactionSuccess()) {
-			BankLog.debug(name + " deposit transaction failed with error: " + er.errorMessage);
-			return false;
+		if (er.transactionSuccess()) {
+			return amount;
 		}
-		money += amount - tax;
-		// if(BankPluginConfiguration.LOGS_ENABLED.get() && BankPluginConfiguration.LOGS_MONEY.get()){
-		// log(name + " deposited: " + format(d) + ", new amount: " + format(money));
-		// }
-		save(BankPluginConfiguration.BANK_SAVE_MONEY_DEPOSIT);
-		return true;
+		// A balance like 4071.2999999999999 shows as 4071.30; the cent below is what they really have
+		double retry = PaymentCalculator.previousCent(amount);
+		if (retry > 0) {
+			EconomyResponse retried = Eco.getInstance().getEconomy().withdrawPlayer(name, retry);
+			if (retried.transactionSuccess()) {
+				return retry;
+			}
+		}
+		BankLog.debug(name + " deposit transaction failed with error: " + er.errorMessage);
+		return -1;
 	}
 
 	@Deprecated
