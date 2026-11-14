@@ -27,7 +27,7 @@ public class GiveArgument extends BankEndArgument {
 		}
 		double amount;
 		try {
-			amount = Double.parseDouble(args[1]);
+			amount = Format.parseAmount(args[1]);
 		} catch (Exception e) {
 			base.sendFormattedMessage(s, ChatColor.RED + "Unable to parse " + args[1]);
 			return;

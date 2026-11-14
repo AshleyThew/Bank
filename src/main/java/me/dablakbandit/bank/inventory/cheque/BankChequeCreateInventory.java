@@ -65,7 +65,7 @@ public class BankChequeCreateInventory extends BankInventoryHandler<BankInfo> {
 				}
 
 				try {
-					double amount = Double.parseDouble(s.trim());
+					double amount = Format.parseAmount(s.trim());
 
 					if (amount < BankPluginConfiguration.BANK_CHEQUES_MINIMUM_AMOUNT.get()) {
 						BankLanguageConfiguration.sendFormattedMessage(pl, BankLanguageConfiguration.MESSAGE_CHEQUE_AMOUNT_TOO_LOW.get());

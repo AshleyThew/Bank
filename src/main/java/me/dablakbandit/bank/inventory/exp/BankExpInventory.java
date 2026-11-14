@@ -11,6 +11,7 @@ import me.dablakbandit.core.utils.EXPUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import me.dablakbandit.bank.utils.format.Format;
 
 public class BankExpInventory extends BankInventoryHandler<BankExpInfo> {
 
@@ -54,7 +55,7 @@ public class BankExpInventory extends BankInventoryHandler<BankExpInfo> {
 			public void onClick(CorePlayers pl, String value) {
 				int withdraw;
 				try {
-					withdraw = Integer.parseInt(value);
+					withdraw = Format.parseWholeAmount(value);
 				} catch (Exception e) {
 					pl.setOpenInventory(BankExpInventory.this);
 					return;
@@ -84,7 +85,7 @@ public class BankExpInventory extends BankInventoryHandler<BankExpInfo> {
 			public void onClick(CorePlayers pl, String value) {
 				int deposit;
 				try {
-					deposit = Integer.parseInt(value);
+					deposit = Format.parseWholeAmount(value);
 				} catch (Exception e) {
 					pl.setOpenInventory(BankExpInventory.this);
 					return;
@@ -145,7 +146,7 @@ public class BankExpInventory extends BankInventoryHandler<BankExpInfo> {
 			public void onClick(CorePlayers from, String value) {
 				double amount;
 				try {
-					amount = Double.parseDouble(value);
+					amount = Format.parseAmount(value);
 				} catch (Exception e) {
 					e.printStackTrace();
 					from.setOpenInventory(BankExpInventory.this);

@@ -38,7 +38,7 @@ public class AddArgument extends BankEndArgument {
 				BankLanguageConfiguration.sendFormattedMessage(s, BankLanguageConfiguration.BANK_ADMIN_PLAYER_LOCKED.get().replaceAll("<player>", args[0]));
 				return;
 			}
-			double added = Double.parseDouble(args[1]);
+			double added = Format.parseAmount(args[1]);
 			BankExpInfo expInfo = bankInfo.getExpInfo();
 			expInfo.addExp(added);
 			BankLanguageConfiguration.sendFormattedMessage(s, BankLanguageConfiguration.BANK_ADMIN_EXP_ADD.get().replaceAll("<exp>", Format.formatExp(expInfo.getExp())).replaceAll("<player>", args[0]).replaceAll("<amount>", Format.formatExp(added)));

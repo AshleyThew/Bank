@@ -14,6 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
+import me.dablakbandit.bank.utils.format.Format;
 
 public class CreateArgument extends BankEndArgument {
 
@@ -48,7 +49,7 @@ public class CreateArgument extends BankEndArgument {
 
 			bankInfo.getPinInfo().checkPass(() -> {
 				try {
-					double amount = Double.parseDouble(args[0]);
+					double amount = Format.parseAmount(args[0]);
 					UUID recipientUuid = null;
 
 					// Check if recipient player is specified

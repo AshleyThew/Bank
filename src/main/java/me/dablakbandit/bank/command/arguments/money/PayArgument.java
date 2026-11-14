@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import me.dablakbandit.bank.utils.format.Format;
 
 public class PayArgument extends BankEndArgument {
 
@@ -43,9 +44,9 @@ public class PayArgument extends BankEndArgument {
 		}
 		double amount;
 		try {
-			amount = Double.parseDouble(args[1]);
+			amount = Format.parseAmount(args[1]);
 		} catch (Exception e) {
-			base.sendFormattedMessage(s, BankLanguageConfiguration.COMMAND_UNABLE_PARSE.get().replaceAll("<value>", args[1]));
+			base.sendFormattedMessage(s, BankLanguageConfiguration.COMMAND_UNABLE_PARSE.get().replace("<value>", args[1]));
 			return;
 		}
 		try {

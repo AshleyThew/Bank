@@ -8,6 +8,8 @@ import me.dablakbandit.core.players.CorePlayers;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import me.dablakbandit.bank.utils.format.Format;
+import me.dablakbandit.bank.config.BankLanguageConfiguration;
 
 public class DepositArgument extends BankEndArgument {
 
@@ -27,12 +29,19 @@ public class DepositArgument extends BankEndArgument {
 		if (!checkPlayer(s)) {
 			return;
 		}
+		final double amount;
+		try {
+			amount = Format.parseAmount(args[0]);
+		} catch (NumberFormatException e) {
+			base.sendFormattedMessage(s, BankLanguageConfiguration.COMMAND_UNABLE_PARSE.get().replace("<value>", args[0]));
+			return;
+		}
 		try {
 			CorePlayers pl = CorePlayerManager.getInstance().getPlayer((Player) s);
 			BankInfo bankInfo = pl.getInfo(BankInfo.class);
 			bankInfo.getPinInfo().checkPass(() -> {
 				try {
-					deposit(bankInfo, Double.parseDouble(args[0]));
+					deposit(bankInfo, amount);
 				} catch (Exception ignored) {
 				}
 			});

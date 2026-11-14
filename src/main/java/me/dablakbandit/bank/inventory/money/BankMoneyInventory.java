@@ -57,7 +57,7 @@ public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo> {
 			public void onClick(CorePlayers pl, String value) {
 				double withdraw;
 				try {
-					withdraw = Double.parseDouble(value);
+					withdraw = Format.parseAmount(value);
 				} catch (Exception e) {
 					pl.setOpenInventory(BankMoneyInventory.this);
 					return;
@@ -96,7 +96,7 @@ public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo> {
 			public void onClick(CorePlayers pl, String value) {
 				double deposit;
 				try {
-					deposit = Double.parseDouble(value);
+					deposit = Format.parseAmount(value);
 				} catch (Exception e) {
 					pl.setOpenInventory(BankMoneyInventory.this);
 					return;
@@ -178,7 +178,7 @@ public class BankMoneyInventory extends BankInventoryHandler<BankMoneyInfo> {
 			public void onClick(CorePlayers from, String value) {
 				double amount;
 				try {
-					amount = Double.parseDouble(value);
+					amount = Format.parseAmount(value);
 				} catch (Exception e) {
 					e.printStackTrace();
 					from.setOpenInventory(BankMoneyInventory.this);

@@ -39,7 +39,7 @@ public class SubtractArgument extends BankEndArgument {
 				return;
 			}
 			BankMoneyInfo moneyInfo = bankInfo.getMoneyInfo();
-			double subtract = Math.min(Double.parseDouble(args[1]), moneyInfo.getMoney());
+			double subtract = Math.min(Format.parseAmount(args[1]), moneyInfo.getMoney());
 			if (moneyInfo.subtractMoney(subtract)) {
 				BankLanguageConfiguration.sendFormattedMessage(s, BankLanguageConfiguration.BANK_ADMIN_MONEY_SUBTRACT.get().replaceAll("<money>", Format.formatMoney(moneyInfo.getMoney())).replaceAll("<player>", args[0]).replaceAll("<amount>", Format.formatMoney(subtract)));
 			}

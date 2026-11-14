@@ -3,6 +3,7 @@ package me.dablakbandit.bank.utils.format;
 import me.dablakbandit.bank.config.BankLanguageConfiguration;
 import me.dablakbandit.core.config.path.TranslatedStringPath;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -70,6 +71,25 @@ public enum FormatEnum {
 
 	static {
 		Collections.reverse(reversed);
+	}
+
+	/**
+	 * @param name a number name as typed, lower case with no spaces, for example "million"
+	 * @return what it multiplies by, or null if no number name in language.yml matches
+	 */
+	public static BigDecimal multiplierFor(String name) {
+		for (FormatEnum format : values()) {
+			String configured;
+			try {
+				configured = format.namePath.get();
+			} catch (RuntimeException e) {
+				continue;
+			}
+			if (configured != null && configured.replace(" ", "").toLowerCase(Locale.ROOT).equals(name)) {
+				return new BigDecimal(format.amount);
+			}
+		}
+		return null;
 	}
 
 	public static String formatNormal(String normalFormat, String roundFormat, double amount, boolean round, boolean thousand) {
